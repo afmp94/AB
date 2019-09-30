@@ -1,0 +1,30 @@
+<% if @comment.errors.blank?  %>
+  // On show page
+  $('#comment_content').val('');
+  $("#comment_emptymessage").hide();
+  $('#comments').prepend('<%= j render(@comment) %>');
+  $("[data-behavior=\"submit_comment\"]").focus();
+
+  // From add comment modal
+  $('[data-ui-behavior=modal]').modal('hide');
+  $("[data-ui-behavior=modal]").empty();
+
+  // Show success message
+  toastr.success("Comment saved!");
+
+  <% if @lead.present? %>
+    $("[data-behavior='activity-stream']").html('<%= j render(partial: "activities/activities_by_day",
+                                                              locals: { activities: @lead_recent_activities,
+                                                                        activities_url: @activities_url }) %>');
+  <% end %>
+
+  <% if @contact.present? %>
+    $("[data-behavior='activity-stream']").html('<%= j render(partial: "activities/activities_by_day",
+                                                              locals: { activities: @contact_recent_activities,
+                                                                        activities_url: @activities_url }) %>');
+  <% end %>
+
+<% else %>
+  toastr.error("Please check your entry and try again.");
+<% end %>
+

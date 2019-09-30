@@ -1,0 +1,42 @@
+<% if !current_user.initial_setup %>
+  <h4 class="ui header">
+    Head over to the
+    <%= link_to("dashboard", dashboard_path) %>
+    and finish getting set up to see your next marketing actions.
+  </h4>
+<% elsif upcoming_calls.any? %>
+  <div class="ui stackable grid">
+    <% upcoming_calls.each do |contact| %>
+      <div class="two column row">
+        <div class="column">
+          <div class="ui very basic left floated compact p-a-0 segment m-t">
+            <%= grade_avatar(contact) %>
+          </div><!-- /.ui very basic left floated p-a-0 segment -->
+          <div class="ui very basic compact segment p-a-0">
+            <h3 class="ui header">
+              <div class="content">
+                <%= contact.full_name %>
+                <div class="sub header">
+                  <%= display_primary_phone_number(contact) %>
+                </div><!-- /.sub-header -->
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <%= render("last_activity", contact: contact) %>
+          </div><!-- /.ui very basic compact segment -->
+        </div><!-- /.column -->
+        <div class="column">
+          <%= render(
+            partial: "/contact_activities/form",
+            locals: {
+              show_all_fields: false,
+              thiscontact: contact.id,
+              activitytype: "Call"
+            }
+          ) %>
+        </div><!-- /.column -->
+      </div><!-- /.two column row -->
+    <% end %>
+  </div><!-- /.ui stackable grid -->
+<% else %>
+  <h4 class="ui header">Good job! You don't have any more calls to make today!</h4>
+<% end %>

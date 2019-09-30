@@ -1,0 +1,11 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("contacts/modals/new_contact", { contact: @contact, modal_id: @modal_id,
+                                                         target_select_id: @target_select_id,
+                                                         for_page: @for_page}) %>');
+
+CARF.init();
+VCF.validate();
+new InputMask(); // This will hookup input mask for phone number
+
+$("[data-ui-behavior=dropdown]").dropdown();

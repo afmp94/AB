@@ -1,0 +1,30 @@
+<h3 class="ui dividing header">Reply to this thread</h3>
+
+<%= form_tag(
+  {
+    "controller"=>"emails",
+    "action"=>"send_email_through_nylasapp",
+    "contact_id" => contact.id,
+    "thread_id" => thread_id,
+    "trail" => trail
+  },
+  { class: "ui form" }
+) do %>
+  <div class="field m-b">
+    <input id="email_body" type="hidden" name="body[email_body]">
+    <trix-editor input="email_body" placeholder="Your message" style="width:70%"></trix-editor>
+  </div><!-- /.field -->
+  <%= submit_tag(
+    "Reply to Last Message",
+    value: "Reply",
+    class: "ui primary submit button",
+    "data-disable-with": "Replying..."
+  ) %>
+  <%= submit_tag(
+    "Reply To All Participants",
+    value: "Reply to All",
+    name: "reply_all",
+    class: "ui primary submit button",
+    "data-disable-with": "Replying to all..."
+  ) %>
+<% end %>

@@ -1,0 +1,47 @@
+<div id="lead-info-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header('Seller Lead Info',  edit_fixed_list_lead_path(lead, lead_type: "seller_client", section: "lead_info"), 'edit-seller-client-lead-info') %>
+    </thead>
+    <tbody>
+      <% if current_user.belongs_to_team? %>
+        <%= fixed_list_item("Client Owner", lead.user.name) %>
+      <% end %>
+      <%= fixed_list_item("Contacted Status", display_contact_status(lead))%>
+      <% if lead.contacted_status == 1 %>
+        <%= fixed_list_item("Attempted Contact", cal_date(lead.attempted_contact_at)) %>
+      <% end %>
+      <%= fixed_list_item("Lead Received", cal_date(lead.incoming_lead_at)) %>
+      <% if lead.time_before_attempted_contact.present? %>
+        <%= fixed_list_item("Time Taken To Contact", elapsed_time_before_contacted(lead))%>
+      <% end %>
+      <%= fixed_list_item("Lead Type", lead.lead_type_to_s) %>
+      <% if lead.lead_source_to_s.present? %>
+        <%= fixed_list_item("Lead Source", lead.lead_source_to_s) %>
+      <% end %>
+      <% if lead.import_source  %>
+      <%= fixed_list_item("Import Source", lead.import_source ) %>
+      <% end %>
+      <% if lead.referral? %>
+        <% if lead.referring_contact  %>
+          <%= fixed_list_item("Referrer", lead.referring_contact.full_name) %>
+        <%end %>
+        <% if lead.referral_fee_type.blank? %>
+          <%= fixed_list_item("Referral Fee Type", "None") %>
+        <% else %>
+          <%= fixed_list_item("Referral Fee Type", lead.referral_fee_type) %>
+        <% end %>
+        <% if lead.referral_fee_type == "Percentage" %>
+          <%= fixed_list_item("Referral Fee Percentage", lead.referral_fee_rate)  %>
+        <% elsif lead.referral_fee_type == "Fee" %>
+          <%= fixed_list_item("Referral Fee", num_to_currency(lead.referral_fee_flat_fee)) %>
+        <% end %>
+      <% end %>
+      <% if lead.additional_fees.nil? %>
+        <%= fixed_list_item("Additional Fees", "None") %>
+      <% else %>
+        <%= fixed_list_item("Additional Fees", num_to_currency(lead.additional_fees)) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

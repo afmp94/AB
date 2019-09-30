@@ -1,0 +1,12 @@
+<div id="needs-action" class="below24 relative">
+  <h3>Needs Action</h3>
+  <div class="row card-row">
+    <div class="col-xs-12 card-column">
+      <%= render(
+        partial: "leads/dashboard/lead_card",
+        collection: leads,
+        as: :lead
+      ) %>
+    </div><!-- /.col-xs-12 card-column -->
+  </div><!-- /.row -->
+</div><!-- /#needs-action -->

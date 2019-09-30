@@ -1,0 +1,141 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 4, data_total: 10 }
+        ) %>
+        <%= render_quick_results(
+          previous_step: "Personal Marketing",
+          data_percent: @relationship_service.total_score_in_percentage.round
+        ) do %>
+          <%= sanitize mass_marketing(@relationship_service.total_score_in_percentage) %>
+        <% end %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+        <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 4 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+          <%= render_title_message(icon_class: "orange bullhorn big icon") do %>
+              <div class="header"><i class="yellow circle lightbulb"></i>Mass Marketing</div>
+              <p>Your database of contacts and relationships is the foundation of every successful agent's business.</p>
+
+              <div class="header"></div>
+              <p class=“fwb”><i>Did you know that successful Agents get 80% or more of their business from friends, family and past clients?</i></p>
+            <% end %>
+
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+
+              <div class="ui segment tab transition fade in active" id="mass-marketing-info" data-tab="mass-marketing-info">
+                <%= f.input(
+                  :social_media_engagement,
+                  label: "How often do you post on social media?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::SOCIAL_MEDIA_ENGAGEMENT_SCORING.keys) %>
+                <%= f.input(
+                  :monthly_email_newsletter_sent,
+                  label: "Do you currently send a monthly email newsletter?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::MONTHLY_EMAIL_NEWSLETTER_SENT_SCORING.keys) %>
+                <%= f.input(
+                  :monthly_print_sent,
+                  label: "Do you send a print newsletter by mail?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::MONTHLY_PRINT_SENT_SCORING.keys) %>
+                <%= f.input(
+                  :neighborhood_farming_cards_sent,
+                  label: "Do you send 'just listed' or 'just sold' cards out to neighborhoods?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::NEIGHBORHOOD_FARMING_CARDS_SENT_SCORING.keys) %>
+
+                <input type="hidden" value="lead_generation" name="next_step_id">
+                <input type="hidden" value="personal_marketing" name="last_step_id">
+                <%= f.submit(
+                  "Next",
+                  id: "mass_marketing_next_button",
+                  class: "ui primary button"
+                ) %>
+              </div><!-- /#mass-marketing -->
+
+            <% end %>
+         </div><!-- /.ui vertical basic segment -->
+
+        </div><!-- /.column -->
+
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[social_media_engagement]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[monthly_email_newsletter_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[monthly_print_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[neighborhood_farming_cards_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

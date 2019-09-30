@@ -1,0 +1,169 @@
+<% breadcrumb(:email_campaigns) %>
+<!--
+*******************************************
+Note: The purpose of views/designs/ is for
+building frontend markup only. Do not add
+ERB or javascript to this page. Copy and
+paste this markup, and then integrate that
+code in its rightful location with the app
+backend.
+
+With very few exceptions, this file should
+remain pure front-end HTML/CSS/JS.
+*******************************************
+-->
+
+<style>
+  .ab-search-bar-header {
+    display: flex;
+  }
+
+  @media only screen and (max-width: 991px) {
+    .ab-search-bar-header {
+      flex-direction: column;
+    }
+  }
+
+  .ab-search-bar-header-left {
+    flex-grow: 1;
+  }
+
+  .ab-search-bar-header-right {
+    flex: 0 1 auto;
+  }
+
+  .ui.sortable.table thead th {
+    border-left: none;
+  }
+
+  .ui.sortable.table thead th.no-sort:hover {
+    background: transparent;
+    cursor: auto;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  td.ab-status-column {
+    width: 10px;
+    height: 100%;
+    padding: 0 !important;
+    position: relative;
+  }
+
+  td.ab-status-column > .ab-status {
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background-color: #ddd;
+    display: inline-block;
+  }
+
+  td.ab-status-column > .ab-status.ab-positive-status {
+    background-color: #21BA45;
+  }
+
+  td.ab-status-column > .ab-status.ab-warning-status {
+    background-color: #FFD700;
+  }
+
+  td.ab-status-column > .ab-status.ab-negative-status {
+    background-color: #DB2828;
+  }
+
+  .ui.fixed.sticky + table {
+    margin-top: 61px;
+  }
+</style>
+
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">Email Campaigns</h1>
+      <% if show_beta_features? %>
+        <%= link_to(
+          email_campaigns_path(EmailCampaign.new),
+          method: :post,
+          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+          class: "ui button"
+        ) do %>
+          <i class="ui plus icon"></i>
+          Create Monthly Campaign
+        <% end %>
+      <% end %>
+      <%= link_to(
+        email_campaigns_path(
+          EmailCampaign.new,
+          campaign_type: EmailCampaign::CAMPAIGN_TYPES[:basic]
+        ),
+        method: :post,
+        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+        class: "ui button"
+      ) do %>
+        <i class="ui plus icon"></i>
+        Create Quick Email Campaign
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment p-t-0 index-page-table-container">
+    <div class="ui segments sticky-black-menu-container index-page-table-container__segments">
+
+      <div class="ui segment ab-search-bar-segment">
+        <div class="ab-search-bar-header">
+          <div class="ab-search-bar-header-left">
+            <div class="ui icon fluid input">
+              <input class="prompt" type="text" placeholder="Search email campaigns..." data-behavior="email-campaigns-search-input" data-search-url="<%= search_email_campaigns_path %>">
+              <i class="search icon"></i>
+            </div>
+          </div><!-- /.ab-search-bar-header-left -->
+          <div class="ab-search-bar-header-right">
+            <div class="ab-search-bar-header__sort-container">
+              <div class="ui selection dropdown basic button ab-search-bar-header__sort-dropdown" data-ui-behavior="dropdown-sort" id="email-campaigns-btn-group-order-by">
+                Sort by:
+                <div class="default text">Most recently created</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="header">Sort by</div><!-- /.header -->
+                  <div class="item" data-value="name asc">Name</div><!-- /.item -->
+                  <div class="item" data-value="created_at desc">Most recently created</div><!-- /.item -->
+                  <div class="item" data-value="created_at asc">Least recently created</div><!-- /.item -->
+                  <div class="item" data-value="updated_at desc">Most recently updated</div><!-- /.item -->
+                  <div class="item" data-value="updated_at asc">Least recently updated</div><!-- /.item -->
+                </div><!-- /.menu -->
+              </div><!-- /.ui dropdown button -->
+            </div><!-- /.ab-search-bar-header__sort-container -->
+          </div><!-- /.ab-search-bar-header-right -->
+        </div><!-- /.ab-search-bar-header -->
+      </div><!-- /.ui segment -->
+
+      <div class="ui segment p-a-0" id="email-campaigns-container" data-container="email-campaign-items">
+        <div class="ui disabled inverted dimmer" data-behavior="loader">
+          <div class="ui text loader">Loading</div>
+        </div>
+        <%= render(
+          partial: "email_campaigns/table/data",
+          locals: { email_campaigns: @email_campaigns }
+        ) %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui segments -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->
+
+<div class="ui small basic modal" data-ui-behavior="delete-email-campaigns-modal">
+  <div class="ui icon header">
+    <i class="trash icon"></i>
+    Are you sure you want to delete these 3 email campaigns?
+  </div>
+  <div class="actions">
+    <div class="ui cancel red basic inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui ok green inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>

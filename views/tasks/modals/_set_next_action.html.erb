@@ -1,0 +1,60 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">
+    Set a Next Action for: <%= lead.name %>
+  </h4>
+</div><!-- /.header -->
+<div class="content">
+  <%= simple_form_for(
+    task,
+    remote: true,
+    html: {
+      data: {
+        fv_live: "submitted",
+        form: "set_action",
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |f| %>
+    <%= f.input(:subject) %>
+    <% if current_user.belongs_to_team? %>
+      <%= f.association(
+        :assigned_to,
+        include_blank: false,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    <% else %>
+      <%= f.hidden_field(:assigned_to_id, value: current_user.id) %>
+    <% end %>
+    <%= f.input(
+      :due_date_at,
+      as: :datepicker,
+      label: "Due Date",
+      input_html: {
+        value: format_for_datepicker(f.object.due_date_at),
+        type: type_for_datepicker
+      },
+    ) %>
+    <%= f.input(
+      :taskable_type,
+      as: :hidden,
+      input_html: { value: "Lead" }
+    ) %>
+    <%= f.input(
+      :taskable_id,
+      as: :hidden,
+      input_html: { value: lead.id }
+    ) %>
+    <%= f.input(
+      :next_action,
+      as: :hidden,
+      input_html: { value: "1" }
+    ) %>
+    <%#= hidden_field_tag :source, "dashboard" %>
+    <%= f.button(
+      :submit,
+      value: "Save Next Action",
+      "data-disable-with": "Saving..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div><!-- /.content -->

@@ -1,0 +1,40 @@
+<% content_for(:title, "Rank Top Contacts") %>
+<% breadcrumb(:rank_top_contacts) %>
+<%= show_alert_if_processing_csv_file(current_user) %>
+<%= page_header(
+  primary_name: "Contacts",
+  primary_path: contacts_path,
+  secondary_name: "Select Top Contacts",
+  add_button_text: "Add New Contact",
+  add_button_path: new_contact_path
+) %>
+
+<div class="ui main container">
+  <div class="ui vertical basic segment">
+    <div class="ui search">
+      <div class="ui big icon input">
+        <input data-behavior="search-top-contacts"
+               class="prompt"
+               type="text"
+               placeholder="Search top contacts..."
+               autocomplete="off"
+               data-autocomplete-source="<%= search_top_contacts_path %>"
+               />
+        <i class="search icon"></i>
+      </div><!-- /.ui icon input -->
+      <div class="results"></div>
+    </div><!-- /.ui search -->
+  </div><!-- /.ui vertical basic segment -->
+  <div id="grading-and-graded-container">
+    <div id="contacts-grading-container">
+      <%= render(
+        partial: "contact_grader",
+        locals: { no_contact_text: "" }
+      ) %>
+    </div><!-- /#contacts-grading-container -->
+    </br>
+    <div id="graded-contacts-list">
+      <%= render(partial: "graded_contacts", locals: { graded_contacts: @graded_contacts }) %>
+    </div>
+  </div><!-- /#grading-and-graded-container -->
+</div><!-- /.ui main container -->

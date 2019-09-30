@@ -1,0 +1,41 @@
+<% cache(["contract_seller_past", contract]) do %>
+<div class="ui raised segment">
+  <div class="row">
+    <div class="media prop-listed">
+      <a href="#" class="pull-left">
+        <div class="media-object">
+          <span class="initials-50 circle nomargin"><div class="house-icon"><span class="iconic iconic-lg" data-glyph="home" title="home" aria-hidden="true"></span></div></span>
+        </div><!-- /.media-object -->
+      </a>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <span class="fwl"><%= tiny_date(contract.created_at) %></span>
+          <%= num_to_currency(contract.offer_price) %>
+          <span class="fwl"><%= contract.buyer %></span>
+        </h4><!-- /.media-heading -->
+        <%= contract.status_to_s %><br />
+        <span class="small-meta">
+          <%= link_to(
+            "Edit",
+            edit_lead_property_contract_path(
+              @lead,
+              @lead.listing_property,
+              contract,
+              redirect_page: "#{controller_name}_#{action_name}"
+            )
+          ) %> |
+          <%= link_to(
+            "Delete",
+            [@lead, @lead.listing_property, contract],
+            method: :delete,
+            data: {
+              "mobile-app-forced-delete": request_from_mobile_app?,
+              confirm: "Are you sure you want to delete this contract?"
+            }
+          ) %>
+        </span>
+      </div><!-- /.media-body -->
+    </div><!-- /.media -->
+  </div><!-- /.row -->
+</div>
+<% end %>

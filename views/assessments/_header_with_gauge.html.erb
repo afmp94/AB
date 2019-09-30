@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="ui text container top-header">
+    <i class="dashboard icon huge"></i>
+    <h2 class="ui inverted header m-t-0 m-b-0">
+      AGENT ASSESSMENT
+    </h2><!-- /.ui inverted header -->
+    <h5 class="m-t-0">Powered by <%= white_labeled_company_name(current_subdomain) %></h5>
+  </div><!-- /.ui text container -->
+</div><!-- /.row -->
+
+<div class="row">
+  <div class="eight wide column m-b-lg print-m-b-0">
+    <div class="ui text container main-score">
+      <% score_percentage = main_gauge_percentage([@branding_service, @database_service, @relationship_service, @marketing_service, @lead_response_service, @prospect_conversion_service, @agent_service, @pipeline_service]) %>
+      <%= render(
+        partial: "assessments/main_gauge",
+        locals: { score_percentage: score_percentage }
+      ) %>
+      <h1 class="ui inverted header">
+        <%= render(
+          partial: "assessments/main_feedback",
+          locals: { score_percentage: score_percentage }
+        ) %>
+      </h1>
+    </div>
+  </div>
+</div><!-- /.row -->

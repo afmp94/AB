@@ -1,0 +1,45 @@
+<%= simple_form_for(@lead, remote: true) do |f| %>
+  <%= hidden_field_tag(:inline_form, "sc_listing_info") %>
+  <%= f.simple_fields_for(
+    :properties,
+    f.object.listing_property
+  ) do |property_form| %>
+    <%= property_form.input(
+      :list_price,
+      label: "List Price",
+      as: :currency
+    ) %>
+    <%= property_form.input(
+      :listing_expires_at,
+      label: "Listing Expiration Date",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(property_form.object.listing_expires_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= property_form.input(:original_list_price, as: :currency) %>
+    <%= property_form.input(
+      :original_list_date_at,
+      label: "Original List Date",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(property_form.object.original_list_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <div class="ui raised segment form-max550">
+      <%= render(
+        partial: "properties/commission_form",
+        locals: { f: property_form }
+      ) %>
+    </div><!-- /.ui segment -->
+  <% end %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-cancel-section="#listing-info-section" class="ui basic button">Cancel</a>
+<% end %>

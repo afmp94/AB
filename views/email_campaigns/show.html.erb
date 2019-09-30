@@ -1,0 +1,156 @@
+<% breadcrumb(:email_campaign, @email_campaign) %>
+
+<%= page_header(
+  primary_name: "Email Campaigns",
+  primary_path: email_campaigns_path,
+  secondary_name: @email_campaign.name
+) %>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <h2><%= @report.campaign_messages.count %> Recipients</h2>
+    <div class="ui two column stackable centered grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui middle aligned relaxed list">
+            <div class="item">
+              <span class="fwb"><%= @report.recipient_list_name %>: </span> <%= @report.recipient_list_data.try(:join, ", ") %>
+            </div><!-- /.item -->
+            <div class="item">
+              <span class="fwb">Subject: </span><%= @email_campaign.subject %>
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided relaxed list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui middle aligned relaxed list">
+            <div class="item">
+              <span class="fwb">Delivered: </span><%= @email_campaign.delivered_at.try(:strftime, "%B %d, %Y at %I:%M %p") %>
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided relaxed list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="column">
+          <div class="ui progress" data-ui-behavior="progress" data-percent="<%= @report.opens_percentage %>">
+            <div class="bar">
+              <div class="progress"></div>
+            </div><!-- /.bar -->
+            <div class="label">Open Rate</div>
+          </div><!-- /.ui progress -->
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+            Your average: <%= @report.opens_percentage %> %
+            </div><!-- /.item -->
+            <div class="item">
+              Industry average: 19.8%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui progress" data-ui-behavior="progress" data-percent="<%= @report.clicks_percentage %>">
+            <div class="bar">
+              <div class="progress"></div>
+            </div><!-- /.bar -->
+            <div class="label">Click Rate</div>
+          </div><!-- /.ui progress -->
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Your average: <%= @report.clicks_percentage %>%
+            </div><!-- /.item -->
+            <div class="item">
+              Industry average: 2.0%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui two column stackable centered grid -->
+    <div class="ui four column stackable celled grid">
+      <div class="row">
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value"><%= @report.total_count_for("opened") %></div>
+            <div class="label">Opened</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value"><%= @report.total_count_for("clicked") %></div>
+            <div class="label">Clicked</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value"><%= @report.total_count_for(["failed", "rejected"]) %></div>
+            <div class="label">Bounced</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value"><%= @email_campaign.unsubscribed_recipients_count %></div>
+            <div class="label">Unsubscribed</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui four column celled grid -->
+    <div class="ui two column stackable centered grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Opens per unique contact: <%= @report.unique_opens_count %>
+            </div><!-- /.item -->
+            <div class="item">
+              Total opens: <%= @report.total_count_for("opened") %>
+            </div><!-- /.item -->
+            <div class="item">
+              Last opened: <%= @report.last_opened %>
+            </div><!-- /.item -->
+            <div class="item">
+              Successful deliveries: <%= @report.successful_deliveries_count %> <%= @report.avg_successful_deliveries %>%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Clicks per unique contact: <%= @report.unique_clicks_count %>
+            </div><!-- /.item -->
+            <div class="item">
+              Total clicks: <%= @report.total_count_for("clicked") %>
+            </div><!-- /.item -->
+            <div class="item">
+              Last clicked: <%= @report.last_clicked %>
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui two column stackable centered grid -->
+    <h3><%= @email_campaign.campaign_messages.count %> Recipients</h3>
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Activity Report</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @campaign_messages.each do |message| %>
+          <% contact = message.contact %>
+          <tr>
+            <td><%= link_to contact.name, preview_content_html_email_campaign_path(@email_campaign), target: "_blank"  %></td>
+            <td><%= contact.email %></td>
+            <td>
+              <%= link_to "View", email_campaign_contact_activity_report_path(id: @email_campaign.id, contact_id: contact.id),
+                remote: true, class: "ui button" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table><!-- /.ui table -->
+  </div>
+</div>
+
+<div class="ui modal" data-ui-behavior="modal">
+  <!-- We use this div for modal popup -->
+</div>

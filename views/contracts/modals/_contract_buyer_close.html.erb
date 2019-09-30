@@ -1,0 +1,157 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Add Buyer Contract and Close: <%= lead.name %></h4>
+</div>
+<div class="content">
+  <%= simple_form_for(
+    [@lead, @property, @contract],
+    html: {
+      data: {
+        fv_live: "submitted",
+        form: "contract_form",
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |f| %>
+    <h3>Buyer Contract Info</h3>
+    <%= hidden_field_tag(:redirect_page, "leads_path") %>
+    <%= hidden_field_tag(:render_page, "contracts_add_contract") %>
+    <%= f.input(
+      :property,
+      label: "Select property",
+      collection: @lead.properties,
+      label_method: lambda { |property| "#{property.one_line_address}" },
+      input_html: { data: { behavior: "property-select" } },
+    ) %>
+
+    <%= link_to(
+      "Add New Property",
+      open_add_property_modal_lead_path(id: @lead.id),
+      class: "ui primary button",
+      data: {
+        remote: true,
+        toggle: "modal",
+        target: "#mainModal"
+      }
+    ) %>
+    <%= f.input(
+      :offer_price,
+      as: :currency,
+      label: "Contract Price",
+      placeholder: "ex. 350000"
+    ) %>
+    <legend>Commission</legend>
+    <div>
+      <div class="ui raise segment">
+        <%= render(partial: "contracts/forms/commission", locals: { f: f }) %>
+    </div>
+    <%= f.input(
+      :status,
+      collection: Contract::STATUSES.invert, selected: 'closed',
+      include_blank: false
+    ) %>
+    <%= f.input(
+      :closing_date_at,
+      as: :datepicker,
+      label: "Closing Date",
+      input_html: {
+        value: format_for_datepicker(f.object.closing_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.input(:seller_agent) %>
+    <%= f.input(:seller) %>
+    <legend>Do you have to pay a referral?</legend>
+    <div class="two fields">
+      <%= f.input(
+        :referral_fee_type,
+        collection: ["Percentage","Fee"],
+        as: :sui_radio_buttons,
+        wrapper: :horizontal_radio_buttons,
+        wrapper: :horizontal_inline_radio_buttons,
+        label: "Type",
+        input_html: { data: { behavior: "display-commission-referral-fields" } }
+      ) %>
+      <div id="percentage2-field">
+        <%= f.input(
+          :referral_fee_rate,
+          wrapper: :percentage,
+          label: "What is the referral percentage?",
+          placeholder: "ex. 65"
+        ) %>
+      </div><!-- /#percentage-field.hidejs -->
+      <div id="fee2-field" >
+        <%= f.input(
+          :referral_fee_flat_fee,
+          as: :currency,
+          label: "What is the Referral Fee?",
+          placeholder: "ex. 100"
+        ) %>
+      </div>
+    </div> <!-- /#two fields -->
+    <%= f.input(
+      :additional_fees,
+      as: :currency,
+      label: "Any additional Fees?",
+      placeholder: "ex. 100"
+    ) %>
+    <%= f.button(
+      :submit,
+      "Save",
+      "data-disable-with": "Saving...",
+      class: "ui primary button  mar-r3"
+    ) %>
+    <%= link_to("Cancel", @lead, class: "ui basic button") %>
+  <% end %>
+</div><!-- /.content -->
+
+<% content_for :javascript do %>
+  <script>
+    document.addEventListener('turbolinks:load', function() {
+      dynamically_display_commission_contract_fields();
+      dynamically_display_commission_referral_fields();
+      var formToValidate = $("[data-form~='add_contract_form']");
+      formToValidate
+        .formValidation({
+          framework: "bootstrap",
+          excluded: [':disabled'],
+          err: {
+            clazz: "error-message"
+          },
+          fields: {
+            "contract[offer_price]": {
+              validators: {
+                notEmpty: {
+                  message: "You must enter an offer price"
+                }
+              }
+            },
+            "contract[property]": {
+              validators: {
+                notEmpty: {
+                  message: "You must select a property"
+                }
+              }
+            }
+          }
+        })
+        .on('success.form.fv', function(e) {
+          // Called when the form is valid
+          var $form = $(e.target);
+          if ($form.data('remote')) {
+            e.preventDefault();
+            return false;
+          }
+        })
+        .on('submit', function(e) {
+          var $form = $(e.target);
+          if ($form.data('remote')) {
+            var numInvalidFields = $form.data('formValidation').getInvalidFields().length;
+            if (numInvalidFields) {
+              e.preventDefault();
+              return false;
+            }
+          }
+        });
+    });
+  </script>
+<% end %>

@@ -1,0 +1,52 @@
+<div class="ui five column celled grid">
+  <div class="center aligned column">
+    <div class="ui tiny statistic column_flex_container">
+      <div class="value">
+        <%= @campaigns.count %>
+      </div>
+      <div class="label">
+        Campaigns Sent
+      </div>
+    </div><!-- /.statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic column_flex_container">
+      <div class="value">
+        <%= calculate_contact_campaigns_open_percentage(@campaigns) %>%
+      </div>
+      <div class="label">
+        Campaigns Opened
+      </div>
+    </div><!-- /.statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic column_flex_container">
+      <div class="value">
+        <%= calculate_contact_campaigns_click_percentage(@campaigns) %>%
+      </div>
+      <div class="label">
+        Campaigns Clicked
+      </div>
+    </div><!-- /.statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic column_flex_container">
+      <div class="value">
+       <%= calculate_contact_total_campaign_opens(@campaigns) %>
+      </div>
+      <div class="label">
+        Total Campaign Open Count
+      </div>
+    </div><!-- /.statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic column_flex_container">
+      <div class="value">
+       <%= calculate_contact_total_campaign_clicks(@campaigns) %>
+      </div>
+      <div class="label">
+        Total Campaign Click Count
+      </div>
+    </div><!-- /.statistic -->
+  </div><!-- /.center aligned column -->
+</div><!-- /.ui five  column celled grid -->

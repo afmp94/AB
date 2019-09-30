@@ -1,0 +1,147 @@
+<%= simple_form_for(@user, url: profile_path, html: { multipart: true, data: { "mobile-app-forced-form": request_from_mobile_app? } }) do |f| %>
+  <h2 class="ui dividing header m-t-0">Basic Info</h2>
+  <div class="two fields">
+    <%= f.input(:first_name) %>
+    <%= f.input(:last_name) %>
+  </div>
+  <%= f.input(:email, label: email_label(f.object).html_safe) %>
+  <%= f.input(
+    :mobile_number,
+    label: "Mobile Number",
+    input_html: {data: { input_mask: "phone"} }
+  ) %>
+  <%= f.input(
+    :personal_website,
+    label: "Personal Website",
+    :placeholder => "e.g. www.google.com or google.com"
+  ) %>
+  <% if @user.belongs_to_team? %>
+    <%= f.input(:team_name, label: "Team Name") %>
+  <% end %>
+
+  <h2 class="ui dividing header">Business Information</h2>
+  <div class="two fields">
+    <%= f.input(
+      :real_estate_experience,
+      wrapper: :vertical_select,
+      label: "About how long have you been selling real estate?",
+      include_blank: "Select:",
+      collection: User::REAL_ESTATE_EXPERIENCE.map { |code, text| [text, code] }
+    ) %>
+    <%= f.input(
+      :contacts_database_storage,
+      wrapper: :vertical_select,
+      label: "What do you use to currently store your contacts database?",
+      include_blank: "Select:",
+      collection: User::CONTACTS_DATABASE_STORAGE.map { |code, text| [text, code] }
+    ) %>
+  </div>
+
+  <p>The following information will help us build your marketing materials.</p>
+  <h2 class="ui dividing header">Office Information</h2>
+  <%= f.input(:company, label: "Company") %>
+  <div class="two fields">
+    <%= f.input(
+      :office_number,
+      input_html: { data: { input_mask: "phone"} },
+      label: "Office Number"
+    ) %>
+    <%= f.input(
+      :fax_number,
+      input_html: { data: { input_mask: "phone"} },
+      label: "Fax Number"
+    ) %>
+  </div>
+  <%= f.input(:company_website, label: "Company Website") %>
+  <%= f.input(:address) %>
+  <div class="two fields">
+    <%= f.input(:city) %>
+    <%= f.input(
+      :state,
+      wrapper: :vertical_select,
+      collection: Carmen::Country.coded("US").subregions.map { |c| c.code }
+    ) %>
+  </div>
+  <div class="two fields">
+    <%= f.input(
+      :zip,
+      input_html: {data: { input_mask: "zipcode"} }
+    ) %>
+    <%= f.input(
+      :country,
+      wrapper: :vertical_select,
+      priority: ["United States"],
+      :selected => "US"
+    ) %>
+  </div>
+  <%= f.input(
+    :time_zone,
+    priority: /US/,
+    wrapper: :vertical_select,
+    label: "Time Zone"
+  ) %>
+
+  <h2 class="ui dividing header">
+    Profile Photo
+    <div class="sub header">Upload your photo...</div>
+    <div class="sub header">Image should be at least 180px x 180px</div>
+  </h2>
+  <div class="ui stackable grid">
+    <div class="eight wide column">
+      <div class="ui segment">
+        <div class="ab-image-upload <%= display_fileinput_class(@user.profile_image) %>">
+          <img src="<%= current_user.profile_image_url %>" class="ui small rounded image ab-image-exists" data-image="profile" />
+          <img src="http://placehold.it/180" class="ui small rounded image ab-placeholder-image hidden" data-image="no-image" />
+        </div><!-- /.ab-image-upload -->
+
+        <div class="ui mini negative icon button m-y" data-behavior="remove-profile-image" style="<%= @user.profile_image ? '' : 'display:none' %>">
+          <i class="trash icon"></i>
+          Remove
+        </div><!--/.ui button -->
+
+        <%= hidden_field_tag(:remove_profile_image, true, disabled: true) %>
+        <div id="remove_profile_image_message" class="remove-profile-image-message" style="display:none;color:red;margin-bottom:10px">
+          Your profile photo has selected to remove. Please save to proceed.
+        </div>
+        </br>
+        <div class="field">
+          <label>Select a file:</label>
+          <div class="ui fluid file input action" data-ui-behavior="file-upload">
+            <input type="text" readonly />
+            <%= file_field_tag(
+              "image[file]",
+              data: {
+                behavior: "profile-image-uploader",
+                url: images_path(profile_image: true),
+                "sequential-uploads": true,
+                "data-type": "json",
+                "type": "POST",
+                "limit-concurrent-uploads": 1
+              }
+            ) %>
+            <div class="ui button">
+              Select...
+            </div><!-- /.ui button -->
+          </div><!-- /.ui fluid file input action -->
+        </div><!-- /.field -->
+        <%= hidden_field_tag(
+          :profile_image_id,
+          f.object.profile_image.try(:id),
+          data: { behavior: "attach-hidden-field" }
+        ) %>
+      </div><!-- /.ui segment -->
+
+      <div class="ui inverted dimmer" data-ui-behavior="loader">
+        <div class="ui indeterminate text loader">Uploading...</div>
+      </div>
+    </div><!-- /.eight wide column -->
+  </div><!-- /.ui grid -->
+
+  <%= f.button(
+    :submit,
+    class: "ui primary button",
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", dashboard_path, class: "ui basic button") %>
+<% end %>

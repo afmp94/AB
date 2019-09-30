@@ -1,0 +1,10 @@
+$("[data-ui-behavior=modal]").html('<%= j render partial: "/calendar/event_modal",
+                                                 locals: { presenter: @presenter } %>')
+
+$("[data-ui-behavior=modal]").modal("show");
+
+CAL_EVENT.init();
+
+$('[data-dismiss="modal"]').click(function(){
+  $('[data-ui-behavior=modal]').modal('toggle')
+})

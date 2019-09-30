@@ -1,0 +1,45 @@
+<%= simple_form_for(
+  checkout,
+  url: checkouts_path(checkout.plan),
+  html: { method: "post" },
+  data: {
+    mobile_app_forced_form: request_from_mobile_app?,
+    form: "stripe_form",
+    stripe_model_name: :checkout
+  }
+) do |form| %>
+  <%= hidden_field_tag("coupon_id") %>
+  <% unless user_signed_in? %>
+    <div class="field">
+      <%= form.input(:first_name) %>
+    </div>
+    <div class="field">
+      <%= form.input(:last_name) %>
+    </div>
+    <div class="field">
+      <%= form.input(:email) %>
+    </div>
+    <div class="field">
+      <%= form.input(:password) %>
+    </div>
+    <div class="field">
+  <% end %>
+  <%= link_to(
+    "Need an address on your receipt?",
+    "#collapseAddressFields",
+    data: { toggle: "collapse" }
+  ) %>
+  <div class="collapse" id="collapseAddressFields">
+    <%= render("users/address_fields", form: form) %>
+  </div>
+  <div id="billing-information">
+    <%= render("credit_cards/payment_fields") %>
+  </div>
+  <div data-stripe-behavior="form-actions">
+    <%= form.button(
+      :submit,
+      "Submit Payment - #{submit_amount(checkout)}".html_safe,
+      class: "ui primary button"
+    ) %>
+  </div>
+<% end %>

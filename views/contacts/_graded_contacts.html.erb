@@ -1,0 +1,36 @@
+<h3 class="ui header">Ranked so far:</h3>
+<div class="ui middle aligned divided list">
+  <% if graded_contacts.present?  %>
+    <% graded_contacts.each do |contact| %>
+      <div class="item">
+        <div class="left floated content">
+          <%= grade_avatar(contact) %>
+        </div>
+        <div class="left floated content">
+          <div class="header">
+            <%= link_to contact_display_name(contact), contact_path(contact) %>
+          </div><!-- /.header -->
+          <div class="description">
+            <%= display_primary_email_address(contact) %><br />
+            <%= display_primary_phone_number(contact) %>
+          </div><!-- /.description -->
+        </div><!-- /.content -->
+        <div class="right floated content">
+          <%= link_to(
+            contact,
+            method: :delete,
+            class: "ui negative icon button",
+            data: {
+              confirm: "You are about to delete #{contact.full_name}. Are you sure?",
+              "mobile-app-forced-delete": request_from_mobile_app?
+            }
+          ) do %>
+            <i class="trash icon"></i>
+          <% end %>
+        </div><!-- /.right floated content -->
+      </div><!-- /.item -->
+    <% end %>
+  <% else %>
+    No ranked contacts yet
+  <% end %>
+</div><!-- /.ui list -->

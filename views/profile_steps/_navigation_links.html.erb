@@ -1,0 +1,86 @@
+<%= link_to(
+  profile_steps_path(id: :getting_started_video),
+  class: "#{step_state_class('getting_started_video')} step"
+) do %>
+  <div class="content">
+    <div class="title">Take a tour</div>
+    <div class="description ab-onboarding-steps__description">Watch our quick getting started video.</div>
+  </div><!-- /.content -->
+<% end %>
+<%= link_to(
+  profile_steps_path(id: :import_contacts),
+  class: "#{step_state_class('import_contacts')} step"
+) do %>
+  <div class="content">
+    <div class="title">Import your contacts</div>
+    <div class="description ab-onboarding-steps__description">Add your contacts</div>
+  </div><!-- /.content -->
+<% end %>
+<%= link_to(
+  profile_steps_path(id: :other_information),
+  class: "#{step_state_class('other_information')} step"
+) do %>
+  <div class="content">
+    <div class="title">Upload your headshot</div>
+    <div class="description ab-onboarding-steps__description">Add your picture to be used in your marketing materials</div>
+  </div><!-- /.content -->
+<% end %>
+<%= link_to(
+  profile_steps_path(id: :business_information),
+  class: "#{step_state_class('business_information')} step"
+) do %>
+  <div class="content">
+    <div class="title">Add business info</div>
+    <div class="description ab-onboarding-steps__description">Enter your contact information</div>
+  </div><!-- /.content -->
+<% end %>
+<%= link_to(
+  profile_steps_path(id: :set_goals),
+  class: "#{step_state_class('set_goals')} step"
+) do %>
+  <div class="content">
+    <div class="title">Set your goals</div>
+    <div class="description ab-onboarding-steps__description">Get focused on your time and money</div>
+  </div><!-- /.content -->
+<% end %>
+<%= link_to(
+  profile_steps_path(id: :rank_top_contacts),
+  class: "#{step_state_class('rank_top_contacts')} step"
+) do %>
+  <div class="content">
+    <div class="title">Rank your contacts</div>
+    <div class="description ab-onboarding-steps__description">The first step to getting the most business from your relationships</div>
+  </div><!-- /.content -->
+<% end %>
+<% if !request_from_mobile_app? %>
+  <% if current_user.nylas_token.blank? %>
+    <%= link_to(
+      profile_steps_path(id: :sync_email),
+      class: "#{step_state_class('sync_email')} step"
+    ) do %>
+      <div class="content">
+        <div class="title">Sync your email</div>
+        <div class="description ab-onboarding-steps__description">See and send emails to contacts, leads and clients</div>
+      </div><!-- /.content -->
+    <% end %>
+  <% end %>
+<% end %>
+<% if mobile_app_path.present? %>
+  <%= link_to(
+    profile_steps_path(id: :get_mobile_app),
+    class: "step"
+  ) do %>
+  <div class="content">
+    <div class="title">Download Mobile App</div>
+    <div class="description ab-onboarding-steps__description">Our Mobile App makes it easy on the go. </div>
+  </div><!-- /.content -->
+ <% end %>
+<% end %>
+<%#= link_to(
+  profile_steps_path(id: :add_first_clients),
+  class: "#{step_state_class('add_first_clients')} step"
+) do %>
+  <%#<div class="content">%>
+    <%#<div class="title">Add your clients</div>%>
+  <%#</div>[> /.content <]%>
+<%# end %>

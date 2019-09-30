@@ -1,0 +1,24 @@
+<div class="ab-search-bar-header">
+  <div class="ab-search-bar-header-left">
+    <div class="ui icon fluid input">
+      <input type="search" class="form-control slat-bar-search nomargin" placeholder="Search campaigns" id="mktcampaigns-search-input" data-search-url="<%= search_mktcampaigns_path %>">
+      <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+    </div>
+  </div><!-- /.ab-search-bar-header-left -->
+
+  <div class="ab-search-bar-header-right">
+    <div class="p-l display-inline-block">
+      <div class="ui selection dropdown basic button" data-ui-behavior="dropdown-sort" id="mktcampaigns-btn-group-order-by" data-value="created_at desc">
+        Sort by:
+        <div class="default text" data-value="created_at desc">Created at</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Sort contacts by</div><!-- /.header -->
+          <div class="item" data-value="created_at desc">Created at</div><!-- /.item -->
+          <div class="item" data-value="name asc">Name</div><!-- /.item -->
+          <div class="item" data-value="name desc">Name (Z-A)</div><!-- /.item -->
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown button -->
+    </div><!-- /.p-l -->
+  </div><!-- /.ab-search-bar-header-right -->
+</div><!-- /.ab-search-bar-header -->

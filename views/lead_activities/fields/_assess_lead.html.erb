@@ -1,0 +1,112 @@
+<h4 class="ui header">Assess lead:</h4>
+<p>Now that you've connected with this lead, let's determine where they are in their process.</p>
+<div class="ui grid">
+  <div class="row">
+    <div class="column quiz-group">
+      <div class="btn-group quiz-column quiz-column-full-width" data-ui-toggle="buttons" data-section-reveal-toggle="lead_status">
+        <div class="quizbox quiz-answer">
+          <label class="ui button js-reveal-quiz-answer">
+            <%= radio_button_tag(
+              "lead_status",
+              1,
+              false,
+              autocomplete: "off",
+              data: { info: "prospect-lead-status" }
+            ) %>
+            <div id="lead-call-result-modal-business-now" class="quizbox-label quizbox-label-with-icon">
+              <i class="checkmark large icon m-r"></i>
+              <div data-ui-button-text>
+                Possibly looking to do business now
+              </div>
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+        <div class="quizbox quiz-answer">
+          <label class="ui button js-reveal-quiz-answer">
+            <%= radio_button_tag(
+              "lead_status",
+              8,
+              false,
+              autocomplete: "off",
+              data: {
+                # quizbox_toggle: "true",
+                # quizbox_reveal: "js-quiz-reveal-01"
+              }
+            ) %>
+            <div class="quizbox-label quizbox-label-with-icon">
+              <i class="calendar large icon m-r"></i>
+              <div>Not ready yet, but could do business in the future</div>
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+        <div class="quizbox quiz-answer">
+          <label class="ui button js-reveal-quiz-answer">
+            <%= radio_button_tag(
+              "lead_status",
+              6,
+              false,
+              autocomplete: "off",
+              data: {
+                # quizbox_toggle: "true",
+                # quizbox_reveal: "js-quiz-reveal-02"
+              }
+            ) %>
+            <div class="quizbox-label quizbox-label-with-icon">
+              <i class="remove large icon m-r"></i> Not interested in your services
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+      </div><!-- /.quiz-column -->
+
+      <div class="quiz-follow-up-wrap" data-reveal-set-name="lead_status" data-reveal-show-value="8">
+        <div class="ui segment">
+          <div class="field">
+            <label for="long_term_prospect_timeframe">When are they looking to buy or sell?</label>
+            <select name="long_term_prospect_timeframe" id="lead-call-result-modal-business-future-time" class="ui dropdown">
+              <option value="0-3 months">0-3 months</option>
+              <option value="3-6 months">3-6 months</option>
+              <option value="6-12 months">6-12 months</option>
+              <option value="1-2 years">1-2 years</option>
+              <option value="more than 2 years">more than 2 years</option>
+              <option value="unknown amount of time">Not sure</option>
+            </select>
+          </div><!-- /.field -->
+          <div class="long_term_prospect_remind_me_at">Long term prospect remind me at</label>
+            <label for"">
+            <%= select_tag :long_term_prospect_remind_me_at,
+                           options_for_select([
+                              ["1 Month", Time.zone.now + 30.days],
+                              ["2 Months", Time.zone.now + 60.days],
+                              ["3 Months", Time.zone.now + 90.days],
+                              ["6 Months", Time.zone.now + 160.days],
+                              ["1 Year", Time.zone.now + 365.days],
+                           ]),
+                          class: "ui dropdown" %>
+          </div>
+          <div class="field">
+            <label for="waiting_reason">Why are they waiting?:</label>
+            <%= text_area_tag("waiting_reason", nil, rows: 3) %>
+          </div><!-- /.field -->
+          <%= form.button(:submit, "Save", "data-disable-with": "Saving...") %>
+        </div><!-- /.ui segment -->
+      </div><!-- /.quiz-follow-up-wrap -->
+
+      <div class="quiz-follow-up-wrap" data-reveal-set-name="lead_status" data-reveal-show-value="6">
+        <div class="ui segment">
+          <h4>Why aren't they interested?</h4>
+          <div class="ab-button-grid">
+            <label id="lead-call-result-modal-not-interested-checkbox1" class="ui button">
+              <input id="lead-call-result-modal-not-interested-not-serious" type="checkbox" autocomplete="off" value="0">
+              <div class="button-grid-text">Not a serious buyer/seller</div>
+            </label>
+            <label id="lead-call-result-modal-not-interested-checkbox2" class="ui button">
+              <input id="lead-call-result-modal-not-interested-has-agent" type="checkbox" autocomplete="off" value="0">
+              <div class="button-grid-text">Already have an agent</div>
+            </label>
+          </div><!-- /.ab-button-grid -->
+          <%= form.button(:submit, "Save", class: "m-t") %>
+        </div><!-- /.ui segment -->
+      </div><!-- /.quiz-follow-up-wrap -->
+    </div><!-- /.column quiz-group -->
+  </div><!-- / .row -->
+</div><!-- /.ui grid -->

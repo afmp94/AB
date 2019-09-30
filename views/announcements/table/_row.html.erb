@@ -1,0 +1,20 @@
+<tr data-behavior="show-announcement" data-link="<%= announcement_path(announcement) %>" data-info="announcement-row-<%= announcement.id %>" >
+  <td>
+    <div class="ui fitted checkbox">
+      <input class="announcement-search-item item-checkbox" value="<%= announcement.id %>" id="checkbox-table-<%= announcement.id %>" type="checkbox"/>
+      <label for="checkbox-table-<%= announcement.id %>"></label>
+    </div>
+  </td>
+  <td class="breakword" width="50%">
+    <%= announcement.message %>
+  </td>
+  <td class="breakword">
+    <%= announcement.formatted_starts_at  %>
+  </td>
+  <td class="breakword">
+    <%= announcement.formatted_ends_at %>
+  </td>
+  <td class="alignr">
+    <%= link_to 'Edit', edit_announcement_path(announcement), class: "ui button" %>
+  </td>
+</tr>

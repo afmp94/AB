@@ -1,0 +1,50 @@
+<div class="ui raised card">
+  <div class="content">
+    <div class="right floated mini">
+      <% if coaching_message.messageable %>
+        <%= display_avatar(coaching_message.messageable, size: :mini, circular: true) %>
+      <% end %>
+    </div>
+    <div class="header"><%= coaching_message.title %></div><!-- /.header -->
+    <div class="meta"><%= coaching_message.subtitle %></div><!-- /.meta -->
+    <div class="description"><%= coaching_message.description %></div><!-- /.description -->
+    <div class="description">
+      <% if coaching_message.messageable %>
+        <%= coaching_message.messageable&.name %>
+      <% end %>
+    </div><!-- /.description -->
+  </div><!-- /.content -->
+  <div class="content">
+    <%= link_to(
+      coaching_message.action_label,
+      new_coaching_message_action_path(coaching_message_id: coaching_message.id),
+      class: "ui primary button"
+    ) %>
+  </div><!-- /.content -->
+  <div class="extra content">
+    <%= link_to(
+      coaching_message_path(coaching_message, card_action: "snooze"),
+      method: :patch
+    ) do %>
+      <i class="clock outline icon"></i>
+      Snooze
+    <% end %>
+    <div class="ui icon top right pointing dropdown right floated" data-ui-behavior="dropdown">
+      <i class="ellipsis vertical icon"></i>
+      <div class="menu">
+        <%= link_to(
+          "Dismiss this card",
+          coaching_message_path(coaching_message, card_action: "dismiss"),
+          class: "item",
+          method: :patch
+        ) %>
+        <%= link_to(
+          "Never show this type of card again",
+          coaching_message_path(coaching_message, card_action: "cancel"),
+          class: "item",
+          method: :patch
+        ) %>
+      </div><!-- /.menu -->
+    </div><!-- /.ui dropdown right floated -->
+  </div><!-- /.extra content -->
+</div><!-- /.card -->

@@ -1,0 +1,16 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <% if @csv_file.import_failed? %>
+    <p>Import Failed. Please verify <%= @csv_file.filename %> format and try again.</p>
+  <% else %>
+    <p> File <%= @csv_file.filename %> has been processed.</p> <br/>
+    <spacer size="16"></spacer>
+    <p> There were <%= pluralize(@csv_file.total_parsed_records, 'record', plural: "records") %> in the file. </p><br/>
+    <p> <%= pluralize(@csv_file.total_imported_records, 'record', plural: "records") %> were successfully processed. </p><br/>
+    <% if @csv_file.total_failed_records > 0 %>
+      <p>Error was encountered while processing <%= pluralize(@csv_file.total_failed_records, 'record', plural: "records") %>. Here are the records which could not be processed. </p>
+      <% @csv_file.invalid_records.each do |record| %>
+        <p><%= record.original_row %> </p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

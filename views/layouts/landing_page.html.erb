@@ -1,0 +1,11 @@
+<%= render(partial: "layouts/google_tag_manager_noscript") %>
+
+<% content_for(:body_class, "ux-landing-page-layout") %>
+
+<%= render("shared/flashes") %>
+
+<%= yield %>
+
+<%= render(partial: "shared/layout/footer") %>
+
+<% parent_layout "base" %>

@@ -1,0 +1,15 @@
+// Update number of recipients
+var $recipientCountSpan = $("[data-behavior=current-recipient-count]");
+$recipientCountSpan.text("<%= pluralize(@email_campaign.recipients_count, 'recipient', plural: 'recipients') %>");
+
+var $unsubscribedRecipeintsCountSpan = $("[data-behavior=unsubscribed-recipients-count]");
+$unsubscribedRecipeintsCountSpan.text("<%= pluralize(@email_campaign.unsubscribed_recipients_count, 'recipient', plural: 'recipients') %>");
+
+$unsubscribedRecipeintsCountSpan.attr('data-html', "<%= j render('email_campaigns/popup_contents/unsubscribed_list', { email_campaign: @email_campaign }).html_safe %>");
+AP.popupForUnsubscribedList();
+ECMP.clearRecipientsDropdown();
+
+// Initialize Semantic UI dropdowns
+$('[data-ui-behavior=dropdown]').dropdown();
+
+toastr["success"]("Recipients list updated");

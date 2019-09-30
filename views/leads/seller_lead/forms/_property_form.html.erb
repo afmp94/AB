@@ -1,0 +1,41 @@
+<%= simple_form_for(@lead, remote: true) do |f| %>
+  <%= hidden_field_tag(:inline_form, "sl_property") %>
+  <%= f.simple_fields_for(
+    :properties,
+    f.object.properties.first || f.object.properties.build
+  ) do |property_form| %>
+    <%= property_form.input(
+      :trackable_lead_activity,
+      as: :hidden,
+      input_html: { value: false }
+    ) %>
+    <%= property_form.simple_fields_for(
+      :address,
+      property_form.object.address || property_form.object.build_address
+    ) do |address_form| %>
+      <%= render("addresses/form", f: address_form) %>
+    <% end %>
+    <%= property_form.input(
+      :property_type,
+      collection: Property::PROPERTY_TYPES,
+      include_blank: false
+    ) %>
+    <%= property_form.input(
+      :initial_agent_valuation,
+      label: "How much do you think it will end up selling for?",
+      placeholder: "ex. 500,000",
+      as: :currency
+    ) %>
+    <%= property_form.input(:bedrooms) %>
+    <%= property_form.input(:bathrooms) %>
+    <%= property_form.input(:sq_feet, label: "Square Feet") %>
+    <%= property_form.input(:lot_size, label: "Lot Size") %>
+  <% end %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-cancel-section="#property-section" class="ui basic button">Cancel</a>
+<% end %>

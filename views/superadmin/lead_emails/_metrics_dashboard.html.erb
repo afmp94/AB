@@ -1,0 +1,107 @@
+<div class="three column row">
+  <div class="column">
+    <h4>Last 24 hours</h4>
+    <table class="ui definition table">
+      <tbody>
+        <tr>
+          <td>Received</td>
+          <td class="right aligned"><%= @today_emails.count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count, 'warning') %>">
+          <td>Processing</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+        <tr>
+          <td>Imported</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "imported").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: 'no_parser_found').count, 'warning') %>">
+          <td>No parser found</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "no_parser_found").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: "parsing_error").count, 'warning') %>">
+          <td>Parsing error</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "parsing_error").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: "failed").count, 'error') %>">
+          <td>Failed</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "failed").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count, 'error') %>">
+          <td>Hanging</td>
+          <td class="right aligned"><%= @today_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+      </tbody>
+    </table><!-- /.ui basic table -->
+  </div><!-- /.column -->
+  <div class="column">
+    <h4>Last 7 days</h4>
+    <table class="ui definition table">
+      <tbody>
+        <tr>
+          <td>Received</td>
+          <td class="right aligned"><%= @week_emails.count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@week_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count, 'warning') %>">
+          <td>Processing</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+        <tr>
+          <td>Imported</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "imported").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: 'no_parser_found').count, 'warning') %>">
+          <td>No parser found</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "no_parser_found").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@week_emails.where(importing_state: "parsing_error").count, 'warning') %>">
+          <td>Parsing error</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "parsing_error").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@week_emails.where(importing_state: "failed").count, 'error') %>">
+          <td>Failed</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "failed").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@week_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count, 'error') %>">
+          <td>Hanging</td>
+          <td class="right aligned"><%= @week_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+      </tbody>
+    </table><!-- /.ui definition table -->
+  </div><!-- /.column -->
+  <div class="column">
+    <h4>Last 30 days</h4>
+    <table class="ui definition table">
+      <tbody>
+        <tr>
+          <td>Received</td>
+          <td class="right aligned"><%= @month_emails.count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@month_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count, 'warning') %>">
+          <td>Processing</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "processing").where("created_at > ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+        <tr>
+          <td>Imported</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "imported").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@today_emails.where(importing_state: 'no_parser_found').count, 'warning') %>">
+          <td>No parser found</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "no_parser_found").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@month_emails.where(importing_state: "parsing_error").count, 'warning') %>">
+          <td>Parsing error</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "parsing_error").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@month_emails.where(importing_state: "failed").count, 'error') %>">
+          <td>Failed</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "failed").count %></td>
+        </tr>
+        <tr class="<%= stats_highlight(@month_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count, 'error') %>">
+          <td>Hanging</td>
+          <td class="right aligned"><%= @month_emails.where(importing_state: "processing").where("created_at <= ?", Time.zone.now - 30.minutes).count %></td>
+        </tr>
+      </tbody>
+    </table><!-- /.ui definition table -->
+  </div><!-- /.column -->
+</div><!-- /.row -->

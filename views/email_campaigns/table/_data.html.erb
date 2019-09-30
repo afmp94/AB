@@ -1,0 +1,14 @@
+<table class="ui basic table index-page-table">
+  <%= render(
+    partial: "email_campaigns/table/head",
+    locals: { email_campaigns: email_campaigns }
+  ) %>
+  <%= render(
+    partial: "email_campaigns/table/body",
+    locals: { email_campaigns: email_campaigns }
+  ) %>
+  <%= render(
+    partial: "email_campaigns/table/foot",
+    locals: { email_campaigns: email_campaigns }
+  ) %>
+</table>

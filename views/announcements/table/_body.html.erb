@@ -1,0 +1,7 @@
+<tbody>
+  <% cache(["announcements_index", @announcements.pluck(:id), @announcements.maximum(:updated_at)], expires_in: 1.hour) do %>
+    <% announcements.each do |announcement| %>
+      <%= render(partial: "announcements/table/row", locals: { announcement: announcement }) %>
+    <% end %>
+  <% end %>
+</tbody>

@@ -1,0 +1,27 @@
+<% if masquerading? %>
+  <div class="ui yellow icon floating message masquerading-message">
+    <i class="close icon"></i>
+    <i class="user secret icon"></i>
+    <div class="content">
+      <div class="header">
+        You are currently masquerading as <%= current_user.name %> |
+        <small>
+          <span class="fsi">
+            ID: <%= current_user.id %> |
+            <%= current_user.email %>
+          </span>
+        </small>
+      </div><!-- /.header -->
+      <p>
+        <% if super_admin_signed_in? %>
+          <span class="ui green horizontal label">Superadmin On <%= session[:superadmin] %></span>
+          <%= link_to("Turn off Superadmin", user_masquerade_path(user_id: current_user.id), method: :post) %> |
+        <% else %>
+          <span class="ui red horizontal label">Superadmin Off <%= session[:superadmin] %></span>
+          <%= link_to("Turn on Superadmin", user_masquerade_path(user_id: current_user.id), method: :post) %> |
+        <% end %>
+        <%= link_to("Stop masquerading", masquerade_path, method: :delete) %>
+      </p>
+    </div><!-- /.content -->
+  </div><!-- /.ui black message -->
+<% end %>

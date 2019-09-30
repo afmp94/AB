@@ -1,0 +1,88 @@
+<% breadcrumb(:team_lead_groups) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Team",
+    secondary_name: "Lead Sharing"
+  }
+) do %>
+  <h2 class="ui dividing header m-t-0">Here are the lead groups you manage:</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Size</th>
+        <th>Activity</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lead_groups_owned.each do |lead_group| %>
+        <tr>
+          <td class="breakword">
+            <%= link_to lead_group.name, user_settings_lead_group_path(lead_group) %>
+          </td>
+          <td class="breakword">
+            <%= lead_group.users.size %> agents
+          </td>
+          <td>
+            <span class="right aligned">0 new</span>
+            <span class="right aligned">0 clients</span>
+            <span class="right aligned">0 closed</span>
+            <span class="right aligned">0 inactive</span>
+          </td>
+          <td class="collapsing">
+            <%= link_to(
+              user_settings_lead_group_path(lead_group),
+              method: :delete,
+              data: {
+                confirm: "You are about to delete Lead Group - '#{lead_group.name}'. Are you sure?",
+                "mobile-app-forced-delete": request_from_mobile_app?
+              },
+              class: "ui negative icon button"
+            ) do %>
+              <i class="trash icon"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to(
+    "Add a new Lead Group",
+    new_user_settings_lead_group_path,
+    class: "ui primary button"
+  ) %>
+
+  <h2 class="ui dividing header">Here are the lead groups you belong to:</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Owner</th>
+        <th>Phone</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lead_groups_part_of.each do |lead_group| %>
+        <tr>
+          <td class="breakword">
+            <%= lead_group.name%>
+          </td>
+          <td class="breakword">
+            <%= lead_group.owner&.name %><br/>
+            <a href="mailto:<%= lead_group.owner&.email %>">
+              <%= lead_group.owner&.email %>
+            </a>
+          </td>
+          <td><%= lead_group.owner&.mobile_number %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= render(partial: "lead_forwarding_form") %>
+  <%= render(partial: "lead_broadcasting_form") %>
+<% end %>

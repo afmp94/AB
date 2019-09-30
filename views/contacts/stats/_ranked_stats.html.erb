@@ -1,0 +1,41 @@
+<% cache(
+  [
+    "contacts_ranked_stats",
+    current_user,
+    current_user.active_contacts_count,
+    current_user.ungraded_contacts_count
+  ]
+) do %>
+  <div class="ui three column celled grid">
+    <div class="center aligned column">
+      <div class="ui tiny statistic column_flex_container">
+        <div class="value">
+          <%= current_user.active_contacts_count %>
+        </div>
+        <div class="label">
+          Total Contacts
+        </div>
+      </div><!-- /.statistic -->
+    </div><!-- /.center aligned column -->
+    <div class="center aligned column">
+      <div class="ui tiny statistic column_flex_container">
+        <div class="value">
+          <%= current_user.ungraded_contacts_count %>
+        </div>
+        <div class="label">
+          Not Ranked
+        </div>
+      </div><!-- /.statistic -->
+    </div><!-- /.center aligned column -->
+    <div class="center aligned column">
+      <div class="ui tiny statistic column_flex_container">
+        <div class="value">
+          <%= data_for_sorting_complete(current_user.active_contacts_count, current_user.ungraded_contacts_count) %>%
+        </div>
+        <div class="label">
+          Sorting Completed
+        </div>
+      </div><!-- /.statistic -->
+    </div><!-- /.center aligned column -->
+  </div><!-- /.ui three column celled grid -->
+<% end %>

@@ -1,0 +1,45 @@
+<h2 class="ui header">Reports</h2>
+<div data-introjs-step="step105" id="quick-reports">
+  <% if current_user.user_has_teammates? %>
+    <div class="ui top attached tabular menu">
+      <a class="item active" data-tab="team-reports" data-ui-behavior="tab">Team Reports</a>
+      <a class="item" data-tab="my-reports" data-ui-behavior="tab">My Reports</a>
+    </div><!-- /.ui secondary menu -->
+  <% end %>
+
+  <% if current_user.user_has_teammates? %>
+    <div class="ui bottom attached tab segment active" data-tab="team-reports">
+      <div class="ui list">
+        <%= link_to("Buyers", buyer_team_reports_path, class: "item") %>
+        <%= link_to("Listings", listing_team_reports_path, class: "item") %>
+        <%= link_to("Pendings", pending_team_reports_path, class: "item") %>
+        <%= link_to("Closed Business", closed_team_reports_path, class: "item") %>
+        <%= link_to("Cash Flow", cash_flow_team_path, class: "item") %>
+        <%= link_to(
+          "Marketing - Lead Source Analysis",
+          lead_source_team_reports_path,
+          class: "item"
+        ) %>
+      </div><!-- /.ui list -->
+    </div><!-- /.ui tab segment -->
+  <% end %>
+
+  <% if current_user.user_has_teammates? %>
+    <div class="ui bottom attached tab segment" data-tab="my-reports">
+  <% else %>
+    <div class="ui bottom attached tab segment active" data-tab="my-reports">
+  <% end %>
+    <div class="ui list">
+      <%= link_to("Buyers", buyer_reports_path, class: "item") %>
+      <%= link_to("Listings", listing_reports_path, class: "item") %>
+      <%= link_to("Pendings", pending_reports_path, class: "item") %>
+      <%= link_to("Closed Business", closed_reports_path, class: "item") %>
+      <%= link_to("Cash Flow", cash_flow_path, class: "item") %>
+      <%= link_to(
+        "Marketing - Lead Source Analysis",
+        lead_source_reports_path,
+        class: "item"
+      ) %>
+    </div><!-- /.ui list -->
+  </div><!-- /.ui tab segment -->
+</div><!-- /#quick-reports -->

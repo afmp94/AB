@@ -1,0 +1,19 @@
+<% content_for(:title, "Add Credit Card") %>
+<% breadcrumb(:credit_cards) %>
+<%= page_header(
+  primary_name: "Billing",
+  primary_path: billing_path,
+  secondary_name: "Add Credit Card"
+) %>
+
+<div class="ui main container">
+  <% if current_user.in_trial_without_card? %>
+    <h4 class="sub header">
+      At the completion of your trial on
+      <%= current_user.trial_ends_at.to_date.to_s(:simple) %>
+      you will be billed
+      <%= plan_price(current_user.subscription.plan) %>
+    </h4>
+  <% end %>
+  <%= render("form") %>
+</div><!-- /.ui main container -->

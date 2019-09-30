@@ -1,0 +1,20 @@
+<%# The "base" layout contains boilerplate common to *all* views. %>
+
+<!DOCTYPE html>
+<html lang="en" class="ux-layout">
+  <head>
+    <%= render(partial: "application/head_contents_phone") %>
+  </head>
+
+  <% if user_signed_in? %>
+    <% active_teammates_class = (current_user.belongs_to_team? ? "show-team" : "hide-team") %>
+  <% end %>
+
+  <body id="<%= "%s_%s" % [controller_name, action_name] %>"
+        class="<%= @layout_carrier.env_banner %> <%= active_teammates_class %> <%= yield :body_class if content_for? :body_class %>"
+        data-trail="<%= breadcrumb_trail %>">
+    <%= render(partial: "shared/environment_banner") %>
+    <%= yield %>
+    <%= render(partial: "application/extra_content") %>
+  </body>
+</html>

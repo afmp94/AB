@@ -1,0 +1,92 @@
+<spacer size="6"></spacer>
+<row>
+  <columns small="12" large="12" style="background-color:#eaece5;" >
+  <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #3F729B !important;">
+          Today's Calendar
+      </h3>
+  </columns>
+</row>
+
+<% if @user.nylas_calendar_setting_id.nil? %>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small="9" large="9">
+      <span style="font-weight:normal;font-size:14px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px"> To get the most out of AgentBright, add your favorite calendar </span>
+     </columns>
+    <columns small="3" large="3">
+      <button href="<%= (edit_calendar_settings_url(@user)) %>" target="_blank" class="rounded small-expanded primary button-size: tiny">Connect Calendar</butto
+      <spacer size="6"></spacer>
+      </button>
+    </columns>
+  </row>
+<% else %>
+ <% if @events.count.nonzero? %>
+  <spacer size="6"></spacer>
+  <% @events.each do |event| %>
+    <row>
+      <columns small="4" large="4">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">
+          <% if event.when.start_time %>
+            <strong><%= Time.zone.at(event.when.start_time).strftime("%l:%M %p") %></strong>
+          <% else %>
+            <strong>All Day</strong>
+          <% end %>
+        </span>
+      </columns>
+      <columns small="8" large="8">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+          <row>
+             <%= event.title %>
+          </row>
+        </span>
+      </columns>
+    </row>
+  <% end %>
+  <% else %>
+    <spacer size="6"></spacer>
+    <row>
+      <columns small="9" large="9">
+        <span
+        style="font-weight:normal;font-size:14px;line-height:16px;margin-left:
+        15px;padding:0 7px;display:inline-block;border-radius:12px"> No calendar events today </span>
+       </columns>
+    </row>
+ <% end %>
+<% end %>
+
+<row>
+  <columns small="12" large="12" style="background-color:#eaece5;"" >
+  <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #3F729B !important;">
+    Today's Reminders
+  </h3>
+  </columns>
+</row>
+
+<% if @important_dates.count.nonzero? %>
+  <spacer size="6"></spacer>
+  <% @important_dates.each do |important_date| %>
+    <row>
+      <columns small="8" large="8">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">
+          <strong> <%= important_date.contact.full_name.presence || display_primary_email_address(important_date.contact) %></strong>
+        </span>
+        <%= display_primary_phone_number(important_date.contact) %>
+      </columns>
+      <columns small="4" large="4>
+        <span title="<%= "#{important_date.name} (#{important_date.date_type})" %>">
+          <%= "#{important_date.name} (#{important_date.date_type})".truncate(35) %>
+        </span>
+      </columns>
+    </row>
+  <% end %>
+<% else %>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small="9" large="9">
+      <span
+      style="font-weight:normal;font-size:14px;line-height:16px;margin-left:
+      15px;padding:0 7px;display:inline-block;border-radius:12px"> No reminders today </span>
+     </columns>
+  </row>
+<% end %>
+

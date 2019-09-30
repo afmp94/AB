@@ -1,0 +1,10 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <p>Hi,</p>
+  <spacer size="16"></spacer>
+  <p> Your account was charged <%= number_to_currency @amount %> for AgentBright.</p>
+
+  <p> You can view the invoice for this month at
+  <%= subscriber_invoice_url(@stripe_invoice_id) %></p>
+
+  <p class="text-center"> Thank You for your business!  AgentBright</p>
+<% end %>

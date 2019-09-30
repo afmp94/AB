@@ -1,0 +1,113 @@
+<h2 class="ui header">Status Board</h2><!-- /.ui header -->
+<div id="status-board" data-introjs-step="step102">
+  <% if current_user.user_has_teammates? %>
+    <div class="ui secondary menu" data-ui-behavior="dashboard-status-board-menu">
+      <a class="item active" data-tab="team-board">Team Board</a>
+      <a class="item" data-tab="my-board">Individual Board</a>
+    </div><!-- /.ui secondary menu -->
+  <% end %>
+
+  <div class="ui tab segment basic m-a-0 p-x-0 <%= @dashboard_presenter.board_section_class_for(:team) %>" data-tab="team-board">
+    <table class="ui table">
+      <% @dashboard_presenter.statuses_to_show_on_board.each do |status| %>
+        <thead>
+          <tr>
+            <th colspan="4">
+              <span class="fwb">
+                <%= @dashboard_presenter.status_header(status) %>
+                (<%= @dashboard_presenter.clients_by_status_count(status, :team) %>)
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @dashboard_presenter.buyer_clients_by_status_present?(status, :team) %>
+            <tr>
+              <td colspan="4">
+                Buyers
+              </td>
+            </tr>
+            <%= render(
+              partial: "leads/status_board/row",
+              collection: @dashboard_presenter.buyer_clients_by_status(status, :team),
+              as: :lead
+            ) %>
+          <% end %>
+          <% if @dashboard_presenter.listing_clients_by_status_present?(status, :team) %>
+            <tr>
+              <td colspan="4">
+                Listings
+              </td>
+            </tr>
+            <%= render(
+              partial: "leads/status_board/row",
+              collection: @dashboard_presenter.listing_clients_by_status(status, :team),
+              as: :lead
+            ) %>
+          <% end %>
+        </tbody>
+      <% end %>
+    </table><!-- /.ui table -->
+  </div>
+
+  <div class="ui tab segment basic m-a-0 p-x-0 <%= @dashboard_presenter.board_section_class_for(:individual) %>" data-tab="my-board">
+    <table class="ui table">
+      <% if @dashboard_presenter.dashboard_carrier.user.leads.client_long_term_prospect_due.count > 0 %>
+        <thead>
+          <tr>
+            <th colspan="4">
+              <span class="fwb">
+                 Long Term Prospects
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render(
+            partial: "leads/status_board/row_long_term_prospect",
+            collection: @dashboard_presenter.long_term_prospects,
+            as: :lead
+          ) %>
+        </tbody>
+      <% end %>
+      <% @dashboard_presenter.statuses_to_show_on_board.each do |status| %>
+        <thead>
+          <tr>
+            <th colspan="4">
+              <span class="fwb">
+                <%= @dashboard_presenter.status_header(status) %>
+                (<%= @dashboard_presenter.clients_by_status_count(status) %>)
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @dashboard_presenter.buyer_clients_by_status_present?(status) %>
+            <tr>
+              <td colspan="4">
+                Buyers
+              </td>
+            </tr>
+            <%= render(
+              partial: "leads/status_board/row",
+              collection: @dashboard_presenter.buyer_clients_by_status(status),
+              as: :lead
+            ) %>
+          <% end %>
+          <% if @dashboard_presenter.listing_clients_by_status_present?(status) %>
+            <tr>
+              <td colspan="4">
+                Listings
+              </td>
+            </tr>
+            <%= render(
+              partial: "leads/status_board/row",
+              collection: @dashboard_presenter.listing_clients_by_status(status),
+              as: :lead
+            ) %>
+          <% end %>
+        </tbody>
+      <% end %>
+    </table><!-- /.ui table -->
+  </div>
+</div><!-- /#status-board -->

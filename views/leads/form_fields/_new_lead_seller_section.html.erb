@@ -1,0 +1,47 @@
+<div id="seller-section" class="reveal-section" data-reveal-set-name="client_type" data-reveal-show-value="Seller">
+  <h3 class="ui header">Property Info</h3>
+  <%= f.simple_fields_for(
+    :properties,
+    f.object.properties.first || f.object.properties.build
+  ) do |property_form| %>
+    <%= property_form.input(
+      :transaction_type,
+      as: :hidden,
+      input_html: { value: "Seller" }
+    ) %>
+    <%= property_form.simple_fields_for(
+      :address,
+      property_form.object.address || property_form.object.build_address
+    ) do |address_form| %>
+      <%= render(partial: "addresses/form", locals: { f: address_form }) %>
+    <% end %>
+    <%= property_form.input(
+      :property_type,
+      as: :select,
+      collection: Property::PROPERTY_TYPES,
+      include_blank: false
+    ) %>
+    <div class="two fields">
+      <%= property_form.input(
+        :initial_agent_valuation,
+        as: :currency,
+        label: "How much do you think it end up selling for?"
+      ) %>
+      <%= f.input(
+        :timeframe,
+        as: :select,
+        label: "Timeframe",
+        collection: Lead::TIMEFRAMES,
+        include_blank: false
+      ) %>
+    </div>
+    <div class="two fields">
+        <%= property_form.input(:bedrooms) %>
+        <%= property_form.input(:bathrooms) %>
+    </div>
+    <div class="two fields">
+      <%= property_form.input(:sq_feet, label: "Square Feet") %>
+      <%= property_form.input(:lot_size, label: "Lot Size") %>
+    </div>
+  <% end %>
+</div><!-- /#seller-section -->

@@ -1,0 +1,22 @@
+<container>
+  <row>
+    <columns large="8">
+      <h2>AgentBright Could Not Process An Email</h2>
+      <p>AgentBright could not process this email, most likely because it's a system generated email.</p>
+      <p>If it's actually from a lead, we have <strong>NOT</strong> contacted them on your behalf.</p>
+      <p>If you have any questions, please contact us at <a href="mailto:support@agentbright.com?subject=%5BLead%20Email%20Processing%5D" target="_self">support@agentbright.com</a>.</p>
+    space: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+      <h2> Original Email</h2>
+    </columns>
+  </row>
+</container>
+<container>
+  <row>
+    <columns large="8">
+      <p><strong>From:</strong> <%= @email.from %></p>
+      <p><strong>To:</strong> <%= @email.to %></p>
+      <p><strong>Subject:</strong> <%= @email.subject %></p>
+      <p> <%= render 'original_email' %> </p>
+    </columns>
+  </row>
+</container>

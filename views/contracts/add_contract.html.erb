@@ -1,0 +1,16 @@
+<% breadcrumb(:add_new_contract, @lead) %>
+<%= page_header(
+  primary_name: @lead.name,
+  primary_path: @lead,
+  secondary_name: "Add New Contract"
+) %>
+
+<div class="ui main container">
+  <%= render(
+    partial: "contracts/forms/add_to_property",
+    locals: {
+      lead: @lead,
+      contract: @contract
+    }
+  ) %>
+</div><!-- /.ui main container -->

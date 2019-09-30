@@ -1,0 +1,11 @@
+<% if messages.present? %>
+  <h4 class="ui dividing header">Messages</h4>
+  <div class="ui divided list">
+    <%= render(
+      partial: "emails/message",
+      collection: messages,
+      as: :message,
+      locals: { contact: contact }
+    ) %>
+  </div><!-- /.ui list -->
+<% end %>

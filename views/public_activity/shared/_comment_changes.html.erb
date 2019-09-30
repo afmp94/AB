@@ -1,0 +1,11 @@
+<% #NOTE: need to move these logics from the view part and put somewhere in the helper %>
+<% changes_service = Activity::ActivityChangesService.new(activity) %>
+<% if changes_service.activity_updates.present? %>
+  <% changes_service.activity_changes do |title, from, to| %>
+    <% formatted_data =  Activity::ActivityFormatterService.format(title, from, to) %>
+    <% title, from, to =  formatted_data if formatted_data.present? %>
+    <% if title == "Content" %>
+      <%= safe_join(activity.parameters[:name].split("\r\n"), "<br />".html_safe) %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,68 @@
+<% section = nil if local_assigns[:section].nil? %>
+<% cache([task, section, task.is_overdue?]) do %>
+  <li class="todo <%= todo_completed_class(task) %> <%=todo_overdue_class(task) %>" id="task_<%= task.id %>" data-behavior="selectable_container" data-task-id="<%= task.id %>">
+    <%= simple_form_for(
+      task,
+      url: toggle_task_path(task, from_page: from_page_param("home-index")),
+      html: { data: { behavior: "submit-on-check" } },
+      remote: true
+    ) do |f| %>
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <%= f.check_box(
+          :completed,
+          class: "css_checkbox",
+          id: "task_#{task.id}_completed#{section}",
+          data: { behavior: "toggle_todo" }
+        ) %>
+        <label for="task_<%= task.id %>_completed<%= section %>"></label>
+      </div><!-- /.checkbox -->
+    <% end %>
+    <span class="for_anonymous">
+      <span class="css_checkbox disabled "></span>
+    </span>
+    <div class="task-h3">
+      <%= link_to(
+        task,
+        class: "linked_content",
+        data: { behavior: "selectable" }
+      ) do %>
+        <span class="content">
+          <%= task.subject %>
+          <span class="project" style="color: #46647c">
+            <%= task.taskable.try(:name) %>
+          </span>
+        </span>
+        <% if task.completed %>
+          <%= render(
+            partial: "tasks/small_task/todo_meta",
+            locals: { task: task }
+          ) %>
+        <% else %>
+          <%= render(
+            partial: "tasks/small_task/pill",
+            locals: { task: task }
+          ) %>
+        <% end %>
+      <% end %>
+      <div class="unlinked_content">
+        <span class="content">
+          <%= task.subject %>
+          <span class="project" style="color: #46647c">
+            <%= task.taskable.try(:name) %>
+          </span>
+        </span>
+        <% if task.completed %>
+          <%= render(
+            partial: "tasks/small_task/todo_meta",
+            locals: { task: task }
+          ) %>
+        <% else %>
+          <%= render(
+            partial: "tasks/small_task/pill",
+            locals: { task: task }
+          ) %>
+        <% end %>
+      </div>
+    </div>
+  </li>
+<% end %>

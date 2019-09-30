@@ -1,0 +1,45 @@
+<!--HEADER SECTION--><!--BASIC TABLE-->
+<%= page_header(
+  primary_name: "Home",
+  primary_path: root_path
+) %>
+<!--BASIC TABLE-->
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid">
+      <div class="sixteen wide column sticky-black-menu-container">
+       <table class="ui basic table index-page-table">
+
+      <thead>
+        <h3 class="ui header">List of Users</h3>
+        <tr>
+          <th> Agent Name</th>
+          <th> Email</th>
+          <th> Member Since</th>
+          <th> Billing Plan</th>
+          <th> Last Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td class="breakword">
+              <h4 class="nomargin"><%= link_to user.name, user %></h4>
+            </td>
+            <td>
+              <%=  user.email  %>
+            </td>
+            <td>
+              <%= '9/9/2013 (holding)' %>
+            </td>
+            <td>
+              <%= 'Pilot Programme (holding)' %>
+            </td>            <td>
+              <%= '10/19/2014 (holding)' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

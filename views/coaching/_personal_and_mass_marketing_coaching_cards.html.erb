@@ -1,0 +1,19 @@
+<% if cards.count.nonzero? %>
+  <div class="column">
+    <div class="ui positive message">
+      <div class="ui basic vertical segment">
+        <h1 class="ui dividing header">
+          Personal & Mass Marketing
+          <div class="sub header m-y-sm">
+            The consistent communication with your database has the highest return on investment of any activity an agent can do. Modern agents are leveraging technology to expand their audience, as well as track what is working best.
+          </div><!-- /.sub header -->
+        </h1><!-- /.ui dividing header -->
+      </div><!-- /.ui basic vertical segment -->
+      <div class="ui three doubling stackable cards">
+        <% cards.each do |card| %>
+          <%= render partial: "coaching/card", locals: { card: card } %>
+        <% end %>
+      </div><!-- /.ui cards -->
+    </div><!-- /.ui message -->
+  </div><!-- /.column -->
+<% end %>

@@ -1,0 +1,63 @@
+<div class="column">
+  <div class="ui two cards">
+    <div class="ui card">
+      <div class="content">
+        <div class="center aligned header"><i class="orange users big icon"></i>Building your base</div>
+        <div class="center aligned description">
+          <p>Did you know that successful Agents get 80% or more of their business from friends, family and past clients?</p>
+        </div>
+      </div>
+    </div>
+    <div class="ui card">
+      <div class="content">
+        <div class="ui center aligned header">Your results</div>
+        <div class="ui center green aligned big header ">79%</div>
+        <div class="center aligned description">
+          <p><i class="green check circle icon"></i>Great work! You are tops in networking! (80% or better)</p>
+          <p><i class="yellow check circle icon"></i>You are leaving 'easy money' on the table.  Be sure to setup and/or use a system to keep in touch with your relationships  (60 to 79%) </p>
+          <p><i class="red exclamation circle icon"></i>Networking with your relationships is core to being successful.  In terms of time and money, setup and/or use a system to keep in touch with your relationships. (less than 60%)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="column">
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+
+    <div class="ui segment tab transition fade in active" id="mass-marketing-info" data-tab="mass-marketing-info">
+      <h4 class="ui dividing header">Mass Marketing</h4>
+      <%= f.input(
+        :social_media_engagement,
+        label: "How often do you post on social media?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::SOCIAL_MEDIA_ENGAGEMENT_SCORING.keys) %>
+      <%= f.input(
+        :monthly_email_newsletter_sent,
+        label: "Do you currently send a monthly email newsletter?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::MONTHLY_EMAIL_NEWSLETTER_SENT_SCORING.keys) %>
+      <%= f.input(
+        :monthly_print_sent,
+        label: "Do you send a print newsletter by mail?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::MONTHLY_PRINT_SENT_SCORING.keys) %>
+      <%= f.input(
+        :neighborhood_farming_cards_sent,
+        label: "Do you send 'just listed' or 'just sold' cards out to neighborhoods?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::NEIGHBORHOOD_FARMING_CARDS_SENT_SCORING.keys) %>
+      <div class="ui primary icon button" data-tab-open="personal-marketing-info">Back</div>
+      <div class="ui primary icon button" data-tab-open="lead-generation-info" data-validate-container>Next</div>
+    </div><!-- /#mass-marketing -->
+
+  <% end %>
+</div><!-- /.column -->

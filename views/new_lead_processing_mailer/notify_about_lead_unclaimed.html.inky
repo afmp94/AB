@@ -1,0 +1,17 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <p>
+          Hi <%= @user.full_name %>
+        <p>
+          The Lead <%= link_to @lead.contact.full_name, lead_url(@lead) %>
+          was unclaimed.
+        </p>
+        <p>
+          You may want to claim this lead or follow up with your team.
+        </p>
+      </columns>
+    </row>
+  </container>
+<% end %>

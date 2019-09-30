@@ -1,0 +1,118 @@
+<% content_for(:title, "View Invoice") %>
+<% breadcrumb(:invoice) %>
+<%= page_header(
+  primary_name: "Invoices",
+  primary_path: subscriber_invoices_path,
+  secondary_name: "View Invoice"
+) %>
+<div class="ui main container">
+  <h1 class="ui header">
+    Invoice
+    <%= @invoice.number %>
+  </h1>
+
+  <div class="ui grid">
+    <div class="row">
+      <div class="ten wide column">
+        <p>
+          Date
+          <%= @invoice.date.to_s(:short_date) %>
+        </p>
+        <address>
+          <strong>AgentBright, Inc.<br /></strong>
+          5 Essex Square<br />
+          Suite 2B<br />
+          Essex, CT 06426<br />
+          United States<br />
+          Phone: +1 860 985 4386
+        </address>
+        <address>
+          <strong>Billed to:<br /></strong>
+          <% if @invoice.user_name.present? %>
+            <%= @invoice.user_name %>
+            <br />
+          <% end %>
+          <% if @invoice.user_billing_organization.present? %>
+            <%= @invoice.user_billing_organization %>
+            <br />
+          <% end %>
+          <% if @invoice.user_billing_address.present? %>
+            <%= @invoice.user_billing_address %>
+            <br />
+          <% end %>
+          <% if @invoice.user_billing_address_2.present? %>
+            <%= @invoice.user_billing_address_2 %>
+            <br />
+          <% end %>
+          <%= @invoice.user_billing_city %>
+          <% if @invoice.user_billing_state.present? %>
+            <%= ", #{@invoice.user_billing_state}" %>
+          <% end %>
+          <%= @invoice.user_billing_zip_code %>
+          <%= @invoice.user_billing_country %>
+        </address>
+        <table class="ui single line table">
+          <tbody>
+            <% @invoice.line_items.each do |line_item| %>
+              <tr>
+                <td>
+                  <%= line_item.description %>
+                </td>
+                <td>
+                  <%= "#{number_to_currency(line_item.amount, precision: 2)} USD" %>
+                </td>
+              </tr>
+              <tr>
+                <td class="right aligned">Subtotal</td>
+                <td>
+                  <% if @invoice.discounted? %>
+                    <tr>
+                      <td>
+                        <%= "Discount: #{@invoice.discount_name}" %>
+                      </td>
+                      <td>
+                        <%= "- #{number_to_currency(@invoice.discount_amount, precision: 2)} USD" %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td class="right aligned">Tax</td>
+                <td>$0.00 USD</td>
+              </tr>
+              <tr>
+                <td class="right aligned">Total</td>
+                <td>
+                  <%= "#{number_to_currency(@invoice.total, precision: 2)} USD" %>
+                </td>
+              </tr>
+              <tr>
+                <td class="right aligned">Amount paid</td>
+                <td>
+                  <%= "#{number_to_currency(@invoice.amount_paid, precision: 2)} USD" %>
+                </td>
+              </tr>
+              <tr>
+                <td class="right aligned">Balance due</td>
+                <td>
+                  <%= "#{number_to_currency(@invoice.balance, precision: 2)} USD" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <p>
+          <%= "Invoice lookup: #{@invoice.stripe_invoice_id}" %>
+        </p>
+      </div><!-- /.ten wide column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui grid -->
+</div><!-- /.ui main container -->
+
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+
+  </div>
+</div>

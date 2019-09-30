@@ -1,0 +1,591 @@
+<style>
+  .ui.statistic .label {
+    padding-top: 10px;
+  }
+</style>
+<script language='javascript'>
+  $(document).ready(function(){
+    $('.ui.accordion').accordion();
+  });
+</script>
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <div class="ui inverted page dimmer" data-behavior="dimmer">
+      <div class="ui massive indeterminate text loader">Processing results...</div>
+    </div>
+    <div class="ui grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui attached clearing grey inverted segment">
+            <a class="item">
+              <div class="ui basic massive horizontal label">Prepared for: <%= @summary.prepared_for %> </div>
+            </a>
+            <h3 class="ui right floated header">
+               <%= @summary.date.strftime("%B %d %Y") %>
+            </h3>
+          </div>
+        </div><!-- /.column -->
+      </div>
+      <div class="row">
+        <div class="column">
+          <h1 class="ui top left aligned attached header">
+            2019 Office Real Estate Assessment Score Card
+          </h1>
+          <div class="ui styled fluid accordion">
+            <div class="title">
+              <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>Click here to learn about this Report</h4>
+            </div>
+            <div class="content">
+              <h3 class="ui top raised secondary attached header">
+                This report provides an overall guidance to your office's plans for 2019 based on individual Agent responses. &nbsp;&nbsp;
+              </h3>
+              <div class="ui attached raised secondary segment">
+                <ul class="ui big list">
+                  <li>1- Agent Metrics - Provides insight as to your office completion rate and quality of the data for the assessment. </li>
+                  <li>2- Career Profile - We compare the experience, effort and targets of your Agents to the <%= @summary.broker_code %> and all respondents.</li>
+                  <li>3- Financial Goals - Provides a total volume and average planned Revenue.  We break it the results into meaningful segments.</li>
+                  <li>4- Real Estate Business Management Assessment - Based on Agent responses, we summarize the average scores for your agents.  We also recommend the top 3 actions you can take to improve the skills of your Agents in managing their business.</li>
+                </ul>
+                <p>* All information is based on Agent responses.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.segment -->
+
+  <div class="ui grid" style="display:none">
+    <div class="row">
+      <div class="column">
+        <h2 class="ui top left aligned attached header">
+          Overall Summary & Office Ranking (<%= @summary.office_code %>)
+        </h2>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>About this section</h4>
+          </div>
+          <div class="content">
+            <h3 class="ui top attached tertiary header">
+              Based on the <%= @summary.broker_code %>, the following ranks your office results compared to the other offices.</h3>
+          </div><!-- /.content -->
+        </div><!-- /.accordion -->
+      <div class="row">
+        <div class="column">
+          <div class="ui attached raised secondary segment">
+            <div class="ui mini three statistics">
+              <div class="ui mini statistic">
+                <div class="value">
+                  ???
+                </div>
+                <div class="label">
+                  Team Experience
+                </div>
+              </div>
+              <div class="ui mini statistic">
+                <div class="value">
+                  ???
+                </div>
+                <div class="label">
+                 Average Gross Sales Commission
+                </div>
+              </div>
+              <div class="ui mini statistic">
+                <div class="value">
+                  ???
+                </div>
+                <div class="label">
+                  Average Transaction
+                </div>
+              </div>
+            </div><!-- /.mini four stats -->
+          </div><!-- /.segment -->
+        </div><!-- /.column -->
+        </div>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+  </div><!-- /.grid -->
+  </br><hr/></br>
+  <div class="ui stackable column grid">
+    <div class="row">
+      <div class="column"><!-- Survey Response-->
+        <h1 class="ui top left aligned attached header">
+          Agent Metrics
+        </h1>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>What do these number mean?</h4>
+          </div>
+          <div class="content">
+            <h3 class="ui top raised secondary attached header">
+            This section provides a quick summary of your response rates and time to complete.</h3>
+            <div class="ui attached raised secondary segment">
+              <ul class="uilist">
+                <li>What does a quick response and completion rate tell you?</li>
+                <li>What does a slow response?
+                <li>Think about how your office is motivated.</li></li>
+              </ul>Review this weekly to see your responses - numbers may change based on additional responses.   </ul>
+            </div>
+          </div><!-- /.content -->
+        </div><!-- /.segment -->
+        <table id="example" class="ui unstackable compact selectable striped celled attached table" cellspacing="0" width="100%" >
+          <thead>
+            <tr><th class="single line"></th>
+              <th>Assessments Completed</th>
+          </tr></thead>
+          <tbody>
+            <% @agent_metrics.each do |agent_metric| %>
+              <tr>
+                <td><h2 class="ui center aligned header"><%= agent_metric.name %></h2></td>
+                <td><h2 class="ui center aligned header"><%= agent_metric.assessments_completed %></h2></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div><!-- /.segment-->
+    </div>
+  </div>
+  </br><hr/></br>
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <h2 class="ui top left aligned attached header">
+          Agent Profile
+        </h2>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>About this section</h4>
+          </div>
+          <div class="content">
+            <h3 class="ui top raised secondary attached header">
+            In this section, we provide insight on your team's make up (skills, experience and professional needs).
+            </h3>
+            <div class="ui attached raised secondary segment">
+              <p>A vibrant and successful office is made up of a blend of skills and experience.  It's important to review this to help in hiring and retention.</p>
+              <ul class="ui list">
+                <li>1- Is your office above or below the Years of Experience? It may help you focus on the right levels of experience for recruitment. </li>
+                <li>2- Do you have the right mix of Full Time and Part Time?</li>
+                <li>3- Compared to the Market and the Randall Group XXBroker NameXX, How's the average Income per Agent?</li>
+                <li>4- What are your training plans to address your Agent's top issues?</li>
+              </ul>
+            </div><!-- /.segment -->
+          </div><!-- /.content -->
+
+          <h3 class="ui top left aligned attached header">
+            Agent Career Profile Statistics (Average)
+          </h3>
+            <table class="ui celled attached table">
+              <thead>
+                <tr><th class="single line"></th>
+                <th>Years of Experience (Average)</th>
+                <th>Percent Full Time / Total Agents</th>
+                <th>Average Gross Sales Commission</th>
+                <th>Average Number of Transactions</th>
+              </tr></thead>
+              <tbody>
+                <% @statistics.each do |statistic| %>
+                  <tr>
+                    <td><%= statistic.name %></td>
+                    <td><h2 class="ui center aligned header"><%= statistic.years_of_experience %></h2></td>
+                    <td><h2 class="ui center aligned header"><%= statistic.percent_full_time %>% / (<%= statistic.total_agents %>)</h2></td>
+                    <td><h2 class="ui center aligned header"><%= number_to_currency(statistic.average_gross_sales_commission, precision: 0) %></h2></td>
+                    <td><h2 class="ui center aligned header"><%= statistic.average_number_of_transactions.try(:round, 0)  %></h2></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+        </div><!-- /.accordion -->
+      </div><!-- /.column -->
+    </div>
+  </div><!-- /.grid -->
+  </br><hr/></br>
+  <div class="ui grid">
+    <div class="row">
+      <div class="column"><!-- Survey Response-->
+        <h1 class="ui top left aligned attached header">
+          Real Estate Business Management Assessment
+        </h1>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>About this section</h4>
+          </div>
+          <div class="content">
+              <p>To find out how your Agents are developing and managing their business, we asked them a series of yes/no questions.  The questions are focussed on "How" they go about their business.
+              </p>
+              <ul>
+                <li><strong>Branding Basics</strong> - Have you got the the basics in place and up-to-date (in last 12 months)? (headshot, website (bio), online  and social media profiles.</li>
+                <li><strong>Building your Contacts Database and Network </strong> - Are your Contacts organized and ranked to how they can help you build your business?</li>
+                <li><strong>Personal marketing (calls, notes, visits, emails, facebook)</strong> - How much marketing effort are you putting in on a weekly and daily basis? Are you tracking the results so you can rest with ease that you can adjust as necessary?</li>
+                <li><strong>Marketing Campaigns</strong> - Are you consistenly  getting your message out in front of people (emails or print, send monthly market stats, basic, simple farming (just listed and just sold cards, facebook posts)</li>
+                <li><strong>Leads & Clients </strong>- Quick Response, Conversion and Tracking -ing? How fast?  How good are your Lead sources?  Do you know?</li>
+              </ul>
+          </div><!-- /.content-->
+        </div><!-- /.accordion-->
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h3 class="ui top left aligned attached header">Analysis: Business Development </h4>
+          </div>
+          <div class="content">
+            <div class="ui tertiary segment">
+              <table id="example" class="ui unstackable compact selectable striped celled table" cellspacing="0" width="100%" >
+                <thead>
+                  <tr><th class="single line"></th>
+                  <th>Basic Branding</th>
+                  <th>Contacts Database</th>
+                  <th>Personal Marketing </th>
+                  <th>Mass Marketing</th>
+                  <th>Leads & Conversion</th>
+                  <th>Servicing Clients</th>
+                </tr></thead>
+                <tbody>
+                  <% @business_analysis_service.each do |analysis_service| %>
+                    <tr>
+                      <td>
+                        <h2 class="ui center aligned header"><%= analysis_service.name %> </h2>
+                      </td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.basic_branding.try(:round, 1) %>%</h2></td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.contacts_database.try(:round, 1) %>%</h2></td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.personal_marketing.try(:round, 1) %>%</h2></td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.mass_marketing.try(:round, 1) %>%</h2></td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.leads_and_conversion.try(:round, 1) %>%</h2></td>
+                      <td><h2 class="ui center aligned header"><%= analysis_service.servicing_clients.try(:round, 1) %>%</h2></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div><!-- /.segment-->
+          </div><!-- /.content-->
+        </div><!-- /.accordion-->
+      </div><!-- /.column-->
+    </div><!-- /.row-->
+    <div class="row">
+      <div class="column">
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h3 class="ui top left aligned attached header">Recommendations: Business Development</h4>
+          </div>
+          <div class="content">
+            <div class="ui attached raised secondary segment">
+            For Agent success, we recommend the following training and/or coaching for your Agents
+              <ul class="ui big list">
+                <li>A 1-day Team Building event to get their Basic Branding in place</li>
+                <li>Weekly Management reviews to develop Referral Marketing plans</li>
+                <li>Evaluate and present options to develop Email Campaign program.</li>
+              </ul>
+            </div><!-- /.segment -->
+          </div><!-- /.content -->
+        </div><!-- /.accordion -->
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+  </div><!-- /.grid -->
+
+  </br><hr/></br>
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <h1 class="ui top left aligned attached header">
+          Financial Goals Summary
+        </h1>
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h4 id="about-this-report-methodology"><i class="arrow circle right icon"></i>About this section</h4>
+          </div>
+          <div class="content">
+            <h3 class="ui top raised secondary attached header">
+              In this section, we look at two aspects of Marketing</h3>
+            <div class="ui attached raised secondary segment">
+              <h4>Below is a Finanical Summary for your overall Broker and your Office. &nbsp;&nbsp; It includes total gross sales  volume, total gross commission and total number of transactions. &nbsp;&nbsp; Forecast are based on individual responses received. &nbsp;&nbsp; There is a further breakdown anlaysis by Agent experience with key statistics to provide insight as to the strength of your team segments.</h4>
+            </div>
+          </div><!-- /.content -->
+        </div><!-- /.accordion -->
+        <% @goals_summary_headers.each do |goal_summary_header| %>
+          <h2 class="ui top left aligned attached header">
+            <strong><%= goal_summary_header.name %></strong>
+          </h2>
+          <div class="ui attached raised secondary inverted center aligned segment">
+            <div class="ui inverted orange tiny three statistics">
+              <div class="statistic">
+                <div class="value">
+                  <strong><%= number_to_currency(goal_summary_header.gross_sales_volume, precision: 0) %></strong>
+                </div>
+                <div class="label">
+                  Gross Sales </br>Volume
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <strong><%= number_to_currency(goal_summary_header.gross_sales_commission, precision: 0) %></strong>
+                </div>
+                <div class="label">
+                  Gross Sales </br>Commission
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <strong><%= goal_summary_header.transactions.try(:to_i) %></strong>
+                </div>
+                <div class="label">
+                  Total </br>Transactions
+                </div>
+              </div>
+            </div><!-- /.statistics -->
+          </div><!-- /.segment -->
+        <% end %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class=" column">
+        <h2 class="ui top left aligned attached header">
+          Analysis: Agent Experience
+        </h2>
+        <div class="ui attached raised secondary inverted center aligned segment">
+          <div class="ui styled fluid accordion">
+            <% @agent_experiences.each do |agent_experiences| %>
+              <div class="title">
+                <h3 class="ui top left aligned attached header"><%= agent_experiences.first.name %></h4>
+              </div>
+              <div class="content">
+                <table class="ui celled attached table">
+                  <thead>
+                    <tr><th class="single line"></th>
+                      <th>Number of</br> Agents</th>
+                      <th>Average </br>Income</th>
+                      <th>Average Number </br>of Transactions</th>
+                      <th>Average </br>Home Sale</th>
+                      <th>Top Priorities</br> Seeking</th>
+                  </tr></thead>
+                  <tbody>
+                    <% agent_experiences.each do |agent_experience| %>
+                      <tr>
+                        <td><%= agent_experience.experience %></td>
+                        <td><%= agent_experience.number_of_agents %></td>
+                        <td><%= number_to_currency(agent_experience.average_income, precision: 0)%></td>
+                        <td><%= agent_experience.avg_number_of_transactions.try(:round) %></td>
+                        <td><%= number_to_currency(agent_experience.average_home_sale, precision: 0) %></td>
+                        <td><%= agent_experience.top_priorities_seeking.join(", ") %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div><!-- /.content-->
+            <% end %>
+          </div><!-- /.accordion -->
+        </div>
+      </div><!-- /.accordion -->
+    </div><!-- /.accordion -->
+    <div class="row">
+      <div class=" column">
+          <h2 class="ui top left aligned attached header">
+            Analysis: Comparative Financial Stats
+          </h2>
+      <div class="ui attached raised secondary inverted center aligned segment">
+        <div class="ui styled fluid accordion">
+          <div class="secondary inverted title">
+           <h3 class="ui top left aligned attached header"> All Agents</h3>
+          </div>
+          <div class="content">
+            <div class="ui tertiary segment">
+              <table id="example" class="ui unstackable compact selectable striped celled table" cellspacing="0" width="100%" >
+                <thead>
+                  <tr><th class="single line"></th>
+                  <th>Income (after Expenses)</th>
+                  <th>Number of Transactions(average)</th>
+                  <th>Average Home Sales Price (average) </th>
+                </tr></thead>
+                <tbody>
+                  <% @all_agents.each do |all_agent| %>
+                    <tr>
+                      <td>
+                        <h2 class="ui center aligned header"><%= all_agent.name  %></h2>
+                      </td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(all_agent.income_after_expenses, precision: 0) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= all_agent.avg_number_of_transactions.try(:round, 1) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(all_agent.avg_home_sales_price, precision: 0) %></h2></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div><!-- /.column -->
+          </div><!-- /.content-->
+        </div><!-- accordion -->
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h3 class="ui top left aligned attached header">Full Time Agents</h4>
+          </div>
+          <div class="content">
+            <div class="ui tertiary segment">
+              <table id="example" class="ui unstackable compact selectable striped celled table" cellspacing="0" width="100%" >
+                <thead>
+                  <tr><th class="single line"></th>
+                  <th>Income (after Expenses)</th>
+                  <th>Number of Transactions(average)</th>
+                  <th>Average Home Sales Price (average) </th>
+                </tr></thead>
+                <tbody>
+                  <% @full_time_agents.each do |full_time_agent| %>
+                    <tr>
+                      <td>
+                        <h2 class="ui center aligned header"><%= full_time_agent.name  %></h2>
+                      </td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(full_time_agent.income_after_expenses, precision: 0) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= full_time_agent.avg_number_of_transactions.try(:round, 1) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(full_time_agent.avg_home_sales_price, precision: 0) %></h2></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div><!-- /.segment -->
+          </div><!-- /.content-->
+        </div><!-- accordion -->
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h3 class="ui top left aligned attached header">Part Time Agents </h4>
+          </div>
+          <div class="content">
+            <div class="ui tertiary segment">
+              <table id="example" class="ui unstackable compact selectable striped celled table" cellspacing="0" width="100%" >
+                <thead>
+                  <tr><th class="single line"></th>
+                  <th>Income (after Expenses)</th>
+                  <th>Number of Transactions(average)</th>
+                  <th>Average Home Sales Price (average) </th>
+                </tr></thead>
+                <tbody>
+                  <% @part_time_agents.each do |part_time_agent| %>
+                    <tr>
+                      <td>
+                        <h2 class="ui center aligned header"><%= part_time_agent.name  %></h2>
+                      </td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(part_time_agent.income_after_expenses, precision: 0) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= part_time_agent.avg_number_of_transactions.try(:round, 1) %></h2></td>
+                      <td><h2 class="ui center aligned header"><%= number_to_currency(part_time_agent.avg_home_sales_price, precision: 0) %></h2></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div><!-- /.column -->
+          </div><!-- /.content-->
+        </div><!-- accordion -->
+      </div>
+      </div><!-- /.column -->
+    </div><!-- /.row-->
+  </div><!-- /.grid -->
+
+  <div class="ui grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui styled fluid accordion">
+          <div class="title">
+            <h2><i class="info circle icon"></i>Agent Checklist</h2>
+          </div>
+          <div class="content">
+            <p> Use this handy checklist to hlep your Agents stay on track.</p>
+            <div class="ui attached clearing raised secondary segment">
+              <div class="ui attached raised orange segment">
+                <div class="ui divided items">
+                  <div class="item">
+                    <div class="ui image">
+                      <i class="big star icon"></i>
+                    </div>
+                    <div class="middle aligned content">
+                      <div class="ui checkbox">
+                        <input type="checkbox" name="example1">
+                        <label><h3>Branding Basics</h3><h3 class="description">Have you got the the basics in place and up-to-date (in last 12 months)? (headshot, website (bio), online and social media profiles.</h3></label></br>
+                      </div>
+                    </div>
+                  </div><!-- /.item -->
+                  <div class="item">
+                    <div class="ui image">
+                      <i class="big users icon"></i>
+                    </div>
+                    <div class="middle aligned content">
+                      <div class="ui checkbox">
+                        <input type="checkbox" name="example2">
+                        <label><h3>Building your Contacts Database and Network</h3><h3 class="description">Are your Contacts organized and ranked to how they can help you build your business?</h3></label></br>
+                      </div>
+                    </div>
+                  </div><!-- /.item -->
+                  <div class="item">
+                    <div class="ui image">
+                      <i class="big comments outline icon"></i>
+                    </div>
+                    <div class="middle aligned content">
+                      <div class="ui checkbox">
+                        <input type="checkbox" name="example4">
+                        <label><h3>Personal marketing (calls, notes, visits, emails, facebook)</h3><h3>How much marketing effort are you putting in on a weekly and daily basis?&nbsp;&nbsp;  Are you tracking the results so you can rest with ease that you can adjust as necessary?</h3></label></br>
+                      </div>
+                    </div>
+                  </div><!-- /.item -->
+                  <div class="item">
+                    <div class="ui image">
+                      <i class="big mail outline icon"></i>
+                    </div><!-- /.image -->
+                    <div class="middle aligned content">
+                      <div class="ui checkbox">
+                        <input type="checkbox" name="example5">
+                        <label><h3>Marketing Campaigns</h3><h3 class="description">Are you <strong>consistenly</strong> getting your message out in front of people (emails or print, send monthly market stats, basic, simple farming (just listed and just sold cards, facebook posts)?</h3></label></br>
+                      </div><!-- /.checkbox -->
+                    </div><!-- /.content-->
+                  </div><!-- /.item -->
+                  <div class="item">
+                    <div class="ui image">
+                      <i class="big line chart icon"></i>
+                    </div>
+                    <div class="middle aligned content">
+                      <div class="ui checkbox">
+                        <input type="checkbox" name="example6">
+                        <label><h3>Leads & Clients - Quick Response, Conversion and Tracking</h3><h3 class="description">How quickly are you responding to new leads? &nbsp;&nbsp; How many of the leads are you converting? &nbsp;&nbsp; How fast? &nbsp;&nbsp; How good are your Lead sources?&nbsp;&nbsp;  Do you know?</h3></label></br>
+                      </div>
+                    </div>
+                  </div><!-- /.item -->
+                </div><!-- /.divided items -->
+              </div><!-- /.segment -->
+            </div><!-- /.segment -->
+            <div class="ui attached clearing grey inverted segment">
+              <h3 class="ui right floated header">
+                <a class="item"><a class="item" href="http://www.agentbright.com    leads: @leads.incoming_at_during_past_12_months, om" target="_blank">
+              <div class="ui orange basic massive horizontal label">Need a solution to help you?  Try <%= white_labeled_app_name(current_subdomain) %></div>
+              </h3>
+            </div><!-- /.segment -->
+          </div><!-- /.content -->
+        </div><!-- /.accordion -->
+        <div class="ui attached clearing grey huge inverted segment">
+          <h3 class="ui right aligned header">
+            <a class="huge item"><a class="item" href="http://www.agentbright.com" target="_blank">
+              <div class="ui orange massive basic horizontal label">Click here - Get in touch today for a Free Marketing & Tech Seminar</div>
+            </a>
+          </h3>
+        </div><!-- /.segment -->
+      </div><!-- /.row -->
+    </div><!-- /.grid -->
+    <div class="ui vertical stripe segment">
+      <div class="ui middle aligned centered stackable grid container">
+        <div class="row">
+          <div class="six wide center aligned column">
+            <h2 class="ui header">Visit us at: www.agentbright.com</h2><!-- /.ui header -->
+            <a href="www.agentbright.com"></a>
+          </div>
+          <div class="six wide center aligned column">
+            <h2 class="ui header">Contact us at: info@agentbright.com </h2><!-- /.ui header -->
+            <a href="info@agentbright.com"></a>
+          </div>
+          <span class="dim-el"> ©2010-<%= Time.zone.now.strftime("%Y") %> All Rights Reserved. <a rel="noopener noreferrer" href="https://www.agentbright.com/terms-of-service" target="_blank" tabindex="-1">Terms of Service</a> and <a rel="noopener noreferrer" href="https://www.iubenda.com/privacy-policy/7900045 target="_blank" tabindex="-1">Privacy Policy</a></span>
+        </div>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+  </div><!-- /.grid -->
+</div><!-- /.main ui container -->
+<style>
+  .ui.statistic .label {
+    padding-top: 10px;
+  }
+</style>
+<script language='javascript'>
+             $(document).ready(function(){
+                $('.ui.accordion').accordion();
+             });
+</script>
+
+
+
+

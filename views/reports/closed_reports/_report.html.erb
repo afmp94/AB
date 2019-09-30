@@ -1,0 +1,110 @@
+<% if leads.empty? %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon header m-y-lg">
+      <i class="warning sign icon"></i>
+      <div class="content">
+        Your team doesn't have any closed activity.
+        <div class="sub header">If this seems wrong, <%= link_to("review and update your client information here", clients_path) %>.</div>
+      </div>
+    </h2>
+  </div>
+<% else %>
+  <div class="main ui container">
+    <div class="ui vertical basic segment">
+      <div class="ui centered grid">
+        <div class="computer tablet only row">
+          <div class="column">
+            <div class="ui three tiny statistics">
+              <div class="statistic">
+                <div class="label">
+                  Closed
+                </div>
+                <div class="value">
+                  <%= leads.count %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Volume
+                </div>
+                <div class="value">
+                  <%= num_to_currency(leads.sum(:displayed_price)) %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Net Commission
+                </div>
+                <div class="value">
+                  <%= num_to_currency(leads.sum(:displayed_net_commission)) %>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.computer tablet only row -->
+        <div class="mobile only row">
+          <div class="column">
+            <div class="ui horizontal tiny statistics">
+              <div class="statistic">
+                <div class="value">
+                  <%= leads.count %>
+                </div>
+                <div class="label">
+                  Closed
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(leads.sum(:displayed_price)) %>
+                </div>
+                <div class="label">
+                  Volume
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(leads.sum(:displayed_net_commission)) %>
+                </div>
+                <div class="label">
+                  Net Commission
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.mobile only row -->
+      </div><!-- /.ui centered grid -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <h2 class="ui dividing header">
+        Closed
+      </h2><!-- /.ui dividing header -->
+      <table class="ui striped table" id="pendings_table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <% if action_name == "closed_team" %>
+              <th>Lead Agent</th>
+            <% end %>
+            <th>Closed Date</th>
+            <th class="right aligned">Closing Price</th>
+            <th class="right aligned">Net Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% leads.each do |lead| %>
+            <tr class="<%= handle_closed_row_classes(lead) %>">
+              <td><%= missing_data?(lead.name) ? attention_icon.html_safe : "" %><%= link_to(lead.name, lead) %></td>
+              <% if action_name == "closed_team" %>
+                <td><%= missing_data?(lead.user.name) ? attention_icon.html_safe : "" %><%= lead.user.name %></td>
+              <% end %>
+              <td><%= missing_data?(lead.displayed_closing_date_at) ? attention_icon.html_safe : "" %><%= cal_date(lead.displayed_closing_date_at) %></td>
+              <td class="right aligned"><%= missing_data?(lead.displayed_price) ? attention_icon.html_safe : "" %><%= num_to_currency(lead.displayed_price)%></td>
+              <td class="right aligned"><%= missing_data?(lead.displayed_net_commission) ? attention_icon.html_safe : "" %><%= num_to_currency(lead.displayed_net_commission) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div><!-- /.ui vertical basic segment -->
+  </div><!-- /.ui container -->
+<% end %>

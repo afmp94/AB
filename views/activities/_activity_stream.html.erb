@@ -1,0 +1,12 @@
+<div class="ui-activity-stream">
+  <% if @activities.count.nonzero? %>
+    <section class="activity-stream" data-introjs="step16" data-behavior="activity-stream">
+      <%= render(
+        partial: "activities/activities_by_day",
+        locals: { activities: activities, activities_url: activities_url }
+      ) %>
+    </section><!-- /.activity-stream -->
+  <% else %>
+    <i class="smile icon"></i> No activity yet!
+  <% end %>
+</div>

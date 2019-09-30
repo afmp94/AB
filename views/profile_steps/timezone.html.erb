@@ -1,0 +1,15 @@
+<%#= render(partial: "header") %>
+
+<%= simple_form_for(@user, url: wizard_path, method: :put, remote: true) do |f| %>
+  <h4 class="ui header">Time Zone</h4>
+  <p>When you schedule emails and updates, we'll use this timezone as a reference.</p>
+  <%= f.input(
+    :time_zone,
+    priority: /US/,
+    label: "Time Zone"
+  ) %>
+  <%= f.button(
+    :submit,
+    value: "Continue"
+  ) %>
+<% end %>

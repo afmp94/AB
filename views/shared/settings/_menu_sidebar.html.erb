@@ -1,0 +1,13 @@
+<div class="ui vertical menu hide-mobile-and-down">
+  <%= render(partial: "shared/settings/menu_items") %>
+</div>
+
+<div class="ui dropdown hide-tablet-and-up" data-ui-behavior="dropdown">
+  <h3>
+    Settings Navigation
+    <i class="dropdown icon"></i>
+  </h3>
+  <div class="menu">
+    <%= render(partial: "shared/settings/menu_items") %>
+  </div><!-- /.menu -->
+</div><!-- /.ui dropdown -->

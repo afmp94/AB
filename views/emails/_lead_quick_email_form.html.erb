@@ -1,0 +1,44 @@
+<div id="lead-quick-email-div">
+  <p><span class="fwb">Send to:</span> <%= display_primary_email_address(contact) || "N/A" %></p>
+  <%= form_tag(
+    {
+      controller: "emails",
+      action: "send_lead_email_through_nylasapp",
+      contact_id: contact.id,
+      lead_id: lead.id
+    },
+    class: "ui form buttonforce"
+  ) do |f| %>
+    <div class="field">
+      <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="cc-recipients">
+        <input name="cc_recipients" type="hidden">
+        <div class="default text">Cc</div>
+      </div>
+      <div class="error-message"></div>
+    </div>
+    <div class="field">
+      <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="bcc-recipients">
+        <input name="bcc_recipients" type="hidden">
+        <div class="default text">Bcc</div>
+      </div>
+      <div class="error-message"></div>
+    </div>
+    <div class="field">
+      <%= text_field "subject", "email_subject", placeholder: "Subject", autocomplete: "email-subject" %>
+    </div>
+    <div class="field">
+      <input id="email_body" type="hidden" name="body[email_body]">
+      <trix-editor input="email_body" placeholder="Your message"></trix-editor>
+    </div>
+    <div id="activity-stream-quick-email-status">
+      <!--This is being used in JS method-->
+    </div>
+    <div class="form-group">
+      <%= submit_tag(
+        "Send",
+        class: "ui button submit primary",
+        "data-disable-with": "Sending..."
+      ) %>
+    </div><!-- /.form-group -->
+  <% end %>
+</div>

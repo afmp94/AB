@@ -1,0 +1,30 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0">
+        <h1 class="ui header">
+          <%= link_to("Marketing Center", marketing_center_index_path) %>
+        </h1><!-- /.ui header -->
+        <div class="ui hidden divider"></div>
+        <%= link_to(new_mktcampaign_path, class: "ui button primary") do %>
+          <i class="plus icon"></i>
+          Add a new market campaign
+        <% end %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid index-page-table-grid">
+      <div class="sixteen wide column sticky-black-menu-container">
+        <% if @mktcampaigns.blank? %>
+          <%= render(partial: "mktcampaigns/table/mktcampaigns_empty_table") %>
+        <% else %>
+          <%= render( partial: "mktcampaigns/table/mktcampaigns_table", locals: { mktcampaigns: @mktcampaigns }) %>
+        <% end %>
+      </div><!-- /.ui sixteen wide column -->
+    </div><!-- /.ui stackable grid -->
+  </div><!-- /.ui vertical segment -->
+</div><!-- /.main ui container -->

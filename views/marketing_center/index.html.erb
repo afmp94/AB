@@ -1,0 +1,59 @@
+<% content_for(:demo_button, "marketing-center") %>
+<% breadcrumb(:marketing_center) %>
+<%= page_header(
+  primary_name: "Marketing Center",
+  primary_path: marketing_center_index_path,
+  secondary_name: "This is where you do your work to generate new leads for your business"
+) %>
+<div class="ui main container">
+  <%= render(partial: "marketing_center/navigation_bar") %>
+  <div class="ui stackable grid" data-introjs-step="step151">
+    <% if current_user.goals_entered? %>
+      <%= render(
+        partial: "shared/daily_weekly_progress",
+        locals: { current_goal: @marketing_center_presenter.current_goal }
+      ) %>
+    <% else %>
+      <p>
+        You haven't set any goals yet.
+        <%= link_to("Click here to set them now.", goals_path) %>
+      </p>
+    <% end %>
+    <div class="row">
+      <div class="column">
+        <%= render(
+          partial: "coaching/messages/cards_section",
+          locals: { coaching_messages: local_coaching_messages }
+        ) %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="row" id="main-mk-tab-content" data-introjs-step="step152">
+      <div class="column">
+        <div class="ui top attached tabular menu js-marketing-center-tabs">
+          <a class="item active" data-tab="calls">Calls</a>
+          <a class="item" data-tab="notes">Notes</a>
+          <a class="item" data-tab="visits">Visits</a>
+        </div>
+        <div class="ui bottom attached tab segment active" data-tab="calls">
+          <%= render(
+            partial: "next_calls_list",
+            locals: { upcoming_calls: @marketing_center_presenter.upcoming_calls }
+          ) %>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="notes">
+          <%= render(
+            partial: "next_notes_list",
+            locals: { upcoming_notes: @marketing_center_presenter.upcoming_notes }
+          ) %>
+        </div>
+        <div class="ui bottom attached tab segment" data-tab="visits">
+          <%= render(
+            partial: "next_visits_list",
+            locals: { upcoming_visits: @marketing_center_presenter.upcoming_visits }
+          )%>
+        </div>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+
+  </div><!-- /.ui grid -->
+</div><!-- /.ui main container -->

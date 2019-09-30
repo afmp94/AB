@@ -1,0 +1,14 @@
+<div class="activity_container">
+  <article class="activity">
+  <%= activity_icon("info", "star icon") %>
+    <div class="activity-flat-container">
+      <div class="activity-flat">
+        <%= render 'public_activity/shared/activity_timestamp', activity: activity %>
+        <div class="action">
+          <%= activity_creator(activity) %>
+          <%= activity_subject(activity, action: "sent an email campaign", link: email_campaign_path(activity.trackable.email_campaign)) %>
+        </div><!-- /.action -->
+      </div><!-- /.activity-flat -->
+    </div><!-- /.activity-flat-container -->
+  </article><!-- /.activity -->
+</div><!-- /.activity_container -->

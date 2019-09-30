@@ -1,0 +1,24 @@
+<div id="header-info"  data-introjs-step="step320">
+  <div class="ui very basic left floated compact segment p-a-0">
+    <%= display_avatar(lead, size: :tiny, circular: false) %>
+  </div><!-- /.ui very basic left floated compact segment p-a-0 -->
+  <h1 class="ui header">
+    <div class="content">
+      <div class="sub header"><%= display_header_type(lead) %></div>
+      <%= formatted_lead_name(lead) %>
+      <div class="sub header"><span class="fwb">Email:</span> <%= display_primary_email_address(lead.contact) %></div>
+      <div class="sub header"><span class="fwb">Phone:</span> <%= display_primary_phone_number(lead.contact) %></div>
+      <div class="sub header">
+      <p class="small-meta fsi dim-el m-a-0 team-only">Owned by <%= lead_owner_name(lead) %></p>
+        <small>
+          <%= link_to(
+            "Quick Edit",
+            edit_lead_header_lead_path(lead),
+            id: "edit-lead-header",
+            remote: true
+          ) %>
+        </small>
+      </div><!-- /.sub header -->
+    </div><!-- /.content -->
+  </h1>
+</div>

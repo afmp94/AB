@@ -1,0 +1,16 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        <%= link_to "Business", clients_path %>
+        <div class="sub header"><h2>Edit <%= link_to @lead.name, @lead %></h2></div>
+      </h1>
+      <div class="ui hidden divider"></div>
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical tab segment -->
+<!--END HEADER-->
+
+<div class="ui main container">
+  <%= render(partial: 'form') %>
+</div>

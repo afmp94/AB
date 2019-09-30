@@ -1,0 +1,15 @@
+<% if @actual_error.present? %>
+  <b>Error in Stripe Event:</b>
+
+  <pre>
+    <%= @actual_error %>
+  </pre>
+
+  </br>
+<% end %>
+
+<b>Stripe Event Metadata:</b>
+
+<pre>
+  <%= @event_metadata.inspect %>
+</pre>

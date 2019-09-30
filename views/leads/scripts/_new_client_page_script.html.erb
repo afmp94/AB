@@ -1,0 +1,76 @@
+<% content_for :javascript do %>
+  <script>
+    dynamically_display_commission_referral_fields();
+
+    $('#lead_contact_id').change(function() {
+      var contactId = $('#lead_contact_id').val();
+      if (contactId == '')
+      {
+        $('#new-seller-client-contact-missing').html("<div class='error-message' id='new-seller-client-contact-missing'>Please select a contact first.</div>");
+      }
+      else
+      {
+        $('#new-seller-client-contact-missing').html("<div id='new-seller-client-contact-missing'></div>");
+      }
+    });
+
+    $('#new-seller-client-contact-address-checkbox').change(function() {
+      var contactId = $('#lead_contact_id').val();
+      if ((contactId == '') && ($('#new-seller-client-contact-address-checkbox').prop( "checked" ) == false))
+      {
+        $('#new-seller-client-contact-missing').html("<div class='error-message' id='new-seller-client-contact-missing'>Please select a contact first.</div>");
+        $('#new-seller-client-contact-address-checkbox').prop('checked', false);
+        $('#lead_properties_attributes_1_address_attributes_street').val('');
+        $('#lead_properties_attributes_1_address_attributes_city').val('');
+        $('#lead_properties_attributes_1_address_attributes_state').val('');
+        $('#lead_properties_attributes_1_address_attributes_zip').val('');
+      }
+      else if ($('#new-seller-client-contact-address-checkbox').prop( "checked" ) == false)
+      {
+        $('#lead_properties_attributes_1_address_attributes_street').val('');
+        $('#lead_properties_attributes_1_address_attributes_city').val('');
+        $('#lead_properties_attributes_1_address_attributes_state').val('');
+        $('#lead_properties_attributes_1_address_attributes_zip').val('');
+      }
+      else if (contactId == '')
+      {
+        $('#new-seller-client-contact-address-checkbox').prop('checked', false);
+        $('#new-seller-client-contact-missing').html("<div class='error-message' id='new-seller-client-contact-missing'>Please select a contact first.</div>");
+      }
+      else
+      {
+        var retrieveContactAddress = $.post(
+          "<%= fetch_contact_address_with_jquery_path %>" ,
+          { contact_id: contactId }
+        );
+        retrieveContactAddress.always(function() {
+          var addressInfo = retrieveContactAddress.responseText;
+          var addressArray = addressInfo.split('*****');
+          var streetPresence = addressArray[0]
+          if (addressArray[0] == ' present ')
+          {
+            addressVal = $.trim(addressArray[1]);
+            $('#lead_properties_attributes_1_address_attributes_street').val(addressVal);
+          }
+          if (addressArray[2] == ' present ')
+          {
+            cityVal = $.trim(addressArray[3]);
+            $('#lead_properties_attributes_1_address_attributes_city').val(cityVal);
+          }
+          if (addressArray[4] == ' present ')
+          {
+            stateVal = $.trim(addressArray[5]).toUpperCase();
+            $('#lead_properties_attributes_1_address_attributes_state').val(stateVal);
+          }
+          if (addressArray[6] == ' present ')
+          {
+            zipVal = $.trim(addressArray[7]);
+            $('#lead_properties_attributes_1_address_attributes_zip').val(zipVal);
+          }
+
+        });
+      }
+    });
+
+  </script>
+<% end %>

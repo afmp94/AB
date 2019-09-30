@@ -1,0 +1,62 @@
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon dividing header">
+      <i class="sort content descending icon"></i>
+      <div class="content">
+        Rank your contacts
+        <div class="sub header"></div><!-- /.sub header -->
+      </div><!-- /.content -->
+    </h2><!-- /.ui icon dividing header -->
+    <p>Your Contacts are your most important asset to growing your Real Estate business.&nbsp;&nbsp;By ranking contacts on how strong they are for your business, we will help you keep them strong or put them on a path for improvement. </p>
+    <% if @user.contacts.present? %>
+      <%= simple_form_for(
+        @user,
+        url: wizard_path,
+        method: :put,
+        html: { class: "ui form" },
+        remote: true
+      ) do |f| %>
+        <%= f.hidden_field :id %>
+        <div class="ui vertical basic segment">
+          <div class="ui search">
+            <div class="ui big icon input">
+              <input data-behavior="search-top-contacts"
+                     class="prompt"
+                     type="text"
+                     placeholder="Search top contacts..."
+                     autocomplete="off"
+                     data-autocomplete-source="<%= search_top_contacts_path %>"
+                     />
+              <i class="search icon"></i>
+            </div><!-- /.ui icon input -->
+            <div class="results"></div>
+          </div><!-- /.ui search -->
+        </div><!-- /.ui vertical basic segment -->
+        <div id="grading-and-graded-container">
+          <div id="contacts-grading-container">
+            <%= render(
+              partial: "profile_steps/rank_contacts/contact_grader",
+              locals: { no_contact_text: "" }
+            ) %>
+          </div><!-- /#contacts-grading-container -->
+          </br>
+          <%= skip_link_for_rank_top_contacts_step %>
+          <%= next_link_for_rank_top_contacts_step(showable_enough_graded_contacts_message?) %>
+          <br>
+          <div class="ui hidden divider"></div>
+          <div id="graded-contacts-list">
+            <%= render(
+              partial: "contacts/graded_contacts",
+              locals: { graded_contacts: @graded_contacts }
+            ) %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="ui message">
+        <p>Please import your contacts first!</p>
+      </div><!-- /.ui message -->
+      <%= skip_link_for_rank_top_contacts_step %>
+    <% end %>
+  </div><!-- /.ui segment -->
+<% end %>

@@ -1,0 +1,73 @@
+<% content_for(:title, "Other Information") %>
+
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon dividing header">
+      <i class="photo icon"></i>
+      <div class="content">
+        Upload your headshot
+        <div class="sub header"></div><!-- /.content -->
+    </h2><!-- /.ui header -->
+    <p>Your headshot is the keystone of building your personal brand.&nbsp;&nbsp;Upload it now to include in your Marketing correspondence.</p><!-- /.sub header -->
+    <%= simple_form_for(
+      @user,
+      url: wizard_path,
+      method: :put,
+      remote: true
+    ) do |f| %>
+      <%= f.hidden_field(:id) %>
+
+      <p class="fsi">Image should be at least 180px x 180px</p>
+
+      <div class="ab-image-upload <%= display_fileinput_class(@user.profile_image) %>">
+        <img src="<%= current_user.profile_image_url %>" class="ui small rounded image ab-image-exists" data-image="profile" />
+        <img src="http://placehold.it/180" class="ui small rounded image ab-placeholder-image hidden" data-image="no-image" />
+      </div><!-- /.ab-image-upload -->
+
+      <div class="ui mini negative icon button m-y" data-behavior="remove-profile-image" style="<%= @user.profile_image ? '' : 'display:none' %>">
+        <i class="trash icon"></i>
+        Remove
+      </div><!--/.ui button -->
+
+      <%= hidden_field_tag(:remove_profile_image, true, disabled: true) %>
+      <div id="remove_profile_image_message" class="remove-profile-image-message" style="display:none;color:red;margin-bottom:10px">
+        Your profile photo has selected to remove. Please continue to proceed.
+      </div>
+
+      <div class="field">
+        <label>Select a file:</label>
+        <div class="ui fluid file input action" data-ui-behavior="file-upload">
+          <input type="text" readonly />
+          <%= file_field_tag(
+            "image[file]",
+            data: {
+              behavior: "profile-image-uploader",
+              url: images_path(profile_image: true),
+              "sequential-uploads": true,
+              "data-type": "json",
+              "type": "POST",
+              "limit-concurrent-uploads": 1
+            }
+          ) %>
+          <div class="ui button">
+            Select...
+          </div><!-- /.ui button -->
+        </div><!-- /.ui fluid file input action -->
+      </div><!-- /.field -->
+      <%= hidden_field_tag(
+        :profile_image_id,
+        f.object.profile_image.try(:id),
+        data: { behavior: "attach-hidden-field" }
+      ) %>
+
+      <div class="ui inverted dimmer" data-ui-behavior="loader">
+        <div class="ui indeterminate text loader">Uploading...</div>
+      </div>
+      <%= f.button(
+        :submit,
+        value: "Next",
+        class: "ui primary button"
+      ) %>
+    <% end %>
+  </div><!-- /.ui segment -->
+<% end %>

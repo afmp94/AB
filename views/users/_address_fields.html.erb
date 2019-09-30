@@ -1,0 +1,31 @@
+
+<div class="field">
+  <%= form.input(:billing_organization) %>
+</div>
+<div class="field">
+  <%= form.input(:billing_address) %>
+</div>
+<div class="field">
+  <%= form.input(:billing_address_2) %>
+</div>
+<div class="row">
+  <div class="two fields">
+    <div class="field">
+      <%= form.input(:billing_city) %>
+    </div>
+    <div class="field">
+      <%= form.input(:billing_state) %>
+    </div>
+  </div>
+</div><!-- /.row -->
+<div class="row">
+  <div class="two fields">
+      <%= form.input(:billing_zip_code) %>
+      <%= form.input(
+        :billing_country,
+        wrapper: :vertical_select,
+        priority: ["United States"],
+        :selected => "US"
+      ) %>
+  </div>
+</div><!-- /.row -->

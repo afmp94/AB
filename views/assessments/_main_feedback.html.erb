@@ -1,0 +1,16 @@
+<% if score_percentage > 90 %>
+  <span class="fwb">Your business is excellent</span>
+  <div class="sub header">
+    <h2>You are doing a fantastic job running your real estate business!</h2>
+  </div><!-- /.sub header -->
+<% elsif score_percentage > 50 %>
+  <span class="fwb">Your business is solid.</span>
+  <div class="sub header">
+    <h2>Not bad! Let's see how we can go to the next level.</h2>
+  </div><!-- /.sub header -->
+<% else %>
+  <span class="fwb">Time to review your processes</span>
+  <div class="sub header">
+    <h2>You have a lot of room for improvement. Let's take some time to review your business processes.</h2>
+  </div><!-- /.sub header -->
+<% end %>

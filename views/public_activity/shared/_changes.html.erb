@@ -1,0 +1,26 @@
+<% #NOTE: need to move these logics from the view part and put somewhere in the helper %>
+
+<% changes_service = Activity::ActivityChangesService.new(activity) %>
+<% if changes_service.activity_updates.present? %>
+  <% changes_service.activity_changes do |title, from, to| %>
+    <% formatted_data =  Activity::ActivityFormatterService.format(title, from, to) %>
+    <% title, from, to =  formatted_data if formatted_data.present? %>
+    <% if to == "Deleted" || to == "" %>
+      <span class="fwb"><%= title.gsub(/\d/, '') %>:</span>
+      <del><%= from %></del><br>
+    <% elsif title == 'Completed' && to == 'False' %>
+
+    <% elsif to == from %>
+
+    <% else %>
+      <span class="fwb"><%= title.gsub(/\d/, '') %>:</span>
+      <span class="fsi">
+        <% if from.blank? %>
+          <%= to %>
+        <% else %>
+          <del><%= from %></del> → <%= to %>
+        <% end %>
+      </span><br />
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,94 @@
+  <container>
+    <row>
+      <columns large="8">
+  <div id="campaign-preview-title">
+    <h1 class="header" style="text-align: center;">
+      Market Report for <%= @report.location_name %>
+    </h1>
+  </div>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <p>Average Asking Price</p>
+      <h1><%= num_to_currency_truncated(@report.average_list_price) %></h1>
+      <p>
+        Median for Sale Price: <strong><%= num_to_currency_truncated(@report.median_list_price) %></strong><br />
+        Median Sold Price: <strong><%= num_to_currency_truncated(@report.median_sales_price) %></strong>
+      </p>
+      <h3>For Sale:</h3>
+      <p>
+        Highest: <strong>__$399,000</strong><br />
+        Lowest: <strong>__$156,166</strong><br />
+        Average: <strong><%= num_to_currency(@report.average_list_price) %></strong><br />
+      </p>
+      <h3>Sold:</h3>
+      <p>
+        Highest: <strong>__$350,000</strong><br />
+        Lowest: <strong>__$161,500</strong><br />
+        Average: <strong><%= num_to_currency(@report.average_sales_price) %></strong><br />
+      </p>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <p>Average Sold Price</p>
+      <h1><%= @report.sold_price_ratio_difference.abs %>% <%= @report.sold_price_ratio_difference_word %> asking price</h1>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <p>Average Days on Market</p>
+      <h1>__99 days</h1>
+      <h3>For Sale:</h3>
+      <p>
+        Total: <strong>__28</strong><br />
+        Shortest: <strong>__1</strong><br />
+        Longest: <strong>__383</strong><br />
+        Average: <strong><%= @report.average_days_on_market_listings %></strong><br />
+      </p>
+      <h3>Sold:</h3>
+      <p>
+       Total: <strong>8</strong><br />
+        Shortest: <strong>__28</strong><br />
+        Longest: <strong>__303</strong><br />
+        Average: <strong><%= @report.average_days_on_market_sold %></strong><br />
+      </p>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <p>Homes for Sale</p>
+      <h1>__33% increase in inventory</h1>
+      <p>
+        Inventory: <strong>__Up 33%</strong><br />
+        New Listings: <strong><%= @report.number_of_new_listings %></strong><br />
+        Sold Listings: <strong><%= @report.number_of_sales %></strong><br />
+        Months of Inventory: <strong>__9.4</strong><br />
+      </p>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <h3>Snapshot</h3>
+      <p>
+        New For Sale: <strong><%= @report.number_of_new_listings %></strong><br />
+        For Sale: <strong>23</strong><br />
+        Sold: <strong><%= @report.number_of_sales %></strong><br />
+        Pending: <strong>__1</strong><br />
+        Expired/Cancelled: <strong>__3</strong><br />
+      </p>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <p>Report current as of <%= @report.report_date_at.end_of_month.to_s(:short_date) %></p>
+    </row>
+  </container>
+

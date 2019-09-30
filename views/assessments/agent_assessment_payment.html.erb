@@ -1,0 +1,253 @@
+<div class="ui inverted vertical masthead center aligned segment">
+  <%= render partial: "assessments/header_with_gauge" %>
+  <div class="ui stackable grid m-t-lg">
+    <div class="two column row p-b-0">
+      <div class="column">
+        <h1 class="ui inverted header"><i class="big red bullseye icon"></i>The Goal</h1><!-- /.ui header -->
+        <div class="progress-report">
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= number_to_currency(@survey_result.desired_annual_income, precision: 0)%>
+              </div>
+              <div class="label">
+                <h2>Income</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= @survey_result.annual_transaction_goal&.round %>
+              </div>
+              <div class="label">
+                <h2>Number of Transactions</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= number_to_currency(@survey_result.gross_sales_volume, precision: 0) %>
+              </div>
+              <div class="label">
+                <h2>Gross Sales Volume</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+        </div><!-- /.progress-report -->
+      </div><!-- /.column -->
+      <div class="column">
+        <h1 class="ui inverted header"><i class="huge green settings icon"></i>The Process</h1><!-- /.ui header -->
+        <%= render partial: "assessments/process_progress_bars" %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="two column center aligned row p-t-0">
+      <div class="column">
+        <div class="ui segment inverted text container p-a-lg">
+          <font size="+2"><p>Goal-setting is scientifically proven to improve performance and achievement. Let's take your big annual goal, and break it all the way down into daily and weekly tasks.</p>
+          <p>We help you figure out what you need to do, to make your desired income goal.</p></font>
+        </div><!-- /.ui segment text container -->
+      </div><!-- /.column -->
+      <div class="column">
+        <div class="ui segment inverted text container p-a-lg">
+           <font size="+2"><p>As a real estate agent, to be successful, you need to keep on your game with balance, consistency and focus.  </p>
+          <p>Based on your survey results, we help you identify the areas that you are up-to-date with best practices and highlight areas that need improvement.</p></font>
+        </div><!-- /.ui segment text container -->
+      </div><!-- /.column -->
+    </div><!-- /.row -->>
+    <div class="center aligned row m-b-lg">
+      <div class="column">
+        <div class="ui text container main-score">
+          <font size="+2"><p>We help you figure out <i>how</i> to make your goal happen and <i>how</i> to manage your business consistently with latest best practices, tools and technologies.</p></font>
+        </div>
+      </div>
+    </div><!-- /.row -->
+    <% if current_user %>
+      <div class="center aligned row m-b-lg">
+        <div class="column">
+          <%= link_to( "Log out", destroy_user_session_path, method: :delete, class: "positive massive ui button") %> <%= link_to("Back to Dashboard", dashboard_path, class: "positive massive ui button") %></p>
+        </div>
+      </div>
+    <% end %>
+  </div><!-- /.ui grid -->
+</div>
+
+<div class="ui vertical masthead center aligned segment">
+  <% if !@survey_result.ordered_full_report? %>
+    <div class="ui green inverted segment">
+      <h2>Complete details below to purchase your full report for $49</h2>
+    </div>
+  <% end %>
+  <div class="center-aligned sub header">
+    <h2>Include actions and recommendations for advancing your real estate business to the next level.</h2>
+  </div><!-- /.sub header -->
+</div>
+
+<% if !@survey_result.ordered_full_report? %>
+  <div class="main ui container assessment-payment-section">
+    <div class="ui vertical basic segment">
+      <div class="ui centered grid">
+        <div class="column">
+          <%= simple_form_for(
+            @user,
+            url: purchase_assessment_path,
+            method: :put,
+            html: {
+              class: "ui form credit_card",
+              data: {
+                mobile_app_forced_form: request_from_mobile_app?,
+                form: "stripe_form"
+              }
+            }
+          ) do |f| %>
+            <%= hidden_field_tag :survey_token, @survey_result.survey_token %>
+            <h4 class="ui dividing header">Account Info</h4>
+            <div class="margin-bottom-6 red-color">
+              <% f.object.errors.full_messages.each do |error| %>
+                <span><%= error %></span>
+                <br />
+              <% end %>
+            </div>
+            <div class="field">
+              <label>Name</label>
+              <p><%= @survey_result.first_name %> <%= @survey_result.last_name %></p>
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <p><%= @survey_result.email %></p>
+            </div>
+            <% if !current_user.present? %>
+              <div class="field">
+                <label>Password</label>
+                <%= f.input_field :password %>
+              </div>
+              <div class="field">
+                <label>Confirm Password</label>
+                <%= f.input_field :password_confirmation %>
+              </div>
+            <% end %>
+            <h4 class="ui dividing header">Payment Information</h4>
+            <div class="margin-bottom-6 red-color" data-behavior="card-errors"></div>
+            <% if @stripe_customer.present? && !@stripe_customer.cards.data.first.nil? %>
+              <%= f.hidden_field :stripe_customer_id, value: @stripe_customer.id  %>
+              <div class="margin-bottom-6 green-color">
+                <span style="color:green"><strong> Your card is saved </strong> </span>
+              </div>
+            <% else %>
+              <div class="fields">
+                <div class="twelve wide field">
+                  <label>Card Number</label>
+                  <input type="text" size="20" autocomplete="off" id="card-number" data-stripe-validate="card-number" data-info="card-number"/>
+                </div><!-- /.field -->
+                <div id="checkout_cvc_input" class="four wide field stripe">
+                  <label for="card-cvc">CVC</label>
+                  <input type="text" size="4" autocomplete="off" id="card-cvc" maxlength="3" data-info="card-cvc"/>
+                </div>
+              </div><!-- /.fields -->
+              <div class="fields">
+                <div id="checkout_expiration_input" class="stripe ten wide field ">
+                  <label>Expiration</label>
+                  <div class="two fields">
+                    <div class="field">
+                      <select id="date_month" name="date[month]" class="select ui fluid dropdown" data-info="card-expiry-month">
+                        <option value="">Month</option>
+                        <option value="1">1 - January</option>
+                        <option value="2">2 - February</option>
+                        <option value="3">3 - March</option>
+                        <option value="4">4 - April</option>
+                        <option value="5">5 - May</option>
+                        <option value="6">6 - June</option>
+                        <option value="7">7 - July</option>
+                        <option value="8">8 - August</option>
+                        <option value="9">9 - September</option>
+                        <option value="10">10 - October</option>
+                        <option value="11">11 - November</option>
+                        <option value="12">12 - December</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <select id="date_year" name="date[year]" class="select ui fluid dropdown" data-info="card-expiry-year">
+                        <option value="">Year</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                      </select>
+                    </div>
+                  </div><!-- /.row -->
+                </div>
+                <div class="six wide field">
+                  <label>Billing Zip Code</label>
+                  <%= f.input_field :zip %>
+                </div>
+              </div>
+            <% end %>
+            <div class="m-t-md">
+              <%= f.button(
+                :submit,
+                value: "Order full report",
+                class: "ui green button",
+                data: { behavior: "submit-button" , "disable-with":  "Ordering.."}
+              ) %>
+            </div><!-- /.row -->
+          <% end %>
+        </div><!-- /.column -->
+      </div><!-- /.ui centered grid -->
+    </div><!-- /.ui vertical basic segment -->
+  </div><!-- /.main ui container -->
+<% else %>
+  <div class="row">
+    <div class="new-record-wrapper line active">
+      <%= simple_form_for(
+        resource,
+        as: resource_name,
+        url: session_path(resource_name),
+        html: { class: "new-record below48 form-signin", autocomplete: "on" }
+      ) do |f| %>
+        <%= f.input(
+          :email,
+          wrapper: :login,
+          label: false,
+          placeholder: "Email Address"
+        ) %>
+        <%= f.input(
+          :password,
+          wrapper: :login,
+          label: false,
+          placeholder: "Password"
+        ) %>
+
+        <% if devise_mapping.rememberable? %>
+          <%= f.input(:remember_me, as: :boolean) %>
+        <% end %>
+        <div class="lastUnit col-xs-12 below36 btn-form">
+          <%= f.button(
+            :submit,
+            class: "ui primary button",
+            value: "Sign in",
+            "data-loading-text" => "Signing in.."
+          ) %>
+        </div>
+
+        <div class="alignc">
+          <%= render(partial: "users/shared/links") %>
+        </div>
+
+        <div class="login-footer">
+          <a href="http://www.agentbright.com">
+            <div class="footer-logo"></div>
+          </a>
+          <span class="dim-el"> ©2010-<%= Time.zone.now.strftime("%Y") %> All Rights Reserved. <a rel="noopener noreferrer" href="https://www.agentbright.com/terms-of-service" target="_blank" tabindex="-1">Terms of Service</a> and <a rel="noopener noreferrer" href="https://www.iubenda.com/privacy-policy/7900045 target="_blank" tabindex="-1">Privacy Policy</a></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

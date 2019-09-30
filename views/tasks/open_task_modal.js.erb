@@ -1,0 +1,81 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("tasks/modals/new_task", { task: @task, task_carrier: @task_carrier }) %>');
+
+SCA.init();
+SLA.init();
+VTF.validate();
+
+$(document).on("change", "[data-behavior='task-associated'] input:radio", function(){
+  if($(this).val() === "Contact") {
+    $("#task_taskable_id_contact").prop("disabled", false);
+    $("#task_taskable_id_contact").parents(".select.task_taskable").show();
+
+    $("#task_is_next_action").prop("disabled", true);
+    $("#task_is_next_action").parents(".checkbox.below24").hide();
+
+    $("#task_taskable_id_lead").prop("disabled", true);
+    $("#task_taskable_id_lead").parents(".select.task_taskable").hide();
+
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='Contact' />");
+  }
+
+  if($(this).val() === "Lead/Client") {
+    $("#task_taskable_id_lead").prop("disabled", false);
+    $("#task_taskable_id_lead").parents(".select.task_taskable").show();
+
+    $("#task_is_next_action").prop("disabled", false);
+    $("#task_is_next_action").parents(".checkbox.below24").show();
+
+    $("#task_taskable_id_contact").prop("disabled", true);
+    $("#task_taskable_id_contact").parents(".select.task_taskable").hide();
+
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='Lead' />");
+  }
+
+  if($(this).val() === "None") {
+    $("#task_taskable_id_contact").prop("disabled", true);
+    $("#task_taskable_id_lead").prop("disabled", true);
+
+    $("#task_is_next_action").prop("disabled", true);
+    $("#task_is_next_action").parents(".checkbox.below24").hide();
+
+    $("#task_taskable_id_contact").parents(".select.task_taskable").hide();
+    $("#task_taskable_id_lead").parents(".select.task_taskable").hide();
+
+    $("[data-info='taskable_id']").val("");
+
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='None' />");
+  }
+});
+
+$(document).on("change", ".task_taskable select", function(){
+  var taskableId = $(this).val();
+
+  $("[data-info='taskable_id']").val(taskableId);
+
+  $("#dashboard-new-task-modal-association-id-div").html("<input id='dashboard-new-task-modal-association-id-val' type='hidden' value= " + taskableId + " />");
+});
+
+document.addEventListener('turbolinks:load', function() {
+  var taskID = $("[data-info~=taskable_id]").val();
+  var taskType = $('input[name="task[taskable_type]"]:checked').val();
+
+  if (taskType === "Contact") {
+    $("#task_taskable_id_contact").val(taskID);
+    $("#task_taskable_id_lead").prop("disabled", true);
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='Contact' />");
+  }
+
+  if (taskType === "Lead/Client") {
+    $("#task_taskable_id_lead").val(taskID);
+    $("#task_taskable_id_contact").prop("disabled", true);
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='Lead' />");
+  }
+
+  if (taskType === "None") {
+    $("#task_taskable_id_lead").prop("disabled", true);
+    $("#task_taskable_id_contact").prop("disabled", true);
+    $("#dashboard-new-task-modal-association-type-div").html("<input id='dashboard-new-task-modal-association-type-val' type='hidden' value='None' />");
+  }
+});

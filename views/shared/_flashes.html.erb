@@ -1,0 +1,28 @@
+<% unless flash.empty? %>
+  <% content_for :javascript do %>
+    <script type="text/javascript">
+      toastr.options = {
+        'closeButton': 'true',
+        'closeHtml': '<button class="ui icon button"><i class="close icon"></i></button>',
+        'debug': false,
+        'positionClass': 'toast-top-right',
+        'progressBar': 'true',
+        'onclick': null,
+        'showDuration': '300',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'fadeIn',
+        'hideMethod': 'fadeOut'
+      };
+
+      <% flash.each do |level, message| %>
+        console.log("each flash");
+        <% type = level.to_s.gsub("danger", "error").gsub("alert", "error").gsub("notice", "success") %>
+        toastr["<%= type %>"]("<%= message %>");
+      <% end %>
+    </script>
+  <% end %>
+<% end %>

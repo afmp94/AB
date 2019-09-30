@@ -1,0 +1,103 @@
+<div class="item">
+  <i class="dropdown icon hide-tablet-and-up"></i>
+  <div class="header">My Business</div>
+  <div class="menu">
+    <% if current_user.broker? %>
+      <%= list_item_link("Organization", broker_organization_path) %>
+    <% end %>
+
+    <%= list_item_link("Agent Profile", edit_profile_path) %>
+    <% if super_admin_signed_in? %>
+      <%= list_item_link("Personal Links", edit_personal_links_path) %>
+    <% end %>
+    <%= list_item_link("#{current_user.survey_result.nil? ? "Take Survey" : "Survey Results" }", assessment_path, false, target: :_blank) %>
+    <%= link_to("Goals", goals_path, class:"item", data: { trail: breadcrumb_trail }) %>
+    <%= list_item_link("Commission", edit_commission_split_path) %>
+  </div>
+</div>
+<div class="item">
+  <i class="dropdown icon hide-tablet-and-up"></i>
+  <div class="header">Connections</div>
+  <div class="menu">
+    <%= list_item_link("Upload Contacts",new_upload_contact_path) %>
+    <% unless request_from_ios? %>
+      <%= list_item_link("Email", edit_integrations_path ) %>
+    <% end %>
+    <%= list_item_link("Calendar", edit_calendar_settings_path ) %>
+    <%= list_item_link(
+      "Lead Public Link",
+      quicklink_user_settings_lead_settings_path,
+      false,
+      class: "hide-tablet-and-down"
+    ) %>
+    <% if show_beta_features? %>
+      <%= list_item_link("Integrations", edit_third_party_integrations_path ) %>
+      <%= list_item_link("Social", "#") %>
+    <% end %>
+    <%= list_item_link("Email Tracking", user_settings_email_campaigns_path) %>
+    <% if downloadable_mobile_app?  %>
+      <%= list_item_link("Download Mobile App", mobile_app_path) %>
+    <% end %>
+    <% if show_beta_features? %>
+      <%= list_item_link("SMS Messaging", edit_user_settings_phone_number_settings_path ) %>
+    <% end %>
+  </div>
+</div>
+
+<div class="item">
+  <i class="dropdown icon hide-tablet-and-up"></i>
+  <div class="header">Notifications</div>
+  <div class="menu">
+    <%= list_item_link(
+      "General Notifications",
+      user_settings_general_notifications_path,
+      false,
+      "data-turbolinks-action": "replace"
+    ) %>
+    <%= list_item_link("Lead Notifications", lead_notifications_user_settings_lead_settings_path) %>
+    <%= list_item_link("Lead Sources", lead_services_user_settings_lead_settings_path ) %>
+  </div>
+</div>
+<div class="item">
+  <i class="dropdown icon hide-tablet-and-up"></i>
+  <div class="header">Team</div>
+  <div class="menu">
+    <%= list_item_link("Lead sharing", user_settings_lead_groups_path ) %>
+    <%= list_item_link("Teammates", user_settings_teams_path ) %>
+  </div>
+</div>
+<div class="item">
+  <i class="dropdown icon hide-tablet-and-up"></i>
+  <div class="header">Account Settings</div>
+  <div class="menu">
+    <%= list_item_link("Tags", user_settings_tags_path ) %>
+    <%= list_item_link("Away Settings",away_settings_user_settings_lead_settings_path) %>
+    <%= list_item_link("Password", edit_user_registration_path) %>
+    <%= list_item_link("Billing", billing_path) %>
+  </div>
+</div>
+<% if current_user.broker? %>
+  <div class="item">
+    <i class="dropdown icon hide-tablet-and-up"></i>
+    <div class="header">Brokers</div>
+    <div class="menu">
+      <%= list_item_link("Profile", broker_organization_path(anchor: "organization-info")) %>
+      <%= list_item_link("Offices", broker_organization_path(anchor: "offices")) %>
+      <%= list_item_link("Agents", broker_agents_path) %>
+      <%= list_item_link("Broker Reports", broker_organization_path(anchor: "broker-reports")) %>
+    </div>
+  </div>
+  <div class="item">
+    <i class="dropdown icon hide-tablet-and-up"></i>
+    <div class="header">Admin</div>
+    <div class="menu">
+      <%= nav_link("FullContact", single_api_report_dashboard_path(api: "fullcontact"), title: "FullContact")%>
+      <%= nav_link("Kimono", single_api_report_dashboard_path(api: "kimono"), title: "Kimono") %>
+      <%= nav_link("NylasApp", single_api_report_dashboard_path(api: "nylasapp"), title: "NylasApp") %>
+      <%= nav_link("Mailgun", single_api_report_dashboard_path(api: "mailgun"), title: "Mailgun")%>
+      <%= nav_link("Twilio", single_api_report_dashboard_path(api: "twilio"), title: "Twilio") %>
+      <%= nav_link("Stripe", single_api_report_dashboard_path(api: "stripe"), title: "Stripe")  %>
+      <%= nav_link("Stripe - Hooks", single_api_report_dashboard_path(api: "stripe.webhook"), title: "Stripe - Hooks") %>
+    </div>
+  </div>
+<% end %>

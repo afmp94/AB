@@ -1,0 +1,72 @@
+<!--HEADER-->
+<div class="row">
+  <div class="lastUnit col-sm-12 header">
+    <div class="record-title">
+      </span>
+      <div class="record-name">
+        <div class="col-xs-12 nopadding">
+              <h2><%= @mktcampaign.name %></h2>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--END HEADER-->
+<!--MENU BAR-->
+<div class="row">
+  <div class="line local-nav-container">
+    <div class="lastUnit col-xs-12 below36">
+      <p class="mobile-top-nav nomargin full-width fwb">
+        <a href="#" data-toggle="collapse" data-target="#menu-nav-1" data-no-turbolink>Navigation</a>
+      </p>
+      <div class="collapse navbar-collapse" id="menu-nav-1">
+        <ul class="local-nav clearfix">
+          <li>
+            <a href="#">Add</a>
+          </li>
+          <li>
+            <a href="#">Log New Activity</a>
+          </li>
+          <li>
+            <a href="#">Send Email</a>
+          </li>
+          <li class="">
+            <a href="#">New Business</a>
+          </li>
+          <li class="">
+            <a href="#">Send Campaign</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!--END MENU BAR-->
+
+
+
+<!--HEADER-->
+<div class="row">
+  <div class="lastUnit col-sm-12 header">
+    <div class="record-title">
+      <div class="record-name">
+        <div class="col-xs-12 nopadding">
+
+          <p>Campaign Type: <%= (@mktcampaign.media.media_type) %></p>
+          <p>Start Date: <%= (@mktcampaign.start_date_at_format) %></p>
+          <p>End Date: <%= @mktcampaign.end_date_at_format  %></p>
+          <p>Cost: <%= number_to_currency(@mktcampaign.cost)   %></p>
+          <p>Frequency: <%= @mktcampaign.frequency_to_s %></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        <div class="lastUnit col-xs-12 below24 btn-form">
+        <%= link_to 'Edit', edit_mktcampaign_path(@mktcampaign) %> |
+        <%= link_to "Cancel", mktcampaigns_path %>
+      </div>
+
+<!--END HEADER-->

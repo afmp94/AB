@@ -1,0 +1,12 @@
+<% breadcrumb(:edit_third_party_integrations) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Third Party Integrations",
+    secondary_name: "Connections"
+  }
+) do %>
+  <%= render(
+    partial: "profiles/integration_settings",
+  ) %>
+<% end %>

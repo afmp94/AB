@@ -1,0 +1,2 @@
+$('#buyer-client-contract-section-form').remove();
+$('#edit-buyer-client-contract').show().after('<%= j render("leads/buyer_client/contract_section", { lead: lead }) %>');

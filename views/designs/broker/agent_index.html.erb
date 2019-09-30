@@ -1,0 +1,91 @@
+<%# breadcrumb(:team_teammates) %>
+<!-- SIDEBAR MENU -->
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Agents",
+    secondary_name: "Broker"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">Agents</h2>
+  <%= link_to(broker_agent_design_edit_path, class: "ui primary icon button") do %>
+    <i class="plus icon"></i>
+    Add New Agent Account
+  <% end %>
+
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Agent</th>
+        <th>Status</th>
+        <th>Office</th>
+        <th>Last Signed In</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="breakword">
+          <a href="#" class="fwb">John Smith</a><br />
+          john@example.com<br />
+          860-645-3433
+        </td>
+        <td>
+          <div class="ui green label">Active</div>
+        </td>
+        <td>
+          Madison
+        </td>
+        <td>
+          2/1/18
+        </td>
+        <td class="collapsing">
+          <div class="ui primary basic button">Edit</div>
+          <div class="ui red basic icon button"><i class="ui trash icon"></i></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">
+          <a href="#" class="fwb">John Smith</a><br />
+          john@example.com<br />
+          860-645-3433
+        </td>
+        <td>
+          <div class="ui yellow label">Pending Invite</div>
+          <p><a href="#">Resend invitation email</a></p>
+        </td>
+        <td>
+          Essex
+        </td>
+        <td>
+          2/1/18
+        </td>
+        <td class="collapsing">
+          <div class="ui primary basic button">Edit</div>
+          <div class="ui red basic icon button"><i class="ui trash icon"></i></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">
+          <a href="#" class="fwb">John Smith</a><br />
+          john@example.com<br />
+          860-645-3433
+        </td>
+        <td>
+          <div class="ui red label">Inactive</div>
+        </td>
+        <td>
+          Essex
+        </td>
+        <td>
+          2/1/18
+        </td>
+        <td class="collapsing">
+          <div class="ui primary basic button">Edit</div>
+          <div class="ui red basic icon button"><i class="ui trash icon"></i></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

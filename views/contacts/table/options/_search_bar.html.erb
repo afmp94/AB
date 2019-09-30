@@ -1,0 +1,30 @@
+<div class="ab-search-bar-header">
+  <div class="ab-search-bar-header-left">
+    <div class="ui icon fluid input">
+      <input class="prompt" type="search" placeholder="Search contacts..." id="contacts-search-input" data-search-url="<%= search_contacts_path %>">
+      <i class="search icon"></i>
+    </div>
+  </div><!-- /.ab-search-bar-header-left -->
+
+  <div class="ab-search-bar-header-right">
+    <div class="ab-search-bar-header__sort-container">
+      <div class="ui selection dropdown basic button ab-search-bar-header__sort-dropdown" data-ui-behavior="dropdown-sort-contacts" id="contacts-btn-group-order-by" data-value="first_name asc">
+        Sort by:
+        <div class="default text" data-value="first_name asc">First Name</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Sort contacts by</div><!-- /.header -->
+          <div class="disabled item" data-value="recommended">Recommended</div><!-- /.item -->
+          <div class="item" data-value="created_at desc">Most Recent</div><!-- /.item -->
+          <div class="item" data-value="created_at asc">Least Recent</div><!-- /.item -->
+          <div class="disabled item" data-value="most_contacted asc">Most Contacted</div><!-- /.item -->
+          <div class="disabled item" data-value="least_contacted asc">Least Contacted</div><!-- /.item -->
+          <div class="item" data-value="first_name asc">First Name</div><!-- /.item -->
+          <div class="item" data-value="first_name desc">First Name (Z-A)</div><!-- /.item -->
+          <div class="item" data-value="last_name asc">Last Name</div><!-- /.item -->
+          <div class="item" data-value="last_name desc">Last Name (Z-A)</div><!-- /.item -->
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown button -->
+    </div><!-- /.p-l -->
+  </div><!-- /.ab-search-bar-header-right -->
+</div><!-- /.ab-search-bar-header -->

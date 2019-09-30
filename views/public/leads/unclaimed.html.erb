@@ -1,0 +1,116 @@
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <div class="ui very basic compact left floated segment p-a-0">
+        <%= display_avatar(@lead.contact) %>
+      </div><!-- /.ui very basic compact left floated segment -->
+      <h1 class="ui header">
+        <div class="content">
+          <%= @contact.full_name %> <span class="fwl">via <%= @lead.lead_source_to_s %></span>
+          <div class="sub header"><%= display_header_type(@lead)%></div>
+        </div><!-- /.content -->
+      </h1>
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container full-width-container">
+  <div class="ui basic vertical segment p-t-0">
+    <div class="ui horizontal list">
+      <div class="item">
+        <div class="content">
+          <div class="header">
+            Lead Received
+          </div><!-- /.header -->
+          <%= time_ago_in_words @lead.created_at %> ago
+        </div><!-- /.content -->
+      </div><!-- /.item -->
+      <div class="item">
+        <div class="content">
+          <div class="header">
+            State
+          </div><!-- /.header -->
+          <%= @lead.state.titleize %>
+        </div><!-- /.content -->
+      </div><!-- /.item -->
+    </div><!-- /.ui horizontal list -->
+  </div><!-- /.ui vertical segment -->
+  <div class="ui basic vertical segment">
+    <% unless @lead.claimed? %>
+      <%= link_to(
+        "Claim This Lead",
+        claim_public_lead_url(@lead, { user_id: @user_id }),
+        class: "ui positive button"
+      ) %>
+    <% end %>
+    <% if current_user && current_user == @lead.created_by_user %>
+      <% if @lead.claimed? %>
+          <button class="btn btn-danger btn-embossed btn-full-mobile add-btn">Unassign Lead</button>
+      <% else %>
+        <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+          Refer This Lead
+          <i class="dropdown icon"></i>
+          <div class="ui menu">
+            <% @user_lead_groups_owned_or_part_of.each do |lead_group| %>
+              <%= link_to(
+                "Refer to #{lead_group.name}",
+                refer_lead_public_lead_path(
+                  @lead,
+                  { user_id: @user_id, lead_group_id: lead_group.id }
+                ),
+                class: "item",
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                confirm: "You are about to refer #{@contact.full_name} to Lead Group: #{lead_group.name}. This will stop all automated lead forwarding related actions for this lead. Are you sure?"
+              ) %>
+            <% end %>
+          </div><!-- /.ui menu -->
+        </div><!-- /.ui floating dropdown button -->
+      <% end %>
+    <% end %>
+    <% if @lead.claimed? %>
+      <button class="ui negative button">Unclaim Lead</button>
+    <% end %>
+  </div><!-- /.ui vertical segment -->
+  <div class="ui basic vertical segment">
+    <div class="ui stackable grid">
+      <div class="eight wide column">
+        <table class="ui very basic unstackable table info-list-table">
+          <thead>
+            <%= fixed_list_header("Lead") %>
+          </thead>
+          <tbody>
+            <%= fixed_list_item("Name", @contact.full_name) %>
+            <%= fixed_list_item("Email", display_primary_email_address(@contact)) %>
+            <%= fixed_list_item("Type", "Buyer") %>
+            <%= fixed_list_item("Lead Source", "Internet - #{@lead.lead_source_to_s}") %>
+            <tr>
+              <td>Received</td>
+              <td>
+                <%= l @lead.created_at, format: :email_long %><br />
+                (<%= time_ago_in_words @lead.created_at %> ago)
+              </td>
+            </tr>
+            <tr>
+              <td>Referring Agent</td>
+              <td>
+                <%= @created_by_user.full_name %><br/ >
+                <%= @created_by_user.email %><br/ >
+                <%= number_to_phone(@created_by_user.mobile_number, area_code: true) %>
+              </td>
+            </tr>
+          </tbody>
+        </table><!-- /.ui very basic table -->
+      </div><!-- /.eight wide column -->
+      <div class="eight wide column">
+        <h3 class="ui header">
+          <%= "Property".pluralize(@lead.properties.count) %>
+        </h3>
+        <%= render(
+          partial: "properties/lead_property",
+          collection: @lead.properties,
+          as: :property
+        ) %>
+      </div><!-- /.eight wide column -->
+    </div><!-- /.ui stackable grid -->
+  </div><!-- /.ui basic vertical segment -->

@@ -1,0 +1,11 @@
+<strong>Unsubscribed List</strong>
+<hr/>
+
+<% if email_campaign.unsubscribed_recipients.present? %>
+  <% email_campaign.unsubscribed_recipients.find_each do |recipient| %>
+    <%= recipient.email %>
+    <br/>
+  <% end %>
+<% else %>
+  No list found.
+<% end %>

@@ -1,0 +1,49 @@
+<div class="ui inverted segment">
+  <div class="ui relaxed divided inverted list">
+    <%= action_list_item(
+      title: "This lead responded",
+      description: "Log the response from this lead",
+      icon_class: "fire",
+      link: open_response_modal_path(lead_id: lead.id),
+      link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+    ) %>
+    <% if ((lead.contact.primary_phone_number.number != "") if lead.contact.primary_phone_number) %>
+      <%= action_list_item(
+        title: "Call this lead",
+        description: "(860) 575-5306",
+        icon_class: "call",
+        link: open_call_result_modal_path(lead_id: lead.id),
+        link_attributes: "data-toggle=small-modal data-target=#smallModal data-remote=true"
+      ) %>
+    <% end %>
+    <% if ((lead.contact.primary_email_address.email != "") if lead.contact.primary_email_address) %>
+      <%= action_list_item(
+        title: "Reply to this lead via email",
+        description: "ogradypatrickj@gmail.com",
+        icon_class: "mail",
+        link: open_reply_to_lead_email_modal_path(lead_id: lead.id),
+        link_attributes: "data-toggle=modal data-target=#mainModal data-remote=true"
+      ) %>
+    <% end %>
+    <%= action_list_item(
+      link: open_snooze_modal_lead_path(lead),
+      title: "Snooze",
+      description: "Remind me to follow up later",
+      icon_class: "hourglass start",
+      link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+    ) %>
+    <%= action_list_item(
+      link: open_junk_modal_lead_path(lead),
+      title: "Junk",
+      description: "This lead is not real",
+      icon_class: "trash",
+      link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+    ) %>
+  </div><!-- /.ui relaxed divided list -->
+</div><!-- /.ui inverted segment -->
+
+<!-- MODALS -->
+<%#content_for :extra_html_body do %>
+  <%#= render(partial: "leads/modals/remind_me_later") %>
+  <%#= render(partial: "leads/modals/lead_email") %>
+<%# end %>

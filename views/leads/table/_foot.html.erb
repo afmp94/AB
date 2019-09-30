@@ -1,0 +1,11 @@
+<tfoot>
+  <% if @leads.total_pages > 1 %>
+    <tr>
+      <th colspan="8" class="index-page-table__pagination-footer">
+        <div data-info="pagination" data-current-page="<%= @leads.current_page %>">
+          <%= paginate(@leads, params: { controller: "leads", action: "index" }) %>
+        </div>
+      </th>
+    </tr>
+  <% end %>
+</tfoot>

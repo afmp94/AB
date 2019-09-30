@@ -1,0 +1,32 @@
+<tr data-behavior="show-print-campaign" data-link="<%= print_campaign_path(print_campaign) %>" data-info="print_campaign-row-<%= print_campaign.id %>" >
+  <td>
+    <div class="ui fitted checkbox">
+      <input class="print-campaign-search-item item-checkbox" value="<%= print_campaign.id %>" id="checkbox-table-<%= print_campaign.id %>" type="checkbox"/>
+      <label for="checkbox-table-<%= print_campaign.id %>"></label>
+    </div>
+  </td>
+  <td >
+    <div class="item">
+      <div class="ui small header">
+        <div class="content">
+          <h4><a href="#">
+          <%= link_to print_campaign.title_to_s, edit_print_campaign_path(id: print_campaign.id) %><%= " - "%><%= print_campaign.name %></a></h4>
+            <!--FIRST ROW-->
+          <div class="sub-header"><span>Quantity</span> <%=print_campaign.quantity %></div>
+            <!--SECOND ROW-->
+          <% if print_campaign.pdf_created_at? %>
+            <div class="sub-header"><span>PDF created</span> on <span> <%=print_campaign.pdf_created_at.strftime("%B %d, %Y")%></span></div>
+          <% end %>
+        </div><!-- /.content -->
+      </div><!-- /.ui small header -->
+    </div><!-- /.item -->
+  </td>
+  <td>
+    <%= link_to edit_print_campaign_path(id: print_campaign.id), class: "ui button" do %>
+      Edit
+    <% end %>
+    <%= link_to replicate_print_campaign_path(id: print_campaign.id), method: :post, class: "ui button" do %>
+      Replicate
+    <% end %>
+  </td>
+</tr>

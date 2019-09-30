@@ -1,0 +1,275 @@
+<%= simple_form_for(
+  @lead,
+  html: {
+    data: {
+      fv_live: "submitted",
+      form: "new_client_form",
+      behavior: "form-validation",
+      "mobile-app-forced-form": request_from_mobile_app?
+    }
+  }
+) do |f| %>
+  <%= hidden_field_tag(:from_page, params[:from_page]) if params[:from_page].present? %>
+  <div id="selectclienttype" class="client-type">
+    <% cache(
+      [
+        "new_client_form_select_contact",
+        current_user.id,
+        current_user.contacts.active.count,
+        current_user.contacts.active.maximum(:updated_at)
+      ]
+    ) do %>
+      <%= f.association(
+        :contact,
+        label: "What is the name of this client?",
+        collection: current_user.contacts.active.order("first_name asc"),
+        wrapper: :vertical_search_select,
+        autofocus: true,
+        label_method: lambda { |contact| format_display_name(contact) },
+        value_method: :id,
+        input_html: { data: { behavior: "contacts_select_field" } }
+      ) %>
+      <%= link_to(
+        "Add someone new",
+        open_contact_modal_path(
+          modal_id: "new_contact_modal_form",
+          target_select_id: "lead_contact_id",
+          for_page: "lead"
+        ),
+        class: "ui button m-b",
+        data: { toggle: "modal", target: "#mainModal" },
+        remote: true
+      ) %>
+    <% end %>
+
+    <% cache("new_client_form_client_type") do %>
+      <%= f.input(
+        :client_type,
+        label: "Are they a buyer or a seller?",
+        collection: ["Buyer", "Seller"],
+        as: :sui_radio_buttons,
+        wrapper_html: { "data-section-reveal-toggle": "client_type" }
+      ) %>
+    <% end %>
+  </div><!-- /#selectclienttype.client-type -->
+
+  <div id="leadform" class="hidejs">
+    <% cache("new_client_form_lead_status") do %>
+      <%= f.input(
+        :status,
+        label: "Current Status",
+        selected: 1,
+        collection: Lead::STATUSES,
+        include_blank: false
+      ) %>
+      <div id="pausesection" class="hidejs">
+        <%= f.input(
+          :pause_date_at,
+          as: :datepicker,
+          input_html: {
+            value: format_for_datepicker(f.object.pause_date_at),
+            type: type_for_datepicker
+          }
+        ) %>
+        <%= f.input(:reason_for_pause, label: "Reason for pause") %>
+      </div><!-- /#pausesection -->
+      <div id="not_converted_section" class="hidejs">
+        <%= f.input(
+          :lost_date_at,
+          label: "Not Converted",
+          as: :datepicker,
+          input_html: {
+            value: format_for_datepicker(f.object.lost_date_at),
+            type: type_for_datepicker
+          }
+        ) %>
+        <%= f.input(:reason_for_loss, label: "Reason for not converted") %>
+      </div><!-- /#not_converted_section -->
+    <% end %>
+
+    <h2 class="ui header">Lead Information</h2>
+    <% cache("new_client_form_lead_info") do %>
+      <%= f.input(
+        :incoming_lead_at,
+        label: "When did this lead come in?",
+        as: :datepicker,
+        input_html: {
+          value: format_for_datepicker(f.object.incoming_lead_at),
+          type: type_for_datepicker
+        }
+      ) %>
+      <%= f.hidden_field(:claimed, value: true) %>
+      <%= f.association(
+        :lead_type,
+        label: "Where did this lead come from?",
+        collection: LeadType.all.order("name asc"),
+        label_method: :name,
+        input_html: { "data-behavior": "display-referral-field" }
+      ) %>
+      <%= f.input(
+        :lead_source_id,
+        label: "Lead Source",
+        collection: LeadType.order(:name),
+        as: :grouped_select,
+        group_method: :lead_sources,
+        label_method: :name,
+        include_blank: true,
+        input_html: { class: "ui dropdown", "data-ui-behavior": "dropdown" },
+        wrapper_html: { "data-ui-behavior": "lead-source-id" }
+      ) %>
+    <% end %>
+
+    <div id="referring-field" class="hidejs m-t m-b">
+      <% cache(["new_client_form_referring_contact", current_user.id, current_user.contacts.active.count, current_user.contacts.active.maximum(:updated_at)]) do %>
+        <%= f.association(
+          :referring_contact,
+          as: :select,
+          label: "Referrer",
+          collection: current_user.contacts.active.order("first_name asc"),
+          label_method: lambda { |contact| format_display_name(contact) },
+          value_method: :id,
+          input_html: { data: { behavior: "contacts_select_field" } }
+        ) %>
+      <% end %>
+      <%= link_to(
+        "Add New Contact",
+        open_contact_modal_path(
+          modal_id: "new_referring_contact_modal_form",
+          target_select_id: "lead_referring_contact_id",
+          for_page: "lead"
+        ),
+        class: "ui button m-b",
+        data: { toggle: "modal", target: "#mainModal" },
+        remote: true
+      ) %>
+      <% cache("new_client_form_referral_fee_type") do %>
+        <%= f.input(
+          :referral_fee_type,
+          collection: ["Percentage","Fee"],
+          label: "Referral Percentage or Fee?",
+          as: :sui_radio_buttons,
+          wrapper: :horizontal_radio_buttons,
+          input_html: { "data-behavior": "display-commission-referral-fields" }
+        ) %>
+      <% end %>
+    </div><!-- /#referring-field-->
+
+    <% cache("new_client_form_referral_fee_fields") do %>
+      <%= f.input(
+        :referral_fee_rate,
+        as: :percentage,
+        label: "What is the referral percentage?",
+        placeholder: "ex. 65",
+        wrapper_html: { id: "percentage2-field", class: "hidejs" }
+      ) %>
+      <%= f.input(
+        :referral_fee_flat_fee,
+        label: "What is the Referral Fee?",
+        as: :currency,
+        placeholder: "ex. 100",
+        wrapper_html: { id: "fee2-field", class: "hidejs" }
+      ) %>
+    <% end %>
+
+    <% cache("new_client_form_buyer_section") do %>
+      <%= render(
+        partial: "leads/form_fields/new_client_buyer_section",
+        locals: { f: f }
+      ) %>
+    <% end %>
+
+    <% cache("new_client_form_seller_section") do %>
+      <%= render(
+        partial: "leads/form_fields/new_client_seller_section",
+        locals: { f: f }
+      ) %>
+    <% end %>
+
+    <% cache("new_client_form_contract_section") do %>
+      <div id="contractsection">
+        <%= render(
+          partial: "leads/form_fields/form_contract_section",
+          locals: { f: f}
+        ) %>
+      </div><!-- /#contractsection -->
+    <% end %>
+
+    <% cache(["new_client_form_broker_split_form", current_user]) do %>
+      <div class="ui raised segment">
+        <%= render(
+          partial: "leads/form_fields/broker_split_form",
+          locals: { form: f, user: current_user }
+        ) %>
+      </div><!-- /.ui segment -->
+    <% end %>
+
+    <% if current_user.belongs_to_team? %>
+      <%= f.input(
+        :user,
+        label: "Client Owner",
+        include_blank: false,
+        selected: current_user.id,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    <% else %>
+      <%= f.hidden_field(:user, value: current_user.id) %>
+    <% end %>
+    <%= f.button(:submit, value: "Save", "data-disable-with": "Saving...") %>
+    <%= link_to("Cancel", leads_path, class: "ui basic button") %>
+  </div><!-- /#leadform -->
+<% end %>
+
+<script>
+  document.addEventListener('turbolinks:load', function() {
+    display_fields_based_on_client_type();
+    display_fields_based_on_status();
+    display_pause_and_lost_hidden_fields();
+    display_referral_fields();
+
+    var $formToValidate = $("[data-form~='new_client_form']");
+
+    $formToValidate
+      .formValidation({
+        framework: 'semantic',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        err: {
+          clazz: "error-message"
+        },
+        row: {
+          selector: '.field'
+        },
+        fields: {
+          "lead[contact_id]": {
+            excluded: false,
+            validators: {
+              notEmpty: {
+                message: "You must either select a contact from the list or add someone new"
+              }
+            }
+          }
+        },
+        onError: function(e) {
+          $("#s2id_lead_contact_id").find("input").attr("tabindex",-1).focus();
+        }
+    })
+    .on('success.form.fv', function(e) {
+      // Called when the form is valid
+      var $form = $(e.target);
+      if ($form.data('remote')) {
+        e.preventDefault();
+        return false;
+      }
+    })
+    .on('submit', function(e) {
+      var $form = $(e.target);
+      if ($form.data('remote')) {
+        var numInvalidFields = $form.data('formValidation').getInvalidFields().length;
+        if (numInvalidFields) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+  });
+</script>
+

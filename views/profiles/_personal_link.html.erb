@@ -1,0 +1,50 @@
+<div class="ui middle aligned divided list">
+  <div class="item">
+    <div class="left floated content">
+      <div class="left floated content">
+        <b> Link Title </b>
+      </div>
+      <div class="left floated content">
+        <b>URL Link</b>
+      </div>
+    </div>
+  </div>
+  <% current_user.personal_links.reload.each do |personal_link| %>
+    <div class="item" data-info="personal-link" data-object-id="<%= personal_link.id %>">
+      <div class="right floated content">
+        <div class="ui left aligned button" data-behavior="edit-personal-link">Edit</div>
+        <div class="ui right aligned button">
+          <%= link_to delete_personal_link_path(personal_link_id: personal_link.id), method: :delete, data: { confirm: "Are you sure?" } do %>
+            <i class="red trash icon"></i>
+          <% end %>
+        </div>
+      </div>
+      <div class="left floated content">
+        <div class="left floated content">
+          <%= personal_link.title %>
+        </div>
+        <div class="left floated content">
+          <%= personal_link.url %>
+        </div>
+      </div>
+    </div>
+    <div class="item" data-info="personal-link-edit" data-edit-object-id="<%= personal_link.id %>" style="display:none">
+      <%= simple_form_for personal_link, url: update_personal_link_path(personal_link_id: personal_link.id), method: :put, remote: true, id: "personal-link-#{personal_link.id}"  do |f| %>
+        <div class="right floated content">
+          <%= f.submit "Save", class: "ui left aligned button", input_html: { for: "personal-link-#{personal_link.id}" } %>
+          <div class="ui right aligned button" data-behavior="cancel-personal-link">
+            Cancel
+          </div>
+        </div>
+        <div class="left floated content">
+          <div class="left floated content">
+            <%= f.input :title, placeholder: "e.g Facebook page...", label: false, input_html: { for: "personal-link-#{personal_link.id}" } %>
+          </div>
+          <div class="left floated content">
+            <%= f.input :url, placeholder: "e.g https://www.facebook.com - full URL required", label: false, input_html: { for: "personal-link-#{personal_link.id}" } %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

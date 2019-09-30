@@ -1,0 +1,23 @@
+<div class="ui divider"></div><!-- /.ui divider -->
+<div class="two column grid">
+  <div class="description">
+    <div class="ui list">
+      <div class="item table">
+        <tr>
+          <td>
+            <div data-behavior="contact-main-cell" class="index-page-table__avatar-cell clickable avatar ui image">
+                <%= display_avatar(single_duplicate_contacts, size: :mini, circular: true)%>
+            </div>
+          </td>
+          <td>
+            <div class="content">
+              <%= single_duplicate_contacts.name %>
+              <div class="meta"><%= single_duplicate_contacts.email %></div>
+              <div class="meta"><%= phone_number %></div><!-- /.content -->
+            </div>
+          </td>
+        </tr>
+      </div><!-- /.item -->
+    </div><!-- /.ui list -->
+  </div><!-- /.description -->
+</div>

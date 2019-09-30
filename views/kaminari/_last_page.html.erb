@@ -1,0 +1,10 @@
+<%# unless current_page.last? %>
+  <%#= link_to(url, { remote: remote, class: "item" }) do %>
+    <!-- Last
+    <i class="angle double right icon"></i> -->
+  <%# end %>
+<%# end %>
+
+<%= link_to(url, class: "item", title: t("views.pagination.last").html_safe, remote: remote) do %>
+  <i class="angle double right icon"></i>
+<% end %>

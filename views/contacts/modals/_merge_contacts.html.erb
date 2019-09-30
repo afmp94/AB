@@ -1,0 +1,56 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel" data-contact_id="<%= contact.id %>">Merge contact into <%= contact.name %> </h4>
+</div>
+<!-- <form action="/loops" method="post"> -->
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="content">
+      <div class="ui form segment">
+        <div class="inline fields">
+          <label>Select a contact to merge into this one: </label>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui selection dropdown">
+              <input type="hidden" name="profile_id" value="<%= @total_contacts.first.id %>" id="profile_id">
+              <i class="dropdown icon"></i>
+              <div class="text"><%= @total_contacts.first.name %></div>
+              <div class="menu">
+                <% @total_contacts.each do |profile| %>
+                  <div class="item" data-value="<%= profile.id %>"><%= profile.name %></div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="ui form">
+        <button id="submit_merge_form" class="ui positive button">
+          Merge
+        </button>
+
+        <a class="ui basic button" data-dismiss="modal">Cancel</a>
+      </div>
+    </div>
+<!-- </form> -->
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  $("#submit_merge_form").click(function(){
+    $("#submit_merge_form").addClass("loading");
+    var current_user_contact_id = $("#myModalLabel").data("contact_id");
+    var merge_contact_id = $("#profile_id").val();
+
+    $.ajax({
+      type:'POST',
+      url:'/contacts/merge_contacts',
+      data: { contact_ids: [ current_user_contact_id, merge_contact_id ] },
+      success:function(){
+      }
+    });
+  });
+
+
+});
+
+</script>

@@ -1,0 +1,8 @@
+<% if @threads.present? %>
+  <br>
+  <h3>Emails Threads with <%= @contact.first_name %> <%= @contact.last_name %></h3>
+  <h4>Threads</h4>
+  <div class="thread-list bordered below30">
+    <%= render partial: "emails/thread", collection: @threads, as: :thread %>
+  </div><!-- /.thread-list -->
+<% end %>

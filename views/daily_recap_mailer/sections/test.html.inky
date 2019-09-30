@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<style>
+  @media only screen and (max-width: 991px) {
+    .ab-search-bar-header {
+      flex-direction: column;
+    }
+  }
+</style>
+<table class="ui sortable very basic table" data-ui-behavior="sortable-table">
+  <thead>
+    <tr>
+      <th class="no-sort collapsing" style="border-left: none;"></th>
+      <th class="" style="border-left: none;">Name</th>
+      <th class="collapsing" style="border-left: none;">Last Contact</th>
+      <th class="no-sort" style="border-left: none;">Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="ab-status-column" style="height: 100%; padding: 0 !important; position: relative; width: 10px;">
+        <div class="ab-status ab-positive-status" style="background-color: #21BA45; display: inline-block; height: 100%; position: absolute; top: 0; width: 10px;"></div>
+      </td>
+      <td>
+        <div class="ui fitted checkbox">
+          <input type="checkbox">
+          <label></label>
+        </div>
+      </td>
+      <td>
+        <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/helen.jpg">
+      </td>
+      <td>
+        <div class="item">
+          <div class="ui small header">
+            <div class="content">
+              Lindsay Bungenstock
+              <a class="sub header" href="mailto:lbungenstock@interior.home.gov">lbungenstock@interior.home.gov</a>
+              <div class="sub header">(614) 981-0855</div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td data-sort-value="1473778039">
+        <p>10:06am<br><small>by you</small></p>
+      </td>
+    </tr>
+    <tr>
+      <td class="ab-status-column" style="height: 100%; padding: 0 !important; position: relative; width: 10px;">
+        <div class="ab-status" style="background-color: #ddd; display: inline-block; height: 100%; position: absolute; top: 0; width: 10px;"></div>
+      </td>
+      <td>
+        <div class="ui fitted checkbox">
+          <input type="checkbox">
+          <label></label>
+        </div>
+      </td>
+      <td>
+        <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+      </td>
+      <td>
+        <div class="item">
+          <div class="ui small header">
+            <div class="content">
+              Jennifer Joy
+              <a class="sub header" href="mailto:jjoy@select.cigna.com">jjoy@select.cigna.com</a>
+              <div class="sub header">(860) 227-3482</div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td data-sort-value="1473697655">
+        <p>Yesterday<br><small>by you</small></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</html>

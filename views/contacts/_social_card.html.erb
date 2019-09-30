@@ -1,0 +1,47 @@
+<% cache(["social_card", contact]) do %>
+  <% if contact.social_info_present? %>
+    <div class="card">
+      <div class="content">
+        <img class="right floated mini ui circular image" src="<%= contact.api_suggested_image.try(:image_url)%>">
+        <div class="card-header-title">
+          <div class="header">
+            <%= contact.suggested_first_name %> <%= contact.suggested_last_name %>
+          </div>
+          <div class="meta">
+            <%= contact.primary_email_address.try(:email) %>
+          </div>
+          <div class="meta">
+            <a><%= contact.suggested_location %></a>
+          </div>
+          <div class="meta">
+            <a><%= contact.suggested_linkedin_bio %></a>
+          </div>
+          <div class="meta">
+            <a><%= contact.suggested_job_title %></a>
+          </div>
+        </div>
+        <div class="extra content">
+          <% if contact.suggested_facebook_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_facebook_url %>" target="_blank"><i class="facebook square blue icon"></i></a>
+          <% end %>
+          <% if contact.suggested_twitter_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_twitter_url %>" target="_blank"><i class="twitter blue icon"></i></a>
+          <% end %>
+          <% if contact.suggested_linkedin_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_linkedin_url %>" target="_blank"><i class="linkedin blue icon"></i></a>
+          <% end %>
+          <% if contact.suggested_googleplus_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_googleplus_url %>" target="_blank"><i class="google plus green icon"></i></a>
+          <% end %>
+          <% if contact.suggested_instagram_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_instagram_url %>" target="_blank"><i class="instagram blue icon"></i></a>
+
+          <% end %>
+          <% if contact.suggested_youtube_url %>
+            <a rel="noopener noreferrer" href="<%= contact.suggested_youtube_url %>" target="_blank"><i class="youtube red icon"></i></a>
+          <% end %>
+        </div><!-- /.card-social-icons -->
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,32 @@
+<h2 class="ui header">
+  <span class="team-only">Calendar</span><span class="solo-only">Calendar</span>
+  <%= link_to(
+    "Add Event",
+    calendar_new_event_path(from_page: "dashboard"),
+    class: "ui basic right floated button",
+  ) %>
+</h2>
+
+<h5 class="ui dividing header">Today</h5>
+<div class="ui relaxed list">
+  <% if grouped_events[:today].present? %>
+    <% grouped_events[:today].each do |event| %>
+      <%= render("home/dashboard/calendar_event", { event: event }) %>
+    <% end %>
+  <% else %>
+    No events found!
+  <% end %>
+</div>
+
+<h5 class="ui dividing header">Tomorrow</h5>
+<div class="ui relaxed list">
+  <% if grouped_events[:tomorrow].present? %>
+    <% grouped_events[:tomorrow].each do |event| %>
+      <%= render("home/dashboard/calendar_event", { event: event }) %>
+    <% end %>
+  <% else %>
+    No events found!
+  <% end %>
+</div>
+
+<%= link_to("View Calendar", calendar_path) %>

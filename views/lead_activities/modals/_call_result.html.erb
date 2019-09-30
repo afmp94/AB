@@ -1,0 +1,139 @@
+<div class="ui inverted dimmer" data-ui-dimmer="call-result-modal">
+  <div class="ui text loader">Processing</div>
+</div>
+<div class="header">
+  <h2 class="modal-title ui header" id="myModalLabel">Call Result: <%= lead.name %></h2>
+</div><!-- /modal-header -->
+<div class="content">
+  <%= simple_form_for(
+    lead_activity,
+    url: record_call_result_path,
+    html: {
+      data: { "mobile-app-forced-form": request_from_mobile_app? },
+      class: "full-width-form",
+      "data-form": "call-result-modal-form"
+    }
+  ) do |form| %>
+    <%= form.hidden_field(:activity_type, value: "Call") %>
+    <%= form.hidden_field(:completed_at, value: Time.current) %>
+    <%= form.hidden_field(:contact_id, value: form.object.contact_id) %>
+    <%= form.hidden_field(:lead_id, value: form.object.lead_id) %>
+    <%= form.hidden_field(:user_id, value: form.object.user_id) %>
+
+    <h2 class="ui header m-t-0">Did they answer?</h2>
+    <div class="ui stackable grid">
+      <div class="row quiz-group">
+        <div class="six wide column btn-group quiz-column" data-ui-toggle="buttons" data-section-reveal-toggle="call_result">
+          <div class="quizbox quiz-answer">
+            <label class="ui button js-reveal-quiz-answer">
+              <%= radio_button_tag(
+                "call_result",
+                "Yes",
+                false,
+                autocomplete: "off",
+                # data: { quizbox_toggle: "true" }
+              ) %>
+              <div class="quizbox-label">
+                Yes
+              </div><!-- /.quizbox-label -->
+            </label>
+          </div><!-- /.quizbox -->
+          <div class="quizbox quiz-answer">
+            <label class="ui button js-reveal-quiz-answer">
+              <%= radio_button_tag(
+                "call_result",
+                "No",
+                false,
+                autocomplete: "off",
+                data: {
+                  # quizbox_toggle: "true",
+                  # quizbox_reveal: "js-quiz-reveal-02"
+                }
+              ) %>
+              <div class="quizbox-label">
+                No
+              </div><!-- /.quizbox-label -->
+            </label>
+          </div><!-- /.quizbox -->
+          <div class="quizbox quiz-answer">
+            <label class="ui button js-reveal-quiz-answer">
+              <%= radio_button_tag(
+                "call_result",
+                "Left Message",
+                false,
+                autocomplete: "off",
+                data: {
+                  # quizbox_toggle: "true",
+                  # quizbox_reveal: "js-quiz-reveal-03"
+                }
+              ) %>
+              <div class="quizbox-label">
+                Left Message
+              </div><!-- /.quizbox-label -->
+            </label>
+          </div><!-- /.quizbox -->
+        </div><!-- /.six wide column -->
+        <div class="ten wide column">
+
+          <div class="quiz-follow-up-wrap" data-reveal-set-name="call_result" data-reveal-show-value="No">
+            <div class="ui segment">
+              <div class="card-content">
+                <div class="field">
+                  <label for="no_answer_follow_up_time">Remind me to follow up:</label>
+                  <select name="no_answer_follow_up_time" id="lead-call-result-modal-no-answer-remind-me" class="ui dropdown">
+                    <option value="1">in 1 hour</option>
+                    <option value="2">in 2 hours</option>
+                    <option value="4">in 4 hours</option>
+                    <option value="24">Tomorrow</option>
+                    <option value="48">in 2 days</option>
+                    <option value="168">Next week</option>
+                  </select>
+                </div><!-- /.field -->
+                <%= form.button(:submit, "Save") %>
+              </div><!-- /.card-content -->
+            </div><!-- /.card quiz-follow-up-wrap -->
+          </div><!-- /.quiz-follow-up-wrap -->
+
+          <div class="quiz-follow-up-wrap" data-reveal-set-name="call_result" data-reveal-show-value="Left Message">
+            <div class="ui segment">
+              <div class="card-content">
+                <div class="field">
+                  <label for="">Notes:</label>
+                  <%= form.text_area(
+                    :comments,
+                    class: "form-control",
+                    rows: 5
+                  ) %>
+                </div><!-- /.field -->
+                <div class="field">
+                  <label for="left_message_follow_up_time">Remind me to follow up:</label>
+                  <select name="left_message_follow_up_time" id="lead-call-result-modal-left-message-remind-me" class="ui dropdown">
+                    <option value="1">in 1 hour</option>
+                    <option value="2">in 2 hours</option>
+                    <option value="4">in 4 hours</option>
+                    <option value="24">Tomorrow</option>
+                    <option value="48">in 2 days</option>
+                    <option value="168">Next week</option>
+                  </select>
+                </div><!-- /.field -->
+                <%= form.button(:submit, "Save") %>
+              </div><!-- /.card-content -->
+            </div><!-- /.card quiz-follow-up-wrap -->
+          </div><!-- /.quiz-follow-up-wrap -->
+
+        </div><!-- /.ten wide column -->
+      </div><!-- /row -->
+
+      <div class="reveal-section quiz-follow-up-wrap" data-reveal-set-name="call_result" data-reveal-show-value="Yes">
+        <div class="ui segment">
+          <%= render(
+            partial: "lead_activities/fields/assess_lead",
+            locals: { form: form }
+          ) %>
+        </div><!-- /.ui raised segment -->
+      </div><!-- /.reveal-section -->
+    </div><!-- /.ui grid -->
+
+    <a class="ui negative button m-t-lg" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div><!-- /content-->

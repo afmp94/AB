@@ -1,0 +1,22 @@
+<div class="ui form max-width-600 hide" data-info="area-code-form">
+  <h3 class="ui dividing header">Change Phone Number</h3>
+  <h4> Enter your area code (up to 3 digits)</h4>
+  <p> Currently we support US and Canada numbers</p>
+
+  <%= form_tag user_settings_available_numbers_path, method: :get, remote: true do |f| %>
+      <div class="two fields">
+        <div class="four wide field">
+          <%= text_field_tag :area_code, nil, maxlength: 3, placeholder: "Area Code" %>
+        </div>
+        <div class="field">
+          <%= submit_tag "Find available numbers", class: "ui primary button" %>
+        </div>
+      </div>
+  <% end %>
+</div>
+
+<style type="text/css">
+  .hide {
+    display: none;
+  }
+</style>

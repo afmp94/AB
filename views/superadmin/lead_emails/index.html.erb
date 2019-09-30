@@ -1,0 +1,56 @@
+<%= provide(:title, "Lead Emails") %>
+<%= page_header(
+  primary_name: "Lead Emails"
+) %>
+
+<div class="main ui container full-width-container">
+  <div class="ui stackable grid">
+    <div class="row">
+      <div class="column">
+        <p>
+          <%= link_to(
+            "Administrate: Lead Emails",
+            admin_lead_emails_path,
+            target: "_blank",
+            rel: "noopener noreferrer"
+          ) %><br />
+          <%= link_to(
+            "Administrate: Leads",
+            admin_leads_path,
+            target: "_blank",
+            rel: "noopener noreferrer"
+          ) %>
+        </p>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+
+    <%= render(partial: "superadmin/lead_emails/metrics_dashboard") %>
+
+    <div class="row">
+      <div class="sixteen wide column sticky-black-menu-container">
+        <table id="orders-history" class="ui compact table index-page-table">
+          <thead>
+            <tr>
+              <th class="collapsing">ID</th>
+              <th class="collapsing">Status</th>
+              <th class="collapsing">Received</th>
+              <th class="collapsing">Imported</th>
+              <th class="collapsing">Lead Added</th>
+              <th class="collapsing">Time</th>
+              <th>Recipient</th>
+              <th>Subject</th>
+              <th class="collapsing"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= render(@lead_emails) %>
+          </tbody>
+        </table><!-- /#orders-history.ab-table clearfix align-top -->
+        <%= paginate @lead_emails %>
+      </div><!-- /.col-xs-12 -->
+
+    </div><!-- /.row -->
+  </div><!-- /.ui grid -->
+</div><!-- /.main ui container -->
+
+

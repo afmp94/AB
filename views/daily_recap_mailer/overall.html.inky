@@ -1,0 +1,59 @@
+<%= render(layout: "/shared/inky/standard") do %>
+<container>
+  <row>
+    <columns small="8" large="1" >
+      <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="https://a.radikal.ru/a02/1801/c0/6fbb9e835fb0.png" />
+    </columns>
+    <columns small="20" valign="bottom">
+      <center>
+        <h2>AgentBright Daily Recap</h2>
+        <h6><%= Time.current.strftime("%b %d, %Y") %></h6>
+      </center>
+    </columns>
+  </row>
+  <row>
+    <columns small="12" large="12">
+        <%= render("daily_recap_mailer/sections/goals") %>
+        <%= render("daily_recap_mailer/sections/key_happenings") %>
+
+        <% if @contacts.count.nonzero?  %>
+          <% if @tasks_due_today_and_overdue.count.nonzero? && @todays_and_overdue_team_tasks.count.nonzero? %>
+            <%= render("daily_recap_mailer/sections/todo") %>
+          <% end %>
+          <%#= render("daily_recap_mailer/sections/priorities") %>
+          <%= render("daily_recap_mailer/sections/leads") %>
+          <%#= render("daily_recap_mailer/sections/yesterday") %>
+          <%#= render("daily_recap_mailer/sections/progress") %>
+          <%#= render("daily_recap_mailer/sections/clients") %>
+         <%= render("daily_recap_mailer/sections/marketing") %>
+
+         <%= render("daily_recap_mailer/sections/clients") %>
+         <%= render("daily_recap_mailer/sections/coach") %>
+      <% else %>
+        <row>
+          <columns small="12" large="12" valign="middle" style="background-color: #3f729b">
+            <h3 class="text-left" style="height: 10px;color:#eaece5; margin-top:
+            5px; margin-bottom: 10px; margin-left: 15px;font-size: 22px;">
+              Contacts
+            </h3>
+          </columns>
+        </row>
+        <spacer size="6"></spacer>
+        <row>
+          <columns small=8" large="8">
+            <span
+            style="font-weight:normal;font-size:12px;line-height:16px;margin-left:
+            15px;padding:0 7px;display:inline-block;border-radius:12px"> To get
+            the most out of AgentBright, get your contacts added now. </span>
+           </columns>
+          <columns small="4" large="4">
+            <button href="<%= new_upload_contact_url %>" target="_blank" class="rounded small-expanded primary button-size: tiny">Upload Contacts</button>
+            <spacer size="6"></spacer>
+            </button>
+          </columns>
+        </row>
+      <% end %>
+    </columns>
+  </row>
+</container>
+<% end %>

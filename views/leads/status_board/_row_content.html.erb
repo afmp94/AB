@@ -1,0 +1,54 @@
+<tr class="<%= status_board_row_highlight_class(lead) %>" data-info-status-board-row-id="<%= lead.id %>">
+  <td width="55%">
+    <%= link_to(
+      lead_path(lead),
+      class: "not-blue-link underline-on-hover"
+    ) do %>
+      <div class="ui very basic compact left aligned floated segment p-a-0">
+        <%= display_avatar(lead, size: :mini, circular: false) %>
+      </div><!-- /.ui very basic compact left aligned floated segment p-a-0 -->
+      <div class="ui very basic compact segment p-a-0 m-a-0">
+        <span class="fwb"><%= lead.contact.try(:full_name) %></span><br>
+        <% if lead.client_type == "Buyer" %>
+          <p class="small-meta m-a-0">Buyer</p>
+          <% if lead.status == 3 %>
+            <p class="small-meta m-a-0">Price: <%= num_to_currency(lead.displayed_price) %></p>
+          <% else %>
+            <p class="small-meta m-a-0">Price Range: <%= display_lead_price_range(lead) %></p>
+          <% end %>
+        <% elsif lead.client_type == "Seller" %>
+          <p class="small-meta m-a-0"><%= lead.listing_address_street %></p>
+          <p class="small-meta m-a-0"><%= lead.listing_address_city %></p>
+          <p class="small-meta m-a-0"><%= num_to_currency(lead.listing_list_price) %></p>
+        <% end %>
+        <p class="small-meta fsi dim-el m-a-0 team-only">Owned by <%= lead_owner_name(lead) %></p>
+      </div><!-- /.ui very basic compact segment p-a-0 -->
+    <% end %>
+  </td>
+  <td>
+    <% if lead.incomplete_tasks.present? %>
+      <article class="todolist" data-task-section="status_board">
+        <ul>
+          <%= render(
+            partial: "tasks/task",
+            collection: lead.incomplete_tasks,
+            as: :task
+          ) %>
+        </ul>
+      </article><!-- /.todolist -->
+    <% else %>
+      <!-- <span class="h4 fwb">No Next Action</span>-->
+      <div class="ui inverted segment">
+        <div class="ui relaxed divided inverted list">
+          <%= action_list_item(
+            link: open_set_next_action_modal_lead_path(id: lead.id),
+            title: "No Next Action",
+            description: "Click Here to Set One",
+            icon_class: "sign in",
+            link_attributes: "data-toggle=modal data-target=#mainModal data-remote=true"
+          ) %>
+        </div><!-- /.ui relaxed divided inverted list -->
+      </div><!-- /.ui inverted segment -->
+    <% end %>
+  </td>
+</tr>

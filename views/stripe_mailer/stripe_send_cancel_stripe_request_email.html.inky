@@ -1,0 +1,32 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <%= "AgentBright Customer History" %>
+  <%= link_to @user.name, @user.name %>
+
+  <spacer size="16"></spacer>
+  <p class="text">User: <%= @user.name %> has requested to cancel.</p>
+  <spacer size="16"></spacer>
+  <p class="text">User Name: <%= @user.name %> </p>
+  <p class="text">User Member Since:  <%= standard_date(@user.created_at) %></p>
+  <p class="text">User Address: <%= @user.address %></p>
+  <p class="text">User Billing Address:  <%= @user.billing_address %></p>
+  <p class="text">User Billing State:  <%= @user.billing_state %></p>
+  <p class="text">User Billing City:  <%= @user.billing_city %></p>
+  <p class="text">User Billing Zip Code:  <%= @user. billing_zip_code %></p>
+  <p class="text">User Stripe Customer Id:  <%= @user.stripe_customer_id %></p>
+  <p class="text">User Inbox Token:  <%= @user.nylas_token %></p>
+  <p class="text">User Contacts:  <%= @user.contacts.count %></p>
+  <p class="text">User Leads:  <%= @user.leads.count %></p>
+  <p class="text">User Desired Annual Goal <%= num_to_currency(@user.current_goal&.desired_annual_income) %></p>
+  <spacer size="16"></spacer>
+  <h3 class="text">1- Review History of Customer and options </h3>
+  <p class="text">* Are they having trouble onboarding? </p>
+  <p class="text">* Are they using all the features? </p>
+  <p class="text">* Do they have enough Contacts, Leads? </p>
+  <p class="text">* Did they set up Inbox? </p>
+  <p class="text">* Did they set Goals? Do they need help with Marketing?</p>
+  <spacer size="16"></spacer>
+  <h3>2- Review Wiki:  Cancel Customer Steps</H3>
+  <p class="text">*  Access Stripe and remove User </p>
+  <p class="text">*  Send email to customer (generated automatically from Stripe) </p>
+  <p class="text">*  Remove from NYLAS/Stripe - happens automatically once user is cancelled</p>
+<% end %>

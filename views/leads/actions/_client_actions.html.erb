@@ -1,0 +1,108 @@
+<div data-introjs="step13">
+  <% if @lead.client_type == "Seller" %>
+    <% if @lead.status == 1 || @lead.status == 2 || @lead.status == 3 %>
+      <% if @lead.contracts.accepted.count < 1 %>
+        <%= link_to(
+          "Add New Contract",
+          new_lead_property_contract_path(
+            @lead, @lead.listing_property,
+            redirect_page: "#{controller_name}_#{action_name}"
+          ),
+          class: "ui button",
+          data: { trail: breadcrumb_trail }
+        ) %>
+      <% end %>
+      <%= link_to(
+        "Add Task",
+        new_task_path(lead_id: @lead.id, shortcut: true),
+        data: { behavior: "add-task-shortcut", trail: breadcrumb_trail },
+        class: "ui button",
+        remote: true
+      ) %>
+    <% end %>
+  <% elsif @lead.client_type == "Buyer" %>
+    <% if @lead.status == 1 || @lead.status == 2 || @lead.status == 3 %>
+      <%= link_to(
+        "Add Property",
+        new_lead_property_path(@lead),
+        value: "Save",
+        class: "ui button"
+      ) %>
+      <%= link_to(
+        "Add Contract",
+        lead_add_contract_path(@lead),
+        class: "ui button",
+        data: { trail: breadcrumb_trail }
+      ) %>
+      <%= link_to(
+        "Add Task",
+        new_task_path(lead_id: @lead.id, shortcut: true),
+        data: { behavior: "add-task-shortcut", trail: breadcrumb_trail },
+        class: "ui button",
+        remote: true
+      ) %>
+    <% elsif @lead.status == 4 %>
+    <% end %>
+  <% end %>
+
+  <% if @lead.user == current_user %>
+    <%= link_to(
+      "Merge",
+      open_merge_lead_modal_lead_path,
+      data: { toggle: "tiny-modal", target: "#tinyModal"},
+      class: "ui basic button",
+      remote: true
+    ) %>
+  <% end %>
+  <% if show_beta_features? %>
+    <% if @lead.user == current_user && dotloop_connection?(current_user) && !lead_connected_to_loop?(@lead) && @lead.status != 1 %>
+      <%= link_to(
+        "Connect to Dotloop",
+        open_dotloop_modal_lead_path,
+        data: { toggle: "tiny-modal", target: "#tinyModal"},
+        class: "ui primary button",
+        remote: true
+      ) %>
+    <% elsif dotloop_connection?(current_user) && lead_connected_to_loop?(@lead) %>
+        <div class="ui floating dropdown primary labeled icon button">
+          <i class="check icon"></i>
+          <span>Connected to Dotloop <i class="dropdown icon"></i></span>
+          <div class="menu">
+            <%= link_to(
+              @lead.loop.loop_url,
+              class: "item",
+              id: "got-to-loop",
+              target: "_blank",
+              rel: "noopener noreferrer"
+            ) do %>
+              <i class="blue circle outline icon"></i> View loop in Dotloop
+            <% end %>
+            <% if @lead.user_id == current_user.id %>
+              <%= link_to(
+                dotloop_sync_path(type: "ab_to_dotloop"),
+                method: :patch,
+                class: "item"
+              ) do %>
+                <i class="share icon"></i> Sync <%= white_labeled_app_name(current_subdomain) %> to Dotloop
+              <% end %>
+              <%= link_to(
+                dotloop_sync_path(type: "dotloop_to_ab"),
+                method: :patch,
+                class: "item"
+              ) do %>
+                <i class="reply icon"></i> Sync from Dotloop into <%= white_labeled_app_name(current_subdomain) %>
+              <% end %>
+              <%= link_to(
+                loop_path,
+                method: :delete,
+                data: { confirm: "Are you sure you want to disconnect from this loop? Nothing will be deleted in #{white_labeled_app_name(current_subdomain)} or in DotLoop, but you won't be able to sync data until you reconnect." },
+                class: "item"
+              ) do %>
+                <i class="red unlink icon"></i> Disconnect from loop
+              <% end %>
+            <% end %>
+          </div><!-- /.menu -->
+        </div><!-- /.ui floating dropdown icon button -->
+    <% end %>
+  <% end %>
+</div><!-- /[data-introjs=step13] -->

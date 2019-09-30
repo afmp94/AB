@@ -1,0 +1,63 @@
+<%= page_header(
+  primary_name: "Next Actions",
+  primary_path: next_actions_path,
+  secondary_name: "Set next action for #{link_to(@lead.name, @lead)}"
+) %>
+
+<div class="ui main container">
+  <% if @lead.tasks.not_completed.present? %>
+    <%= simple_form_for(@lead) do |f| %>
+      <h3>Select an existing task:</h3>
+      <%= f.association(
+        :next_action,
+        collection: @lead.tasks.not_completed.order(:due_date_at),
+        label_method: lambda { |task| "#{task.subject} - due #{cal_date(task.due_date_at)}" }
+      ) %>
+      <%= f.button(
+        :submit,
+        value: 'Save',
+        "data-disable-with": "Saving..."
+      ) %>
+      <%= link_to("Cancel", :back) %>
+    <% end %>
+  <% end %>
+
+  <%= simple_form_for(@task) do |f| %>
+    <% if @lead.tasks.not_completed.present? %>
+      <h3 class="ui header">Or add a new task:</h3>
+    <% else %>
+      <h3 class="ui header">Add a next action:</h3>
+    <% end %>
+
+    <%= f.input(:subject) %>
+
+    <% if current_user.belongs_to_team? %>
+      <%= f.association(
+        :assigned_to,
+        include_blank: false,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    <% else %>
+      <%= f.hidden_field(:assigned_to_id, value: current_user.id) %>
+    <% end %>
+
+    <%= f.input(
+      :due_date_at,
+      label: "Due Date",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.due_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.input(:taskable_type, as: :hidden, input_html: { value: "Lead" }) %>
+    <%= f.input(:taskable_id, as: :hidden, input_html: { value: @lead.id }) %>
+    <%= f.input(:next_action, as: :hidden, input_html: { value: "1" }) %>
+    <%= f.button(
+      :submit,
+      "data-disable-with": "Saving...",
+      value: "Save"
+    ) %>
+    <%= link_to("Cancel", :back) %>
+  <% end %>
+</div><!-- /.ui main container -->

@@ -1,0 +1,8 @@
+<% if contact.last_activity_completed %>
+  <p>
+    <strong>Last Activity: </strong><%= contact.last_activity_completed.activity_type %><br />
+    <%= cal_date(contact.last_activity_completed.completed_at) %> (<%= time_ago_in_words(contact.last_activity_completed.completed_at) %> ago)<br />
+    <%= contact.last_activity_completed.subject %><br />
+    <%= contact.last_activity_completed.comments %>
+  </p>
+<% end %>

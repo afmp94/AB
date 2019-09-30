@@ -1,0 +1,8 @@
+<% cache(["header_breadcrumbs_area", lead, lead.contact]) do %>
+  <div class="page-header-breadcrumbs" id="header-breadcrumbs-area" >
+    <div class="page-header-avatar">
+      <%= display_avatar(lead.contact, size: :mini) %>
+    </div>
+    <%= formatted_lead_name(lead) %>
+  </div>
+<% end %>

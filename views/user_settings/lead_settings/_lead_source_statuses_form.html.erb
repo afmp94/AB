@@ -1,0 +1,152 @@
+<h2 class="ui dividing header m-t-0">Forward your leads</h2>
+<p>Direct leads to your <%= white_labeled_app_name(current_subdomain) %> account from any lead provider that we support. This feature requires email connection to be setup.</p>
+<%= simple_form_for(
+  @user,
+  url: update_ab_email_user_settings_lead_settings_path,
+  method: :put
+) do |f| %>
+  <!-- Edit email address- reveal when "Change email address" link is clicked -->
+  <%= f.input(:ab_email_address, label: "Edit #{white_labeled_app_name(current_subdomain)} email address:") %>
+  <p>
+    This is the email address where you can forward leads to us from places like Trulia and Zillow, and we'll automatcially process them.
+  </p>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <a class="ui basic button" id="link-cancel-ab-email">Cancel</a>
+<% end %>
+
+<h2 class="ui dividing header">Lead Sources</h2>
+<table class="ui unstackable table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Leads</th>
+      <th class="collapsing"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="collapsing hide-mobile-and-down">
+        <%= raw display_lead_source_status_icon @lead_setting.parse_realtor_leads? %>
+      </td>
+      <td class="collapsing hide-tablet-and-up">
+        <%= raw display_lead_source_status_icon(@lead_setting.parse_realtor_leads?, "big") %>
+      </td>
+      <td class="breakword">
+        <h4 class="m-b-0">Realtor.com</h4>
+        <p><%= @lead_setting_view_service.parse_realtor_leads_status_text %></p>
+      </td>
+      <td class="breakword">
+        <%= @lead_setting_view_service.realtor_lead_source_count %> leads
+      </td>
+      <td class="collapsing">
+        <%= link_to(
+          @lead_setting_view_service.display_label_for_realtor_leads_status,
+          toggle_lead_source_status_user_settings_lead_settings_path(lead_source: "realtor"),
+          class: "ui basic #{@lead_setting.parse_realtor_leads? ? 'negative' : 'positive'} tiny button",
+          "data-turbolinks-action": "replace"
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="collapsing hide-mobile-and-down">
+        <%= raw display_lead_source_status_icon @lead_setting.parse_trulia_leads? %>
+      </td>
+      <td class="collapsing hide-tablet-and-up">
+        <%= raw display_lead_source_status_icon(@lead_setting.parse_trulia_leads?, "big") %>
+      </td>
+      <td class="breakword">
+        <h4 class="m-b-0">Trulia</h4>
+        <p><%= @lead_setting_view_service.parse_trulia_leads_status_text %></p>
+      </td>
+      <td class="breakword">
+        <%= @lead_setting_view_service.trulia_lead_source_count %> leads
+      </td>
+      <td class="collapsing">
+        <%= link_to(
+          @lead_setting_view_service.display_label_for_trulia_leads_status,
+          toggle_lead_source_status_user_settings_lead_settings_path(lead_source: "trulia"),
+          class: "ui basic #{@lead_setting.parse_trulia_leads? ? 'negative' : 'positive'} tiny button",
+          "data-turbolinks-action": "replace"
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="collapsing hide-mobile-and-down">
+        <%= raw display_lead_source_status_icon @lead_setting.parse_zillow_leads? %>
+      </td>
+      <td class="collapsing hide-tablet-and-up">
+        <%= raw display_lead_source_status_icon(@lead_setting.parse_zillow_leads?, "big") %>
+      </td>
+      <td class="breakword">
+        <h4 class="m-b-0">Zillow</h4>
+        <p><%= @lead_setting_view_service.parse_zillow_leads_status_text %></p>
+      </td>
+      <td class="breakword">
+        <%= @lead_setting_view_service.zillow_lead_source_count %> leads
+      </td>
+      <td class="collapsing">
+        <%= link_to(
+          @lead_setting_view_service.display_label_for_zillow_leads_status,
+          toggle_lead_source_status_user_settings_lead_settings_path(lead_source: "zillow"),
+          class: "ui basic #{@lead_setting.parse_zillow_leads? ? 'negative' : 'positive'} tiny button",
+          "data-turbolinks-action": "replace"
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="collapsing hide-mobile-and-down">
+        <%= raw display_lead_source_status_icon @lead_setting.parse_moxie_leads? %>
+      </td>
+      <td class="collapsing hide-tablet-and-up">
+        <%= raw display_lead_source_status_icon(@lead_setting.parse_moxie_leads?, "big") %>
+      </td>
+      <td class="breakword">
+        <h4 class="m-b-0">Moxie</h4>
+        <p><%= @lead_setting_view_service.parse_moxie_leads_status_text %></p>
+      </td>
+      <td class="breakword">
+        <%= @lead_setting_view_service.moxie_lead_source_count %> leads
+      </td>
+      <td class="collapsing">
+        <%= link_to(
+          @lead_setting_view_service.display_label_for_moxie_leads_status,
+          toggle_lead_source_status_user_settings_lead_settings_path(lead_source: "moxie"),
+          class: "ui basic #{@lead_setting.parse_moxie_leads? ? 'negative' : 'positive'} tiny button",
+          "data-turbolinks-action": "replace"
+        ) %>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="collapsing hide-mobile-and-down">
+        <%= raw display_lead_source_status_icon @lead_setting.parse_cinc_leads? %>
+      </td>
+      <td class="collapsing hide-tablet-and-up">
+        <%= raw display_lead_source_status_icon(@lead_setting.parse_cinc_leads?, "big") %>
+      </td>
+      <td class="breakword">
+        <h4 class="m-b-0">CINC</h4>
+        <p><%= @lead_setting_view_service.parse_cinc_leads_status_text %></p>
+      </td>
+      <td class="breakword">
+        <%= @lead_setting_view_service.cinc_lead_source_count %> leads
+      </td>
+      <td class="collapsing">
+        <%= link_to(
+          @lead_setting_view_service.display_label_for_cinc_leads_status,
+          toggle_lead_source_status_user_settings_lead_settings_path(lead_source: "CINC"),
+          class: "ui basic #{@lead_setting.parse_cinc_leads? ? 'negative' : 'positive'} tiny button",
+          "data-turbolinks-action": "replace"
+        ) %>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,42 @@
+<div id="contact-details-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Contact Details",
+        edit_contact_details_contact_path(contact),
+        "edit-contact-details"
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Name", "#{contact.first_name} #{contact.last_name}") %>
+      <%= fixed_list_item("Spouse", "#{contact.spouse_first_name} #{contact.spouse_last_name}") %>
+      <%= fixed_list_item("Grade", grade_avatar(contact, size: :avatar)) %>
+      <%= fixed_list_item("Groups", contact.contact_groups_by_user(current_user).join(', ')) %>
+      <%= fixed_list_item("Email") do %>
+        <% email_addresses.each do |email_address| %>
+          <%= format_email_address(email_address) %><br />
+        <% end %>
+      <% end %>
+      <%= fixed_list_item("Phone") do %>
+        <% phone_numbers.each do |phone_number| %>
+          <%= format_phone_number(phone_number) %><br />
+        <% end %>
+      <% end %>
+      <%= fixed_list_item("Address") do %>
+        <% contact.addresses.each do |address| %>
+          <%= render(
+            partial: "addresses/address",
+            object: address
+          ) %>
+        </br>
+        <% end %>
+      <% end %>
+      <%= fixed_list_item("Important Dates") do %>
+        <% contact.important_dates.each do |important_date| %>
+          <%= format_important_date(important_date).html_safe %>
+        <% end %>
+      <% end %>
+    </tbody>
+    <ui class="hidden divider"></ui><!-- /.hidden divider -->
+  </table>
+</div><!-- /#contact-details-section -->

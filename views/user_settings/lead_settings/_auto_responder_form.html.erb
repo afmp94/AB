@@ -1,0 +1,34 @@
+<h2 class="ui dividing header">Autoresponder</h2>
+<%= simple_form_for(
+  @lead_setting,
+  url: auto_responder_update_user_settings_lead_settings_path(format: :js),
+  html: {
+    id: "update_autoresponder",
+    "data-submit-form": "auto-responder-form"
+  },
+  remote: true
+) do |f| %>
+  <p>You can immediately respond to your online leads </p>
+  <%= f.input(
+    :email_auto_respond,
+    label: "Automatically respond to incoming leads?",
+    wrapper: :toggle_switch,
+    wrapper_html: {
+      "data-behavior": "submit-on-checkbox-change",
+      "data-submit-form-target": "auto-responder-form"
+    }
+  ) %>
+  <%= f.input(
+    :auto_respond_subject,
+    label: "Subject",
+    placeholder: "Thanks for getting in touch!",
+    input_html: { "data-behavior" => "update-autoresponder" }
+  ) %>
+  <%= f.input(
+    :auto_respond_body,
+    label: "Body",
+    as: :text,
+    rows: "10",
+    input_html: { "data-behavior": "update-autoresponder" }
+  ) %>
+<% end %>

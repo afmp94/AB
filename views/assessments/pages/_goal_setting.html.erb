@@ -1,0 +1,204 @@
+<div class="column">
+  <div class="ui two cards">
+    <div class="ui card">
+      <div class="content">
+        <div class="center aligned header"><i class="purple big filter icon"></i></i>Sales Pipeline</div>
+        <div class="center aligned description">
+          <p>According to NAR, 67% of sellers would definitely use same agent again.  Do you know your stats? </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui card">
+      <div class="content">
+        <div class="ui center aligned header">Your results</div>
+        <div class="ui center green aligned big header ">79%</div>
+        <div class="center aligned description">
+          <p><i class="green check circle icon"></i>Wow! Superstar! Your sales pipeline is well managed. (80% or better)</p>
+          <p><i class="yellow check circle icon"></i>Servicing and pipeline management is all about planning, measuring and communicating to satisfy Clients!  We have some recommendations for you.  (60 to 79%) </p>
+          <p><i class="red exclamation circle icon"></i>Oops!  You worked so hard to get the Lead, take some time to improve managing your Clients and their expectations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="column">
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+    <div class="ui segment tab transition fade in active" id="goal-setting" data-tab="goal-setting">
+      <h4 class="ui dividing header">Goal Setting</h4>
+      <% if false # We don't want to show this field for now %>
+        <%= f.input(
+          :past_year_income,
+          label: "How much money did you make in 2018? (Net income, after paying the broker and your real estate expenses)",
+          as: :currency
+        ) %>
+      <% end %>
+      <%= f.input(
+        :average_home_price,
+        label: "What is the average price of a home you sell or buy?" ,
+        as: :currency,
+        input_html: { pattern: "^[1-9]\d*$" }
+      ) %>
+      <%= f.input(
+        :desired_annual_income,
+        label: "What is your annual income goal through selling real estate?",
+        as: :currency
+      ) %>
+      <%= f.input(
+        :est_business_expenses,
+        label: "What are your estimated real estate expenses for the year?",
+        as: :currency
+      ) %>
+      <%= f.input(
+        :avg_commission_rate,
+        label: "What is your average gross commission percentage for a transaction side? (Usually between 2-4%)",
+        placeholder: "e.g. 2.5",
+        as: :percentage_two_decimal
+      ) %>
+      <%= f.input(
+        :pays_monthly_broker_fee,
+        label: "Do you pay a monthly fee to your broker?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        input_html: { data: { behavior: "pays_monthly_broker_fee"} },
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <%= f.input(
+        :monthly_broker_fees_paid,
+        label: "How much in monthly fees do you pay?",
+        wrapper_html: { style: "display:none", data: { behavior: "monthly_broker_fees_paid" } },
+        input_html: { disabled: "disabled" },
+        as: :currency
+      ) %>
+      <%= f.input(
+        :franchise_fee,
+        label: "Do you pay a franchise fee to your broker on each transaction?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        input_html: { data: { behavior: "franchise_fee"} },
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <%= f.input(
+        :franchise_fee_per_transaction,
+        label: "What is the percentage franchise fee you pay?",
+        wrapper_html: { style: "display:none", data: { behavior: "franchise_fee_per_transaction" } },
+        input_html: { disabled: "disabled" },
+        as: :percentage_two_decimal
+      ) %>
+      <%= f.input(
+        :commission_split_type,
+        label: "How does the broker take their cut of the commission on each transaction?" ,
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        input_html: { data: { behavior: "commission_split_type"} },
+        collection: [
+          "Percentage",
+          "Fee",
+          "None"
+        ]
+      ) %>
+      <div class="field" style="display:none;" data-behavior="agent_percentage_split">
+        <label>What is the commission split between you and your broker?</label>
+        <div class="two fields">
+          <%= f.input(
+            :agent_percentage_split,
+            label: "You get:",
+            label_html: { class: "fsi" },
+            wrapper_html: {
+              data: { behavior: "agent_percentage_split_field" }
+            },
+            input_html: {
+              disabled: "disabled",
+              data: { agent_split_field: true }
+            },
+            as: :percentage_two_decimal
+          ) %>
+          <div class="field">
+            <label class="fsi">Broker gets:</label>
+            <input type="text" class="no-border" readonly tabindex="-1" data-broker-split-field />
+          </div><!-- /.field -->
+        </div><!-- /.two fields -->
+      </div><!-- /.field -->
+      <%= f.input(
+        :broker_fee_per_transaction,
+        label: "What is the per-transaction fee paid to the broker?",
+        wrapper_html: { style: "display:none", data: { behavior: "broker_fee_per_transaction" } },
+        input_html: { disabled: "disabled" },
+        as: :currency
+      ) %>
+      <%= f.input(
+        :broker_fee_alternative,
+        label: "If the commission is small enough, do you pay a percentage instead of your usually flat fee to the broker?" ,
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        wrapper_html: { style: "display:none", data: { behavior: "broker_fee_alternative_wrapper" } },
+        input_html: { data: { behavior: "broker_fee_alternative"} },
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <%= f.input(
+        :broker_fee_alternative_split,
+        label: "What is the alternative percentage you pay?",
+        wrapper_html: { style: "display:none", data: { behavior: "broker_fee_alternative_split" } },
+        input_html: { disabled: "disabled" },
+        as: :percentage_two_decimal
+      ) %>
+      <%= f.input(
+        :per_transaction_fee_capped,
+        label: "Are your broker fees capped after a certain number of transactions?" ,
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        input_html: { data: { behavior: "per_transaction_fee_capped"} },
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <%= f.input(
+        :transaction_fee_cap,
+        label: "How many transactions do you need for your fees to be capped?" ,
+        wrapper_html: { style: "display:none", data: { behavior: "transaction_fee_cap" } },
+        input_html: { disabled: "disabled" }
+      ) %>
+      <div class="ui primary icon button" data-tab-open="service-clients-info">Back</div>
+      <div class="ui primary icon button" data-tab-open="current-year-progress" data-validate-container>Next</div>
+    </div>
+    <div class="ui segment tab transition fade in" id="current-year-progress" data-tab="current-year-progress">
+      <h4 class="ui dividing header">Current Pipeline</h4>
+      <%= f.input(
+        :current_ytd_income,
+        label: "What is your income YTD (on closed business)? " ,
+        as: :currency
+      ) %>
+      <%= f.input(
+        :current_ytd_lead_count,
+        label: "How many leads do you currently have (that are not yet clients)? "
+      ) %>
+      <%= f.input(
+        :current_ytd_client_count,
+        label: "How many clients do you currently have (that are not closed yet)?"
+      ) %>
+      <div class="ui primary icon button" data-tab-open="goal-setting">Back</div>
+      <%= f.button(
+        :submit,
+        value:  "Submit",
+        class: "ui primary submit button",
+        disable_with: "Submiting..."
+      ) %>
+
+    </div>
+  <% end %>
+</div><!-- /.column -->
+

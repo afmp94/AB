@@ -1,0 +1,108 @@
+<!--
+*******************************************
+Note: The purpose of views/designs/ is for
+building frontend markup only. Do not add
+ERB or javascript to this page. Copy and
+paste this markup, and then integrate that
+code in its rightful location with the app
+backend.
+
+With very few exceptions, this file should
+remain pure front-end HTML/CSS/JS.
+*******************************************
+-->
+
+<style>
+  /*.ui.labels.ab-grading-labels > .label {
+    margin: 0em 0.25em 0.25em 0em;
+  }*/
+
+  .column.ab-contacts-sorting-card {
+    max-width: 500px;
+  }
+
+  .ui.massive.button.ab-grade-button {
+    width: 8.5rem;
+  }
+</style>
+<% content_for(:title, "Duplicate Contacts") %>
+<% breadcrumb(:duplicate_contacts) %>
+<%= show_alert_if_processing_csv_file(current_user) %>
+<%= page_header(
+  primary_name: "Contacts",
+  primary_path: duplicates_path,
+  secondary_name: "Merge Contacts",
+) %>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <div class="ui centered grid">
+      <div class="column ab-contacts-sorting-card">
+        <% if @all_duplicate_contacts.length > 0 %>
+          <div class="ui right floated basic button p-m-0 merge_all_contacts" data-duplicate_ids="<%= @duplicate_contact_ids %>">Merge all</div>
+          <h3 class="ui basic header">
+            <%= @all_duplicate_contacts.count %> Duplicates found
+          </h3>
+        <% else %>
+          <%= no_data_block(
+           icon_class: "check",
+           title: "Looking good",
+           message: "We did not find any duplicate Contacts.",
+           block_id: "duplicates_emptymessage"
+          ) %>
+        <% end %>
+          <% @all_duplicate_contacts.each do |single_duplicate_contacts| %>
+          <%= render(partial: "duplicate_contacts", locals: { duplicate_contacts: single_duplicate_contacts}) %>
+          <% end %>
+      </div><!-- /.column -->
+    </div><!-- /.ui centered grid -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->
+
+<script>
+$(document).ready(function(){
+
+  $('[data-go-to-tab]')
+    .on('click', function() {
+      // programmatically activating tab
+      $buttonClicked = $(this);
+      var tabName = $buttonClicked.data('go-to-tab');
+      $.tab('change tab', tabName);
+    });
+
+  $(".merge_contact").click(function(){
+    $(this).addClass("loading");
+    $duplicate_contacts = $(this).data('duplicate_ids_single');
+    merge_contacts($duplicate_contacts, false);
+  });
+
+  $(".merge_all_contacts").click(function(){
+    $(this).addClass("loading");
+    $duplicate_contacts = $(this).data('duplicate_ids');
+    merge_contacts($duplicate_contacts, true);
+  });
+
+  $(".dismiss_contact").click(function(){
+    $(this).addClass("loading");
+    $dismiss_contacts = $(this).data('dismiss_ids_single');
+    dismiss_contacts($dismiss_contacts);
+  });
+
+  function merge_contacts(data, is_all_merge){
+    $.ajax({
+      type:'POST',
+      url:'/contacts/merge_duplicate_data',
+      data: { duplicate_ids: data, merge_all: is_all_merge }
+    })
+  }
+
+  function dismiss_contacts(data){
+    $.ajax({
+      type:'POST',
+      url:'/contacts/dismiss_contacts',
+      data: { dismissed_ids: data }
+    })
+  }
+});
+
+</script>

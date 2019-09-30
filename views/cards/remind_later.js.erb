@@ -1,0 +1,12 @@
+$("[data-ui-behavior=small-modal]").modal('hide');
+
+<% if current_user.coaching_cards.blank? %>
+  $('[data-container="coaching-cards"]').html('<%= j no_data_block( icon_class: "check", title: "Nice job", message: "You are current with your coaching!", block_id: "coach_emptymessage") %>');
+<% else %>
+  <% if (eval("current_user.#{@card.sub_card_type}_cards.blank?")) %>
+    $('[data-info="<%= @card.sub_card_type %>_cards"]').remove();
+  <% else %>
+    $('[data-info="<%= @card.sub_card_type %>_cards"]').html('<%= j render(partial: "coaching/#{@card.sub_card_type}_cards", locals: { cards: eval("current_user.#{@card.sub_card_type}_cards") }) %>');
+  <% end %>
+<% end %>
+

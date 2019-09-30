@@ -1,0 +1,37 @@
+<%= simple_form_for([@lead, @property]) do |f| %>
+  <h3 class="ui header">Seller Property Info</h3>
+  <%= f.input(
+    :property_type,
+    label: "Property Type",
+    collection: Property::PROPERTY_TYPES,
+    include_blank: false
+  ) %>
+  <h4 class="ui dividing header">Property Address</h4>
+  <%= f.simple_fields_for(
+    :address,
+    f.object.address || f.object.build_address
+  ) do |address_form| %>
+    <%= render("addresses/form", f: address_form) %>
+  <% end %>
+  <%= f.input(:mls_number, label: "MLS Number") %>
+  <div class="two fields">
+    <%= f.input(:bedrooms) %>
+    <%= f.input(:bathrooms) %>
+  </div><!-- /.two fields -->
+  <div class="two fields">
+    <%= f.input(:sq_feet, label: "Square Feet") %>
+    <%= f.input(:lot_size, label: "Lot Size") %>
+  </div><!-- /.two fields -->
+  <div class="two fields">
+    <%= f.input(
+      :initial_client_valuation,
+      label: "Initial Client Valuation",
+      as: :currency
+    ) %>
+    <%= f.input(
+      :initial_agent_valuation,
+      label: "Initial Agent Valuation",
+      as: :currency
+    ) %>
+  </div><!-- /.two fields -->
+<% end %>

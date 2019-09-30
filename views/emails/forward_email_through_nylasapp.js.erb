@@ -1,0 +1,10 @@
+<% if @success %>
+    window.location = "<%= @path %>";
+<% else  %>
+  toastr.error("<%= AppConstants::APP_INTEGRATE_ERROR %>");
+  <% if @email_error  %>
+    var toRecipientsErrorElement = $("[data-behavior='to-recipients-error']");
+    toRecipientsErrorElement.html("Provided email address is invalid");
+  <% end %>
+  $("[data-behavior='submit-button']").removeClass('disabled');
+<% end %>

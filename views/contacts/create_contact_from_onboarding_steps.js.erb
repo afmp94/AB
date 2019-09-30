@@ -1,0 +1,7 @@
+<% if @contact.errors.blank? %>
+  $('[data-info="onboarding-create-contact"]').html("<%= j render(partial: "contacts/onboarding_create_contact", locals: { contact: @contact }) %>")
+  toastr.success("Contact has been created successfully!");
+  new InputMask(); // This will hookup input mask for phone number
+<% else %>
+  toastr.error("<%= @contact.errors.full_messages.join("<br/>") %>");
+<% end %>

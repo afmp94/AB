@@ -1,0 +1,75 @@
+$("#commission-section")
+  .displayFixedListEditForm(
+    "<%= j render('leads/buyer_client/forms/commission_form') %>"
+  );
+
+var formToValidate = $("[data-form='buyer_client_commission_form']");
+
+$("[data-behavior=select-broker-split-type]")
+  .on("change", function() {
+    var fv = formToValidate.data("formValidation");
+    if ($("[data-behavior=select-broker-split-type]:checked").val() == "Fee") {
+      fv.enableFieldValidators("lead[displayed_broker_commission_percentage]", false).revalidateField("lead[displayed_broker_commission_percentage]");
+      fv.enableFieldValidators("lead[displayed_broker_commission_fee]", true).revalidateField("lead[displayed_broker_commission_fee]");
+    } else if ($("[data-behavior=select-broker-split-type]:checked").val() == "Percentage") {
+      fv.enableFieldValidators("lead[displayed_broker_commission_percentage]", true).revalidateField("lead[displayed_broker_commission_percentage]");
+      fv.enableFieldValidators("lead[displayed_broker_commission_fee]", false).revalidateField("lead[displayed_broker_commission_fee]");
+    }
+  });
+
+$("[data-behavior=select-custom-broker-split]")
+  .on("change", function() {
+    var fv = formToValidate.data("formValidation");
+    if ($("[data-behavior=select-custom-broker-split]").is(":checked")) {
+      fv.enableFieldValidators("lead[displayed_broker_commission_percentage]", true).revalidateField("lead[displayed_broker_commission_percentage]");
+      fv.enableFieldValidators("lead[displayed_broker_commission_fee]", true).revalidateField("lead[displayed_broker_commission_fee]");
+    } else {
+      fv.enableFieldValidators("lead[displayed_broker_commission_percentage]", false).revalidateField("lead[displayed_broker_commission_percentage]");
+      fv.enableFieldValidators("lead[displayed_broker_commission_fee]", false).revalidateField("lead[displayed_broker_commission_fee]");
+    }
+  });
+
+formToValidate
+  .formValidation({
+    framework: "bootstrap",
+    excluded: [':disabled'],
+    err: {
+      clazz: "error-message"
+    },
+    fields: {
+      "lead[displayed_broker_commission_fee]": {
+          validators: {
+            notEmpty: {
+              message: "You must enter an amount"
+            }
+          }
+        },
+        "lead[displayed_broker_commission_percentage]": {
+          validators: {
+            notEmpty: {
+              message: "You must enter a percentage"
+            }
+          }
+        },
+    }
+  })
+  .on("success.form.fv", function(e) {
+    // Called when the form is valid
+    var $form = $(e.target);
+    if ($form.data("remote")) {
+      e.preventDefault();
+      return false;
+    }
+  })
+  .on("submit", function(e) {
+    var $form = $(e.target);
+    if ($form.data("remote")) {
+      var numInvalidFields = $form.data("formValidation").getInvalidFields().length;
+      if (numInvalidFields) {
+        e.preventDefault();
+        return false;
+      }
+    }
+  });
+
+console.log("[LEAD] Finished loading buyer client commission form");

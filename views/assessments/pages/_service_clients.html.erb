@@ -1,0 +1,109 @@
+<div class="column">
+  <div class="ui two cards">
+    <div class="ui card">
+      <div class="content">
+        <div class="center aligned header"><i class="teal big hourglass half icon"></i></i>Lead Response</div>
+        <div class="center aligned description">
+          <p>Did you know that for the average agent only 3% to 6% of Closed business leads come via the internet?  Where's the rest come from? </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui card">
+      <div class="content">
+        <div class="ui center aligned header">Your results</div>
+        <div class="ui center green aligned big header ">79%</div>
+        <div class="center aligned description">
+          <p><i class="green check circle icon"></i>Great work!  Your lead pipeline is well managed. (80% or better)</p>
+          <p><i class="yellow check circle icon"></i>You are leaving 'easy money' on the table.  Responding to a lead within 5 minutes increases your chances of converting the Client by 72%. Be sure to review how you are managing your Leads.  (60 to 79%) </p>
+          <p><i class="red exclamation circle icon"></i>Oops!  You are leaving 'easy money' on the table. Focus on getting a Lead management system in place (less than 60%)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="column">
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+
+    <div class="ui segment tab transition fade in active" id="service-clients-info" data-tab="service-clients-info">
+      <h4 class="ui dividing header">Service Clients</h4>
+
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :pre_made_marketing_plan,
+        label: "Do you have prepared, well-designed, customized marketing materials that communicate your value proposition (information about you, your brokerage, your services, and why a potential client should choose you as their agent)?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::PRE_MADE_MARKETING_PLAN_SCORING.keys ) %>
+      <!-- VERICAL RADIOS - STRING -->
+      <%= f.input(
+        :listing_plan,
+        label: "Do you sit down with each new client and present a gameplan, have a conversation about how you do business and what your expectations are, and provide them a rough outline of the next 6-12 months (or the likely duration of the transaction)?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::LISTING_PLAN_SCORING.keys) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :regular_service_reports,
+        label: "Do you currently send regular service reports to your clients?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :seller_weekly_update,
+        label: "Do you have a regular time scheduled each week to proactively reach out to and update your seller clients?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <!-- VERICAL RADIOS - STRING -->
+      <%= f.input(
+        :buyer_touches,
+        label: "How often are you in touch with your typical buyer clients? ",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::BUYER_TOUCHES_SCORING.keys) %>
+      <%= f.input(
+        :system_for_transactions,
+        label: "Do you have a system for managing and tracking your prospects, active clients and pending clients?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+
+      <!-- VERICAL RADIOS - STRING -->
+      <%= f.input(
+        :daily_pipeline_review,
+        label: "How often do you review your entire sales pipeline top to bottom to make sure you're on top of everything?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::DAILY_PIPELINE_REVIEW_SCORING.keys) %>
+
+      <!-- VERICAL RADIOS - STRING -->
+      <%= f.input(
+        :daily_tasks_set,
+        label: "Do you have a daily task list to keep track of your tasks to follow up with leads and prospects and service your clients?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::DAILY_TASKS_SET_SCORING.keys) %>
+      <div class="ui primary icon button" data-tab-open="lead-generation-info">Back</div>
+      <div class="ui primary icon button" data-tab-open="goal-setting" data-validate-container>Next</div>
+    </div><!-- /#service-clients -->
+  <% end %>
+</div>

@@ -1,0 +1,9 @@
+<%= simple_form_for(
+  [:user_settings, @lead_group],
+  html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input(:name, label: "Lead Group Name") %>
+  <%= f.button(:submit, value: "Save", "data-disable-with": "Saving...") %>
+  <%= link_to("Cancel", user_settings_lead_groups_path, class: "ui basic button") %>
+<% end %>

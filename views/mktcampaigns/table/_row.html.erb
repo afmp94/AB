@@ -1,0 +1,18 @@
+<tr data-behavior="show-mktcampaign" data-link="<%= mktcampaign_path(mktcampaign) %>" data-info="mktcampaign-row-<%= mktcampaign.id %>">
+  <td>
+    <div class="ui fitted checkbox">
+      <input class="mktcampaign-search-item item-checkbox" value="<%= mktcampaign.id %>" id="checkbox-table-<%= mktcampaign.id %>" type="checkbox"/>
+      <label for="checkbox-table-<%= mktcampaign.id %>"></label>
+    </div>
+  </td>
+  <td>
+    <div class="item">
+      <div class="ui small header">
+        <div class="content">
+          <%= link_to(mktcampaign.name, mktcampaign) %>
+        </div><!-- /.content -->
+      </div><!-- /.ui small header -->
+    </div><!-- /.item -->
+  </td>
+  <td><%= link_to "Edit", edit_mktcampaign_path(mktcampaign), class: "ui button" %></td>
+</tr>

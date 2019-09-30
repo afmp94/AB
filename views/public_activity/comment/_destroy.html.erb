@@ -1,0 +1,17 @@
+<% cache(["comment_destroy", activity, current_user.id]) do %>
+  <div class="activity_container js-activity-comment js-activity-destroy">
+    <article class="activity">
+    <%= activity_icon("info", "talk outline icon") %>
+      <div class="activity-flat-container">
+        <div class="activity-flat">
+          <%= render 'public_activity/shared/activity_timestamp', activity: activity %>
+          <div class="action">
+            <%= activity_creator(activity) %>
+            <%= activity_subject(activity, action: "deleted a comment", name: false) %>
+            <%= activity_bucket(activity, "from", recipient_name(activity), activity_link(activity.recipient)) %>
+          </div><!-- /.action -->
+        </div><!-- /.activity-flat -->
+      </div><!-- /.activity-flat-container -->
+    </article><!-- /.activity -->
+  </div><!-- /.activity_container -->
+<% end %>

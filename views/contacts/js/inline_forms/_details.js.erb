@@ -1,0 +1,10 @@
+$('#contact-details-section')
+  .after('<%= j render(partial: "contacts/sections/details", locals: { contact: contact, email_addresses: email_addresses, phone_numbers: phone_numbers }) %>')
+  .remove();
+
+
+<% if contact.errors.blank? %>
+  $('[data-info="contact-introduction"]').html("<%= j render(partial: "contacts/show/introduction", locals: { contact: contact }) %>")
+  <% else %>
+  $('#contact-details-section').displayFixedListEditForm('<%= j render("contacts/forms/details") %>');
+<% end %>

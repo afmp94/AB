@@ -1,0 +1,45 @@
+<div id="client-info-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Client Info",
+        edit_fixed_list_lead_path(
+          lead,
+          lead_type: "seller_client",
+          section: "client_info"
+        ),
+        "edit-seller-client-client-info"
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item(
+        "Name",
+        "#{lead.contact.first_name} #{lead.contact.last_name}"
+      ) %>
+      <%= fixed_list_item(
+        "Spouse",
+        "#{lead.contact.spouse_first_name} #{lead.contact.spouse_last_name}"
+      ) %>
+      <%= fixed_list_item(
+        "Email",
+        display_primary_email_address(lead.contact)
+      ) %>
+      <%= fixed_list_item(
+        "Phone",
+        display_primary_phone_number(lead.contact)
+      ) %>
+      <tr>
+        <td>Address</td>
+        <td>
+          <% lead.contact.addresses.each do |address| %>
+            <%= address.street %> <br />
+            <%= address.city_state_zip %><br /><br />
+          <% end %>
+        </td>
+      </tr>
+      <% if lead.notes.present? %>
+        <%= fixed_list_item("Notes", lead.notes) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

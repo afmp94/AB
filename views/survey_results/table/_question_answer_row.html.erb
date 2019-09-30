@@ -1,0 +1,15 @@
+<tr>
+  <td width="20%">
+    <p class="m-a-0"><%= label %></p>
+    <div class="ui label">
+      <pre class="m-a-0">:<%= field %></pre>
+    </div><!-- /.ui label -->
+  </td>
+  <td class="positive">
+    Max:
+    <span class="fwb"><%= Object.const_get("SurveyResult::#{field.upcase}_SCORING").values.max %></span>
+  </td>
+  <% Object.const_get("SurveyResult::#{field.upcase}_SCORING").each do |answer, score| %>
+    <td class="<%= survey_result.send(field) == answer ? 'active' : '' %>"><%= answer %> <div class="ui circular <%= survey_result.send(field) == answer ? 'green' : '' %> label"><%= score %></div></td>
+  <% end %>
+</tr>

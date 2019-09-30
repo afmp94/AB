@@ -1,0 +1,32 @@
+<%= link_to(
+  display_thread_path(
+    contact_id: contact.id,
+    thread_id: message.thread_id,
+    message_id: message.id,
+    "url": request.original_url,
+    anchor: "#{message.id}"
+  ),
+  class: "item js-append-trail",
+  id: "#{message.id}"
+) do %>
+  <div class="right floated content ab-email-list__date">
+    <%= email_list_datetime(Time.zone.at(message.date)) %>
+  </div><!-- /.right floated content -->
+  <div class="ui very basic compact left floated segment p-a-0 m-r-sm ab-email-list__avatar-container">
+    <%= display_initials_and_color_from_message(message, current_user, contact) %>
+  </div>
+  <div class="content ab-email-list__content">
+    <div class="header ab-email-list__recipients">
+      <%= list_participants(message, "from") %>
+      <span class="ab-email-list__email-to-recipients">
+        to <%= list_participants(message, "to") %>
+      </span>
+    </div><!-- /.header -->
+    <div class="header ab-email-list__subject">
+      <small><%= message.subject %></small>
+    </div><!-- /.description -->
+    <div class="description ab-email-list__snippet">
+      <small><%= message.snippet if message.respond_to?(:snippet) %></small>
+    </div><!-- /.description -->
+  </div><!-- /.content -->
+<% end %>

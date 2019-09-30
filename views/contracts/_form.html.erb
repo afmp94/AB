@@ -1,0 +1,23 @@
+<% if lead.client_type == "Buyer" %>
+  <%= render(
+    partial: "contracts/forms/buyer",
+    locals: {
+      lead: lead,
+      property: property,
+      contract: contract,
+      redirect_page: redirect_page,
+      render_page: render_page
+    }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "contracts/forms/seller",
+    locals: {
+      lead: lead,
+      property: property,
+      contract: contract,
+      redirect_page: redirect_page,
+      render_page: render_page
+    }
+  ) %>
+<% end %>

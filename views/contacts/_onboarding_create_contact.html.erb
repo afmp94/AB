@@ -1,0 +1,53 @@
+<%= simple_form_for contact, url: create_contact_from_onboarding_steps_path, remote: true, html: {} do |f| %>
+  <%= f.hidden_field(:require_basic_validations, value: true) %>
+  <div class="two fields">
+    <%= f.input(:first_name, label: "First Name") %>
+    <%= f.input(:last_name, label: "Last Name") %>
+  </div>
+  <div class="two fields">
+    <%= f.fields_for(:email_addresses) do |email_address| %>
+      <%= email_address.input(:email, label: "Email Address") %>
+    <% end %>
+
+    <%= f.fields_for(:phone_numbers) do |phone_number| %>
+      <%= phone_number.input(
+        :number,
+        label: "Mobile Phone",
+        input_html: {
+          data: { input_mask: "phone" },
+          pattern: "[0-9]*"
+        }
+      ) %>
+    <% end %>
+  </div>
+
+  <%= f.button(
+    :submit,
+    value: "Save and Add Another",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Add more Later", profile_steps_path(id: "other_information"), class: "ui basic button") %>
+<% end %>
+
+<h2>Contacts</h2>
+
+<table class="ui very basic table">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email Address</th>
+      <th>Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= current_user.contacts.find_each do |contact| %>
+      <tr>
+        <td><%= contact.first_name %></td>
+        <td><%= contact.last_name %></td>
+        <td><%= contact.email %></td>
+        <td><%= display_primary_phone_number(contact) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

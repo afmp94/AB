@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">Thank You!</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">The credit card on your Agent Bright account has successfully been updated! Have a great day!</p>
+<% end %>

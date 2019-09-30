@@ -1,0 +1,96 @@
+<% if current_user.has_any_unredeemed_account_credit? %>
+  <div class="ui success message">
+    <div class="header">
+      You have <%= number_to_currency(cents_to_dollar(current_user.total_account_credits_amount_in_cents), precision: 0) %> in credits!
+    </div>
+  </div>
+<% end %>
+
+<% if current_user.subscription&.account_balance.present? %>
+  <div class="ui success message">
+    <div class="header">
+      You have <%= number_to_currency((current_user.subscription.account_balance), precision: 0) %> in your account!
+    </div>
+  </div>
+<% end %>
+
+<h2 class="ui header">Subscription details</h2>
+<% if subscription.active? %>
+  <h4 class="ui dividing header">Plan</h4>
+  <p>
+    <%= subscription.plan.name %>
+  </p>
+  <h4 class="ui dividing header">Monthly payment</h4>
+  <p>
+    <% if subscription.in_trial? %>
+      Free trial
+      <span class="fwn">30 days left</span>
+    <% else %>
+      <%= formatted_price(subscription.plan.price_in_dollars) %>
+    <% end %>
+  </p>
+
+  <% if subscription.trial_ends_at %>
+    <h4 class="ui dividing header">Trial expires</h4>
+    <p>
+      <%= subscription.trial_ends_at.to_date.to_s(:simple) %>
+    </p>
+  <% end %>
+
+  <h4 class="ui dividing header">Active since</h4>
+  <p>
+    <%= subscription.created_at.to_s(:simple) %>
+  </p>
+
+  <% if subscription.scheduled_for_cancellation? %>
+    <h4 class="ui dividing header">Scheduled for cancellation on</h4>
+    <p>
+      <%= subscription.scheduled_for_cancellation_on.to_s(:simple) %>
+    </p>
+  <% else %>
+    <h4 class="ui dividing header">Next payment on</h4>
+    <p>
+      <%= subscription.next_payment_on.to_s(:simple) %>
+    </p>
+  <% end %>
+<% else %>
+  <h4 class="ui dividing header">
+    Cancelled on
+    <%= subscription.deactivated_on.to_s(:simple) %>
+  </h4>
+<% end %>
+
+<h3 class="ui header">Payment information</h3>
+<% if !subscription.card_last_four_digits.blank? %>
+  <table class="ui single line table">
+    <thead>
+      <tr>
+        <th>Credit card number</th>
+        <th>Credit card type</th>
+        <th>Expiration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Card ending in <%= subscription.card_last_four_digits %></td>
+        <td><%= subscription.card_type %></td>
+        <td><%= subscription.card_expires_on.to_s(:month_year) %></td>
+      </tr>
+    </tbody>
+  </table><!-- /.table ab-table -->
+  <%= link_to(
+    "Update card",
+    new_credit_card_path,
+    class: "ui button primary",
+    data: { no_turbolink: true, disabled_with: "Loading..." }
+  ) %>
+<% else %>
+  <%= link_to(
+    "Add credit card",
+    new_credit_card_path,
+    class: "ui button primary",
+    data: { no_turbolink: true, disabled_with: "Loading..." }
+  ) %>
+<% end %>
+
+<%= render("subscriptions/management", subscription: subscription) %>

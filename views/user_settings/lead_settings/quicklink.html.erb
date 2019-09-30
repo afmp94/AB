@@ -1,0 +1,10 @@
+<% breadcrumb(:edit_public_link) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Public Lead Form Link",
+    secondary_name: "Connections"
+  }
+) do %>
+  <%= render(partial: "public_lead_form") %>
+<% end %>

@@ -1,0 +1,6 @@
+<% if @contact.present? %>
+  <h2 style="text-align: center;"><%= unsubscribed_contact_info(@contact) %> </h2>
+  <h2 style="text-align: center; background:#E4F4DA">You’ve been unsubscribed.</h2>
+<% else %>
+  <h2 style="text-align: center; background:#E4F4DA">You already have been unsubscribed!</h2>
+<% end %>

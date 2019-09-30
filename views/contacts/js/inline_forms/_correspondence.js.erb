@@ -1,0 +1,3 @@
+$('#contact-correspondence-section')
+  .after('<%= j render(partial: "contacts/sections/correspondence", locals: { contact: contact, email_addresses: email_addresses, phone_numbers: phone_numbers }) %>')
+  .remove();

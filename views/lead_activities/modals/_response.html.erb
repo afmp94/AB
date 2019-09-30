@@ -1,0 +1,48 @@
+<div class="ui inverted dimmer" data-ui-dimmer="response-modal">
+  <div class="ui text loader">Processing</div>
+</div>
+<div class="header">
+  <h2 class="modal-title ui header" id="myModalLabel"><%= lead.name %></h2>
+</div><!-- /modal-header -->
+<div class="content">
+  <%= simple_form_for(
+    lead_activity,
+    url: record_response_path,
+    html: {
+      data: {
+        fv_live: "submitted",
+        form: "response_modal_form",
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |form| %>
+    <%= form.hidden_field(:contact_id, value: form.object.contact_id) %>
+    <%= form.hidden_field(:lead_id, value: form.object.lead_id) %>
+    <%= form.hidden_field(:user_id, value: form.object.user_id) %>
+    <h3 class="ui header m-t-0">Record the response:</h3>
+    <%= form.input(
+      :activity_type,
+      label: "How did this lead respond to you?",
+      as: :sui_radio_buttons,
+      collection: ["Call", "Email"],
+      checked: "Call"
+    ) %>
+    <%= form.input(
+      :completed_at,
+      label: "When?",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(Time.current),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= form.input(:comments, input_html: { rows: 3 }) %>
+
+    <%= render(
+      partial: "lead_activities/fields/assess_lead",
+      locals: { form: form }
+    ) %>
+
+    <a class="ui negative button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div><!-- /content-->

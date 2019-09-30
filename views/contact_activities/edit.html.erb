@@ -1,0 +1,13 @@
+<% breadcrumb(:edit_contact_activity, @contact_activity) %>
+<!--HEADER-->
+<%= page_header(
+  primary_name: "Referral Generation",
+  primary_path: contact_activities_path,
+  secondary_name: "Edit Referral Activity"
+) %>
+
+<!--END HEADER-->
+
+<div class="ui main container">
+  <%= render :partial => 'form', :locals => { :show_all_fields => true } %>
+</div>

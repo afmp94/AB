@@ -1,0 +1,36 @@
+<% article_class      = nil if local_assigns[:article_class].nil? %>
+<% section_class      = nil if local_assigns[:section_class].nil? %>
+<% tasks_list_section = nil if local_assigns[:tasks_list_section].nil? %>
+
+<% cache(
+  [
+    "tasks_list",
+    tasks.pluck(:id),
+    tasks.maximum(:updated_at),
+    tasks_list_section,
+    article_class,
+    section_class
+  ]
+) do %>
+  <section class="<%= section_class %>">
+    <article class="todolist <%= article_class %>" data-task-section="task_list">
+      <ul <%= set_data_attribute(tasks_list_section) %>>
+        <% if tasks.blank? %>
+           <%= no_data_block(
+             icon_class: "check",
+             title: "Nice job",
+             message: "All your tasks are complete.",
+             block_id: "task_emptymessage"
+           ) %>
+        <% else %>
+          <%= render(
+            partial: "tasks/task",
+            collection: tasks,
+            as: :task,
+            locals: { section: "_task_list" }
+          ) %>
+        <% end %>
+      </ul>
+    </article>
+  </section>
+<% end %>

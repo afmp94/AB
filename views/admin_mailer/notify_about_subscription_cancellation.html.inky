@@ -1,0 +1,4 @@
+Hello Admin,
+<br />
+<br />
+Subscription of the user <b><%= @user.name %></b> for plan <b><%= @plan.name %></b> has been cancelled.

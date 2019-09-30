@@ -1,0 +1,57 @@
+<div class="main ui container">
+  <table class="ui celled collapsing inverted table m-b-lg">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th><%= @survey_result.name %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Email</td>
+        <td><%= @survey_result.email %></td>
+      </tr>
+      <tr>
+        <td>ID</td>
+        <td><%= @survey_result.id %></td>
+      </tr>
+      <tr>
+        <td>Survey Token</td>
+        <td><%= @survey_result.survey_token %></td>
+      </tr>
+      <tr>
+        <td>Created at</td>
+        <td><%= @survey_result.created_at %></td>
+      </tr>
+    </tbody>
+  </table><!-- /.ui celled tabled -->
+
+  <% SurveyResult::QUESTIONS.each do |section, qa_set| %>
+    <table class="ui celled table m-b-lg">
+      <thead>
+        <tr>
+          <th class="fwb" colspan="100%"><%= section.to_s.titleize %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% qa_set.each do |field| %>
+          <%= render(
+            partial: "survey_results/table/question_answer_row",
+            locals: {
+              survey_result: @survey_result,
+              field: field[0],
+              label: field[1]
+            }
+          ) %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="100%">
+            <span class="fwb"><%= section.to_s.titleize %> Total: <%= qa_set.map { |field| Object.const_get("SurveyResult::#{field[0].upcase}_SCORING")[@survey_result.send(field[0])] }.map(&:to_i).reduce(0, :+) %> / <%= qa_set.map { |field| Object.const_get("SurveyResult::#{field[0].upcase}_SCORING").values.max }.map(&:to_i).reduce(0, :+) %></span>
+          </th>
+        </tr>
+      </tfoot>
+    </table><!-- /.ui table -->
+  <% end %>
+</div><!-- /.main ui container -->

@@ -1,0 +1,8 @@
+<tbody>
+  <% email_campaigns.each do |email_campaign| %>
+    <%= render(
+      partial: "email_campaigns/table/row",
+      locals: { email_campaign: email_campaign }
+    ) %>
+  <% end %>
+</tbody>

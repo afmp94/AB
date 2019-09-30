@@ -1,0 +1,56 @@
+<div class="column">
+  <div class="ui two cards">
+    <div class="ui card">
+      <div class="content">
+        <div class="center aligned header"><i class="green big money bill alternate outline icon"></i>Agent Income</div>
+        <div class="center aligned description">
+          <p>According to NAR, the median gross income of REALTORS® was $42,500 in 2018. </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui card">
+      <div class="content">
+        <div class="ui center aligned header">Your results</div>
+        <div class="ui center green aligned big header ">79%</div>
+        <div class="center aligned description">
+          <p><i class="green dollar circle icon"></i>Congratulations! Based on your goals, you are above average! To achieve that you will need to sell or buy X homes.  That's X per quarter.  (if above the Income goal is above $42,500)</p>
+          <p><i class="green dollar circle icon"></i>Real Estate is a great part time income.  Based on your goals, you will need to sell or buy X homes.  That's X per quarter.  (SurveyResult::WORKLOADS = ["20 to 35 hours per week" OR  "Less than 20 per week"]) </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="column">
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+    <div class="ui segment tab transition fade in active" id="current-year-progress" data-tab="current-year-progress">
+      <h4 class="ui dividing header">Current Pipeline</h4>
+      <%= f.input(
+        :current_ytd_income,
+        label: "What is your income YTD (on closed business)? " ,
+        as: :currency
+      ) %>
+      <%= f.input(
+        :current_ytd_lead_count,
+        label: "How many leads do you currently have (that are not yet clients)? "
+      ) %>
+      <%= f.input(
+        :current_ytd_client_count,
+        label: "How many clients do you currently have (that are not closed yet)?"
+      ) %>
+      <div class="ui primary icon button" data-tab-open="goal-setting">Back</div>
+      <%= f.button(
+        :submit,
+        value:  "Submit",
+        class: "ui primary submit button",
+        disable_with: "Submiting..."
+      ) %>
+
+    </div>
+  <% end %>
+</div><!-- /.column -->
+

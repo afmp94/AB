@@ -1,0 +1,42 @@
+<%= page_header(
+  primary_name: @lead.name,
+  primary_path: lead_path(@lead),
+  secondary_name: "Change Status"
+) %>
+
+<div class="ui main container">
+  <div class="ui icon message">
+    <i class="warning sign icon"></i>
+    <div class="content">
+      <div class="header">
+        Add Contract
+      </div><!-- /.header -->
+      <% if @lead.client_type == "Buyer" %>
+        <p>Before we update the status, first you must add some details about the offer.</p>
+      <% else %>
+        <p>Before we update the status, first you must add a contract</p>
+      <% end %>
+    </div><!-- /.content -->
+  </div><!-- /.ui message -->
+
+  <% if @lead.client_type == "Buyer" %>
+    <%= render(
+      partial: "contracts/forms/add_to_property",
+      locals: {
+        lead: @lead,
+        contract: @lead.contracts.new(@contract_params)
+      }
+    ) %>
+  <% else %>
+    <%= render(
+      partial: "contracts/forms/seller",
+      locals: {
+        lead: @lead,
+        property: @lead.listing_property,
+        contract: @lead.listing_property.contracts.new(@contract_params),
+        redirect_page: nil,
+        render_page: nil
+      }
+    ) %>
+  <% end %>
+</div><!-- /.ui main container -->

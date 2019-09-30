@@ -1,0 +1,11 @@
+<% breadcrumb(:lead_notifications) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Lead Notifications",
+    secondary_name: "Notifications"
+  }
+) do %>
+  <%= render(partial: "lead_notifications_form") %>
+  <%= render(partial: "auto_responder_form") %>
+<% end %>

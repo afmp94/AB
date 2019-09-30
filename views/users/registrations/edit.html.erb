@@ -1,0 +1,21 @@
+<% breadcrumb(:edit_password) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Password",
+    secondary_name: "Account Settings"
+  }
+) do %>
+  <h2 class="ui dividing header m-t-0">Edit Password</h2>
+  <%= render(partial: "users/registrations/password_form") %>
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <h2 class="ui header">Cancel my account</h2>
+  <%= button_to(
+    "Cancel my account",
+    registration_path(resource_name),
+    class: "ui red button",
+    data: { confirm: "Are you sure? All of your data will be lost forever!" },
+    method: :delete,
+    remote: true
+  ) %>
+<% end %>

@@ -1,0 +1,25 @@
+<% breadcrumb(:billing) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Billing",
+    secondary_name: "Plans"
+  }
+) do %>
+      <% plans.each do |plan| %>
+        <p class="<%= popular(plan) %>">
+          <%= plan.short_description %>
+        </p>
+      <% end %>
+      <h2 class="ui header">Features</h2>
+      <div class="ui bulleted list">
+        <div class="item"><a href="#personal_coach">Personal coach</a></div>
+        <div class="item"><a href="#coding_exercies">Coding exercies</a></div>
+        <div class="item"><a href="#app_source_code">App source code</a></div>
+        <div class="item"><a href="#video_tutorials">Video tutorials</a></div>
+        <div class="item"><a href="#community_forum">Community forum</a></div>
+        <div class="item"><a href="#weekly_iteration">The Weekly Iteration</a></div>
+
+    <h2 class="ui header">Plans</h2>
+    <%= render plans %>
+<% end %>

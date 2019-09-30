@@ -1,0 +1,2 @@
+$('#buyer-lead-details-form-section').remove();
+$('#edit-buyer-lead-details').show().after('<%= j render("leads/buyer_lead/details_section"), { lead: lead } %>');

@@ -1,0 +1,29 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0">
+        <h1 class="ui header">
+          <%= link_to("Site Wide Announcements", announcements_path) %>
+        </h1><!-- /.ui header -->
+        <div class="ui hidden divider"></div>
+        <%= link_to(new_announcement_path, class: "ui button primary") do %>
+          <i class="plus icon"></i>
+          Add a new announcement
+        <% end %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid">
+      <div class="sixteen wide column sticky-black-menu-container">
+        <% if @announcements.blank? %>
+          <%= render(partial: "announcements/table/announcements_empty_table") %>
+        <% else %>
+          <%= render(partial: "announcements/table/announcements_table", locals: { announcements: @announcements }) %>
+        <% end %>
+    </div>
+  </div>
+</div><!-- /.main ui container -->

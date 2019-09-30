@@ -1,0 +1,7 @@
+<tbody>
+  <% cache(["contacts_index", @contacts.pluck(:id), @contacts.maximum(:updated_at)], expires_in: 1.hour) do %>
+    <% contacts.each do |contact| %>
+      <%= render(partial: "contacts/table/row", locals: { contact: contact }) %>
+    <% end %>
+  <% end %>
+</tbody>

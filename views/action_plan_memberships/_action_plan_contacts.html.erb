@@ -1,0 +1,64 @@
+<table class="ui sortable single line table" data-ui-behavior="sortable-table">
+  <thead>
+    <tr>
+      <th colspan=2>Name</th>
+      <th class="collapsing">Added</th>
+      <th class="collapsing">Last step</th>
+      <th class="collapsing">Last step on</th>
+      <th class="collapsing">Next step scheduled</th>
+      <th class="collapsing center-aligned">Open</th>
+      <th class="collapsing">Clicks</th>
+      <th class="collapsing">Replied</th>
+      <th class="">Status</th>
+      <th class="">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @action_plan_memberships.each do |action_plan_membership| %>
+      <tr>
+        <td class="collapsing">
+          <%= display_avatar(action_plan_membership.contact, size: :mini, circular: false) %>
+        </td>
+        <td>
+          <div class="item">
+            <div class="ui small header">
+              <div class="content">
+                <%= action_plan_membership.contact_name %>
+                  <div class="sub header"><%= action_plan_membership.contact_email %></div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <%= display_quick_datetime(action_plan_membership.created_at) %>
+        </td>
+        <td class="center aligned">
+          <a class="ui gray centered circular label"> <%= action_plan_membership.last_step.try(:order) || "-" %></a>
+        </td>
+        <td data-sort-value="6">
+          <%= datetime_no_year(action_plan_membership.last_step_at) %>
+        </td>
+        <td>
+          <%= datetime_no_year(action_plan_membership.next_step_at) %>
+        </td>
+        <td class="center aligned">
+          <%= action_plan_membership.opens %>
+        </td>
+        <td class="center aligned">
+          <%= action_plan_membership.clicks %>
+        </td>
+        <td class="center aligned">
+          <%= action_plan_membership.replied? %>
+        </td>
+        <td>
+          <%= action_plan_membership.state&.humanize %>
+        </td>
+        <td>
+          <%= link_to cancel_action_plan_membership_path(action_plan_membership), method: :post, data: { confirm: 'Are you sure?' }, remote: true do %>
+            <i class="trash icon red"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

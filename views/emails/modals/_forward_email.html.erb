@@ -1,0 +1,33 @@
+<div class="header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h4 class="modal-title" id="myModalLabel">Forward</h4>
+</div><!-- /modal-header -->
+<div class="content">
+  <%= form_tag forward_email_through_through_nylasapp_path, remote: true, method: :post, class: "ui form buttonforce" do |f| %>
+    <%= hidden_field_tag :contact_id, contact.id %>
+    <%= hidden_field_tag :message_id, message.id %>
+    <%= hidden_field_tag :thread_id, thread.id %>
+
+    <div class="field">
+      <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="to-recipients">
+        <input name="to_recipients" type="hidden">
+        <div class="default text">To</div>
+      </div>
+      <div class="error-message"></div>
+    </div>
+
+    <div class="heading inset">
+      <h3>Fwd: <%= thread.subject %></h3>
+    </div><!-- /.heading -->
+    <div>
+      <%= raw message.body %>
+    </div>
+    <%= submit_tag(
+      "Send",
+      class: "ui primary submit button",
+      "data-disable-with": "Sending..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>
+

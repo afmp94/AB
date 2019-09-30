@@ -1,0 +1,43 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <h1>New Trulia Lead</h1>
+        <spacer size="8"></spacer>
+        <h4>You have just received a new lead from Trulia.</h4>
+      </columns>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <columns>
+        <button href="<%= unclaimed_public_lead_url(@lead, {user_id: @user.id})%>">
+        Claim this Lead</button>
+      </columns>
+    </row>
+  </container>
+  <container>
+    <row>
+      <columns large="8">
+        <strong>Lead Received
+          at:</strong> <%= datetime_no_year( @lead.created_at) %>
+          <spacer size="8"></spacer>
+        <strong>Name:  </strong> <%= @contact.full_name %>
+        <spacer size="8"></spacer>
+        <strong>Email:  </strong><%= display_primary_email_address(@contact) %>
+        <spacer size="8"></spacer>
+        <strong>Phone:  </strong><%= display_primary_phone_number(@contact) %>
+        <spacer size="8"></spacer>
+        <strong>Message:  </strong><%= @lead.notes %>
+        <spacer size="8"></spacer>
+        <strong>Property:  </strong>
+        <spacer size="8"></spacer>
+        <% if @lead.properties.first %>
+          <%= @lead.properties.first.address.street %>
+          <%= "#{@lead.properties.first.address_details}" %>
+        <% end %>
+      </columns>
+    </row>
+  </container>
+<% end %>

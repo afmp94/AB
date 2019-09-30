@@ -1,0 +1,123 @@
+<% if @survey_result.present? %>
+  <h1>Your Survey Results</h1>
+  <h3>Based on the answers you provided, here is quick summary:</h3>
+  <p>
+    Name: <%= @survey_result&.name %><br />
+    Email: <%= @survey_result&.email %> <br />
+    Assessment date: January 7, 2019<br />
+    Assessment time: 7:45am
+  </p>
+
+  <h1>Overall Grade: A+ (Excellent)</h1>
+
+  <h2>Breakdown:</h2>
+
+  <h3>Financial Grade: A+ (Excellent)</h3>
+
+  <p>Based on the information you provided, you scored in the 90th percentile.</p>
+
+  <h4>Your 2019 goals are:</h4>
+
+  <p>Gross sales volume: $3,400,000</p>
+  <p>Gross commission: <%= number_to_currency(@survey_result.gross_commission) rescue "N/A" %></p>
+  <p>Estimated number of sales: 20</p>
+
+  <p>
+    Based on average expected home sales price of $345,000. To achieve your goal, you will need 5 more transactions than last year.<br />
+    <a href="#">Click here to see details of the calculation.</a>
+  </p>
+
+  <h3>Professional Grade: B (Needs improvement)</h3>
+
+  <p>
+    You are a [newbie, going-pro, professional, seasoned professional] and plan to [reduce your effort, continue to grow, grow faster] than last year. You work [full time / part time] and on average [ less than 15, 15- 25, 25 - 35, 35 - 45, more than 45].<br />
+    <a href="#">Click here to see details of the calculation.</a>
+  </p>
+
+  <h3>Marketing Grade: B (5/10) - Potential to improve</h3>
+
+  <p>In 2019, based on your answers, you plan to [decrease, maintain or grow] your real estate business by selling (on average) [ 2 houses less, same number of houses, 5 house more] than last year.</p>
+
+  <h3>Personal Development Goals</h3>
+  <p>Your top 3 personal development goals for 2019 are:
+    <ul>
+      <li>Grow database</li>
+      <li>Get a better CRM</li>
+      <li>Send email campaign newsletter monthly</li>
+    </ul>
+  </p>
+
+  <hr />
+
+  <h3>Methodologies</h3>
+
+  <h4>Financial Methodology</h4>
+  <p>The above information was based on the information you provided:</p>
+  <ul>
+    <li>Income plans for 2019: $<%= @survey_result&.desired_annual_income %></li>
+    <li>Expenses: $<%= @survey_result&.est_business_expenses %>k</li>
+    <li>Monthly broker fee: $<%= @survey_result&.monthly_broker_fees_paid %>/month</li>
+    <li>Franchise fee: <%= @survey_result&.franchise_fee_per_transaction %>%</li>
+    <li>Agent share of broker split: <%= @survey_result&.commission_split_type %>/<%= @survey_result&.agent_percentage_split %>%</li>
+    <li>Alternative fees: <%= @survey_result&.broker_fee_alternative_split %></li>
+    <li>Your average home sales: $<%= @survey_result&.average_home_price %></li>
+    <li>Number of referrals to get a lead*: 20</li>
+    <li>Number of leads to convert to client*: 5</li>
+  </ul>
+
+  <p>*Based on real estate industry averages. Numbers may vary from agent to agent based on experience.</p>
+
+  <h4>Professional Methodology</h4>
+  <p>Agent professional strength comes from various different skills. We calculate your grade based on the following:</p>
+  <ul>
+    <li>Number of years experience</li>
+    <li>Broker license</li>
+    <li>Full time/part time</li>
+    <li>Number of transactions compared to national average</li>
+  </ul>
+
+  <h4>Marketing Methodology</h4>
+
+  <p>
+    Size of contacts database
+    <ul>
+      <li>0: Needs to be bigger</li>
+      <li>1: Big but not using</li>
+      <li>2: Big enough and using</li>
+    </ul>
+
+    Frequency of communications
+    <ul>
+      <li>0: Don’t know</li>
+      <li>1: Once a year</li>
+      <li>2: Every quarter</li>
+      <li>3: Every month</li>
+    </ul>
+
+    Real Estate profile up to date
+    <ul>
+      <li>-1: It’s been a few years</li>
+      <li>0: Don’t know</li>
+      <li>1: Last year</li>
+      <li>2: This year</li>
+    </ul>
+
+    Email newsletter
+    <ul>
+      <li>0: No</li>
+      <li>2: Yes</li>
+    </ul>
+
+    Trulia/Zillow
+    <ul>
+      <li>0: No</li>
+      <li>1: Yes</li>
+    </ul>
+  </p>
+<% else %>
+  <% if @email_address.present? %>
+    <h4 >No report found. Please refresh the page. </h4>
+  <% else %>
+    <h4 > Email address is not provided to process the report. </h4>
+  <% end %>
+<% end %>

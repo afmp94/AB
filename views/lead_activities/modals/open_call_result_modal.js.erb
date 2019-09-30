@@ -1,0 +1,13 @@
+$('[data-ui-behavior=small-modal]').empty();
+$('[data-ui-behavior=small-modal]')
+  .append('<%= j render('lead_activities/modals/call_result', lead: @lead, lead_activity: @lead_activity) %>');
+
+$('#lead-call-result-modal-business-now').click(function() {
+  var $buttonArea = $(this);
+  var form = this.closest('form');
+
+  form.submit();
+  $('[data-ui-dimmer=call-result-modal]').addClass('active');
+});
+
+$('[data-ui-behavior=dropdown]').dropdown();

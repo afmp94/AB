@@ -1,0 +1,29 @@
+<div class="ui raised card">
+  <div class="content">
+    <div class="header">
+      <%= card.header %>
+      <div class="right floated extra content">
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="meta center aligned">
+      <i class="icon <%= card.icon %> <%= card.icon_color %> huge"></i>
+    </div>
+    <div class="description">
+      <%= card.description %>
+    </div>
+  </div>
+  <div class="extra content">
+    <div class="ui two buttons">
+      <%= link_to card.action, card.link, class: "ui green button noloading", target: "_blank" %>
+      <%= link_to(
+        "Remind Me Later",
+        open_remind_later_modal_card_path(card),
+        remote: true,
+        class: "ui basic button",
+        data: { toggle: "modal", target: "#smallModal" }
+      ) %>
+    </div>
+  </div>
+</div><!-- /.card -->

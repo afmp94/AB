@@ -1,0 +1,9 @@
+<h3 class="ui header">
+  Contacts ranked: <%= "#{number_with_precision((current_user.active_contacts_count.to_f - current_user.ungraded_contacts_count.to_f), precision: 0)}/#{current_user.active_contacts_count}" %>
+</h3>
+<div class="ui progress" data-ui-behavior="progress" data-percent="<%= grading_progress_bar_width(current_user) %>">
+  <div class="bar">
+    <div class="progress"></div>
+  </div>
+  <div class="label"></div>
+</div><!-- /.ui progress -->

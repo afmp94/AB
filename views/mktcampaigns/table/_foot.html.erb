@@ -1,0 +1,11 @@
+<tfoot>
+  <% if mktcampaigns.total_pages > 1 %>
+    <tr>
+      <th colspan="8" class="index-page-table__pagination-footer">
+        <div data-info="pagination" data-current-page="<%= mktcampaigns.current_page %>">
+          <%= paginate(mktcampaigns, params: { controller: "mktcampaigns", action: "index" }) %>
+        </div>
+      </th>
+    </tr>
+  <% end %>
+</tfoot>

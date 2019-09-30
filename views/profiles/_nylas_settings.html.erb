@@ -1,0 +1,93 @@
+<% if current_user.nylas_token.present? %>
+  <% if current_user.nylas_connected_email_account.present? %>
+    <h2 class="ui dividing header">Account:</h2>
+    <table class="ui table">
+      <thead class="hide-mobile-and-down">
+        <tr>
+          <th>Account</th>
+          <th>Provider</th>
+          <th>Services</th>
+          <th class="nowrap alignr"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="breakword">
+            <span class="fwb hide-tablet-and-up">Account:</span>
+            <%= current_user.nylas_connected_email_account %><br />
+            <% if super_admin_signed_in? %>
+              <span class="ui red label"><i class="wrench icon"></i> <%= current_user.nylas_token %></span><br />
+            <% end %>
+            <% if current_user.nylas_sync_status.present? %>
+              Sync status: <b><%= current_user.nylas_sync_status %> </b>
+            <% end %>
+          </td>
+          <td>
+            <span class="fwb hide-tablet-and-up">Provider:</span>
+            <%= current_user.nylas_account_provider.try(:titleize) %>
+          </td>
+          <td class="breakword">
+            <span class="fwb hide-tablet-and-up">Services:</span>
+            Email
+          </td>
+          <td>
+            <% if !current_user.nylas_account_valid? %>
+              <%= link_to(
+               "Reauthenticate",
+               add_nylas_email_path,
+                method: :post,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "ui basic button right floated"
+              ) %>
+            <% end %>
+            <% unless protected_nylas_email_account?(current_user) %>
+              <%= link_to(
+                "Disconnect",
+                delete_nylas_token_path,
+                class: "ui small basic negative button right floated",
+                method: :get,
+                data: { confirm: "Are you sure to disconnect your account?" }
+              ) %>
+            <% end %>
+            <% if current_user.super_admin? %>
+              <%= link_to(
+                "Clear",
+                clear_nylas_settings_path,
+                class: "ui small basic negative button right floated",
+                method: :put,
+                data: { confirm: "Are you sure to clear your account settings?" }
+              ) %>
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% else %>
+    <h2 class="ui dividing header">Account:</h2>
+    <div class="ui warning message">
+      <div class="header">
+        Wait for few minutes your account is syncing or please contact support@agentbright.com.
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if current_user.nylas_token.blank? %>
+  <%= form_tag(
+    add_nylas_email_path,
+    method: :post,
+    class: "ui form max-width-600 m-b-lg",
+    data: { "mobile-app-forced-form": request_from_mobile_app? }
+  ) do %>
+    <h3 class="ui dividing header">Add an account</h3>
+    <legend>Enter the email address associated with the account.</legend>
+    <div class="p-b">
+      <%= text_field_tag("email", nil, placeholder: "Enter your email address...") %>
+    </div>
+    <%= submit_tag(
+      "Add account",
+      class: "ui primary button",
+      "data-disable-with": "Adding..."
+    ) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,43 @@
+<% cache(["info_list", lead, lead.contact]) do %>
+  <% if display_as_lead?(lead) %>
+    <% if lead.client_type == "Buyer" %>
+      <%= render(partial: "leads/buyer_lead/sections/buyer_preferences", locals: { lead: lead }) %>
+      <%= render(partial: "leads/buyer_lead/sections/lead_details", locals: { lead: lead }) %>
+      <% if super_admin_signed_in? %>
+        <%= render(partial: "leads/buyer_lead/sections/admin", locals: { lead: lead }) %>
+      <% end %>
+    <% elsif lead.client_type == "Seller"%>
+        <%= render(partial: "leads/seller_lead/sections/seller_lead_details", locals: { lead: lead }) %>
+        <%= render(partial: "leads/seller_lead/sections/seller_preferences", locals: { lead: lead }) %>
+        <%= render(partial: "leads/seller_lead/sections/property", locals: { lead: lead }) %>
+      <% if super_admin_signed_in? %>
+        <%= render(partial: "leads/seller_lead/sections/admin", locals: { lead: lead }) %>
+      <% end %>
+    <% end %>
+  <% elsif display_as_client?(lead) %>
+    <% if lead.client_type == "Buyer" %>
+      <%= render(partial: "leads/buyer_client/sections/client_info", locals: { lead: lead }) %>
+      <%= render(partial: "leads/buyer_client/sections/lead_info", locals: { lead: lead }) %>
+      <%= render(partial: "leads/buyer_client/sections/client_preferences", locals: { lead: lead }) %>
+      <% if super_admin_signed_in? %>
+        <%= render(partial: "leads/buyer_client/sections/key_people", locals: { lead: lead }) %>
+      <% end %>
+      <%= render(partial: "leads/buyer_client/sections/commission", locals: { lead: lead }) %>
+      <% if super_admin_signed_in? %>
+        <%= render(partial: "leads/buyer_client/sections/admin", locals: { lead: lead }) %>
+      <% end %>
+    <% elsif lead.client_type == "Seller" %>
+      <%= render(partial: "leads/seller_client/sections/lead_info", locals: { lead: lead }) %>
+       <% if super_admin_signed_in? %>
+        <%= render(partial: "leads/seller_client/sections/key_people", locals: { lead: lead }) %>
+      <% end %>
+      <%= render(partial: "leads/seller_client/sections/seller_preferences", locals: { lead: lead }) %>
+      <%= render(partial: "leads/seller_client/sections/seller_property_info", locals: { lead: lead }) %>
+      <%= render(partial: "leads/seller_client/sections/listing_info", locals: { lead: lead }) %>
+      <%= render(partial: "leads/seller_client/sections/commission", locals: { lead: lead }) %>
+      <% if super_admin_signed_in? %>
+      <%= render(partial: "leads/seller_client/sections/admin", locals: { lead: lead }) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

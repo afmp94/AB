@@ -1,0 +1,52 @@
+<div class="ui five column celled grid">
+  <div class="center aligned column">
+    <div class="ui tiny statistic">
+      <div class="value">
+        <%= current_user.leads_received_in_last_week  %>
+      </div>
+      <div class="label">
+        Received
+      </div>
+    </div><!-- /.ui tiny statistic -->
+  </div><!-- /.column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic">
+      <div class="value">
+        <%= current_user.open_leads_received_in_last_week %>
+      </div>
+      <div class="label">
+        Open
+      </div>
+    </div><!-- /.ui tiny statistic -->
+  </div><!-- /.column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic">
+      <div class="value">
+        <%= current_user.leads_referred_in_last_week %>
+      </div>
+      <div class="label">
+        Referred
+      </div>
+    </div><!-- /.ui tiny statistic -->
+  </div><!-- /.column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic">
+      <div class="value">
+        <%= current_user.promoted_leads_received_in_last_week %>
+      </div>
+      <div class="label">
+        Promoted
+      </div>
+    </div><!-- /.ui tiny statistic -->
+  </div><!-- /.column -->
+  <div class="center aligned column">
+    <div class="ui tiny statistic">
+      <div class="value">
+        <%= current_user.junk_leads_received_in_last_week + current_user.not_converted_leads_received_in_last_week %>
+      </div>
+      <div class="label">
+        Lost/Junk
+      </div>
+    </div><!-- /.ui tiny statistic -->
+  </div><!-- /.column -->
+</div><!-- /.ui grid -->

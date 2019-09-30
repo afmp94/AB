@@ -1,0 +1,71 @@
+<div class="ui basic segment">
+  <div class="ui vertical basic segment">
+    <div class="ui grid">
+      <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+
+          <h2 class="ui header">Templates</h2>
+          <%= link_to(sms_messaging_add_text_templates_path, class: "ui button primary") do %>
+            <i class="plus icon"></i>
+            Add Text Template
+          <% end %>
+        <div class="ui segment p-a-0">
+            <table class="ui sortable single line table" data-ui-behavior="sortable-table">
+              <thead>
+                <tr>
+                  <th class="">Name</th>
+                  <th class="">Body</th>
+                  <th class="">Reply Rate</th>
+                  <th class="">Sent</th>
+                  <th class=""></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td>
+                    Buyer Template
+                  </td>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Hi %contact_first_nae%,<!-- re: inquiry %listing_address%
+                          What is best time to call?-->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td class="center aligned">
+                    100%
+                  </td>
+                  <td data-sort-value="6">
+                    300
+                  </td>
+                  <td class="center aligned">
+
+                     <button class="ui button">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div><!-- /.column -->
+    </div><!-- /.ui centered grid -->
+  </div>
+</div><!-- /.ui vertical basic segment -->
+
+<script>
+
+  // Initialize regular dropdowns
+  $('[data-ui-behavior=dropdown]')
+    .dropdown()
+  ;
+
+  // Initialize Semantic UI dropdowns
+  $('[data-ui-behavior=checkbox]')
+    .checkbox()
+  ;
+  $('.menu .item')
+    .tab()
+  ;
+
+</script>

@@ -1,0 +1,5 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("emails/modals/forward_email", { thread: @thread, message: @message, contact: @contact }) %>');
+
+ER.forwardEmail();

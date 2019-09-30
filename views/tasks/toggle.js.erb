@@ -1,0 +1,40 @@
+var task = $('[data-task-id~=<%= @task.id %>]');
+
+task.after('<%= j render(partial: "tasks/task", locals: { task: @task }) %>').remove();
+
+var newTask = $('[data-task-id~=<%= @task.id %>]');
+
+if (newTask.length > 0) {
+  newTask.each(function(index, element) {
+    var task = $(element);
+    task.addTaskSectionToID("<%= @task.id %>");
+    task.unbind('submitOnCheck');
+    task.submitOnCheck();
+  });
+};
+
+<% if @task_carrier && @task_carrier.showable_set_next_action_modal?(params[:from_page], @incompleted_tasks) %>
+  <%= render(partial: "shared/jserbs/tasks/set_next_action_modal", locals: { lead: @taskable, task: @new_task }) %>
+  $('[data-ui-behavior=modal]').modal('toggle')
+  $('[data-dismiss="modal"]').click(function(){
+    $('[data-ui-behavior=modal]').modal('toggle')
+  })
+<% end %>
+
+<% if @lead.present? %>
+  $("[data-behavior='activity-stream']").html('<%= j render(partial: "activities/activities_by_day",
+                                                            locals: { activities: @lead_recent_activities,
+                                                                      activities_url: @activities_url }) %>')
+<% end %>
+
+<% if @contact.present? %>
+  $("[data-behavior='activity-stream']").html('<%= j render(partial: "activities/activities_by_day",
+                                                            locals: { activities: @contact_recent_activities,
+                                                                      activities_url: @activities_url }) %>')
+<% end %>
+
+<% if @user_all_activities  %>
+    $("[data-behavior='activity-stream']").html('<%= j render(partial: "activities/activities_by_day",
+                                                              locals: { activities: @activities,
+                                                                        activities_url: @activities_url }) %>')
+<% end %>

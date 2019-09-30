@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="eight wide column">
+    <% if lead.active_and_has_an_accepted_contract? %>
+      <div class="ui negative message">
+        <div class="header">
+          Warning: Open Contract
+        </div>
+        You have changed the status of this transaction, but you still have an open contract. Please update the contract status.
+      </div>
+    <% end %>
+
+   <% if lead.client_type == "Buyer" %>
+      <%= render(
+        partial: "contracts/cards/buyer_open",
+        collection: contracts.open,
+        as: :contract
+      ) %>
+    <% elsif lead.client_type == "Seller" %>
+      <%= render(
+        partial: "contracts/cards/seller_open",
+        collection: contracts.open,
+        as: :contract
+      ) %>
+
+      <% if contracts.past.present? %>
+        <h3 class="ui header">Past Contracts</h3>
+        <%= render(
+          partial: "contracts/cards/seller_past",
+          collection: contracts.past,
+          as: :contract
+        ) %>
+      <% end %>
+    <% end %>
+  </div><!-- /.eight wide column -->
+</div><!-- /.row -->

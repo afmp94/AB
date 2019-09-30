@@ -1,0 +1,44 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Add New Property: <%= lead.name %></h4>
+</div>
+<div class="content">
+  <%= simple_form_for(
+    [@lead, @property],
+    url: lead_create_property_from_modal_path([@lead, @property]),
+    html: { data: { fv_live: "submitted", form: "add_property_modal_form" } },
+    remote: true
+  ) do |f| %>
+    <%= hidden_field_tag(
+      :parent_id,
+      @lead.id,
+      disabled: "disabled",
+      data: { info: "lead_id" }
+    ) %>
+    <%= f.hidden_field(:level_of_interest, value: "Interested") %>
+    <%= f.hidden_field(:transaction_type, value: "Buyer") %>
+    <h3>Address</h3>
+    <%= f.simple_fields_for(:address) do |address_form| %>
+      <%= address_form.hidden_field :require_basic_address_validations, value: true %>
+      <%= render 'addresses/form', f: address_form %>
+    <% end %>
+
+    <h3>Listing Info</h3>
+    <%= f.input(:list_price, label: "List Price", as: :currency) %>
+    <%= f.input(:mls_number, label: "MLS Number") %>
+      <%= f.input :rental, as: :boolean%>
+    <%= f.input(:property_url, label: "Property URL") %>
+
+    <%= f.input(
+      :notes,
+      input_html: { rows: 6 }
+    ) %>
+    <%= f.button(
+      :submit,
+      class: "ui primary button",
+      value: "Add Property",
+      "data-disable-with": "Saving..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>
+

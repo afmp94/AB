@@ -1,0 +1,88 @@
+<% content_for(:title, "Create a new account") %>
+<div class="ui main container full-width-container">
+  <div class="ui center aligned stackable grid">
+  <h1 class="ui orange center aligned header">
+    <div class="content">
+      AgentBright Assessment</br><h2 class="ui grey header">Get clarity of your goals and business in 15 minutes!</h4>
+    </div>
+  </h1>
+  <div class="row">
+    <div class="left aligned eight wide column">
+      <div class="ui raised segment">
+        <h2 class="ui teal image header">
+         <i class=" dashboard icon"></i>
+          <div class="content">
+            Take Assessment
+          </div>
+        </h2>
+        <h4></h4>
+        <p>.</p>
+        <form class="ui form">
+          <div class="field">
+            <label>Name</label>
+            <div class="two fields">
+              <div class="field">
+                <label>First Name</label>
+                <input type="text" name="first-name" placeholder="First Name">
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" name="last-name" placeholder="Last Name">
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="text" name="email" placeholder="Email">
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="0" class="hidden">
+              <label>I agree to the Terms and Conditions</label>
+            </div>
+          </div>
+          <button class="ui button" type="submit">Submit</button>
+        </form><!-- /.form-->
+        <div class="ui icon message">
+          <%= image_tag(white_label_image_name("box-114-transparent.png", current_subdomain), class: "image") %>
+          <div class="content m-y m-x">
+            <div class="block dividing header m-b">
+              Successful Agents get their business through building personal relationships. Let AgentBright help you become successful.
+            </div>
+            <button class="big ui orange button">
+              Try AgentBright Today
+            </button>
+            <p>The 'swiss-army' knife for Agents!</p>
+          </div><!-- /.content-->
+        </div><!-- /.message-->
+
+
+        <%#= render(partial: "users/registrations/form") %>
+        <!--<div class="ui message">
+          <%#= render(partial: "users/shared/links") %>
+        </div>-->
+      </div><!-- /.segment-->
+    </div><!-- /.column-->
+    <div class="eight wide column left aligned">
+      <%= render "designs/templates/assessment_components/agent_testimonial" %>
+    </div><!-- /.column-->
+  </div><!-- /.ui row-->
+  <div class="row">
+    <div class="center aligned sixteen wide column">
+      <div class="ui icon message">
+        <div class="content">
+          <button class="ui big primary button"><i class="mail icon"></i>
+            Email us
+          </button>
+          <button class="ui big  primary button"><i class="facebook square icon"></i>
+            Like us on Facebook
+          </button>
+          <button class="ui big primary button"><i class="info circle icon"></i>
+            Learn More ...
+          </button>
+          <h2>Our passion is helping Real Estate Agents be their best!</h2>
+        </div><!-- /.ui content-->
+      </div><!-- /.ui icon message -->
+    </div><!-- /.ui sixteen column -->
+  </div><!-- /.ui row-->
+</div><!-- /.ui main container -->

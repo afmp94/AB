@@ -1,0 +1,16 @@
+<% if not event.title == "Happy birthday!" %>
+  <% unique_cal_date_label = event_cal_date_attribute(event) %>
+  <% unique_day_date_label = event_day_date_attribute(event) %>
+  <div class="item">
+    <i class="calendar icon"></i>
+    <div class="content">
+      <div class="header"><%= event.title %></div>
+      <div class="description">
+        <%= format_event_date_and_time(event) %>
+        <% if event.location %>
+          <h4><%= event.location %></h4>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

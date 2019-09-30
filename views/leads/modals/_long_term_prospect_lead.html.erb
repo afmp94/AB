@@ -1,0 +1,32 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Long Term Prospect: <%= lead.name %></h4>
+</div><!-- /header -->
+<div class="content">
+  <%= simple_form_for(
+    lead,
+    url: set_long_term_prospect_lead_path(lead),
+    method: :patch,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |f| %>
+    <%= f.input :reason_for_long_term_prospect,
+                label: "What needs to happen before they can do business?" %>
+    <%= f.input :long_term_prospect_remind_me_at,
+            placeholder: "Remind me to follow up in:",
+            include_blank: false,
+            collection: {
+                          "1 Month" => (Time.zone.now + 30.days),
+                          "2 Months" => (Time.zone.now + 60.days),
+                          "3 Months" => (Time.zone.now + 90.days),
+                          "6 Months" => (Time.zone.now + 180.days),
+                          "1 Year" => (Time.zone.now + 365.days)
+                        } %>
+    <%= f.button(
+      :submit,
+      class: "ui primary button",
+      value: "Save as Long Term Prospect",
+      "data-loading-text" => "Saving..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>
+

@@ -1,0 +1,56 @@
+<% content_for(:title, "Leads") %>
+<% content_for(:demo_button, "leads-index") %>
+<% breadcrumb(:leads) %>
+<div class="ui masthead vertical segment">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0" data-introjs-step="step300">
+        <h1 class="ui header">
+          <%= link_to("Leads", user_leads_path) %>
+        </h1><!-- /.ui header -->
+        <div class="ui hidden divider"></div>
+        <%= link_to(new_lead_lead_path, class: "ui button primary") do %>
+          <i class="plus icon"></i>
+          Add New Lead
+        <% end %>
+      </div><!-- /.ui segment -->
+      <div class="ui very basic segment no-border p-a-0 m-t hide-mobile-and-down" data-introjs-step="step301">
+        <%= "Leads last 7 days" %>
+        <%= render(partial: "leads/stats/leads_pipeline") %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+    <%= "Leads last 7 days" %>
+    <%= render(partial: "leads/stats/lead_response_progress_bars") %>
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container full-width-container">
+  <div class="ui vertical basic segment p-t-0">
+    <%= render(
+      partial: "coaching/messages/cards_section",
+      locals: { coaching_messages: local_coaching_messages }
+    ) %>
+  </div><!-- /.ui basic segment -->
+  <div class="ui vertical basic segment p-t-0 index-page-table-container">
+    <div class="ui segments index-page-table-container__segments">
+      <div class="ui segment" data-introjs-step="step303">
+        <%= render(partial: "leads/table/options/search_bar") %>
+      </div><!-- /.ui segment -->
+
+      <div class="ui segment p-a-0" data-introjs-step="step304">
+        <%= render(partial: "leads/table/options/sticky_select_menu") %>
+
+        <div class="ui disabled inverted dimmer" data-behavior="loader">
+          <div class="ui text loader">Loading</div>
+        </div>
+
+        <div id="items-container" data-container="lead-items">
+          <%= render(
+            partial: "leads/table/data",
+            locals: { leads: @leads, action_name: "user_leads" }
+          ) %>
+        </div><!-- /.#contacts-container -->
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui segments -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.ui main container full-width-container -->

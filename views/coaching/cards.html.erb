@@ -1,0 +1,20 @@
+<% content_for(:title, "Coaching") %>
+<% breadcrumb(:coaching) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0">
+        <h1 class="ui header">
+          <%= link_to("Coaching", coaching_path) %>
+        </h1><!-- /.ui header -->
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container" data-container="coaching-cards">
+  <%= render(
+    partial: "coaching/messages/cards_section",
+    locals: { coaching_messages: @coaching_messages }
+  ) %>
+</div><!-- /.ui main container -->

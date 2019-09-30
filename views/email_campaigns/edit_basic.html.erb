@@ -1,0 +1,426 @@
+<% breadcrumb(:edit_basic_email_campaign, @email_campaign) %>
+<% content_for(:demo_button, "email-campaigns") %>
+
+<%= page_header(
+  primary_name: "Email Campaigns",
+  primary_path: email_campaigns_path,
+  secondary_name: "Create Email Campaign"
+) %>
+
+<div class="main ui container full-width-container">
+  <% if !current_user.confirmed? %>
+    <%= render(partial: "email_campaigns/warning_messages/confirmation_email") %>
+  <% end %>
+  <div class="ui vertical basic segment">
+    <div class="ui four ordered steps m-b">
+      <div class="active step clickable" data-ui-behavior="tab" data-tab="recipients" data-introjs-step="step620">
+        <div class="content">
+          <div class="title">Recipients</div>
+          <div class="description">Choose your recipients</div>
+        </div>
+      </div>
+      <div class="step clickable" data-ui-behavior="tab" data-tab="settings" data-introjs-step="step621">
+        <div class="content">
+          <div class="title">Campaign Settings</div>
+          <div class="description">Setup the campaign</div>
+        </div>
+      </div>
+      <div class="step clickable" data-ui-behavior="tab" data-tab="content" data-introjs-step="step622">
+        <div class="content">
+          <div class="title">Content</div>
+          <div class="description">Add text and images</div>
+        </div>
+      </div>
+      <div class="step clickable" data-ui-behavior="tab" data-tab="deliver_options" data-introjs-step="step623">
+        <div class="content">
+          <div class="title">Confirm</div>
+          <div class="description">Verify and deliver</div>
+        </div>
+      </div>
+    </div><!-- /.ui four top attached steps -->
+    <div class="ui stackable two column grid">
+      <div class="column">
+        <%= simple_form_for(
+          @email_campaign,
+          html: {
+            multipart: true,
+            class: "edit_email_campaign_form ",
+            "data-behavior": "edit_email_campaign_form",
+            "data-email-campaign-id": @email_campaign.id
+          },
+          remote: true
+        ) do |f| %>
+          <div class="ui tab transition fade in active" data-tab="recipients">
+            <div class="grouped fields">
+              <label for="delivery_time">Choose recipients by:</label>
+              <div class="field">
+                <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="recipients" data-radio-reveal="groups">
+                  <%= f.radio_button(
+                    :recipient_selector_type,
+                    "group", class: "hidden",
+                    data: { behavior: "select-group-radio" }
+                  ) %>
+                  <%= f.label(:recipient_selector_type_group, "Group") %>
+                </div>
+              </div>
+              <%= f.input(
+                :selected_groups,
+                label: "Select groups",
+                as: :select,
+                wrapper: :vertical_search_multiselect,
+                collection: current_user.all_contact_groups,
+                wrapper_html: { class: "reveal-section", "data-radio-reveal-section": "groups" },
+                input_html: { data: { behavior: 'select_group' } }
+              ) %>
+              <div class="field">
+                <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="recipients" data-radio-reveal="grades">
+                  <%= f.radio_button(
+                    :recipient_selector_type,
+                    "grade",
+                    class: "hidden",
+                    data: { behavior: "select-grade-radio" }
+                  ) %>
+                  <%= f.label(:recipient_selector_type_grade, "Grade") %>
+                </div>
+              </div>
+              <%= f.input(
+                :selected_grades,
+                label: "Select grades",
+                wrapper: :vertical_check_boxes,
+                as: :sui_check_boxes,
+                collection: Contact::GRADES,
+                wrapper_html: {
+                  class: "reveal-section",
+                  "data-radio-reveal-section": "grades"
+                },
+                input_html: { data: { behavior: 'select_grades' } }
+              ) %>
+              <div class="field">
+                <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="recipients" data-radio-reveal="saved_segments">
+                  <%= f.radio_button(:recipient_selector_type, "saved_segment", class: "hidden") %>
+                  <%= f.label(:recipient_selector_type_saved_segment, "Saved segment") %>
+                </div>
+              </div>
+              <div class="field reveal-section" data-radio-reveal-section="saved_segments">
+                <select class="ui dropdown" data-ui-behavior="dropdown">
+                  <option>Essex Residents</option>
+                  <option>Paused Clients</option>
+                </select>
+              </div>
+              <div class="field">
+                <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="recipients" data-radio-reveal="create_new_segment">
+                  <%= f.radio_button(:recipient_selector_type, "new_segment", class: "hidden") %>
+                  <%= f.label(:recipient_selector_type_new_segment, "New segment") %>
+                </div>
+              </div>
+              <div class="reveal-section" data-radio-reveal-section="create_new_segment">
+                <div class="field">
+                  <span>
+                    Subscribers match
+                    <select class="ui compact inline dropdown" data-ui-behavior="dropdown">
+                      <option>any</option>
+                      <option>all</option>
+                    </select>
+                    of the following conditions:
+                  </span>
+                </div>
+                <div class="ui divider"></div>
+                <div class="inline fields">
+                  <div class="field">
+                    <button class="circular basic ui icon button">
+                      <i class="minus icon"></i>
+                    </button>
+                  </div>
+                  <div class="field">
+                    <div class="ui compact selection inline dropdown" data-ui-behavior="dropdown">
+                      <i class="dropdown icon"></i>
+                      <div class="text">Campaign Activity</div>
+                      <div class="menu">
+                        <div class="item">Campaign Activity</div>
+                        <div class="item">Client Stage</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui compact selection inline dropdown" data-ui-behavior="dropdown">
+                      <i class="dropdown icon"></i>
+                      <div class="text">opened</div>
+                      <div class="menu">
+                        <div class="item">opened</div>
+                        <div class="item">clicked</div>
+                        <div class="item">was sent</div>
+                        <div class="item">did not open</div>
+                        <div class="item">did not click</div>
+                        <div class="item">was not sent</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui selection inline dropdown" data-ui-behavior="dropdown">
+                      <input type="hidden" />
+                      <i class="dropdown icon"></i>
+                      <div class="text">Any of the last 5 campaigns</div>
+                      <div class="menu">
+                        <div class="header">Aggregate campaigns</div>
+                        <div class="item" data-value="">Any of the last 5 campaigns</div>
+                        <div class="item" data-value="">Any of the last 10 campaigns</div>
+                        <div class="item" data-value="">Any recent campaign</div>
+                        <div class="item" data-value="">All of the last 5 campaigns</div>
+                        <div class="header">Sent campaigns</div>
+                        <div class="item" data-value="">April Market Data Report</div>
+                        <div class="item" data-value="">March Market Data Report</div>
+                        <div class="item" data-value="">February Market Data Report</div>
+                        <div class="item" data-value="">January Market Data Report</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="inline fields">
+                  <div class="field">
+                    <button class="circular basic ui icon button">
+                      <i class="minus icon"></i>
+                    </button>
+                  </div>
+                  <div class="field">
+                    <div class="ui compact selection inline dropdown" data-ui-behavior="dropdown">
+                      <input type="hidden" name="condition_object" />
+                      <i class="dropdown icon"></i>
+                      <div class="text">Client Stage</div>
+                      <div class="menu">
+                        <div class="item">Campaign Activity</div>
+                        <div class="item">Client Stage</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <select class="ui compact selection inline dropdown" data-ui-behavior="dropdown" name="condition_modifier">
+                        <option>is</option>
+                        <option>is not</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <div class="ui selection inline dropdown" data-ui-behavior="dropdown">
+                      <input type="hidden" name="condition_rule" />
+                      <i class="dropdown icon"></i>
+                      <div class="text">Active</div>
+                      <div class="menu">
+                        <div class="item" data-value="">Prospect</div>
+                        <div class="item" data-value="">Long Term Prospect</div>
+                        <div class="item" data-value="">Active</div>
+                        <div class="item" data-value="">Pending</div>
+                        <div class="item" data-value="">Closed</div>
+                        <div class="item" data-value="">Paused</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui button">
+                  <i class="add circle icon"></i> Add
+                </div>
+              </div>
+            </div>
+            <p>
+              <strong><span data-behavior="current-recipient-count"><%= pluralize(@email_campaign.recipients_count, "recipient", plural: "recipients") %></span></strong>
+              are set to receive an email.
+              <%= link_to(
+                "Click here to refresh the count",
+                "#",
+                "data-behavior": "update-recipient-count"
+              ) %>
+              <%= hidden_field_tag(
+                "update_recipient_count",
+                nil,
+                "data-behavior": "update-recipient-count-field"
+              ) %>
+              <br />
+              <strong>
+                <span data-behavior="unsubscribed-recipients-count" data-html="<%= render('email_campaigns/popup_contents/unsubscribed_list', { email_campaign: @email_campaign }) %>">
+                  <%= pluralize(@email_campaign.unsubscribed_recipients_count, "recipient", plural: "recipients") %>
+                </span>
+              </strong>
+              were selected but have unsubscribed.
+            </p>
+            <a href="#/settings" rel="address:/settings" class="ui primary icon button noloading">
+              Next
+              <i class="angle right icon"></i>
+            </a>
+            <%= link_to "Cancel", email_campaigns_path, class: "ui basic button" %>
+          </div>
+          <div class="ui tab" data-tab="settings">
+            <div class="field">
+              <%= f.input(
+                :name,
+                label: "Name your campaign",
+                input_html: { autocomplete: "off" }
+              ) %>
+            </div>
+            <div class="field">
+              <%= f.input(
+                :subject,
+                label: "Email subject",
+                input_html: { "data-update-campaign-preview": "subject", autocomplete: "off" }
+              ) %>
+            </div>
+            <a href="#/recipients" rel="address:/recipients" class="ui secondary icon button noloading">
+              <i class="angle left icon"></i>
+              Back
+            </a>
+            <a href="#/content" rel="address:/content" class="ui primary icon button noloading">
+              Next
+              <i class="angle right icon"></i>
+            </a>
+            <%= link_to("Cancel", email_campaigns_path, class: "ui basic button") %>
+          </div>
+          <div class="ui tab transition fade in" data-tab="content">
+            <div class="field">
+              <%= f.input(
+                :title,
+                label: "Add Title <span style='color:#a6a6a6; float:right'> 100</span>".html_safe,
+                max: 4,
+                wrapper_html: {  "data-update-campaign-preview": "title" },
+                input_html: { maxlength: 100, hint: "100 characters max" })
+              %>
+            </div>
+            <div class="ui basic form">
+              <div class="field">
+                <label for="file1">Upload Photo:</label>
+                <div class="ui fluid file input action">
+                  <input type="text" readonly>
+                  <input id="file1" autocomplete="off" data-update-campaign-preview="image" type="file"
+                    name="email_campaign[campaign_image_attributes][file]"
+                    data-url="/email_campaigns/<%= @email_campaign.id %>?autosave=true">
+                  <div class="ui button">
+                    Select...
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="spinner-row" style="display: none;">
+              <div class="control-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                  <%= image_tag("ajax-loader.gif") %> Uploading photo...
+                </div>
+              </div>
+            </div>
+
+            <br />
+            <div class="field">
+              <label> Create Personal Message</label>
+              <%= f.input(
+                :custom_message,
+                label: false,
+                as: :trix_editor,
+                wrapper_html: {
+                  "data-checkbox-reveal-section": "message_content",
+                  "data-update-campaign-preview": "custom_message"
+                }
+              ) %>
+            </div>
+            <a href="#/settings" rel="address:/settings" class="ui secondary icon button noloading">
+              <i class="angle left icon"></i>
+              Back
+            </a>
+            <a href="#/deliver_options" rel="address:/deliver_options" class="ui primary icon button noloading">
+              Next
+              <i class="angle right icon"></i>
+            </a>
+            <%= link_to "Cancel", email_campaigns_path, class: "ui basic button" %>
+          </div>
+          <div class="ui tab transition fade in" data-tab="deliver_options">
+            <% if !current_user.confirmed? %>
+              <%= render(partial: "email_campaigns/warning_messages/cant_deliver") %>
+            <% end %>
+            <div data-behavior="delivery_buttons">
+              <div class="ui button <%= handle_disabled_class %>" data-ui-behavior="open_send_test_email_modal">
+                Send test email
+              </div>
+              <div class="ui secondary right labeled icon button <%= handle_disabled_class %>" data-behavior="show_scheduling_section">
+                Schedule Campaign
+                <i class="wait icon"></i>
+              </div>
+              <br />
+              <br />
+              <div class="ui primary right labeled icon button <%= handle_disabled_class %>" data-ui-behavior="open_send_now_confirmation_modal">Send now<i class="send icon"></i></div>
+              <br />
+              <br />
+              <div>
+                <%= link_to("Cancel", email_campaigns_path, class: "ui basic button") %>
+              </div>
+            </div>
+          </div>
+          <% end %>
+          <%= render(
+            partial: "email_campaigns/schedule",
+            locals: { email_campaign: @email_campaign }
+          ) %>
+      </div>
+      <div class="column">
+        <h3 class="ui dividing header">Preview</h3>
+        <div class="row">
+          <iframe src="<%= preview_content_html_email_campaign_path(@email_campaign)%>" class="iframe" width="100%" height="100%" seamless="seamless" style="min-height:600px;border:solid 1px #000"></iframe>
+        </div>
+      <div>
+    </div>
+  </div>
+</div>
+
+<!-- Send test email modal -->
+<div class="ui small modal" data-ui-behavior="send_test_email_modal">
+  <i class="close icon"></i>
+  <div class="ui header">
+    Send a Test
+  </div>
+  <div class="content">
+    <h4 class="ui dividing header">Enter email(s) - separate by commas to send to multiple accounts</h4>
+    <%= form_tag(
+      send_preview_email_campaign_path,
+      id: "send_test_email_form",
+      remote: true
+    ) do %>
+      <div class="ui fluid input">
+        <%= text_field_tag(:test_email_recipients, "", placeholder: "Send a test to...") %>
+      </div>
+    <% end %>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Nevermind
+    </div>
+    <button type="submit" form="send_test_email_form" class="ui positive right labeled icon button">
+      Send Test
+      <i class="send icon"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Send now confirmation modal -->
+<div class="ui basic modal" data-ui-behavior="send_now_confirmation_modal">
+  <i class="close icon"></i>
+  <div class="ui icon header">
+    <i class="send icon"></i>
+    Are you sure you want to send this campaign now?
+  </div>
+  <div class="content">
+    <div class="ui grid">
+      <div class="center aligned row">
+        <div class="column">
+          <p>We recommend scheduling your message to be sent at an optimal time to maximize it's visibility.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui red cancel inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <%= link_to(send_now_email_campaign_path(@email_campaign), method: :post) do %>
+      <div class="ui green basic cancel inverted button">
+        <i class="checkmark icon"></i>
+        Yes
+      </div>
+    <% end %>
+  </div>
+</div>

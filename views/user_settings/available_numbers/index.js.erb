@@ -1,0 +1,19 @@
+<% if @available_numbers.empty? %>
+  $('[data-info="available-numbers-modal"] .actions').addClass('hide')
+
+  $('[data-info="available-numbers"]').html(
+    "Sorry, we could not find available number for your area code"
+  )
+<% else %>
+  $('[data-info="available-numbers-modal"] .actions').removeClass('hide')
+
+  $('[data-info="available-numbers"]').html(
+    "<%= escape_javascript render(
+      partial: 'user_settings/phone_number_settings/twilio_number',
+      collection: @available_numbers,
+      as: :number)
+    %>"
+  );
+<% end %>
+
+$('[data-info="available-numbers-modal"]').modal('show')

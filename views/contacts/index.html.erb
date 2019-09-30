@@ -1,0 +1,90 @@
+<% content_for(:title, "Contacts") %>
+<% content_for(:demo_button, "contacts-index") %>
+<% breadcrumb(:contacts) %>
+<div class="ui masthead vertical segment">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0" data-introjs-step="step200" >
+        <h1 class="ui header">
+          <%= link_to("Contacts", contacts_path) %>
+        </h1><!-- /.ui header -->
+        <div class="ui hidden divider"></div>
+        <%= link_to(new_contact_path, class: "ui button primary") do %>
+          <i class="plus icon"></i>
+          Add New Contact
+        <% end %>
+      </div><!-- /.ui segment -->
+      <div class="ui very basic segment no-border p-a-0 m-t hide-mobile-and-down" data-introjs-step="step201" data-info="contacts-stats">
+        <%= render(partial: "contacts/stats/ranked_stats") %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment p-t-0" data-introjs-step="step202">
+    <%= render(partial: "contacts/index/menu_bar") %>
+  </div><!-- /.ui vertical basic segment -->
+  <%= show_alert_if_processing_csv_file(current_user) %>
+  <div class="ui stackable grid index-page-table-grid" data-introjs-step="step203">
+    <div class="row">
+      <div class="three wide column hide-tablet-and-down">
+        <%= render(partial: "contacts/index/filters_section") %>
+      </div><!-- /.three wide column -->
+      <div class="thirteen wide column sticky-black-menu-container" data-introjs-step="step204">
+        <%= render(partial: "contacts/index/table_section") %>
+      </div><!-- /.thirteen.wide.column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui stackable grid -->
+</div><!-- /.main ui container -->
+
+<div class="ui small basic modal" data-ui-behavior="merge-modal">
+  <div class="ui icon header">
+    <i class="compress icon"></i>
+    Are you sure you want to merge these 3 contacts?
+  </div>
+  <div class="actions">
+    <div class="ui cancel red basic inverted button">
+      <i class="remove icon"></i>
+      No
+    </div>
+    <div class="ui ok green inverted button">
+      <i class="checkmark icon"></i>
+      Yes
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" data-ui-behavior="all-campaigns-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    All Campaigns
+  </div>
+  <div class="content">
+    <div class="ui icon fluid input">
+      <input class="prompt" type="text" placeholder="Search for campaigns...">
+      <i class="search icon"></i>
+    </div><!-- /.ui icon input -->
+    <div class="ui middle aligned divided list">
+      <div class="item">
+        <div class="left floated content">
+          A
+        </div><!-- /.left floated content -->
+        <div class="content">
+          <a href="#" class="ui label">Apple</a>
+          <a href="#" class="ui label">Axel</a>
+          <a href="#" class="ui label">Azure</a>
+        </div><!-- /.content -->
+      </div><!-- /.item -->
+
+      <div class="left floated content">
+        B
+      </div><!-- /.left floated content -->
+      <div class="content">
+        <a href="#" class="ui label">Banana</a>
+        <a href="#" class="ui label">Beetle</a>
+        <a href="#" class="ui label">Bunny</a>
+      </div><!-- /.content -->
+    </div><!-- /.item -->
+  </div><!-- /.ui divided list -->
+</div><!-- /.content -->

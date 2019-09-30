@@ -1,0 +1,19 @@
+<%= simple_form_for(
+  current_user,
+  url: credit_card_path,
+  html: {
+    class: "credit_card bootstrap-center-form-medium",
+    data: {
+      "mobile-app-forced-form": request_from_mobile_app?,
+      "stripe-load-delay": STRIPE_LOAD_DELAY,
+      form: "stripe_form"
+    }
+  }
+) do |f| %>
+  <%= render(partial: "credit_cards/payment_fields") %>
+
+  <div data-stripe-behavior="form-actions">
+    <%= f.button(:submit, "Submit", class: "ui primary button") %>
+    <%= link_to("Cancel", billing_path, class: "ui basic button") %>
+  </div>
+<% end %>

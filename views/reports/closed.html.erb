@@ -1,0 +1,41 @@
+<% content_for(:title, "Closed Clients Report") %>
+<% breadcrumb(:closed_reports) %>
+<div data-behavior="closed-reports">
+  <div class="ui masthead vertical segment compressed">
+    <div class="ui container">
+      <div class="introduction">
+        <h1 class="ui header">
+          Closed Report - ALL
+          <span>
+            <% if current_user.user_has_teammates? == false %>
+              (<%= current_user.name %>)
+            <% end %>
+          </span>
+          <div class="sub header">Closed Clients YTD</div>
+        </h1><!-- /.ui header -->
+      </div><!-- /.introduction -->
+      <div class="ui secondary menu">
+        <a class="item active" data-ui-behavior="tab" data-tab="ytd">YTD</a>
+        <a class="item" data-ui-behavior="tab" data-tab="last_year">Last Year</a>
+        <a class="item" data-ui-behavior="tab" data-tab="past_12_months">Past 12 Months</a>
+        <a class="item" data-ui-behavior="tab" data-tab="all">All</a>
+      </div>
+    </div><!-- /.ui container -->
+  </div><!-- /.ui masthead vertical segment compressed -->
+
+  <div class="ui tab transition fade in active" data-tab="ytd">
+    <%= render partial: "reports/closed_reports/report", locals: { leads: @ytd_leads } %>
+  </div>
+
+  <div class="ui tab transition fade in" data-tab="last_year">
+    <%= render partial: "reports/closed_reports/report", locals: { leads: @last_year_leads } %>
+  </div>
+
+  <div class="ui tab transition fade in" data-tab="past_12_months">
+    <%= render partial: "reports/closed_reports/report", locals: { leads: @past_12_months_leads } %>
+  </div>
+
+  <div class="ui tab transition fade in" data-tab="all">
+    <%= render partial: "reports/closed_reports/report", locals: { leads: @all_leads} %>
+  </div>
+</div>

@@ -1,0 +1,192 @@
+<td class="index-page-table__checkbox-cell">
+  <div class="ui fitted checkbox">
+    <input class="contact-search-item item-checkbox" value="<%= contact.id %>" id="checkbox-table-<%= contact.id %>" type="checkbox"/>
+    <label for="checkbox-table-<%= contact.id %>"></label>
+  </div>
+</td>
+<td data-behavior="contact-main-cell" class="index-page-table__avatar-cell clickable">
+  <%= display_avatar(contact, size: :mini, circular: false) %>
+</td>
+<td class="index-page-table__main-cell">
+  <div class="item">
+    <div class="ui small header">
+      <div class="content">
+        <%= link_to(
+          format_display_name(
+            contact,
+            display_includes: %i(full_name email phone_number)
+          ),
+          contact_path(contact)
+        ) %>
+        <% primary_email = display_primary_email_address(contact) %>
+        <% if contact.name.present? && primary_email.present? %>
+          <%= link_to(
+            primary_email.truncate(40),
+            "mailto:#{primary_email}",
+            class: "sub header",
+            title: primary_email
+          ) %>
+        <% end %>
+        <div class="sub header"><%= contact.work_info %></div><!-- /.sub header -->
+      </div><!-- /.content -->
+    </div><!-- /.ui small header -->
+  </div><!-- /.item -->
+</td><!-- /.index-page-table__main-cell -->
+<td class="index-page-table__hidden-section-cell hide-tablet-and-up">
+  <div class="ui accordion" data-ui-behavior="table-row-accordion">
+    <div class="title" data-accordion>
+      <div class="ui two basic tiny buttons">
+        <div class="ui icon button" data-ui-behavior="table-row-view-more">
+          View More Info
+          <i class="dropdown icon"></i>
+        </div><!-- /.ui button -->
+        <div class="ui center aligned dropdown button">
+          Quick Add
+          <div class="menu">
+            <%= link_to(
+              "Lead",
+              new_lead_path(
+                contact_id: contact.id,
+                from_page: FromPage::CONTACTS_INDEX
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Referral",
+              new_contact_activity_path(contact_id: contact.id),
+              class: "item"
+            ) %>
+          </div><!-- /.menu -->
+        </div><!-- /.ui button -->
+      </div><!-- /.ui two buttons -->
+    </div><!-- /.title -->
+    <div class="content" data-accordion>
+      <div class="index-page-table__view-more-container">
+        <div class="index-page-table__view-more-cell">
+          <span class="hide-tablet-and-up fwb">Phone:</span><br />
+          <%= display_primary_phone_number(contact) %>
+        </div><!-- /.index-page-table__view-more-cell -->
+        <div class="index-page-table__view-more-cell" data-sort-value="1473778039">
+          <span class="hide-tablet-and-up fwb">Last Contacted:</span><br />
+          <%= cal_date(contact.last_contacted_date) %>
+        </div><!-- /.index-page-table__view-more-cell -->
+        <div class="index-page-table__view-more-cell" data-sort-value="6">
+          <span class="hide-tablet-and-up fwb">Grade:</span>
+          <%= link_to(
+            contact.grade_to_s,
+            "javascript:void(0)",
+            data: { "ui-behavior": "grade-select-popup-trigger" }
+          ) %>
+          <div class="ui flowing popup top left transition hidden" data-ui-behavior="grade-select-popup">
+            <h5>Change grade:</h5>
+            <div class="ui large labels">
+              <%= link_to(
+                "A+",
+                "javascript:void(0)",
+                class: "ui green circular label",
+                data: { behavior: "update-grade", grade_id: 0, contact_id: contact.id }
+              ) %>
+              <%= link_to(
+                "A",
+                "javascript:void(0)",
+                class: "ui teal circular basic label",
+                data: { behavior: "update-grade", grade_id: 1, contact_id: contact.id }
+              ) %>
+              <%= link_to(
+                "B",
+                "javascript:void(0)",
+                class: "ui yellow circular basic label",
+                data: { behavior: "update-grade", grade_id: 2, contact_id: contact.id }
+              ) %>
+              <%= link_to(
+                "C",
+                "javascript:void(0)",
+                class: "ui orange circular basic label",
+                data: { behavior: "update-grade", grade_id: 3, contact_id: contact.id }
+              ) %>
+              <%= link_to(
+                "D",
+                "javascript:void(0)",
+                class: "ui red circular basic label",
+                data: { behavior: "update-grade", grade_id: 4, contact_id: contact.id }
+              ) %>
+              <%= link_to(
+                "-",
+                "javascript:void(0)",
+                class: "ui grey circular basic label",
+                data: { behavior: "update-grade", grade_id: 5, contact_id: contact.id }
+              ) %>
+            </div><!-- /.ui labels -->
+          </div><!-- /.ui flowing popup -->
+        </div>
+        <div class="index-page-table__view-more-cell" data-behavior="conatct-groups">
+          <div data-behavior="contact-<%= contact.id %>-group-section">
+            <%= render partial: "contacts/table/row/group_section", locals: { contact: contact }  %>
+          </div>
+        </div><!-- /.index-page-table__view-more-cell -->
+      </div><!-- /.index-page-table__view-more-container -->
+    </div><!-- /.content -->
+  </div><!-- /.ui accordion -->
+</td><!-- /.index-page-table__hidden-section-cell -->
+<td class="index-page-table__data-cell" data-sort-value="6">
+  <span class="hide-tablet-and-up fwb">Grade:</span>
+  <%= link_to(
+    contact.grade_to_s,
+    "javascript:void(0)",
+    data: { "ui-behavior": "grade-select-popup-trigger" }
+  ) %>
+  <div class="ui flowing popup top left transition hidden" data-ui-behavior="grade-select-popup">
+    <h5>Change grade:</h5>
+    <div class="ui large labels">
+      <%= link_to(
+        "A+",
+        "javascript:void(0)",
+        class: "ui green circular label",
+        data: { behavior: "update-grade", grade_id: 0, contact_id: contact.id }
+      ) %>
+      <%= link_to(
+        "A",
+        "javascript:void(0)",
+        class: "ui teal circular basic label",
+        data: { behavior: "update-grade", grade_id: 1, contact_id: contact.id }
+      ) %>
+      <%= link_to(
+        "B",
+        "javascript:void(0)",
+        class: "ui yellow circular basic label",
+        data: { behavior: "update-grade", grade_id: 2, contact_id: contact.id }
+      ) %>
+      <%= link_to(
+        "C",
+        "javascript:void(0)",
+        class: "ui orange circular basic label",
+        data: { behavior: "update-grade", grade_id: 3, contact_id: contact.id }
+      ) %>
+      <%= link_to(
+        "D",
+        "javascript:void(0)",
+        class: "ui red circular basic label",
+        data: { behavior: "update-grade", grade_id: 4, contact_id: contact.id }
+      ) %>
+      <%= link_to(
+        "-",
+        "javascript:void(0)",
+        class: "ui grey circular basic label",
+        data: { behavior: "update-grade", grade_id: 5, contact_id: contact.id }
+      ) %>
+    </div><!-- /.ui labels -->
+  </div><!-- /.ui flowing popup -->
+</td><!-- /.index-page-table__data-cell -->
+<td class="index-page-table__data-cell" data-behavior="conatct-groups">
+  <div data-behavior="contact-<%= contact.id %>-group-section">
+    <%= render partial: "contacts/table/row/group_section", locals: { contact: contact }  %>
+  </div>
+</td><!-- /.index-page-table__data-cell -->
+<td class="index-page-table__data-cell" data-sort-value="1473778039">
+  <span class="hide-tablet-and-up fwb">Last Contacted:</span>
+  <%= cal_date(contact.last_contacted_date) %>
+</td><!-- /.index-page-table__data-cell -->
+<td class="index-page-table__data-cell">
+  <span class="hide-tablet-and-up fwb">Phone:</span>
+  <%= display_primary_phone_number(contact) %>
+</td><!-- /.index-page-table__data-cell -->

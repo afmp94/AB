@@ -1,0 +1,100 @@
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #3f729b">
+    <h3 class="text-left" style="height: 10px;color:#eaece5; margin-top: 5px; margin-bottom: 10px; margin-left: 15px;font-size: 22px;" >Tasks</h3>
+  </columns>
+</row>
+
+<spacer size="6"></spacer>
+
+<% if @tasks_due_today_and_overdue.count.positive? ||  @todays_and_overdue_team_tasks.count.positive? %>
+  <% if @tasks_due_today_and_overdue.count.positive?%>
+    <row>
+      <columns small="12" large="12" style="background-color:#eaece5;"" >
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #3F729B !important;">
+              Today + Overdue
+          </h3>
+      </columns>
+    </row>
+    <spacer size="6"></spacer>
+    <% @tasks_due_today_and_overdue.first(3).each do |task| %>
+      <row>
+        <columns small="6" large="6">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">
+            <row>
+              <strong><%= task.subject %></row>
+            <row>
+            </strong> - <%= show_taskable_mailer(task) %></row> </span>
+        </columns>
+        <columns small="4" large="4">
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+                Date due: <%= short_date(task.due_date_at) %>
+            </span>
+        </columns>
+        <columns small="2" large="2">
+            <span>
+              <button href="<%= edit_task_url(task) %>" target="_blank" class="rounded small-expanded primary button-size: tiny">View</button>
+            </span>
+        </columns>
+      </row>
+    <% end %>
+  <% end %>
+
+  <% if @todays_and_overdue_team_tasks.count.positive? %>
+    <row>
+      <columns valign="middle" small="12" large="12"  style="background-color:#eaece5;"" >
+      <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #3F729B !important;">
+        <strong>Team Tasks</strong>
+      </h3>
+      </columns>
+    </row>
+    <spacer size="6"></spacer>
+    <% @todays_and_overdue_team_tasks.first(3).each do |task| %>
+      <row>
+        <columns small="6" large="6">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">
+            <row>
+              <strong><%= task.subject %></strong>
+            </row>
+            <row>
+              <%= show_taskable_mailer(task) %>
+            </row>
+          </span>
+        </columns>
+        <columns small="4" large="4">
+          <row>
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Date due: <%= short_date(task.due_date_at) %>
+            </span>
+          </row>
+          <row>
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+                <%= task.assigned_to.try(:name) %>
+            </span>
+          </row>
+        </columns>
+        <columns small="2" large="2">
+          <span>
+            <button href="<%= edit_task_url(task) %>" target="_blank" class="rounded small-expanded primary button-size: tiny">View</button>
+          </span>
+        </columns>
+      </row>
+    <% end %>
+  <% end %>
+
+  <row>
+    <columns large="12" small="12">
+      <%= link_to("View All Tasks", tasks_url) %>
+    </columns>
+  </row>
+<% else %>
+  <row>
+    <columns small=8" large="8" >
+      <span style="font-weight:normal;font-size:14px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px"> Hey, no time like the present to get busy! Add some tasks now </span>
+     </columns>
+    <columns small="3" large="3">
+      <button href="<%= new_task_url %>" target="_blank" class="rounded small-expanded primaryndary button-size: tiny">Start Now</button>
+      <spacer size="6"></spacer>
+      </button>
+    </columns>
+  </row>
+<% end %>

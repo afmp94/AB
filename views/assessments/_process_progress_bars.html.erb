@@ -1,0 +1,34 @@
+<div class="progress-report">
+  <div class="ui small <%= progress_bar_class(@branding_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @branding_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Branding</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@database_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @database_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Database</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@relationship_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @relationship_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Relationship Marketing</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@marketing_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @marketing_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Mass Marketing</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@lead_response_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @lead_response_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Lead Response</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@prospect_conversion_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @prospect_conversion_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Prospect Conversion</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@agent_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @agent_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Service</div>
+    <div class="bar"></div>
+  </div>
+  <div class="ui small <%= progress_bar_class(@pipeline_service.total_score_in_percentage) %> inverted progress" data-percent="<%= @pipeline_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+    <div class="label">Sales Pipeline</div>
+    <div class="bar"></div>
+  </div>
+</div><!-- /.progress-report -->

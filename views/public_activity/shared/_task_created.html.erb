@@ -1,0 +1,9 @@
+<%= link_to(
+  task_path(id: activity.trackable_id),
+  class: "activity-task"
+) do %>
+  <div class="activity-task__checkbox-label">
+    <span class="activity-task__checkbox-button"></span>
+  </div>
+  <span class="activity-task__checkbox-content"><%= human_activity_name(activity) %></span>
+<% end %>

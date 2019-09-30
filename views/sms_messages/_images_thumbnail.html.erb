@@ -1,0 +1,11 @@
+<%- if images.present? %>
+  <%- images.each do |image| %>
+    <%- if image.image_url %>
+      <%= link_to(image.image_url, target: :blank) do %>
+        <img src="<%= image.image_url %>"
+             class="ui tiny rounded image m-y ab-image-exists"
+             data-image="mms-image" />
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

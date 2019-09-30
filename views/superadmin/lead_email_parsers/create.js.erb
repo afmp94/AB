@@ -1,0 +1,5 @@
+<% if @result %>
+  toastr.success('You have added the email #<%= @lead_email.id %>: "<%= @lead_email.subject %>" to the parsing queue.');
+<% else %>
+  toastr.error("There was a problem adding the email to queue. Please check the logs");
+<% end %>

@@ -1,0 +1,128 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Dotloop <%= lead.name %></h4>
+</div>
+<form action="/loops" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <% if !@token %>
+    <div class="content">
+      <div class="ui form segment">
+        <h4><%= @message %></h4>
+        <div class="ui form">
+          <a class="ui basic button" data-dismiss="modal">Cancel</a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if @token %>
+    <div class="content">
+      <div class="ui form segment">
+        <label></label>
+        <div class="grouped fields">
+          <label>Options</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="dotloop_action" value="new-loop" checked="checked" id="new-loop-checkbox">
+              <input type="hidden" name="lead_id" value="<%= @lead.id %>">
+              <label>Create a new loop</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="dotloop_action" value="existing-loop" id="existing-loop-checkbox">
+              <label>Link to an existing loop</label>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Profile</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="profile_id" value="<%= @profiles.first.id %>" id="profile_id">
+            <i class="dropdown icon"></i>
+            <div class="text"><%= @profiles.first.name %></div>
+            <div class="menu">
+              <% @profiles.each do |profile| %>
+                <div class="item" data-value="<%= profile.id %>"><%= profile.name %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <% if @templates.flatten.present? %>
+          <div class="field" id="loop-templates">
+            <label>Which template should we use?</label>
+            <div class="ui selection dropdown">
+            <input type="hidden" name="template_id" value="<%= @templates.flatten.first["id"] %>">
+            <i class="dropdown icon"></i>
+            <div class="default text">Dotloop Template</div>
+            <div class="menu">
+              <% @templates.flatten.each do |template| %>
+                <div class="item" data-value="<%= template["id"] %>"><%= template["name"] %></div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <div class="field" id="profile-loops">
+          <label>Choose an existing loop to link to:</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="loop_id" value="<%= @profile_loops.flatten.first.id if @profile_loops.flatten.present? %>" id="existing_loops">
+            <i class="dropdown icon"></i>
+            <div class="text" id="loop_menu_text"><%= @profile_loops.flatten.first&.name %></div>
+            <div class="menu" id="loop_menu">
+              <% @profile_loops.flatten.each do |loop| %>
+                <div class="item loop_menu" data-value="<%= loop.id %>"><%= loop.name %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="ui positive button">Submit</button>
+        <a class="ui basic button" data-dismiss="modal">Cancel</a>
+      </div>
+    </div>
+  <% end %>
+</form>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#profile-loops').hide();
+    $('#new-loop-checkbox').click(function() {
+      if ($(this).is(':checked')) {
+        $('#profile-loops').hide();
+        $('#loop-templates').show();
+      }
+    });
+    $('#existing-loop-checkbox').click(function() {
+      if ($(this).is(':checked')) {
+        $('#profile-loops').show();
+        $('#loop-templates').hide();
+      }
+    });
+    $('#profile_id').change(function() {
+      get_loop_for_profile();
+    });
+
+    function get_loop_for_profile() {
+      profile_id = $('#profile_id').val();
+      menu = "";
+      $.ajax({
+        url: '/get_loops_by_templates',
+        method: 'get',
+        data: {profile_id: profile_id},
+        success: function(data) {
+          if (data.loops.length > 0) {
+            $('.loop_menu').remove();
+            for (var i = 0; i < data.loops.length; i++) {
+              if (i === 0)
+              {
+                $('#existing_loops').val(data.loops[i].id);
+                $('#loop_menu_text').val(data.loops[i].name);
+              }
+              menu += '<div class="item" data-value="'+ data.loops[i].id +'">'+ data.loops[i].name +'</div>';
+            }
+            $('#loop_menu').append(menu);
+          }
+        }
+      });
+    }
+
+  });
+</script>
+

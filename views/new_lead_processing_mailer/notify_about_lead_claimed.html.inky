@@ -1,0 +1,27 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <spacer size="8"></spacer>
+  <container>
+    <row>
+      <columns large="8">
+        <h3 style="text-align:center">
+          You have successfully claimed the lead
+        </h3>
+        <h1 style="text-align:center">
+          <%= @lead.contact.full_name %>
+        </h1>
+      </columns>
+    </row>
+  </container>
+  <spacer size="8"></spacer>
+  <container>
+    <row>
+      <columns>
+        <center>
+        <button href="<%= lead_url(@lead)%>">
+        View this Lead</button>
+        </center>
+      </columns>
+    </row>
+  </container>
+
+<% end %>

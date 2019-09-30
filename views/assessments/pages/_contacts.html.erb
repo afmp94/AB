@@ -1,0 +1,78 @@
+  <div class="column">
+    <div class="ui two cards">
+      <div class="ui inverted card">
+        <div class="content">
+          <div class="center aligned header"><i class="yellow circle lightbulb big icon"></i>Inspiration</div>
+          <div class="center aligned description">
+            <p>“Your brand is what other people say about you when you’re not in the room.”<h6>Jeff Bezos</h6></p>
+          </div>
+        </div>
+      </div>
+      <div class="ui card">
+        <div class="content">
+          <div class="center aligned header">Your results</div>
+          <div class="ui center green aligned big header ">100%</div>
+          <div class="center aligned description">
+            <p><i class="green check circle icon"></i>You have your fundamentals in place!  (80% or better)</p>
+            <p><i class="yellow check circle icon"></i>You are on track, just a few things to update (60 to 79%) </p>
+            <p><i class="red exclamation circle icon"></i>We suggest to update your business fundamentals (less than 60%)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+
+    <div class="ui segment tab transition fade in active" id="contacts-info" data-tab="contacts-info" >
+      <h4 class="ui dividing header">Contacts</h4>
+      <%= f.input(
+        :tracking_tool,
+        label: "What do you use most often to keep track of your contacts?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::TRACKING_TOOL_SCORING.keys) %>
+      <%= f.input(
+          :networking_meetings,
+          label: "How often do you attend local networking events or community functions?",
+          wrapper: :vertical_radio_buttons,
+          as: :sui_radio_buttons,
+          collection: SurveyResult::NETWORKING_MEETINGS_SCORING.keys) %>
+      <%= f.input(
+        :contacts_grouped,
+        label: "Do you have your database of contacts sorted into groups (e.g. family, friends, past clients, lenders, etc)?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::CONTACTS_GROUPED_SCORING.keys) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :contacts_ranked,
+        label: "Have you ranked or graded all of your contacts to separate out the most valuable to your business?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :local_service_list,
+        label: "Do you have an updated, ready-to-go list of local service providers that you could print out, email or refer to?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <div class="ui primary icon button" data-tab-open="branding-info">Back</div>
+      <div class="ui primary icon button" data-tab-open="personal-marketing-info" data-validate-container>Next</div>
+    </div><!-- /#contactsdbase-->
+  <% end %>
+</div><!-- /.column -->
+

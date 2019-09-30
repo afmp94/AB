@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">Agent Bright Invoice Payment Failed</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">Agent Bright failed to charge an invoice to your credit card on <%= Time.zone.now.strftime("%B %d, %Y at %I:%M %p") %> . Please log in to your account immediately and update your credit card information!</p>
+<% end %>

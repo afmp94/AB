@@ -1,0 +1,38 @@
+<fieldset class="ui raised <%= "orange" if f.object.primary? %> segment">
+  <div class="field">
+    <div class="ui action input">
+      <%= f.input(
+        :email,
+        label: false,
+        wrapper: false,
+        placeholder: "Email address"
+      ) %>
+      <%= f.input(
+        :email_type,
+        collection: EmailAddress::EMAIL_TYPES,
+        wrapper: false,
+        input_html: { class: "ui basic floating dropdown button ab-narrow-dropdown" },
+        label: false
+      ) %>
+      <%= f.hidden_field(:_destroy) %>
+      <%= link_to("#", class: "ui basic red icon tiny button remove_fields") do %>
+        <i class="large trash icon"></i>
+      <% end %>
+    </div><!-- /.ui action input -->
+  </div><!-- /.field -->
+  <div class="field">
+    <%= f.input(
+      :primary,
+      label: "Primary?",
+      title: nil,
+      wrapper_html: { "data-contact-primary-wrapper": "email" },
+      input_html: {
+        class: "fitted",
+        data: {
+          checked: f.object.primary?,
+          "contact-primary": "email"
+        }
+      }
+    ) %>
+  </div><!-- /.field -->
+</fieldset>

@@ -1,0 +1,38 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Paused Lead: <%= lead.name %></h4>
+</div>
+
+<div class="content">
+  <%= simple_form_for(
+    lead, url: pause_lead_path(lead),
+    method: :patch,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |f| %>
+    <%= f.input(
+      :pause_date_at,
+      label: "Date this client was paused",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.pause_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.input(:reason_for_pause, label: "Reason for pause") %>
+    <%= f.input(
+      :unpause_date_at,
+      as: :datepicker,
+      label: "Unpause Date",
+      input_html: {
+        value: format_for_datepicker(f.object.unpause_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.button(
+      :submit,
+      class: "ui primary button",
+      value: "Pause Client",
+      "data-loading-text" => "Pausing..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

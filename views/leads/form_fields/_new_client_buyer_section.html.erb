@@ -1,0 +1,37 @@
+<div class="buyersection m-t-lg hidejs" data-reveal-set-name="client_type" data-reveal-show-value="Buyer">
+  <h2 class="ui header">Buyer Details</h2>
+  <%= f.input(:buyer_area_of_interest, label: "Area of Interest") %>
+  <div class="two fields">
+    <%= f.input(
+      :property_type,
+      label: "Property Type",
+      collection: Lead::PROPERTY_TYPES,
+      include_blank: false
+    ) %>
+    <%= f.input(:timeframe, collection: Lead::TIMEFRAMES, include_blank: false) %>
+  </div>
+  <div class="two fields">
+    <%= f.input(:min_price_range, label: "Min Price", as: :currency) %>
+    <%= f.input(:max_price_range, label: "Max Price", as: :currency) %>
+  </div>
+  <div class="two fields">
+    <%= f.input(
+      :buyer_prequalified,
+      as: :select,
+      label: "Is the buyer prequalified?"
+    ) %>
+    <%= f.input(
+      :prequalification_amount,
+      label: "Prequalification Amount",
+      as: :currency
+    ) %>
+  </div><!-- /.buyersection -->
+  <h2>Properties Interested In</h2>
+  <%= f.fields_for(:properties, @lead.properties.build) do |builder| %>
+    <%= render(
+      partial: "leads/form_fields/property_fields",
+      locals: { f: builder }
+    ) %>
+  <% end %>
+  <%= link_to_add_fields("Add Property", f, :properties, "leads/form_fields/") %>
+</div>

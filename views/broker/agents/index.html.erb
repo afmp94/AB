@@ -1,0 +1,56 @@
+<%# breadcrumb(:team_teammates) %>
+<!-- SIDEBAR MENU -->
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Agents",
+    secondary_name: "Broker"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">Agents</h2>
+  <%= link_to(new_broker_agent_path, class: "ui primary icon button") do %>
+    <i class="plus icon"></i>
+    Add New Agent Account
+  <% end %>
+
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Agent</th>
+        <th>Status</th>
+        <th>Office</th>
+        <th>Last Signed In</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @organization_members.find_each do |om|  %>
+        <tr>
+          <td class="breakword">
+            <% if om.member.present?  %>
+              <%= om.member.name %></a><br />
+              <%= om.member.email %><br />
+            <% else %>
+              <%= om.email_address %>
+            <% end %>
+          </td>
+          <td>
+            <div class="ui <%= label_color(om.status) %> label"><%= om.status.titleize %></div>
+          </td>
+          <td>
+            <div><%= om.office&.name || "Not found" %></div>
+          </td>
+          <td>
+            2/1/18
+          </td>
+          <td class="collapsing">
+            <div class="ui primary basic button">Edit</div>
+            <div class="ui red basic icon button"><i class="ui trash icon"></i></div>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>

@@ -1,0 +1,19 @@
+<% if cards.count.nonzero? %>
+  <div class="column">
+    <div class="ui positive message">
+      <div class="ui basic vertical segment">
+        <h1 class="ui dividing header">
+          Relationships & Database Management
+          <div class="sub header m-y-sm">
+            Your database of contacts and relationships is the foundation of every successful agent's business.
+          </div><!-- /.sub header -->
+        </h1><!-- /.ui dividing header -->
+      </div><!-- /.ui basic vertical segment -->
+      <div class="ui three doubling stackable cards">
+        <% cards.each do |card| %>
+          <%= render partial: "coaching/card", locals: { card: card } %>
+        <% end %>
+      </div><!-- /.ui cards -->
+    </div><!-- /.ui message -->
+  </div><!-- /.column -->
+<% end %>

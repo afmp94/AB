@@ -1,0 +1,8 @@
+<%= page_header(
+  primary_name: "Billing",
+  primary_path: billing_path,
+  secondary_name: "Add New Credit Card"
+) %>
+<div class="ui main container">
+  <%= render("checkouts/form", checkout: @checkout) %>
+</div><!-- /.ui main container -->

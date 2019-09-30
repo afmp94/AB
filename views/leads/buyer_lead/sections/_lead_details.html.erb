@@ -1,0 +1,48 @@
+<div id="lead-details-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Lead Details",
+        edit_fixed_list_lead_path(lead, lead_type: "buyer_lead", section: "lead_details"),
+        "edit-buyer-lead-lead-details"
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Lead Type", lead.lead_type_to_s) %>
+      <% if lead.lead_source_showable? %>
+        <%= fixed_list_item("Lead Source", lead.lead_source_to_s) %>
+      <% end %>
+      <% if lead.referral? %>
+        <%= fixed_list_item("Referrer", lead.referring_contact.try(:name)) %>
+        <%= fixed_list_item("Referral Type", lead.referral_fee_type) %>
+        <% if lead.referral_fee_type == "Percentage" %>
+          <tr>
+            <td>Referral %</td>
+            <td><%= lead.referral_fee_rate %></td>
+          </tr>
+        <% elsif lead.referral_fee_type == "Fee" %>
+          <tr>
+            <td>Referral Fee</td>
+            <td><%= lead.referral_fee_flat_fee %></td>
+          </tr>
+        <% end %>
+      <% end %>
+      <% if lead.created_by_user %>
+        <tr>
+          <td>Lead Originally Received From</td>
+          <td><%= lead.created_by_user.full_name %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>Received</td>
+        <td>
+          <%= "#{cal_date(lead.created_at)} (#{time_ago_in_words(lead.created_at)} ago)" %>
+        </td>
+      </tr>
+      <tr>
+        <td>Notes</td>
+        <td><%= lead.notes %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

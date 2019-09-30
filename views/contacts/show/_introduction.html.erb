@@ -1,0 +1,11 @@
+<div class="ui very basic compact left floated segment p-a-0">
+  <%= display_avatar(contact, size: :tiny, circular: false) %>
+</div><!-- /.ui very basic compact left floated segment -->
+<h1 class="ui header">
+  <div class="content">
+    <%= contact_display_name(contact) %>
+    <a class="clickable" rel="popover" data-container="#main-content" data-toggle="popover" data-placement="right" data-html="true" data-content='<%= render(partial: "contacts/grade_popover", locals: {contact: contact }) %>' data-title="Change Ranking"><%= contact.grade_to_s %></a>
+    <div class="sub header"><span class="fwb">Email: </span><%= display_primary_email_address(contact) %></div>
+    <div class="sub header"><span class="fwb">Phone: </span><%= display_primary_phone_number(contact) %></div>
+  </div>
+</h1>

@@ -1,0 +1,28 @@
+<div class="ui list">
+  <% if lead.key_people.present? %>
+    <% lead.key_people.each do |key_person| %>
+      <% if !key_person.new_record? %>
+        <div class="item" data-behavior="key-person-<%= key_person.id %>">
+          <% if action_name =="edit_fixed_list" %>
+            <div class="right floated content">
+              <%= link_to "Delete", key_person_path(key_person), method: :delete,
+                remote: true,
+                data: { confirm: "Are you sure to delete key person '#{key_person.contact.full_name.titleize}'?" } %>
+            </div>
+          <% end %>
+          <i class="user icon"></i>
+          <div class="content">
+            <div class="header">
+              <%= link_to key_person_info(key_person), contact_path(key_person.contact) %><%=  %>
+            </div>
+            <div class="description">
+              <%= key_person.role_type %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    No key people yet!
+  <% end %>
+</div>

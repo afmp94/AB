@@ -1,0 +1,41 @@
+<table class="ui table">
+  <thead class="hide-mobile-and-down">
+    <tr>
+      <th>Integrations</th>
+      <th class="nowrap alignr"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if show_beta_features? %>
+      <tr>
+        <td class="breakword">
+          <span class="fwb hide-tablet-and-up">Account:</span>
+          <span class="fwb">Dotloop</span>
+          <% if current_user.integrations.first.present? %>
+            <br>Account email: <span class="fsi"><%= current_user.integrations.first.email %></span>
+            <br>Dotloop ID: <span class="fsi"><%= current_user.integrations.first.account_id %></span>
+          <% end %>
+        </td>
+        <td>
+          <% if current_user.integrations.first.present? %>
+            <%= link_to(
+              "Disconnect",
+              integrations_destroy_path,
+              method: :post,
+              data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+              class: "ui basic red button right floated"
+            ) %>
+          <% else %>
+            <%= link_to(
+              "Connect",
+              integrations_create_path,
+              method: :post,
+              data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+              class: "ui green button right floated"
+            ) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

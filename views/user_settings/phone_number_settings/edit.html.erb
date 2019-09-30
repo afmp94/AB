@@ -1,0 +1,32 @@
+<% breadcrumb(:text_message_settings) %>
+<% provide(:title, "Text Messaging Settings") %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Text Messaging",
+    secondary_name: "Connections"
+  }
+) do %>
+  <div class="ui basic vertical segment no-border">
+    <h2 class="ui dividing header">Text Messaging Phone Numbers</h2>
+
+    <%= render "current_settings", number: @twilio_phone_number %>
+
+    <button class="ui button" data-behavior="display-area-code-form">
+      Add or Change Phone Number
+    </button>
+
+    <%= render "area_code_form" %>
+
+    <%= render "available_twilio_numbers_modal" %>
+
+    <% if super_admin_signed_in? %>
+      <%= render "urls" %>
+    <% end %>
+
+    <%= render(
+      partial: "user_settings/text_message_templates/section",
+      locals: { text_message_templates: @text_message_templates }
+    ) %>
+  </div>
+<% end %>

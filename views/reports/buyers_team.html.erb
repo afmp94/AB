@@ -1,0 +1,122 @@
+<% content_for(:title, "Buyer Clients Report") %>
+<% breadcrumb(:buyer_team_reports) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        Buyer Clients Report (Team)
+        <div class="sub header">Your active buyers</div>
+      </h1><!-- /.ui header -->
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical segment compressed -->
+
+<% if @leads.empty? %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon header m-y-lg">
+      <i class="warning sign icon"></i>
+      <div class="content">
+        Your team doesn't have any active buyers.
+        <div class="sub header">If this seems wrong, <%= link_to("review and update your client information here", clients_path) %>.</div>
+      </div>
+    </h2>
+  </div>
+<% else %>
+  <div class="main ui container">
+    <div class="ui vertical basic segment">
+      <div class="ui centered grid">
+        <div class="computer tablet only row">
+          <div class="column">
+            <div class="ui three tiny statistics">
+              <div class="statistic">
+                <div class="label">
+                  Buyers
+                </div>
+                <div class="value">
+                  <%= @leads.count %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Est Volume
+                </div>
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_price)) %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Est Net commission
+                </div>
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_net_commission)) %>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.computer tablet row -->
+        <div class="mobile only row">
+          <div class="column">
+            <div class="ui horizontal tiny statistics">
+              <div class="statistic">
+                <div class="value">
+                  <%= @leads.count %>
+                </div>
+                <div class="label">
+                  Buyers
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_price)) %>
+                </div>
+                <div class="label">
+                  Est Volume
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_net_commission)) %>
+                </div>
+                <div class="label">
+                  Est Net commission
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.mobile only row -->
+      </div><!-- /.ui centered grid -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <h2 class="ui dividing header">
+        Buyers
+      </h2><!-- /.ui dividing header -->
+      <table class="ui striped table" id="pendings_table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Lead Agent</th>
+            <th>Area</th>
+            <th>Timeframe</th>
+            <th class="right aligned">Price Range</th>
+            <th class="right aligned">Est. Net Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @leads.each do |lead| %>
+            <tr>
+              <td><%= link_to(lead.display_full_name, lead) %></td>
+              <td><%= lead.user.name %></td>
+              <td><%= lead.buyer_area_of_interest %></td>
+              <td><%= lead.timeframe_to_s %></td>
+              <td class="right aligned"><%= display_lead_price_range(lead) %></td>
+              <td class="right aligned"><%= num_to_currency(lead.displayed_net_commission) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div><!-- /.ui vertical basic segment -->
+  </div><!-- /.ui container -->
+<% end %>
+

@@ -1,0 +1,49 @@
+<% breadcrumb(:tags) %>
+<% provide(:title, "Tags") %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Tags",
+    secondary_name: "Account Settings"
+  }
+) do %>
+  <div class="ui basic vertical segment no-border p-t-0">
+    <table class="ui collapsing striped compact unstackable table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Tagged</th>
+          <th></th>
+        </tr>
+      </thead>
+      <% @contact_groups.each do |contact_group| %>
+        <tbody>
+          <tr>
+            <td><div class="ui blue label"><%= contact_group %></div>
+            </td>
+            <td class="center aligned">
+              <%= current_user.contacts.tagged_with(contact_group).count %>
+            </td>
+            <td>
+              <%= link_to(
+                "Rename",
+                edit_user_settings_tag_path(contact_group), 
+                remote: true,
+                data: { toggle: "tiny=modal", target: "#tinyModal" },
+                class: "ui basic small button"
+              ) %>
+              <%= link_to(
+                user_settings_tag_path(contact_group), 
+                method: :delete, 
+                data: { confirm: "This will remove this tag from all contacts it's associated with" },
+                class: "ui basic negative small button"
+              ) do %>
+                Delete
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  </div><!-- /.ui segment -->
+<% end %>

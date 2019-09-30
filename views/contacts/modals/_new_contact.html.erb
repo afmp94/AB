@@ -1,0 +1,43 @@
+  <div class="header">
+    <h4 class="modal-title" id="myModalLabel">Add New Contact</h4>
+  </div><!-- /modal-header -->
+  <div class="content">
+    <%= simple_form_for(@contact, remote: true, namespace: "#{modal_id}", html: { data: { fv_live: "submitted", form: "contact_form"} }) do |f| %>
+    <%= f.input_field(handle_required_validations(@for_page), value: true, as: :hidden) %>
+    <%= hidden_field_tag :for_page, for_page %>
+    <div class="row" id="quick-add-contact">
+      <input type="hidden" name="modal_id" value="<%= modal_id %>">
+      <input type="hidden" name="target_select_id" value="<%= target_select_id %>">
+      <%= f.input :first_name, label: "First Name", input_html: { wrapper_html: { data: { behavior: "first-name" } } } %>
+      <%= f.input :last_name, label: "Last Name", input_html: { wrapper_html: { data: { behavior: "last-name" } } } %>
+      <%= f.input(:grade, label: "Contact Rank", as: :sui_radio_buttons,
+                  wrapper: :horizontal_inline_radio_buttons,
+                  collection: Contact::GRADES) %>
+      <%= render(partial: "contact_groups_tag_field", locals: { contact: @contact })%>
+      <label data="contact-phones">Phone Number</label>
+      <%= f.simple_fields_for :phone_numbers do |builder| %>
+        <%= render(partial: 'contacts/phone_number_fields', locals: { f: builder}) %>
+      <% end %>
+      <%= link_to_add_fields "Add Phone Number", f, :phone_numbers, "contacts/" %>
+
+      <label data="contact-emails">Email Address</label>
+      <%= f.simple_fields_for :email_addresses do |builder| %>
+        <%= render(partial: 'contacts/email_address_fields', locals: {f: builder}) %>
+      <% end %>
+      <%= link_to_add_fields "Add Email Address", f, :email_addresses, "contacts/" %>
+      <%= f.simple_fields_for(:addresses) do |builder| %>
+        <%= render(partial: 'contacts/address_fields', locals: {f: builder}) %>
+      <% end %>
+      <%= link_to_add_fields "Add Address", f, :addresses, "contacts/" %>
+      <br />
+      <br />
+    </div>
+    <%= f.button(
+      :submit,
+      class: "ui primary button",
+      value: "Save Contact",
+      "data-disable-with": "Saving..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div><!-- /content -->

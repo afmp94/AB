@@ -1,0 +1,41 @@
+<%# The "application" layout is the default layout. It extends "base"  %>
+<%# to include things like header, footer, and alerts that are common  %>
+<%# to most (but not all) views.                                       %>
+
+<%= render(partial: "layouts/google_tag_manager_noscript") %>
+
+
+<% content_for(:body_class, "ux-layout phone-variant") %>
+
+<% if user_signed_in? %>
+  <div class="ui sidebar inverted vertical menu" id="hidden-sidebar-menu">
+    <%= render(partial: "shared/layout/sidebar_items") %>
+  </div>
+  <%= render(partial: "shared/layout/top_menu") %>
+<% else %>
+  <%= render(partial: "shared/layout/signed_out_top_menu") %>
+<% end %>
+
+<div class="pusher">
+  <div class="full height" id="full-height">
+    <% if user_signed_in? %>
+      <div class="visible-sidebar-menu">
+        <div class="ui vertical inverted sticky menu" id="side-menu" data-ui-behavior="visible-sidebar-sticky">
+          <%= render(partial: "shared/layout/sidebar_items") %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="page-contents">
+      <%= render("shared/flashes") %>
+      <div class="ui container breadcrumbs-container p-t">
+        <%= show_breadcrumbs %>
+      </div><!-- /.ui container -->
+      <%= yield %>
+      <%= render(partial: "shared/layout/footer") %>
+    </div><!-- /.page-contents -->
+
+  </div><!-- /.full-height -->
+</div><!-- /.pusher -->
+
+<% parent_layout "base_phone" %>

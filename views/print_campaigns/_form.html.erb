@@ -1,0 +1,129 @@
+<% content_for :extra_js do %>
+  display_fields_based_on_contact_select();
+<% end %>
+
+<%= simple_form_for(
+  @print_campaign,
+  html: { class: "below48", data: { fv_live: "submitted", form: "print_campaigns_form" } }
+) do |f| %>
+<%= f.input(
+    :name,
+    label: "Name of Campaign",
+    include_blank: false
+  ) %>
+  <%= f.input(
+    :title,
+    label: "Marketing Purpose",
+    collection: PrintCampaign::TITLE,
+    include_blank: false
+  ) %>
+  <%= f.input(
+    :label_size,
+    label: "Select label type/size",
+    collection: PrintCampaign::LABEL_SIZES,
+    include_blank: false
+  ) %>
+
+  <%= f.input(
+    :recipient_type,
+    label: "Select Contacts (Select one)",
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_radio_buttons,
+    collection: PrintCampaign::RECIPIENT_TYPE,
+    value: f.object.recipient_type || '0')
+     %>
+
+  <div id="select_contact_groups" class="hidejs">
+    <%= f.input(
+      :groups,
+      label: "Contact Groups",
+      wrapper: :vertical_check_boxes,
+      collection: current_user.all_contact_groups,
+      as: :sui_check_boxes
+    ) %>
+  </div>
+
+  <div id="select_contacts_grades" class="hidejs">
+    <%= f.input(
+      :grades,
+      collection: Contact::GRADES,
+      wrapper: :vertical_check_boxes,
+      as: :sui_check_boxes
+    ) %>
+  </div>
+
+  <%= f.button(
+    :submit,
+    class: "ui primary button",
+    "data-disable-with": "Creating..."
+  ) %>
+  <%= link_to("Cancel", print_campaigns_path) %>
+<% end %>
+<% content_for :javascript do %>
+  <script>
+
+  jQuery.fn.displayFieldsBasedOnContactSelect = function() {
+    if ($("#print_campaign_recipient_type_1").is(':checked')) {
+      $("#select_contact_groups").slideDown("slow");
+      $("#select_contact_groups").show();
+      $("#select_contacts_grades").hide();
+    }
+    if ($("#print_campaign_recipient_type_2").is(':checked')) {
+      $("#select_contact_grades").slideDown("slow");
+      $("#select_contacts_grades").show();
+      $("#select_contact_groups").hide();
+    }
+    if ($("#print_campaign_recipient_type_0").is(':checked')) {
+      $("#select_contacts_grades").hide();
+      $("#select_contact_groups").hide();
+    }
+
+    this.change(function() {
+      if ($(this).val() ==='2' ) {
+        $("#select_contacts_grades").show();
+        $("#select_contact_groups").hide();
+      }
+      else if ($(this).val() ==='1' ) {
+        $("#select_contact_groups").show();
+        $("#select_contacts_grades").hide();
+      }
+      else if ($(this).val() ==='0' ) {
+        $("#select_contact_groups").hide();
+        $("#select_contacts_grades").hide();
+      }
+    });
+    return this;
+  };
+
+  function display_fields_based_on_contact_select() {
+    $("input[name$='print_campaign[recipient_type]']").displayFieldsBasedOnContactSelect();
+  }
+
+  document.addEventListener('turbolinks:load', function() {
+    var formToValidate = $("[data-form~='print_campaigns_form']");
+    formToValidate
+      .formValidation({
+        framework: 'semantic',
+        excluded: [':disabled'],
+        err: {
+          clazz: "error-message"
+        },
+        row: {
+          selector: '.field'
+        },
+        fields: {
+          "print_campaign[name]": {
+            validators: {
+              notEmpty: {
+                message: "You must enter a name"
+              }
+            }
+          }
+        },
+        onError: function(e) {
+          formToValidate.find(".btn-loading");
+        }
+      });
+  });
+  </script>
+<% end %>

@@ -1,0 +1,57 @@
+<% if @property_info  %>
+  var PropertyInfoConversions = {
+    convertToIntegerValue: function (value) {
+      values = value.split(',')
+      if(values instanceof Array) {
+        new_values = []
+        for(var i=0; i < values.length; i++){
+          new_values.push(parseInt(values[i]))
+        }
+       value = new_values.join('');
+      }
+      return parseInt(value)
+    },
+    convertToFloatValue: function (value) {
+      values = value.split(' ')
+      if(values instanceof Array) {
+        new_values = []
+        for(var i=0; i < values.length; i++){
+          if(jQuery.isNumeric(values[i])){
+            new_values.push(values[i])
+          }
+        }
+       value = new_values.join('.');
+      }
+      return parseFloat(value);
+    },
+    convertToIntergerPriceValue: function (value) {
+      value = value.replace('$', '');
+      return value.replace(/,/g, '')
+
+    }
+  }
+
+  parsedBedroomsValue   = PropertyInfoConversions.convertToIntegerValue('<%= @property_details["beds"] %>')
+  parsedBathroomsValue  = PropertyInfoConversions.convertToFloatValue('<%= @property_details["baths"] %>')
+  parsedSquareFeetValue = PropertyInfoConversions.convertToIntegerValue('<%= @property_details["square_feet"] %>')
+  parsedLotSizeValue    = PropertyInfoConversions.convertToFloatValue('<%= @property_details["lot_size"] %>')
+  parsedPriceValue      = PropertyInfoConversions.convertToIntergerPriceValue('<%= @property_details["price"] %>')
+
+  $('#property_bedrooms').val(parsedBedroomsValue)
+  $('#property_bathrooms').val(parsedBathroomsValue)
+  $('#property_sq_feet').val(parsedSquareFeetValue)
+  $('#property_lot_size').val(parsedLotSizeValue)
+  $('#property_list_price').val(parsedPriceValue)
+  $('#property_mls_number').val('<%= @property_details["mls_number"] %>')
+  $('#property_property_url').val('<%= @property_details["url"] %>')
+  $('#property_notes').val('<%= @property_details["description"] %>')
+
+  alert('Property info has been updated. Please check property info fields.');
+<% else %>
+  alert('#property_details['price'])
+  #alert('Property info not found');
+<% end %>
+
+<%#$('[data="find-property-info"]').prop('disabled', false)%>
+<%#$('[data="find-property-info"]').html('Find Info')%>
+

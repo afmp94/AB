@@ -1,0 +1,48 @@
+<h3 class="ui dividing header">Email Settings</h3>
+<%= simple_form_for(
+  current_user,
+  url: save_email_signature_path,
+  html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+) do |f| %>
+  <%= f.input(:email_signature_status, wrapper: :toggle_switch) %>
+  <%= f.hidden_field :email_signature %>
+  <div class="p-b">
+    <trix-editor input="user_email_signature"></trix-editor>
+  </div>
+  <%= f.button(
+    :submit,
+    value: "Save Email Settings",
+    "data-disable-with": "Saving..."
+  ) %>
+<% end %>
+
+<!-- This is old code - prior to NYLAS to coneect to Google API- we may not need or may use for future Google Integration
+<h2 class="ui dividing header">Google Contacts</h2>
+<%#@active_google_authorizations.each do |authorization| %>
+  <span class="bk-word">
+    <b><%#= authorization.provider %></b>
+  </span>
+  |
+  <span class="bk-word">
+    <b><%#= authorization.email %></b>
+  </span>
+  |
+  <span class="bk-word">
+    <b><%#= display_quick_datetime(authorization.updated_at) %></b>
+  </span>
+  <span>
+    <%#= link_to(
+      'Disconnect',
+      authorization,
+      method: :delete,
+      data: { confirm: "You are about to disconnect from the Google account for #{authorization.email}. Are you sure?" },
+      class: "ui negative button"
+    ) %>
+  </span>
+<%# end %>
+<%#= link_to(
+  "Add a new Google account",
+  apilogin_path,
+  class: "ui button"
+) %>-->
+

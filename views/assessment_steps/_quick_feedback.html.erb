@@ -1,0 +1,29 @@
+<% current_step = reaction_attribute(next_step) %>
+<div class="ui attached message assessment-quick-feedback">
+  <h3 class="ui center aligned header m-b-sm">How do you feel about this result?</h3><!-- /.ui header -->
+  <div class="ui basic vertical segment center aligned p-a-0">
+    <div class="ui medium basic button assessment-quick-feedback_feedback-button <%= survey_result.send("quick_reaction_#{current_step}") == 2 ? 'active' : '' %>">
+      <i class="big green circle check icon m-a-0"></i>
+      <p data=2>Good</p>
+    </div><!-- /.ui button -->
+    <div class="ui medium basic button assessment-quick-feedback_feedback-button <%= survey_result.send("quick_reaction_#{current_step}") == 1 ? 'active' : '' %>">
+      <i class="big blue circle minus icon m-a-0"></i>
+      <p data=1>Neutral</p>
+    </div><!-- /.ui basic button -->
+    <div class="ui medium basic button assessment-quick-feedback_feedback-button <%= survey_result.send("quick_reaction_#{current_step}") == 0 ? 'active' : '' %>">
+      <i class="big red circle times icon m-a-0"></i>
+      <p data=0>Bad</p>
+    </div><!-- /.ui basic button -->
+  </div><!-- /.ui basic vertical segment center aligned -->
+</div><!-- /.ui attached message -->
+
+<script type="text/javascript">
+  $(".assessment-quick-feedback_feedback-button").click(function() {
+    $(".assessment-quick-feedback_feedback-button").removeClass('active');
+    $(this).addClass('active');
+    attribute_name = "<%= current_step %>"
+    attribute_value = parseInt($(this).find("p").attr("data"));
+    $(".quick_reaction_input").remove();
+    $('<input>').attr({type: 'hidden',class: "quick_reaction_input", value: attribute_value ,name: "survey_result[quick_reaction_" + attribute_name + "]"}).appendTo('form');
+  });
+</script>

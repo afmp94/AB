@@ -1,0 +1,50 @@
+<% content_for(:title, "Personal Branding") %>
+
+<div class="ui segment">
+  <h2 class="ui center aligned icon dividing header">
+    <i class="photo icon"></i>
+    <div class="content">
+      Upload your headshot
+      <div class="sub header">To be used in your marketing</div><!-- /.sub header -->
+    </div><!-- /.content -->
+  </h2>
+  <p class="fsi">Image should be at least 180px x 180px</p>
+
+  <div class="ab-image-upload <%= display_fileinput_class(current_user.profile_image) %>">
+    <img src="<%= current_user.profile_image_url %>" class="ui small rounded image ab-image-exists" data-image="profile" />
+    <img src="http://placehold.it/180" class="ui small rounded image ab-placeholder-image hidden" data-image="no-image" />
+  </div><!-- /.ab-image-upload -->
+
+  <div class="field">
+    <label>Select a file:</label>
+    <div class="ui fluid file input action" data-ui-behavior="file-upload">
+      <input type="text" readonly />
+      <%= file_field_tag(
+        "image[file]",
+        data: {
+          behavior: "profile-image-uploader",
+          url: images_path(profile_image: true),
+          "sequential-uploads": true,
+          "data-type": "json",
+          "type": "POST",
+          "limit-concurrent-uploads": 1
+        }
+      ) %>
+      <div class="ui button">
+        Select...
+      </div><!-- /.ui button -->
+    </div><!-- /.ui fluid file input action -->
+  </div><!-- /.field -->
+
+  <%= hidden_field_tag(
+    :profile_image_id,
+    current_user.profile_image.try(:id),
+    data: { behavior: "attach-hidden-field" }
+  ) %>
+
+  <div class="ui inverted dimmer" data-ui-behavior="loader">
+    <div class="ui indeterminate text loader">Uploading...</div>
+  </div>
+  <br></br>
+  <%= link_to "Next", dashboard_path, class: "ui primary button" %>
+</div><!-- /.ui segment -->

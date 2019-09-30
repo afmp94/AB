@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">Thank You!</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">You have been successfully switched plans to <%= @plan_name %>! Have a great day!</p>
+<% end %>

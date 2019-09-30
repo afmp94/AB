@@ -1,0 +1,36 @@
+<div class="ui two column stackable grid"  data-introjs-step="step302">
+  <div class="column p-b-0">
+    <div class="ui vertical very basic segment">
+      <h4 class="ui left floated header">
+        Responded to:
+      </h4><!-- /.ui header -->
+      <h4 class="ui right floated header m-r-0">
+        <%= current_user.leads_referred_or_contact_attempted_in_past_week %>/<%=current_user.leads_received_in_last_week %>
+      </h4><!-- /.ui header -->
+    </div><!-- /.ui vertical segment -->
+    <div class="ui vertical very basic segment p-b-0">
+      <div class="ui indicating progress m-b-0" data-ui-behavior="progress" data-percent="<%= lead_resolved_rate_past_week(current_user) %>">
+        <div class="bar">
+          <div class="progress"></div>
+        </div>
+      </div><!-- /.ui progress -->
+    </div><!-- /.ui vertical segment -->
+  </div><!-- /.column -->
+  <div class="column p-b-0">
+    <div class="ui vertical very basic segment ab-second-progress-segment">
+      <h4 class="ui left floated header">
+        Replied in 30 mins:
+      </h4><!-- /.ui header -->
+      <h4 class="ui right floated header m-r-0">
+        <%= decimal_to_percentage(current_user.rate_of_leads_contacted_in_under_30_minutes_in_past_week) %>%
+      </h4><!-- /.ui header -->
+    </div><!-- /.ui vertical very basic segment -->
+    <div class="ui vertical very basic segment p-b-0">
+      <div class="ui indicating progress m-b-0" data-ui-behavior="progress" data-percent="<%= decimal_to_percentage(current_user.rate_of_leads_contacted_in_under_30_minutes_in_past_week) %>">
+        <div class="bar">
+          <div class="progress"></div>
+        </div>
+      </div><!-- /.ui progress -->
+    </div><!-- /.ui vertical very basic segment -->
+  </div><!-- /.column -->
+</div><!-- /.ui two column grid -->

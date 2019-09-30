@@ -1,0 +1,130 @@
+  <row>
+    <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+      <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 0px; font-size: 22px;" >Clients</h3
+        >
+    </columns>
+  </row>
+  <% if @leads.long_term_prospect_clients.count > 0 %>
+    <row>
+      <columns small="12" large="12" style="background-color: #E3ECF5;">
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;"><%= "Reminder - Review your long term prospects" %></span></h3>
+      </columns>
+    </row>
+    <% @lead.long_term_prospects.each do |lead| %>
+      <row>
+        <columns small="5" large="5">
+            <%= link_to(lead.name, lead_url(lead), target: "_blank", rel: "noopener noreferrer") %>
+        </columns>
+        <columns small="7" large="7">
+            <%= lead.reason_for_long_term_prospect %>
+        </columns>
+      </row>
+    <% end %>
+  <% end %>
+  <% if @leads_for_client_activities.count > 0 %>
+    <row>
+      <columns small="12" large="12" style="background-color: #E3ECF5;">
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;"><%= pluralize(@leads_for_client_activities.count, "client was", plural: "clients were") %> updated:</span></h3>
+      </columns>
+    </row>
+  <% else %>
+    <row>
+      <columns large="12" small="12">
+        <h2 style="margin:6px 0 9px;font-size:18px;font-weight:normal;margin-bottom:20px;line-height:16px;">
+          <span style="color:#aa9c84;letter-spacing:normal;">
+            No Client Activity Yesterday
+          </span>
+        </h2>
+      </columns>
+    </row>
+  <% end %>
+  <spacer size="6"></spacer>
+  <% @leads_for_client_activities.each do |lead| %>
+    <row>
+      <columns small="1" large="1">
+        <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/helen.jpg">
+      </columns>
+      <columns small="7" large="7">
+      <!-- CLIENT -->
+        <span style="font-weight:normal;font-size:12px;line-height:0px;padding:0 7px;display:inline-block;border-radius:0px">
+          <%= link_to(
+                lead.name,
+                lead_url(lead),
+                target: "_blank",
+                rel: "noopener noreferrer"
+                ) %>
+        </span>
+      </columns>
+      <columns small="4" large="4">
+        <% if lead.tasks_created_or_completed_since_yesterday.present? %>
+            <!-- TO-DOs -->
+          <span style="color:#aa9c84;font-weight:bold;font-size:12px;line-height:0px;padding:0 7px;display:inline-block;border-radius:0px">
+          <%= display_number_of_tasks_create_and_completed_since_yesterday(lead) %></span>
+        <% end %>
+      </columns>
+    </row>
+    <% lead.tasks_created_or_completed_since_yesterday.not_completed.each do |task| %>
+      <row>
+        <columns>
+          <!-- TO-DO -->
+          <%= link_to(
+            task_url(task),
+            target: "_blank",
+            rel: "noopener noreferrer"
+            ) do %>
+             <span style="font-weight:normal;font-size:12px;line-height:0px;padding:0 7px;color:#666;display:inline-block;border-radius:0px"><%= task.subject %></span>
+            <span style="font-weight:normal;font-size:12px;line-height:0px;padding:0 7px;color:#666;display:inline-block;border-radius:0px">
+              <%= task_pill_contents(task) %>
+            </span>
+          <% end %>
+        </columns>
+      </row>
+    <% end %>
+      <% lead.tasks_created_or_completed_since_yesterday.completed.each do |task| %>
+        <row>
+          <columns>
+            <%= link_to(
+              task_url(task),
+              target: "_blank",
+              rel: "noopener noreferrer"
+            ) do %>
+              <span style="color:#aa9c84;font-weight:bold;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px"><%= task.subject %></span>
+              <span style="font-weight:normal;font-size:12px;line-height:15px;color:grey">
+                (Completed by <%= task.completed_by_name %>)
+              </span>
+            <% end %>
+          </columns>
+        </row>
+      <% end %>
+      <% if lead.comments_created_since_yesterday.present? %>
+        <row>
+          <columns>
+            <!-- DISCUSSIONS -->
+              <span style="color:#aa9c84;letter-spacing:normal;"><%= pluralize(lead.number_of_comments_created_since_yesterday, "comment was", plural: "comments were") %> made:</span>
+              <% lead.comments_created_since_yesterday.each do |comment| %>
+                <!-- DISCUSSION -->
+                <%= link_to(
+                lead_url(lead),
+                target: "_blank",
+                rel: "noopener noreferrer",
+                style: "color:black;text-decoration:none"
+                ) do %>
+                  <!-- TITLE -->
+                  <p style="font-size:15px;line-height:19px;color:#000000;margin:0 0 19px;font-weight:bold;margin-bottom:0!important">
+                      <%= comment.user.first_name %> wrote at <%= just_time(comment.updated_at) %>:
+                  </p>
+                  <!-- META DATA -->
+                  <p style="margin:6px 0 19px 20px;margin-bottom:0;font-size:14px;color:grey;line-height:18px;font-style:italic;">
+                      <%= comment.content %>
+                  </p>
+                <% end %>
+              <% end %>
+          </columns>
+        </row>
+      <% end %>
+  <% end %>
+  <row>
+    <columns>
+    <%= link_to("View All Clients", clients_url) %>
+    </columns>
+  </row>

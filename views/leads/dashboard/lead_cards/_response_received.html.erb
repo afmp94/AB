@@ -1,0 +1,33 @@
+<div class="card card-wide-left-pic">
+  <div class="card-super-title">
+    You received a response
+  </div><!-- /.card-super-title -->
+  <div class="card-meat">
+    <div class="card-header">
+      <div class="card-avatar"></div><!-- /.card-avatar -->
+      <div class="card-header-title">
+        <h3 class="card-title">
+          <a href="#" class="not-blue-link link-underline">
+            Katie Lozar
+          </a>
+        </h3>
+        <h4 class="card-subhead">Interested in 5 Essex Square, Essex</h4>
+      </div><!-- /.card-header-title -->
+    </div><!-- /.card-header -->
+    <div class="card-content">
+      <p class="card-text">
+        via Trulia about 15 minutes ago
+      </p><!-- /.card-text -->
+    </div><!-- /.card-content -->
+    <div class="card-actions">
+      <button class="btn btn-paper btn-success">Take Action</button>
+      <%= link_to(
+        "Snooze",
+        open_snooze_modal_lead_path(lead),
+        class: "btn btn-paper btn-primary",
+        data: { toggle: "tiny-modal", target: "#tinyModal"},
+        remote: true
+      ) %>
+    </div><!-- /.card-actions -->
+  </div><!-- /.card-meat -->
+</div><!-- /.card -->

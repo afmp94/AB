@@ -1,0 +1,3 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("contracts/modals/contract_close", lead: @lead, property: @property, contract: @contract) %>');

@@ -1,0 +1,31 @@
+<div class="header">
+  <%= nylas_event.title %> | <%= link_to "Edit", "#" %>
+</div>
+
+<div class="content">
+  <% if nylas_event.when["object"] == "date" %>
+    <%= nylas_event.when["date"] %>
+  <% elsif nylas_event.when["object"] == "datespan" %>
+    <%= nylas_event.when["start_date"] %> - <%= nylas_event.when[:end_date] %>
+  <% elsif nylas_event.when["object"] == "timespan" %>
+    <%= Time.zone.at(nylas_event.when["start_time"]) %> - <%= Time.zone.at(nylas_event.when["end_time"]) %>
+  <% end %>
+
+  <% if nylas_event.participants.present? %>
+      <br>
+      <br>
+    <% nylas_event.participants.each do |participant| %>
+      <%= participant["name"] %> | <%= participant["email"] %>
+      <br>
+    <% end %>
+  <% end %>
+
+  <%= nylas_event.description %>
+</div>
+
+<div class="actions">
+  <div class="ui button">
+    Close
+  </div>
+</div>
+

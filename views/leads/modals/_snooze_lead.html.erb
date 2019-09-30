@@ -1,0 +1,34 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Snooze lead: <%= lead.name %></h4>
+</div><!-- /modal-header -->
+<div class="content">
+  <%= simple_form_for(
+    lead,
+    url: snooze_lead_path(lead),
+    html: {
+      data: {
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |form| %>
+    <div class="field">
+      <label for="snooze_time">Snooze this lead:</label>
+      <%= select_tag(
+        "snooze_time",
+        options_for_select(
+          Lead::SNOOZE_TIMES
+        ),
+        id: "lead_snooze_time",
+        class: "ui dropdown",
+        "data-ui-behavior": "dropdown"
+      ) %>
+    </div><!-- /.field -->
+    <%= form.button(
+      :submit,
+      "Snooze",
+      class: "ui primary button",
+      "data-disable-with": "Snoozing..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+<% breadcrumb(:lead_services) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Lead Sources (3rd Parties)",
+    secondary_name: "Notifications"
+  }
+) do %>
+  <%= render(partial: "lead_source_statuses_form") %>
+<% end %>

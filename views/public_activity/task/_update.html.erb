@@ -1,0 +1,18 @@
+<% cache(["task_update", activity, current_user.id]) do %>
+  <div class="activity_container">
+    <article class="activity">
+    <%= activity_icon("info", "checkmark icon") %>
+      <div class="activity-flat-container">
+        <div class="activity-flat">
+          <%= render 'public_activity/shared/activity_timestamp', activity: activity %>
+          <div class="action">
+            <%= activity_creator(activity) %>
+            <%= activity_subject(activity, action: "updated the task", name: true, link: activity_link(activity.trackable)) %>
+            <%= activity_bucket(activity, "for", recipient_name(activity), activity_link(activity.recipient)) %>
+            <%= activity_excerpt(activity, "task_changes") %>
+          </div><!-- /.action -->
+        </div><!-- /.activity-flat -->
+      </div><!-- /.activity-flat-container -->
+    </article><!-- /.activity -->
+  </div><!-- /.activity_container -->
+<% end %>

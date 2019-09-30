@@ -1,0 +1,29 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Mark this Lead as Junk: <%= lead.name %></h4>
+</div>
+<div class="content">
+  <%= simple_form_for(
+    lead, url: mark_as_junk_lead_path(lead),
+    method: :patch,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |form| %>
+    <div class="field">
+      <%= select_tag(
+        "junk_reason",
+        options_for_select(
+          Lead::JUNK_REASON
+        ),
+        id: "lead_junk_reason",
+        class: "ui floating dropdown",
+        "data-ui-behavior": "dropdown"
+      ) %>
+    </div><!-- /.field -->
+    <%= form.button(
+      :submit,
+      "Junk",
+      class: "ui primary button",
+      "data-disable-with": "Junking..."
+    ) %>
+    <a class="ui basic button float-right" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

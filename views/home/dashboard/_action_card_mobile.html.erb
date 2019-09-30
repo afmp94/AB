@@ -1,0 +1,21 @@
+<div class="ui raised card ab-action-card">
+  <div class="content">
+  <i class="<%= card.icon %> icon"></i> <%= card.header %>
+      <div class="ui title">
+        <i class="dropdown massive icon"></i>more info...
+      </div>
+      <div class="content">
+        <%= card.description %>
+        <div class="ui icon buttons compact right floated">
+          <%= link_to card.action, (eval(card.link) rescue card.link), class: "ui green button ",
+            data: { behavior: "card-link-click", info: card.id } %>
+        </div>
+    </div>
+  </div>
+</div><!-- /.card -->
+
+<script charset="utf-8">
+  $('.ui.accordion')
+    .accordion()
+  ;
+</script>

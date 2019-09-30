@@ -1,0 +1,35 @@
+<% if local_assigns[:body].present? %>
+
+  <div class="ui masthead vertical segment">
+    <div class="ui container">
+      <%= body %>
+    </div><!-- /.ui container -->
+  </div><!-- /.ui masthead vertical tab segment -->
+
+<% else %>
+
+  <div class="ui masthead vertical segment compressed">
+    <div class="ui container">
+      <div class="introduction">
+        <h1 class="ui header">
+          <% if local_assigns[:primary_path] %>
+            <%= link_to(primary_name, primary_path) %>
+          <% else %>
+            <%= primary_name %>
+          <% end %>
+          <% if local_assigns[:secondary_name].present? %>
+            <div class="sub header"><%= secondary_name %></div>
+          <% end %>
+        </h1>
+        <% if local_assigns[:add_button_text].present? && local_assigns[:add_button_path].present? %>
+          <div class="ui hidden divider"></div>
+          <%= link_to(add_button_path, class: "ui button primary") do %>
+            <i class="plus icon"></i>
+            <%= add_button_text %>
+          <% end %>
+        <% end %>
+      </div><!-- /.introduction -->
+    </div><!-- /.ui container -->
+  </div><!-- /.ui masthead vertical tab segment -->
+
+<% end %>

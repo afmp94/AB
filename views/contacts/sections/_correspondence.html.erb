@@ -1,0 +1,19 @@
+<div id="contact-correspondence-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Correspondence",
+        edit_contact_correspondence_contact_path(@contact),
+        "edit-contact-correspondence"
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Envelope Salutation", @contact.envelope_salutation) %>
+      <%= fixed_list_item("Letter Salutation", @contact.letter_salutation) %>
+      <%= fixed_list_item(
+        "User has opted out of email campaigns?",
+        @contact.unsubscribed? ? "Yes" : "No"
+      ) %>
+    </tbody>
+  </table>
+</div><!-- /#contact-correspondence-section -->

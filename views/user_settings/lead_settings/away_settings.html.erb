@@ -1,0 +1,103 @@
+<% breadcrumb(:away_settings) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Away Settings",
+    secondary_name: "Account Settings"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">Away Settings</h2>
+  <%= simple_form_for(
+    @lead_setting,
+    url: away_settings_update_user_settings_lead_settings_path,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |f| %>
+    <table class="ui unstackable table">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Away</td>
+          <td class="collapsing">
+            <%= f.input(:away, label: false, wrapper: :toggle_switch) %>
+          </td>
+        </tr>
+        <tr>
+          <td>Back in the office on:</td>
+          <td>
+            <%= f.input(
+              :vacation_end_at,
+              as: :datepicker,
+              label: false,
+              input_html: {
+                value: format_for_datepicker(f.object.vacation_end_at),
+                type: type_for_datepicker
+              }
+            ) %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="ui dividing header m-t-0">Quiet Hours</h2>
+    <table class="ui unstackable table">
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Quiet Hours</td>
+          <td class="collapsing">
+            <%= f.input(:quiet_hours, label: false, wrapper: :toggle_switch) %>
+          </td>
+        </tr>
+        <tr>
+          <td>Quiet Hours Start</td>
+          <td>
+            <%= f.input(
+              :quiet_hours_start,
+              include_blank: false,
+              label: false,
+              collection: LeadSetting::TIME_TO_HOURS
+            ) %>
+          </td>
+        </tr>
+        <tr>
+          <td>Quiet Hours End</td>
+          <td>
+            <%= f.input(
+              :quiet_hours_end,
+              include_blank: false,
+              label: false,
+              collection: LeadSetting::TIME_TO_HOURS
+            ) %>
+          </td>
+        </tr>
+        <tr>
+          <td>Recieve SMS On Weekends</td>
+          <td>
+            <%= f.input(
+              :receive_sms_on_weekends,
+              label: false,
+              wrapper: :toggle_switch
+            ) %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <%= f.button(
+      :submit,
+      value: "Update Away Settings",
+      "data-loading-text" => "Updating..."
+    ) %>
+  <% end %>
+<% end %>

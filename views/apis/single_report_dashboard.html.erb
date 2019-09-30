@@ -1,0 +1,32 @@
+<%= page_header(
+  primary_name: "#{@api.capitalize} Response Dashboard",
+  secondary_name: @user.name
+) %>
+
+<div class="ui main container">
+  <table class="ui single line table">
+    <thead>
+    <tr>
+      <th>Called At</th>
+      <th>Status</th>
+      <th>Message</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <% @api_responses.each do |response| %>
+          <td class="bk-word">
+            <%= response.api_called_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </td>
+          <td class="bk-word tbl-meta">
+            <h4 class="ui header"><%= response.status %></h4>
+          </td>
+          <td class="bk-word">
+            <%= response.message %>
+          </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

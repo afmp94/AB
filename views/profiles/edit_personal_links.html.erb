@@ -1,0 +1,44 @@
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Personal Links",
+    secondary_name: "My Business"
+  }
+) do %>
+  <div class="ui basic segment no-border m-a-0">
+    <% if current_user.personal_links.count < PersonalLink::LIMIT   %>
+      <h1 class="ui dividing header">Personal Links to add to your Dashboard</h1><!-- /.ui header -->
+      <% if @personal_link_message.present? %>
+        <div class="ui message" data-info="message-broadcast" data-message-broadcast-id="<%= @personal_link_message.id %>">
+          <i class="close icon" data-behavior="message-dissmiss"></i>
+          <div class="content">
+            <div class="header">
+              <p>Set it up once.  The links will then appear as a button on your Dasbboard for quick access.</p>
+            </div>
+            <p>Open your Browser to the webpage that you want to copy.  Highlight and copy the link and paste it here.</p>
+          </div>
+        </div>
+      <% end %>
+      <%= simple_form_for :personal_link, url: create_personal_link_path, method: :post, input_html: { class: "ui form max-width-600" } do |f| %>
+        <div class="ui form">
+          <div class="three fields">
+            <div class="three wide field">
+              <%= f.input :title, placeholder: "e.g Facebook ", label: "Link Title" %>
+            </div>
+            <div class="nine wide field">
+               <%= f.input :url, placeholder: "e.g https://www.facebook.com - full URL required", label: "URL Link" %>
+            </div>
+          </div>
+          <%= f.submit "Save", class: "ui primary button" %>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="ui main container">
+      <h3 class="ui dividing header">These are your current Links</h3>
+      <div data-info="personal-links">
+        <%= render partial: "profiles/personal_link" %>
+      </div>
+    </div>
+  </div>
+<% end %>
+

@@ -1,0 +1,13 @@
+<h2 class="ui dividing header">
+  Rebroadcast Unclaimed Leads
+  <%= display_auto_lead_broadcast_status(@lead_setting_view_service) %>
+</h2>
+<p>
+  <%= raw @lead_setting_view_service.lead_broadcast_status_information if @lead_setting.broadcast_lead_to_group? %>
+</p>
+<%= link_to(
+  @lead_setting_view_service.display_label_for_auto_lead_broadcast_action,
+  toggle_broadcast_to_lead_group_user_settings_lead_settings_path,
+  class: "ui button",
+  remote: true
+) %>

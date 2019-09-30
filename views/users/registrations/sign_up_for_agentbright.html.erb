@@ -1,0 +1,75 @@
+<% content_for(:title, "Create a new account") %>
+<div class="ui container m-t-lg">
+  <div class="ui center aligned stackable grid">
+  <h1 class="ui orange center aligned header">
+    <div class="content">
+      Give yourself peace of mind and give your business a boost! </br><h2 class="ui grey header">Sign up for <%= white_labeled_app_name(current_subdomain) %> today!</h4>
+    </div>
+  </h1>
+  <div class="row">
+    <div class="left aligned eight wide column">
+      <div class="ui raised segment">
+        <h2 class="ui teal image header">
+          <%= image_tag(white_label_image_name("box-114-transparent.png", current_subdomain), class: "image") %>
+          <div class="content">
+            Sign up
+          </div>
+        </h2>
+        <h4>Let's Get Started</h4>
+        <p>Sign up in 30 seconds. No credit card required.</p>
+        <%= render(partial: "users/registrations/sign_up_for_agentbright_form") %>
+        <p>
+          By signing up, you accept our
+          <a target="_blank" href="https://www.agentbright.com/terms-of-service/">  Terms of Service
+          </a>
+          and
+          <a target="_blank" href="https://www.iubenda.com/privacy-policy/7900045">
+            Privacy Policy
+          </a>
+        </p>
+        <div class="ui message">
+          <%= render(partial: "users/shared/links") %>
+        </div>
+      </div><!-- /.segment-->
+    </div><!-- /.column-->
+    <div class="eight wide column left aligned">
+      <%= render("designs/templates/marketing_components/agent_testimonial") %>
+      <div class="ui icon message">
+        <i class=" dashboard icon"></i>
+        <div class="content">
+          <div class="block dividing header">
+            How good is your real estate business?
+          </div>
+          <p></p>
+          <%= link_to(
+            "Take Assessment Now",
+            assessment_path,
+            class: "big ui orange button"
+          ) %>
+          <p>Take 15 minutes to get clarity on your goals and buisness health.</p>
+        </div><!-- /.content-->
+      </div><!-- /.message-->
+    </div><!-- /.column-->
+  </div><!-- /.ui row-->
+  <div class="row">
+    <div class="center aligned sixteen wide column">
+      <div class="ui icon message">
+        <div class="content">
+          <a class="ui big primary button m-b" href="mailto:support@agentbright.com">
+            <i class="mail icon"></i>
+            Email us
+          </a>
+          <a class="ui big primary button m-b" href="https://www.facebook.com/agentbright/" target="_blank">
+            <i class="facebook square icon"></i>
+            Visit us on Facebook
+          </a>
+          <a class="ui big primary button m-b" href="http://www.agentbright.com">
+            <i class="info circle icon"></i>
+            Learn more...
+          </a>
+          <h2>Our passion is helping real estate agents be their best!</h2>
+        </div><!-- /.ui content-->
+      </div><!-- /.ui icon message -->
+    </div><!-- /.ui sixteen column -->
+  </div><!-- /.ui row-->
+</div><!-- /.ui main container -->

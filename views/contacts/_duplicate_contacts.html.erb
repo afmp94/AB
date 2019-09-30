@@ -1,0 +1,12 @@
+<div class="ui fluid centered card ab-contacts-sorting-card">
+  <div class="content">
+    <div class="header"> <%= duplicate_contacts.first.name.present? ? duplicate_contacts.first.name : duplicate_contacts.first.email %> </div>
+      <% duplicate_contacts.each do |single_duplicate_contact|%>
+        <% phone_number = number_to_phone(single_duplicate_contact.phone_number, area_code: true) %>
+        <%= render(partial: "single_duplicate_contact", locals: { single_duplicate_contacts: single_duplicate_contact, phone_number: phone_number}) %>
+      <% end %>
+      <div class="ui right floated basic button dismiss_contact" data-dismiss_ids_single="<%= duplicate_contacts.map(&:id) %>">Dismiss</div>
+      <!-- <div class="ui right floated basic button" data-duplicate_ids_single="<%= duplicate_contacts.map(&:id) %>" id="merge_contact">Merge</div> -->
+      <div class="ui right floated basic button merge_contact" data-duplicate_ids_single="<%= duplicate_contacts.map(&:id) %>">Merge</div>
+  </div>
+</div><!-- /.ui fluid centered car-->

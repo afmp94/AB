@@ -1,0 +1,9 @@
+<%# unless current_page.first? %>
+  <%#= link_to(url, rel: "prev", remote: remote, class: "item") do %>
+    <!-- <i class="angle left icon"></i>
+    Prev -->
+  <%# end %>
+<%# end %>
+<%= link_to(url, class: "item", title: t("views.pagination.previous").html_safe, remote: remote) do %>
+  <i class="left angle icon"></i>
+<% end %>

@@ -1,0 +1,67 @@
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>User</th>
+      <th>Message</th>
+      <th>Thread</th>
+      <th>From Email</th>
+      <th>Subject</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% attribute.data.order("created_at desc").limit(10).each do |resource| %>
+      <tr class="js-table-row" tabindex="0">
+
+        <td> 
+          <%= link_to(
+            "#{resource.id}",
+            admin_email_message_path(resource),
+            class: "text-color-red",
+            method: :get
+          ) %>
+        </td>
+        <td>
+          <%= link_to( "#{resource.user.name}",
+            admin_user_path()
+          ) %>
+        </td>
+
+        <td> <%= resource.message_id %> </td>
+        <td> <%= resource.thread_id %> </td>
+        <td> <%= resource.from_email %> </td>
+        <td> <%= resource.subject %> </td>
+
+
+        <% if valid_action? :edit %>
+          <td><%= link_to(
+            t("administrate.actions.edit"),
+            [:edit, namespace, resource],
+            class: "action-edit",
+          ) if show_action? :edit, resource%></td>
+        <% end %>
+
+        <td>
+          <%= link_to(
+            "Deactivate",
+            update_lead_settings_admin_user_path(resource),
+            class: "text-color-red",
+            method: :get,
+            data: { confirm: t("administrate.actions.confirm") }
+          ) %>
+        </td>
+
+        <% if valid_action? :destroy %>
+          <td><%= link_to(
+            t("administrate.actions.destroy"),
+            [namespace, resource],
+            class: "text-color-red",
+            method: :delete,
+            data: { confirm: t("administrate.actions.confirm") }
+          ) if show_action? :destroy, resource %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,19 @@
+<% if cards.count.nonzero? %>
+  <div class="column">
+    <div class="ui positive message">
+      <div class="ui basic vertical segment">
+        <h1 class="ui dividing header">
+          Lead Response & Conversion
+          <div class="sub header m-y-sm">
+             Responding to leads quickly and professionally will dramatically improve your conversion rates.  Automate the process of followup, reminders, retargeting and email campaigns.
+          </div><!-- /.sub header -->
+        </h1><!-- /.ui dividing header -->
+      </div><!-- /.ui basic vertical segment -->
+      <div class="ui three doubling stackable cards">
+        <% cards.each do |card| %>
+          <%= render partial: "coaching/card", locals: { card: card } %>
+        <% end %>
+      </div><!-- /.ui cards -->
+    </div><!-- /.ui message -->
+  </div><!-- /.column -->
+<% end %>

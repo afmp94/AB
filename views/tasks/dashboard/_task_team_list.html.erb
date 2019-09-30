@@ -1,0 +1,34 @@
+<h2 class="ui header">
+  Teammate Tasks
+  <%= link_to(
+    "Add",
+    open_task_modal_path(task_for_teammate: true),
+    class: "ui basic right floated button",
+    remote: true,
+    data: { toggle: "modal", target: "#mainModal" }
+  ) %>
+</h2><!-- /.ui header -->
+
+<h5 class="ui dividing header">Today</h5>
+<%= render(
+  partial: "tasks/tasks",
+  locals: {
+    tasks: @dashboard_presenter.todays_and_overdue_team_tasks,
+    tasks_list_section: "team_today",
+    article_class: "show-buckets"
+  }
+) %>
+
+<h5 class="ui dividing header"><span class="team-only">Upcoming</span></h5>
+<%= render(
+  partial: "tasks/tasks",
+  locals: {
+    tasks: @dashboard_presenter.upcoming_team_tasks,
+    tasks_list_section: "team_upcoming",
+    article_class: "show-buckets"
+  }
+) %>
+
+<% if @dashboard_presenter.more_team_tasks %>
+  <%= link_to("See more tasks", tasks_path(anchor: "teammate_tasks")) %>
+<% end %>

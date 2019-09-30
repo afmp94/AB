@@ -1,0 +1,27 @@
+<% if @lead.errors.blank? %>
+  $("#header-info").replaceWith('<%= j render(partial: "leads/header/info", locals: { lead: lead })  %>')
+  $("[data-behavior='header-lead-form']").remove();
+  $("#header-breadcrumbs-area")
+    .after('<%= j render(partial: "leads/header/header_breadcrumbs_area", locals: { lead: lead }) %>')
+    .remove();
+
+  <% if @lead.client_type == "Buyer" %>
+    $("#client-info-section")
+      .after('<%= j render(partial: "leads/buyer_client/sections/client_info", locals: { lead: lead }) %>')
+      .remove();
+  <% else %>
+    $("#client-info-section")
+      .after('<%= j render(partial: "leads/seller_client/sections/client_info", locals: { lead: lead }) %>')
+      .remove();
+  <% end %>
+  // This will update tabbed email section.
+  $('[data-behavior="lead-quick-email"]').html('<%= j render(partial: "emails/lead_quick_email_form", locals: { lead: lead, contact: contact }) %>')
+  // This will update tabbed email seciton's `To` field and will bind `select2`.
+  ER.init();
+  // This will load emails from Nylas for current contact's primary email address.
+  LE.init();
+<% else %>
+  $("[data-behavior='header-lead-form']").replaceWith('<%= j render(partial: "leads/buyer_lead/forms/header", locals: { lead: @lead }) %>');
+<% end %>
+
+$("[data-behavior~=cancel-form]").cancelForm();

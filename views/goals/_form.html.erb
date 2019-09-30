@@ -1,0 +1,15 @@
+<%= simple_form_for(
+  @goal,
+  html: {
+    data: { "mobile-app-forced-form": request_from_mobile_app? },
+    class: "commission-data"
+  }
+) do |f| %>
+  <%= render(partial: "goals/inputs", locals: { goal_form: f }) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", marketing_center_index_path, class: "ui basic button") %>
+<% end %>

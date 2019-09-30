@@ -1,0 +1,121 @@
+<%= simple_form_for @lead, remote: true do |f| %>
+  <%= hidden_field_tag(:inline_form, "bc_lead_info") %>
+  <% if current_user.belongs_to_team? %>
+    <% if current_user == @lead.user %>
+      <%= f.association(
+        :user,
+        label: "Client Owner",
+        include_blank: false,
+        selected: current_user.id,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    <% else %>
+      <%= f.association(
+        :user,
+        label: "Client Owner",
+        include_blank: false,
+        disabled: true,
+        hint: "Only the current client owner can change ownership"
+      ) %>
+    <% end %>
+  <% end %>
+  <%= f.input(
+    :contacted_status,
+    label: "Contacted Status",
+    collection: Lead::CLIENT_CONTACT_STATUSES,
+    as: :select
+  ) %>
+  <%= f.input(
+    :attempted_contact_at,
+    label: "When did you contact them last?",
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.incoming_lead_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(
+    :incoming_lead_at,
+    label: "When did this lead come in?",
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.incoming_lead_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.association(
+    :lead_type,
+    label: "Where did this lead come from?",
+    collection: LeadType.all.order("name asc"),
+    label_method: :name,
+    input_html: { "data-behavior" => "display-referral-field" }
+  ) %>
+  <%= f.input(
+    :lead_source_id,
+    label: "Lead Source",
+    collection: LeadType.order(:name),
+    as: :grouped_select,
+    group_method: :lead_sources,
+    label_method: :name,
+    include_blank: true,
+    input_html: { class: "ui dropdown", "data-ui-behavior": "dropdown" },
+    wrapper_html: { "data-ui-behavior": "lead-source-id" }
+  ) %>
+  <div id="referring-field" class="hidejs m-b">
+    <%= f.association(
+      :referring_contact,
+      as: :select,
+      autofocus: true,
+      label: "Referrer",
+      collection: current_user.contacts.active.order("first_name asc"),
+      label_method: lambda { |contact| format_display_name(contact) },
+      value_method: :id,
+      input_html: { data: { behavior: "contacts_select_field" } }
+    ) %>
+    <%= link_to(
+      "Add New Contact",
+      open_contact_modal_path(
+        modal_id: "new_referring_contact_modal_form",
+        target_select_id: "lead_referring_contact_id",
+        for_page: "lead"
+      ),
+      class: "ui button m-b",
+      data: { toggle: "modal", target: "#mainModal" },
+      remote: true
+    ) %>
+    <%= f.input(
+      :referral_fee_type,
+      collection: ["Percentage","Fee"],
+      label: "Referral Percentage or Fee?",
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      input_html: { "data-behavior" => "display-commission-referral-fields" }
+    ) %>
+  </div>
+  <%= f.input(
+    :referral_fee_rate,
+    label: "What the Referral Percentage?",
+    as: :percentage_two_decimal,
+    placeholder: "ex. 65",
+    wrapper_html: { id: "percentage2-field", class: "hidejs" }
+  ) %>
+  <%= f.input(
+    :referral_fee_flat_fee,
+    as: :currency,
+    label: "What is the Referral Fee?",
+    placeholder: "ex. 100",
+    wrapper_html: { id: "fee2-field", class: "hidejs" }
+  ) %>
+  <%= f.input(
+    :additional_fees,
+    label: "Additional Fees",
+    as: :currency
+  ) %>
+  <%= f.button(
+    :submit,
+    "data-disable-with": "Saving...",
+    value: 'Save',
+    remote: true
+  ) %>
+  <a data-cancel-section="#lead-info-section" class="ui basic button">Cancel</a>
+<% end %>

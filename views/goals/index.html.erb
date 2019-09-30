@@ -1,0 +1,60 @@
+<% content_for :title, "Goals" %>
+<% breadcrumb(:goals) %>
+<%= page_header(
+  primary_name: "Marketing Center",
+  primary_path: marketing_center_index_path,
+  secondary_name: "Set Goals",
+  add_button_text: "Add a New Goal",
+  add_button_path: new_goal_path
+) %>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment p-t-0">
+    <div class="ui segments">
+      <div class="ui segment p-a-0">
+        <table class="ui basic table index-page-table">
+          <thead class="hide-mobile-and-down">
+            <tr>
+              <th>Year</th>
+              <th>Desired Income</th>
+              <th>Gross Volume</th>
+              <th>Transactions Required</th>
+              <th>Actuals</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @goals.each do |goal| %>
+              <tr class="<%= goal.current? ? "positive" : "" %> index-page-table__row">
+                <td class="index-page-table__main-cell">
+                  <%= goal.year %> <%= goal.current? ? "(Current)" : ""  %>
+                </td>
+                <td>
+                  <div class="ui divider hide-tablet-and-up m-t-0"></div>
+                  <span class="hide-tablet-and-up fwb">Desired Income:</span>
+                  <%= number_to_currency(goal.desired_annual_income, precision: 0) %>
+                </td>
+                <td>
+                  <span class="hide-tablet-and-up fwb">Gross Volume:</span>
+                  <%= number_to_currency(goal.gross_sales_vol_required, precision: 0) %>
+                </td>
+                <td>
+                  <span class="hide-tablet-and-up fwb">Transactions Required:</span>
+                  <%= goal.annual_transaction_goal&.round %>
+                </td>
+                <td>
+                  <span class="hide-tablet-and-up fwb">Actuals:</span>
+                  <%= number_to_currency(current_user.closed_leads_for_year(goal.year).sum(:displayed_net_commission).to_i, precision: 0) %>
+                  (<%= current_user.closed_leads_for_year(goal.year).count %>)
+                </td>
+                <td>
+                  <%= link_to "Edit", edit_goal_path(goal), class: "ui floating button" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui segments -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->

@@ -1,0 +1,123 @@
+<h2>Your AgentBright Goals - OLD FORMAT</h2>
+  <table>
+    <tr>
+      <td>Annual Goal</td>
+      <td>Gross Sales Goal</td>
+      <td>Annual Transactions</td>
+    </tr>
+    <tr>
+      <td><%= num_to_currency(@goal.desired_annual_income) %></td>
+      <td><%=  num_to_currency(@goal.gross_sales_vol_required) %></td>
+      <td><%= @goal.annual_transaction_goal %></td>
+    </tr>
+  </table>
+
+<table>
+<h2>Today's Daily Marketing Activites</h2>
+  <tr>
+    <td></td>
+    <td>Calls </td>
+    <td>Notes</td>
+    <td>Visits</td>
+  </tr>
+  <tr>
+    <td>Today: </td>
+    <td><%=  @goal.daily_calls_goal %></td>
+    <td><%= @goal.daily_calls_goal  %> </td>
+    <td><%=  @goal.daily_visits_goal %></td>
+  </tr>
+  <tr>
+    <td>Achieved Yesterday</td>
+    <td><%= @user.contact_activities.completed_yesterday("Call").count %></td>
+    <td><%= @user.contact_activities.completed_yesterday("Note").count %></td>
+    <td><%= @user.contact_activities.completed_yesterday("Visit").count %></td>
+  </tr>
+</table>
+
+<h2>Contacts</h2>
+<table>
+  <tr>
+    <td>Total</td>
+    <td>Ranked</td>
+    <td>A+</td>
+    <td>A</td>
+    <td>B</td>
+    <td>C</td>
+    <td>D</td>
+    <td>Ungraded</td>
+
+  </tr>
+  <tr>
+    <td><%= @contacts.count  %>  </td>
+    <td><%= @contacts.graded.count  %></td>
+    <td><%= @contacts.by_grade(0).count %></td>
+    <td><%= @contacts.by_grade(1).count %></td>
+    <td><%= @contacts.by_grade(2).count %></td>
+    <td><%= @contacts.by_grade(3).count %></td>
+    <td><%= @contacts.by_grade(4).count %></td>
+    <td><%= @contacts.by_grade(5).count %></td>
+    <td><%= @contacts.ungraded.count %></td>
+  </tr>
+</table>
+<!--agent stats-->
+<table>
+  <h2>Leads Stats</h2>
+  <tr>
+    <td>Unclaimed:</td>
+    <td>Not Contacted: </td>
+    <td>Attempted Contact:</td>
+    <td>Contacted:</td>
+  </tr>
+
+  <tr>
+    <td> <%= @leads.leads_unclaimed.count  %>
+    </td>
+    <td><%= @leads.leads_not_contacted.count  %>
+    </td>
+    <td><%= @leads.leads_attempted_contact.count  %>  </td>
+    <td>
+      <%= @leads.leads_contacted.count  %>
+    </td>
+
+  </tr>
+</table>
+
+<!--agent stats-->
+<table>
+  <h2>Client Stats</h2>
+  <tr>
+    <td>Prospect:</td>
+    <td>Active: </td>
+    <td>Pending:</td>
+    <td>Closed:</td>
+  </tr>
+  <tr>
+    <td><%= number_to_currency(@clients.leads_by_status(1).sum(:displayed_price).to_i, precision: 0) %>
+    </td>
+    <td><%= number_to_currency(@clients.leads_by_status(2).sum(:displayed_price).to_i, precision: 0) %></td>
+    <td><%= number_to_currency(@clients.leads_by_status(3).sum(:displayed_price).to_i, precision: 0) %></td>
+    <td><%= number_to_currency(@user.closed_leads_ytd.sum(:displayed_price).to_i, precision: 0) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= number_to_currency(@clients.leads_by_status(1).sum(:displayed_net_commission).to_i, precision: 0) %>
+    </td>
+    <td> <%= number_to_currency(@clients.leads_by_status(2).sum(:displayed_net_commission).to_i, precision: 0) %>
+    </td>
+    <td><%= number_to_currency(@clients.leads_by_status(3).sum(:displayed_net_commission).to_i, precision: 0) %>
+    </td>
+    <td><%= number_to_currency(@user.closed_leads_ytd.sum(:displayed_net_commission).to_i, precision: 0) %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= @clients.leads_by_status(1).count %>
+    </td>
+    <td> <%= @clients.leads_by_status(2).count %>
+    </td>
+    <td><%= @clients.leads_by_status(3).count %>
+    </td>
+    <td><%= @user.closed_leads_ytd.count %> </td>
+  </tr>
+</table>

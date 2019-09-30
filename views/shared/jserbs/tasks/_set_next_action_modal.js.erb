@@ -1,0 +1,3 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("tasks/modals/set_next_action", lead: lead, task: task) %>');

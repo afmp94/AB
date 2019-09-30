@@ -1,0 +1,10 @@
+<% breadcrumb(:edit_profile) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Agent Profile",
+    secondary_name: "My Business"
+  }
+) do %>
+  <%= render(partial: "form") %>
+<% end %>

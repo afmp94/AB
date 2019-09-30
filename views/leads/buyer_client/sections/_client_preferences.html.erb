@@ -1,0 +1,19 @@
+<div id="client-preferences-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        'Client Preferences',
+        edit_fixed_list_lead_path(lead,
+        lead_type: "buyer_client", section: "client_preferences"), 'edit-buyer-client-client-preferences'
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Timeframe", lead.timeframe_to_s) %>
+      <%= fixed_list_item("Property type", lead.property_type_to_s) %>
+      <%= fixed_list_item("Area", lead.buyer_area_of_interest) %>
+      <%= fixed_list_item("Pre-Qualified", boolean_to_words(lead.buyer_prequalified)) %>
+      <%= fixed_list_item("Pre-Qualified Amount", num_to_currency_truncated(lead.prequalification_amount)) %>
+      <%= fixed_list_item("Price range", display_lead_price_range(lead)) %>
+    </tbody>
+  </table>
+</div>

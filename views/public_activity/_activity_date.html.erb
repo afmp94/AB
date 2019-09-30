@@ -1,0 +1,4 @@
+<span class="date">
+  <%- timezone = activity.trackable && activity.trackable.respond_to?(:time_zone) ? activity.trackable.time_zone : Time.zone -%>
+  <%= l(activity.created_at.in_time_zone(timezone), format: :activity) -%>
+</span>

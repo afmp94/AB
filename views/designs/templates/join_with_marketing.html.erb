@@ -1,0 +1,90 @@
+<% content_for(:title, "Create a new account") %>
+<div class="ui main container full-width-container">
+  <div class="ui center aligned stackable grid">
+  <h1 class="ui orange center aligned header">
+    <div class="content">
+      Give yourself peace of mind and give your business a boost! </br><h2 class="ui grey header">Sign up for AgentBright today!</h4>
+    </div>
+  </h1>
+  <div class="row">
+    <div class="left aligned eight wide column">
+      <div class="ui raised segment">
+        <h2 class="ui teal image header">
+          <%= image_tag(white_label_image_name("box-114-transparent.png", current_subdomain), class: "image") %>
+          <div class="content">
+            Sign up
+          </div>
+        </h2>
+        <h4>Let's Get Started</h4>
+        <p>Sign up in 30 seconds. No credit card required.</p>
+        <form class="ui form">
+          <div class="field">
+            <label>Name</label>
+            <div class="two fields">
+              <div class="field">
+                <label>First Name</label>
+                <input type="text" name="first-name" placeholder="First Name">
+              </div>
+              <div class="field">
+                <label>Last Name</label>
+                <input type="text" name="last-name" placeholder="Last Name">
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="text" name="email" placeholder="Email">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="text" name="password" placeholder="Password">
+          </div>
+          <div class="field">
+            <div class="ui checkbox">
+              <input type="checkbox" tabindex="0" class="hidden">
+              <label>I agree to the Terms and Conditions</label>
+            </div>
+          </div>
+          <button class="ui button" type="submit">Submit</button>
+        </form><!-- /.form-->
+        <%#= render(partial: "users/registrations/form") %>
+        <!--<div class="ui message">
+          <%#= render(partial: "users/shared/links") %>
+        </div>-->
+      </div><!-- /.segment-->
+    </div><!-- /.column-->
+    <div class="eight wide column left aligned">
+      <%= render "designs/templates/marketing_components/agent_testimonial" %>
+      <div class="ui icon message">
+        <i class=" dashboard icon"></i>
+        <div class="content">
+          <div class="block dividing header">
+            How good is your Real Estate Business?
+          </div>
+          <button class="big ui orange button">
+            Take Assessment Now
+          </button>
+          <p>Take 15 minutes to get clarity on your Goals and Buisness health.</p>
+        </div><!-- /.content-->
+      </div><!-- /.message-->
+    </div><!-- /.column-->
+  </div><!-- /.ui row-->
+  <div class="row">
+    <div class="center aligned sixteen wide column">
+      <div class="ui icon message">
+        <div class="content">
+          <button class="ui big primary button"><i class="mail icon"></i>
+            Email us
+          </button>
+          <button class="ui big  primary button"><i class="facebook square icon"></i>
+            Like us on Facebook
+          </button>
+          <button class="ui big primary button"><i class="info circle icon"></i>
+            Learn More ...
+          </button>
+          <h2>Our passion is helping Real Estate Agents be their best!</h2>
+        </div><!-- /.ui content-->
+      </div><!-- /.ui icon message -->
+    </div><!-- /.ui sixteen column -->
+  </div><!-- /.ui row-->
+</div><!-- /.ui main container -->

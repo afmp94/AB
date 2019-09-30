@@ -1,0 +1,124 @@
+<% content_for(:title, "Coaching") %>
+<% breadcrumb(:coaching) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container full-width-container">
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0">
+        <h1 class="ui header">
+          <%= link_to("Coaching", coaching_path) %>
+        </h1><!-- /.ui header -->
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container" data-container="coaching-cards">
+  <% if current_user.super_admin? %>
+    <h2 class="ui header">Coaching Cards</h2><!-- /.ui header -->
+
+    <div class="ui cards">
+      <div class="card">
+        <div class="content">
+          <div class="right floated mini" ><a href="https://icons8.com"></a> <img src="https://png.icons8.com/material/50/000000/training.png"></i></div>
+          <div class="header">
+            Be sure to set up your Email Campaigns!
+          </div>
+          <div class="meta">
+            101 Basics of Marketing
+          </div>
+          <div class="description">
+            Keeping in touch via Email builds your relationships
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="ui two buttons">
+            <div class="ui basic green button">Start now</div>
+            <div class="ui basic red button">Remind me</div>
+          </div>
+        </div>
+      </div><!--card-->
+      <div class="card">
+        <div class="content">
+          <div class="right floated mini" ><i class="circular yellow large eye icon"></i></div>
+          <div class="header">
+            We recommend Drip Campaigns for you
+          </div>
+          <div class="meta">
+            201 Pro Marketiing
+          </div>
+          <div class="description">
+            Did you know it takes 7 'touches' to connect to you a lead?
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="ui two buttons">
+            <div class="ui basic green button">Start now</div>
+            <div class="ui basic red button">Remind me</div>
+          </div>
+        </div>
+      </div><!--card-->
+      <div class="card">
+        <div class="content">
+          <div class="right floated mini" ><i class="circular yellow large lightbulb outline icon"></i></div>
+          <div class="header">
+            Don't forget to ask Beth Boring (X) for a Testimonial
+          </div>
+          <div class="meta">
+            101 Basics of Marketing
+          </div>
+          <div class="description">
+            Did you know that Testimonials are the most powerful form of marketing?
+          </div>
+        </div>
+        <div class="extra content">
+          <div class="ui two buttons">
+            <div class="ui basic green button">Action now</div>
+            <div class="ui basic red button">Remind me</div>
+          </div>
+        </div>
+      </div><!--card-->
+    </div><!-- /.ui cards -->
+  <% end %>
+
+  <% if @coaching_cards_service.empty_coaching_cards? %>
+    <%= no_data_block(
+      icon_class: "check",
+      title: "Nice job",
+      message: "You are current with your coaching!",
+      block_id: "coach_emptymessage"
+    ) %>
+  <% else %>
+    <div class="ui stackable grid" data-info="all-coaching-cards">
+      <% if @coaching_cards_service.branding_coaching_cards.present? %>
+        <div class="row left aligned" data-info="branding_coaching_cards" id="branding">
+          <%= render partial: "coaching/branding_coaching_cards", locals: { cards: @coaching_cards_service.branding_coaching_cards } %>
+        </div>
+      <% end %>
+      <% if @coaching_cards_service.relation_and_database_coaching_cards.present? %>
+        <div class="row left aligned" data-info="relation_and_database_coaching_cards" id="relation_and_database">
+          <%= render partial: "coaching/relation_and_database_coaching_cards", locals: { cards: @coaching_cards_service.relation_and_database_coaching_cards } %>
+        </div>
+      <% end %>
+      <% if @coaching_cards_service.personal_and_mass_marketing_coaching_cards.present? %>
+        <div class="row left aligned" data-info="personal_and_mass_marketing_coaching_cards" id="personal_and_mass_marketing">
+          <%= render partial: "coaching/personal_and_mass_marketing_coaching_cards", locals: { cards: @coaching_cards_service.personal_and_mass_marketing_coaching_cards } %>
+        </div>
+      <% end %>
+      <% if @coaching_cards_service.lead_response_and_conversion_coaching_cards.present? %>
+        <div class="row left aligned" data-info="lead_response_and_conversion_coaching_cards" id="lead_response_and_conversion">
+          <%= render partial: "coaching/lead_response_and_conversion_coaching_cards", locals: { cards: @coaching_cards_service.lead_response_and_conversion_coaching_cards } %>
+        </div>
+      <% end %>
+      <% if @coaching_cards_service.service_management_coaching_cards.present? %>
+        <div class="row left aligned" data-info="service_management_coaching_cards" id="service_management">
+          <%= render partial: "coaching/service_management_coaching_cards", locals: { cards: @coaching_cards_service.service_management_coaching_cards } %>
+        </div>
+      <% end %>
+      <% if @coaching_cards_service.self_and_business_management_coaching_cards.present? %>
+        <div class="row left aligned" data-info="self_and_business_management_coaching_cards" id="self_and_business_management">
+          <%= render partial: "coaching/self_and_business_management_coaching_cards", locals: { cards: @coaching_cards_service.self_and_business_management_coaching_cards } %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

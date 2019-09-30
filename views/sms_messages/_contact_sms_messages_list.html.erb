@@ -1,0 +1,4 @@
+<div class="ui feed" id="texts">
+  <h3 class="ui dividing header">Text Message History</h3><!-- /.ui dividing header -->
+  <%= render(partial: "sms_messages/contact_sms_message", collection: sms_messages, as: :sms_message) %>
+</div>

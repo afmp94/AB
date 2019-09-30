@@ -1,0 +1,149 @@
+<%#= render(partial: "header") %>
+<div class="ui middle aligned center aligned grid">
+  <div class="eight wide column">
+    <div class="ui raised segment">
+      <h2 class="ui header">Import your contacts</h2>
+      <h4 class="ui header">Do you have Gmail or Google App?</h4>
+        <div class="ui buttons" >
+          <button class="ui positive button" data-ui-behavior="onboarding-google-button">Yes</button>
+          <button class="ui button" data-ui-behavior="onboarding-no-button">No</button>
+        </div>
+        <% if super_admin_signed_in? %>
+          <%# if postivit button, show connect with google %>
+          <div class="ui tab" data-tab="upload-with-google" >
+            <div class="ui vertical raised segment">
+              <h4 class="ui header">Link your email account and import your contacts</h4>
+              <%= form_tag(
+                add_nylas_email_path,
+                method: :get,
+                class: "ui form",
+                data: { info: "import-contacts-form" }
+              ) do |f| %>
+                <%= hidden_field_tag("from_page", "import_contacts") %>
+                <div class="field m-x">
+                  <%= text_field_tag(
+                    "email",
+                    nil,
+                    placeholder: "Enter your email address..."
+                  ) %>
+                </div>
+                <%= submit_tag(
+                  "Import",
+                  class: "ui button",
+                  "data-disable-with": "Importing..."
+               ) %>
+              <% end %>
+            </div><!-- /.ui vertical segment -->
+          </div><!-- /.tab-->
+        <% end %>
+        <div class="ui tab m-y-lg" data-tab="upload-with-other-options" >
+          <div class="ui buttons">
+            <button class="ui yellow button" data-ui-behavior="other-options-csv-button">Upload with CSV file</button>
+            <div class="or"></div>
+            <button class="ui button" data-ui-behavior="other-options-email-only-button">No, import my Email Addresses</button>
+          </div><!-- /.buttons-->
+          <div class="ui tab" data-tab="upload-with-csv" >
+            <div class="ui vertical raised segment m-y">
+              <h4 class="ui header">Upload your contacts from a CSV File</h4>
+              <% if browser.platform.ios? %>
+                <div class="ui icon message">
+                  <i class="warning icon"></i>
+                  <div class="content">
+                    <div class="header">
+                      We can't upload a CSV file from an iPhone or iPad
+                    </div>
+                    <p>But if you come back to this page on a desktop, we can do it from there!</p>
+                  </div>
+                </div>
+              <% else %>
+                <p>
+                  File type accepted:
+                  Outlook CSV format.
+                </p>
+                <%#= direct_upload_form_for(
+                  @csv_file,
+                  html: { class: "ui form", data: { behavior: "upload-contacts" } },
+                  remote: true
+                ) do |f| %>
+                  <div class="field m-y">
+                    <label>Choose a CSV file:</label>
+                    <div class="ui mfile input action" data-ui-behavior="file-upload">
+                      <input type="text" readonly />
+                      <%#= f.file_field(:file) %>
+                      <div class="ui button">
+                        Select...
+                      </div><!-- /.ui button -->
+                    </div><!-- /.ui fluid file input action -->
+                  </div><!-- /.field -->
+                  <%#= f.button(
+                    :submit,
+                    value:  "Upload Contacts File",
+                    class: "ui fluid button",
+                    value: "Upload Contacts File",
+                    "data-loading-text" => "Uploading..."
+                  ) %>
+               <!--end %>-->
+              <% end %>
+            </div><!-- /.ui vertical segment -->
+          </div><!-- /.tab-->
+          <div class="ui tab" data-tab="upload-with-email-only" >
+            <div class="ui vertical raised segment">
+              <h4 class="ui header">Upload just email addresses but no phone numbers</h4>
+              <p>This is a great way to identify potential contacts but will requires some work to get phone numbers. </p>
+              <%= form_tag(
+                add_nylas_email_path,
+                method: :get,
+                class: "ui form",
+                data: { info: "import-contacts-form" }
+              ) do |f| %>
+                <%= hidden_field_tag("from_page", "import_contacts") %>
+                <div class="field m-x">
+                  <%= text_field_tag(
+                    "email",
+                    nil,
+                    placeholder: "Enter your email address..."
+                  ) %>
+                </div>
+                <%= submit_tag(
+                  "Import",
+                  class: "ui button",
+                  "data-disable-with": "Importing..."
+               ) %>
+              <% end %>
+            </div><!-- /.ui vertical segment -->
+          </div><!-- /.tab-->
+          <div class="ui vertical segment m-y-lg">
+            <%= link_to(
+              "Skip - import my contacts later",
+              dashboard_path,
+              class: "ui primary button"
+            ) %>
+          </div><!-- /.ui vertical segment -->
+        </div><!-- /.tab-->
+    </div><!-- /.ui segment -->
+  </div><!-- /.column -->
+</div><!-- /.ui middle aiigned center aligned grid -->
+<script>
+$('[data-ui-behavior=onboarding-google-button]')
+  .on('click', function() {
+    // programmatically activating tab
+    $.tab('change tab','upload-with-google' );
+  })
+;
+$('[data-ui-behavior=onboarding-no-button]')
+  .on('click', function() {
+    // programmatically activating tab
+    $.tab('change tab','upload-with-other-options' );
+  })
+;
+$('[data-ui-behavior=other-options-csv-button]')
+  .on('click', function() {
+    // programmatically activating tab
+    $.tab('change tab','upload-with-csv' );
+  })
+$('[data-ui-behavior=other-options-email-only-button]')
+  .on('click', function() {
+    // programmatically activating tab
+    $.tab('change tab','upload-with-email-only' );
+  })
+</script>

@@ -1,0 +1,22 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Rename Tag</h4>
+</div><!-- /header -->
+
+<div class="content">
+  <%= simple_form_for(
+    tag, url: user_settings_tag_path(tag),
+    method: :put,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |f| %>
+    <div class="field">
+      <%= f.input :name %>
+    </div>
+    <%= f.button(
+      :submit,
+      "Save",
+      class: "ui primary button",
+      "data-disable-with": "Saving..."
+    ) %>
+    <a class="ui basic button float-right" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

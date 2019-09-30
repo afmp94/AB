@@ -1,0 +1,3 @@
+$("[data-ui-behavior=tiny-modal]").empty();
+$("[data-ui-behavior=tiny-modal]")
+  .append('<%= j render("contacts/modals/merge_contacts", contact: @contact, total_contacts: @total_contacts) %>');

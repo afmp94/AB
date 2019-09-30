@@ -1,0 +1,27 @@
+<% breadcrumb(:edit_email_integrations) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Email",
+    secondary_name: "Connections"
+  }
+) do %>
+  <%= render(
+    partial: "profiles/nylas_settings",
+  ) %>
+  <%= render(partial: "profiles/email_settings") %>
+  <% if current_user.nylas_token.present? && current_user.nylas_connected_email_account.present? && super_admin_signed_in? %>
+    <div class="ui segments">
+      <div class="ui top attached negative icon message">
+        <i class="wrench icon"></i>
+        <div class="content">
+          <div class="header">
+            Super Admin
+          </div><!-- /.header -->
+        </div><!-- /.content -->
+      </div><!-- /.ui top attached warning message -->
+      <%= render(partial: "profiles/emails") %>
+      <%= render(partial: "profiles/email_tracking_log") %>
+    </div><!-- /.ui segments -->
+  <% end %>
+<% end %>

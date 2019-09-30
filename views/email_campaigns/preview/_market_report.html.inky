@@ -1,0 +1,182 @@
+<div>
+  <style type="text/css">
+    <%= Rails.application.assets_manifest.find_sources('mailer.css').first.html_safe %>
+  </style>
+  <style type="text/css">
+    body,
+    html,
+    .body {
+      background: #f3f3f3 !important;
+    }
+
+    .body h1 {
+      font-size: 44px;
+      letter-spacing: -1px;
+      line-height: 125%;
+      padding: 0;
+      margin: 0;
+    }
+
+    .body h2 {
+      font-size: 24px;
+    }
+
+    .body h3 {
+      font-size: 18px;
+      letter-spacing: -.5px;
+      color: #606060;
+      font-weight: bold;
+    }
+
+    .body h4 {
+      font-size: 16px;
+      color: #808080;
+      font-weight: bold;
+    }
+
+    .body p {
+      font-size: 14px;
+      color: #606060;
+    }
+
+    .stat-label {
+      font-size: 18px;
+      color: #606060;
+    }
+
+    .market-count-stats {
+      font-size: 14px;
+      line-height: 1.6em;
+      color: #000033;
+    }
+
+    .container.header {
+      background: #f3f3f3;
+    }
+
+    .body-drip {
+      border-top: 8px solid #663399;
+    }
+
+    th.callout-inner.agent-info {
+      background-color: #dadada;
+    }
+
+    .agent-info h2 {
+      line-height: 125%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .agent-info h3 {
+      line-height: 1.1em;
+      font-weight: normal;
+      margin: 0;
+    }
+
+    .agent-info .agent-info__agency {
+      font-size: 13px;
+      line-height: 1.7em;
+    }
+
+    .agent-info .agent-info__contact {
+      font-size: 14px;
+      line-height: 17px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .footer p {
+      font-size: 11px;
+    }
+  </style>
+
+  <container class="body-drip">
+    <spacer size="16"></spacer>
+    <% if @report.location.nil? %>
+      <row>
+        <columns>
+          <h4 class="text-center">Please set a valid default location</h4>
+        </columns>
+      </row>
+    <% else %>
+      <row>
+        <columns>
+          <h1>Market Snapshot</h1>
+          <h4><%= @report.location_name %></h4>
+        </columns>
+      </row>
+
+      <hr/>
+
+      <spacer size="16"></spacer>
+
+      <row>
+        <columns small="12" large="6">
+          <span class="stat-label">Median List Price</span>
+          <h1><%= num_to_currency_truncated(@report.median_list_price) %></h1>
+        </columns>
+        <columns small="12" large="6">
+          <span class="stat-label">Median Sales Price</span>
+          <h1><%= num_to_currency_truncated(@report.median_sales_price) %></h1>
+        </columns>
+      </row>
+      <row>
+        <columns small="12" large="6">
+          <span class="stat-label">Average Days on Market</span>
+          <h1><%= @report.average_days_on_market_listings %></h1>
+        </columns>
+        <columns small="12" large="6">
+          <span class="stat-label">Market Count</span><br />
+          <span class="market-count-stats"><strong><%= @report.number_of_listings %></strong> Homes for Sale</span><br />
+          <span class="market-count-stats"><strong><%= @report.number_of_sales %></strong> Sold Last Month</span>
+        </columns>
+      </row>
+
+      <hr />
+
+      <div data-behavior="display-custom-message" style="width: 90%; margin: 0 auto; display:<%= @report.display_custom_message ? "block" : "none" %>" >
+        <div style="margin: 0 auto; word-wrap: break-word;text-align:center" data-behavior="campaign-preview-content">
+          <%= simple_format(@report.custom_message) %>
+        </div>
+      </div>
+
+      <spacer size="16"></spacer>
+
+      <callout class="primary agent-info">
+        <row>
+          <columns large="4">
+            <center>
+              <%= image_tag(@report.sender_image) %>
+            </center>
+          </columns>
+          <columns large="8">
+            <h2><%= @report.sender_name %></h2>
+            <% if @report.sender_has_team?  %>
+              <h3><%= @report.sender_team_name %></h3>
+            <% end %>
+            <% if @report.sender_company.present? %>
+              <span class="agent-info__agency"><em><%= @report.sender_company %></em></span>
+            <% end %>
+            <p class="agent-info__contact">
+              <%= @report.sender_phone %><br />
+              <%= @report.sender_email %>
+            </p>
+          </columns>
+        </row>
+      </callout>
+      <row class="collapsed footer">
+        <columns>
+          <spacer size="16"></spacer>
+          <p>
+            <em>
+              Report data as of
+              <%= @report.report_date_at.end_of_month.to_s(:short_date) %><br />
+            </em>
+            <%= link_to "Unsubscribe", unsubscribe_path_for(@report.contact) %>
+          </p>
+        </columns>
+      </row>
+    <% end %>
+  </container>
+</div>

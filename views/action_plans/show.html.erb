@@ -1,0 +1,131 @@
+<% content_for(:title, "Action Plan | #{@action_plan.name}") %>
+<% breadcrumb(:show_action_plan) %>
+
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        <%= link_to("Action Plan | #{@action_plan.name}", action_plans_path) %>
+        <div class="sub header">Action Plans</div>
+      </h1>
+      <div class="ui hidden divider"></div>
+      <%= link_to(edit_action_plan_path(@action_plan), class: "ui button primary") do %>
+        Edit
+      <% end %>
+      <%= link_to(action_plan_path(@action_plan), method: :delete, data: { confirm: 'Are you sure?'},  class: "ui button primary") do %>
+        <i class="plus icon"></i>
+        Delete
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="main ui container full-width-container">
+  <div class="ui top attached tabular menu">
+    <a class="active item" data-tab="first">Steps</a>
+    <a class="item" data-tab="second">Contacts</a>
+  </div>
+  <div class="ui bottom attached active tab segment" data-tab="first">
+    <div class="ui vertical basic segment">
+      <div class="ui grid">
+        <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+          <div class="ui segments">
+            <div class="ui segment p-a-0">
+              <table class="ui sortable single line table" data-ui-behavior="sortable-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Trigger</th>
+                    <th class="">Action</th>
+                    <th class="">Scheduled</th>
+                    <th class="">Completed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @action_plan.action_plan_steps.each do |step| %>
+                    <tr>
+                      <td data-sort-value="6">
+                        <%= step.order %>
+                      </td>
+                      <td>
+                        <div class="item">
+                          <div class="ui small header">
+                            <div class="content">
+                              <% if step.delay_in_days.present? %>
+                                <%= step.delay_in_days %>
+                                <%= "day".pluralize(step.delay_in_days) %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="item">
+                          <div class="ui small header">
+                            <div class="content">
+                              <% if step.step_type == 'email' and step.email_template_name.present? %>
+                                Send message using <%= step.email_template_name %>
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td data-sort-value="6">
+                        <%= @action_plan.scheduled %>
+                      </td>
+                      <td>
+                        <%= @action_plan.completed %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="second">
+    <div class="ui vertical basic segment">
+      <div class="ui grid">
+        <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+          <% if current_user.nylas_account_valid? %>
+            <div class="ui two column grid">
+              <div class="column">
+                <h2 class="ui header contacts_count">Contacts: <%= @action_plan_memberships.count %></h2>
+              </div><!-- /.ui column -->
+              <div class="column right aligned">
+                <div class="add_new_action_plan_membership">
+                  <%= render partial: "action_plan_memberships/new_form" %>
+                </div>
+                <button class="ui button add_new_contact">Add Contact</button>
+              </div><!-- /.ui column -->
+            </div><!-- /.ui two column grid-->
+            <div class="ui segment p-a-0 action_plan_contacts_table">
+              <%= render partial: "action_plan_memberships/action_plan_contacts" %>
+            </div><!-- .ui segment-->
+          <% else %>
+            <div class="ui info icon message">
+              <i class="gear icon"></i>
+              <div class="content">
+                <p>
+                  <%= link_to(
+                    "To send action plan, you must have a connected email account.  Click here to connect.",
+                    edit_integrations_path
+                  ) %>
+                </p>
+              </div><!-- /.content -->
+            </div><!-- /.ui info message -->
+          <% end %>
+        </div><!-- /.ui container -->
+      </div> <!-- .ui grid -->
+    </div>
+  </div>
+</div>
+
+<script>
+  $('.menu .item')
+    .tab()
+  ;
+</script>

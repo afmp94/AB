@@ -1,0 +1,20 @@
+<div class="ui menu hide-tablet-and-down m-a-0">
+  <%= link_to("Rank My Contacts", rank_contact_path, class: "item") %>
+  <%= link_to("Select Top Contacts", top_contacts_path, class: "item") %>
+  <%= link_to("Merge Duplicates", duplicates_path, class: "item") %>
+  <div class="right menu">
+    <%= link_to("Import Contacts", new_upload_contact_path, class: "item") %>
+  </div><!-- /.right menu -->
+</div><!-- /.ui menu -->
+
+<div class="ui menu hide-computer-and-up m-a-0">
+  <%= link_to("Rank My Contacts", rank_contact_path, class: "item") %>
+  <div class="ui dropdown item">
+    More... <i class="dropdown icon"></i>
+    <div class="menu">
+      <%= link_to("Select Top Contacts", top_contacts_path, class: "item") %>
+      <%= link_to("Merge Duplicates", duplicates_path, class: "item") %>
+      <%= link_to("Import Contacts", new_upload_contact_path, class: "item") %>
+    </div><!-- /.menu -->
+  </div><!-- /.ui dropdown item -->
+</div><!-- /.ui menu -->

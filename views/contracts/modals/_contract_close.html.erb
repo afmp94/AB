@@ -1,0 +1,67 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Add Contract and Close: <%= lead.name %></h4>
+</div>
+<div class="content">
+  <%= simple_form_for(
+    [@lead, @property, @contract],
+    html: {
+      data: {
+        fv_live: "submitted",
+        form: "contract_form",
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |f| %>
+    <h3 class="ui header">Contract Info</h3>
+    <%= f.input(:offer_price, label: "Contract Price", as: :currency) %>
+    <div class="ui raised segment">
+      <%= render(partial: "contracts/forms/commission", locals: { f: f }) %>
+    </div>
+    <%= f.input(
+      :closing_date_at,
+      label: "Closing Date",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.closing_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.input(
+      :status,
+      collection: Contract::STATUSES.invert,
+      include_blank: false
+    ) %>
+    <%= f.input(:buyer) %>
+    <%= f.input(:buyer_agent, label: "Buyer Agent") %>
+    <div class="two fields m-t">
+      <%= f.input(
+        :referral_fee_type,
+        collection: ["Percentage","Fee"],
+        label: "Referral Percentage or Fee?",
+        as: :sui_radio_buttons,
+        wrapper: :horizontal_radio_buttons,
+        input_html: { "data-behavior": "display-commission-referral-fields" }
+      ) %>
+      <%= f.input(
+        :referral_fee_rate,
+        label: "What is the referral percentage?",
+        as: :percentage_two_decimal,
+        placeholder: "ex. 65",
+        wrapper_html: { id: "percentage2-field" }
+      ) %>
+      <%= f.input(
+        :referral_fee_flat_fee,
+        label: "What is the Referral Fee?",
+        as: :currency,
+        placeholder: "ex. 100",
+        wrapper_html: { id: "fee2-field" }
+      ) %>
+    </div>
+    <%= f.input(
+      :additional_fees,
+      label: "Additional Fees",
+      as: :currency,
+      wrapper_html: { id: "fee-field3" }
+    ) %>
+  <% end %>
+</div><!-- /.content -->

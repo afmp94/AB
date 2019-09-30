@@ -1,0 +1,296 @@
+<!--
+*******************************************
+Note: The purpose of views/designs/ is for
+building frontend markup only. Do not add
+ERB or javascript to this page. Copy and
+paste this markup, and then integrate that
+code in its rightful location with the app
+backend.
+
+With very few exceptions, this file should
+remain pure front-end HTML/CSS/JS.
+*******************************************
+-->
+
+<style>
+  .ab-search-bar-header {
+    display: flex;
+  }
+
+  @media only screen and (max-width: 991px) {
+    .ab-search-bar-header {
+      flex-direction: column;
+    }
+  }
+
+  .ab-search-bar-header-left {
+    flex-grow: 1;
+  }
+
+  .ab-search-bar-header-right {
+    flex: 0 1 auto;
+  }
+
+  .ab-contacts-select-menu {
+    flex-wrap: wrap;
+  }
+
+  .ui.sortable.table thead th {
+    border-left: none;
+  }
+
+  .ui.sortable.table thead th.no-sort:hover {
+    background: transparent;
+    cursor: auto;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  td.ab-status-column {
+    width: 10px;
+    height: 100%;
+    padding: 0 !important;
+    position: relative;
+  }
+
+  td.ab-status-column > .ab-status {
+    position: absolute;
+    top: 0;
+    width: 10px;
+    height: 100%;
+    background-color: #ddd;
+    display: inline-block;
+  }
+
+  td.ab-status-column > .ab-status.ab-positive-status {
+    background-color: #21BA45;
+  }
+
+  td.ab-status-column > .ab-status.ab-warning-status {
+    background-color: #FFD700;
+  }
+
+  td.ab-status-column > .ab-status.ab-negative-status {
+    background-color: #DB2828;
+  }
+
+  .ui.fixed.sticky + table {
+    margin-top: 61px;
+  }
+</style>
+
+<%= page_header(
+  primary_name: "Index",
+  primary_path: templates_index_path,
+  secondary_name: "Drip Campaign Templates",
+  add_button_text: "Add new drip campaign template",
+  add_button_path: templates_new_path
+  #add_button_path: drip_campaigns_new_path
+) %>
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid">
+      <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+
+        <div class="ui segments">
+
+          <div class="ui segment p-a-0">
+
+            <table class="ui sortable very basic table" data-ui-behavior="sortable-table">
+              <thead>
+                <tr>
+                  <th class="">Title</th>
+                  <th class="">Content</th>
+                  <th class="collapsing">Sent</th>
+                  <th class="collapsing">Open</th>
+                  <th class="collapsing">Clicks</th>
+                  <th class="collapsing">Replies</th>
+                  <th class="collapsing">Copy</th>
+                  <th class="no-sort">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Buyer Lead - First Email
+                          <div class="sub header">Attempt to contact buyer lead</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Any way I can help?
+                          <div class="sub header">Hi {{ first_name }}, name is {{my_first_name }}</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td data-sort-value="6">
+                    100
+                  </td>
+                  <td>
+                    10</i>
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    <i class="copy outline icon"></i>
+                  </td>
+                  <td>
+                    <i class="trash icon"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Buyer Lead - Second Email
+                          <div class="sub header">Attempt to contact buyer lead</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Any way I can help?
+                          <div class="sub header">Hi {{ first_name }}, name is {{my_first_name }}</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td data-sort-value="6">
+                    100
+                  </td>
+                  <td>
+                    10</i>
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    <i class="copy outline icon"></i>
+                  </td>
+                  <td>
+                    <i class="trash icon"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Buyer Lead - First Text
+                          <div class="sub header">Just reminder follow up</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Any way I can help?
+                          <div class="sub header">Hi {{ first_name }}, name is {{my_first_name }}</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td data-sort-value="6">
+                    100
+                  </td>
+                  <td>
+                    10</i>
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    <i class="copy outline icon"></i>
+                  </td>
+                  <td>
+                    <i class="trash icon"></i>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Buyer Lead - Third Email
+                          <div class="sub header">Attempt to contact buyer lead</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Any way I can help?
+                          <div class="sub header">Hi {{ first_name }}, name is {{my_first_name }}</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td data-sort-value="6">
+                    100
+                  </td>
+                  <td>
+                    10</i>
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    5
+                  </td>
+                  <td>
+                    <i class="copy outline icon"></i>
+                  </td>
+                  <td>
+                    <i class="trash icon"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.ui segment -->
+        </div><!-- /.ui segments -->
+      </div><!-- /.column -->
+    </div><!-- /.ui centered grid -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->
+
+
+<script>
+
+  // Initialize regular dropdowns
+  $('[data-ui-behavior=dropdown]')
+    .dropdown()
+  ;
+
+  // Initialize Semantic UI dropdowns
+  $('[data-ui-behavior=checkbox]')
+    .checkbox()
+  ;
+
+
+</script>

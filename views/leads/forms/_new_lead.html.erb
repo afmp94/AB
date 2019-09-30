@@ -1,0 +1,41 @@
+<div class="ui main container">
+  <%= simple_form_for(
+    @lead,
+    url: url_data,
+    html: { data: {"mobile-app-forced-form": request_from_mobile_app?, fv_live: "submitted", form: "new_lead_form" } }
+  ) do |f| %>
+    <%= render(
+      partial: "leads/form_fields/lead_contact_info",
+      locals: { f: f }
+    ) %>
+    <%= render(
+      partial: "leads/form_fields/lead_details",
+      locals: { f: f }
+    ) %>
+    <%= render(
+      partial: "leads/form_fields/new_lead_buyer_section",
+      locals: { f: f }
+    ) %>
+    <%= render(
+      partial: "leads/form_fields/new_lead_seller_section",
+      locals: { f: f }
+    ) %>
+    <%= f.input(
+      :notes,
+      input_html: { rows: 4 },
+      wrapper_html: {
+        class: "reveal-section",
+        "data-reveal-set-name": "client_type",
+        "data-reveal-show-value-all": ""
+      }
+    ) %>
+    <div class="reveal-section m-t" data-reveal-set-name="client_type" data-reveal-show-value-all>
+      <%= f.button(
+        :submit,
+        value: "Save",
+        "data-disable-with": "Saving..."
+      ) %>
+      <%= link_to("Cancel", user_leads_path, class: "ui basic button") %>
+    </div><!-- /.reveal-section -->
+  <% end %>
+</div><!-- /.ui main container -->

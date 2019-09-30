@@ -1,0 +1,9 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <%= @invitation.sender_name %> would like you to join their team on AgentBright!
+
+    Visit the URL below join their team:
+
+    <%= new_invitation_acceptance_url(@invitation) %>
+  </container>
+<% end %>

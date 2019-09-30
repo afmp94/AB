@@ -1,0 +1,51 @@
+<% content_for(:title, "Tasks") %>
+<% breadcrumb(:tasks) %>
+<%= page_header(
+  primary_name: "Tasks",
+  primary_path: tasks_path,
+  add_button_text: "Add Task",
+  add_button_path: new_task_path
+) %>
+
+<div class="main ui container">
+
+  <% if current_user.user_has_teammates? %>
+    <h4 class="ui header">Your open to-dos</h4>
+  <% else %>
+    <h4 class="ui header">Open to-dos</h4>
+  <% end %>
+
+  <%= render(
+    partial: "tasks",
+    locals: {
+      tasks: @not_completed_tasks,
+      article_class: "show-buckets",
+    }
+  ) %>
+
+  <% if current_user.user_has_teammates? %>
+    <h4 class="ui header"><span>Open teammate to-dos</span></h4>
+    <%= render(
+      partial: "tasks",
+      locals: {
+        tasks: @not_completed_tasks_assigned_to_other_teammates,
+        article_class: "show-buckets"
+      }
+    ) %>
+  <% end %>
+
+  <% if current_user.user_has_teammates? %>
+    <h4 class="ui header">Your completed to-dos</h4>
+  <% else %>
+    <h4 class="ui header">Completed to-dos</h4>
+  <% end %>
+
+  <%= render(
+    partial: "completed_tasks",
+    locals: {
+      tasks: @completed_tasks,
+      completed_tasks_count: @completed_tasks_count,
+      article_class: "show-buckets"
+    }
+  ) %>
+</div>

@@ -1,0 +1,79 @@
+<%# cache("listing_form") do %>
+  <h3 class="ui header">Property Address</h3>
+  <div class="field">
+    <div class="ui checkbox" data-ui-behavior="checkbox">
+      <input type="checkbox" id="new-seller-client-contact-address-checkbox" />
+      <label for="new-seller-client-contact-address-checkbox">Use Contact Address?</label>
+      <br>
+      <br>
+      <div id="new-seller-client-contact-missing"></div>
+    </div><!-- /.ui checkbox -->
+  </div><!-- /.field -->
+  <%= f.simple_fields_for(
+    :address,
+    f.object.address || f.object.build_address
+  ) do |address_form| %>
+    <%= render(partial: "addresses/form", locals: { f: address_form }) %>
+  <% end %>
+
+  <h3 class="ui header">Property Info</h3>
+  <%= f.input(
+    :property_type,
+    collection: Property::PROPERTY_TYPES,
+    include_blank: false
+  ) %>
+  <div class="two fields">
+    <%= f.input(:bedrooms) %>
+    <%= f.input(:bathrooms) %>
+  </div>
+  <div class="two fields">
+    <%= f.input(:sq_feet, label: "Square Feet") %>
+    <%= f.input(:lot_size, label: "Lot Size") %>
+  </div>
+
+  <h3 class="ui header">Listing Info</h3>
+  <%= f.input(:list_price, label: "List Price", as: :currency) %>
+  <%= f.input(:mls_number, label: "MLS Number") %>
+  <%= f.input(:rental, label: "Rental", as: :boolean) %>
+  <%= f.input(:property_url, label: "Property URL") %>
+
+  <h3 class="ui header">My Listing</h3>
+  <div class="two fields">
+    <%= f.input(
+      :initial_client_valuation,
+      label: "Initial Client Valuation",
+      as: :currency
+    ) %>
+    <%= f.input(:initial_agent_valuation, as: :currency) %>
+  </div>
+
+  <div class="ui raised segment">
+    <%= render(partial: "properties/commission_form", locals: { f: f } )%>
+  </div>
+
+  <%= f.input(
+    :original_list_date_at,
+    as: :datepicker,
+    label: "Original List Date At",
+    input_html: {
+      value: format_for_datepicker(f.object.original_list_date_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:original_list_price, as: :currency) %>
+  <%= f.input(
+    :listing_expires_at,
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker((Time.zone.now + 6.months)),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:transaction_type, as: :hidden, input_html: { value: "Seller" }) %>
+  <%= f.input(:notes, input_html: { rows: 6 }) %>
+<%# end %>
+
+<script>
+  display_commission_select();
+  display_referral_select();
+</script>

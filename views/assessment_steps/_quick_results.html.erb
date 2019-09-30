@@ -1,0 +1,32 @@
+<h4 class="ui horizontal divider header">
+  Quick grade from the last page:
+</h4>
+
+<div class="ui attached message assessment-quick-results">
+  <div class="ui items">
+    <div class="item">
+      <% if local_assigns[:data_percent] %>
+        <div class="ui small image assessment-quick-results_score_gauge_container">
+          <%= render(
+            partial: "assessment_steps/score_gauge",
+            locals: {
+              data_percent: data_percent
+            }
+          ) %>
+        </div><!-- /.ui small image -->
+      <% end %>
+      <div class="middle aligned content">
+        <div class="header">
+          <%= previous_step %>
+        </div><!-- /.header -->
+        <div class="description">
+          <%= capture(&block) %>
+        </div><!-- /.description -->
+      </div><!-- /.middle aligned content -->
+    </div><!-- /.ui item -->
+  </div><!-- /.ui items -->
+</div><!-- /.ui message -->
+<%= render(
+  partial: "assessment_steps/quick_feedback",
+  locals: { next_step: @next_step, survey_result: @survey_result }
+) %>

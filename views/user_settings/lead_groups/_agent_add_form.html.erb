@@ -1,0 +1,8 @@
+<%= simple_form_for(
+  :lead_group_agent,
+  url: add_user_to_lead_group_user_settings_lead_group_path,
+  html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+) do |f| %>
+  <%= f.input(:email, label: "Email Address") %>
+  <%= f.button(:submit, "Add New Agent") %>
+<% end %>

@@ -1,0 +1,94 @@
+<%# content_for :main_navigation do %>
+  <%# if show_beta_features? %>
+    <!-- <a class="ui basic button" href="javascript:void(0);" onclick="startIntro()">Quick Demo</a> -->
+  <%# end %>
+<%# end %>
+
+<% cache(["lead_header", lead, lead.contact, request_from_mobile_app?]) do %>
+  <div class="ui masthead vertical segment">
+    <div class="ui container full-width-container">
+      <div class="introduction" id="lead-header" data-introjs-step="step321">
+        <%= render(partial: "leads/header/info", locals: { lead: lead }) %>
+        <div class="ui hidden divider"></div>
+
+        <% if lead.status == 0 %>
+          <div class="ui <%= show_lead_header_status_color(lead) %> inverted menu">
+            <div class="ui floating dropdown item" data-ui-behavior="dropdown">
+              <div class="text">
+                Status:
+                <span class="fwb"><%= lead.contacted_status_to_s.humanize.titleize %></span>
+              </div><!-- /.text -->
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <%= drop_link(
+                  "Not Contacted",
+                  set_contacted_status_lead_path(
+                    lead, {contacted_status_id: 0}
+                  ),
+                  lead.contacted_status == 0,
+                  "data-turbolinks-action": "replace",
+                  method: :patch,
+                  data: { "mobile-app-forced-patch-link": request_from_mobile_app? }
+                ) %>
+                <%= drop_link(
+                  "Attempted Contact",
+                  set_contacted_status_lead_path(
+                    lead, {contacted_status_id: 1}
+                  ),
+                  lead.contacted_status == 1,
+                  "data-turbolinks-action": "replace",
+                  method: :patch,
+                  data: { "mobile-app-forced-patch-link": request_from_mobile_app? }
+                ) %>
+                <%= drop_link(
+                  "Waiting for reply",
+                  set_contacted_status_lead_path(
+                    lead, {contacted_status_id: 2}
+                  ),
+                  lead.contacted_status == 2,
+                  "data-turbolinks-action": "replace",
+                  method: :patch,
+                  data: { "mobile-app-forced-patch-link": request_from_mobile_app? }
+                ) %>
+                <%= drop_link(
+                  "Contact made",
+                  set_contacted_status_lead_path(
+                    lead, {contacted_status_id: 3}
+                  ),
+                  lead.contacted_status == 3,
+                  "data-turbolinks-action": "replace",
+                  method: :patch,
+                  data: { "mobile-app-forced-patch-link": request_from_mobile_app? }
+                ) %>
+                <%= drop_link(
+                  "Junk",
+                  open_junk_modal_lead_path(id: lead.id),
+                  false,
+                  { remote: true, data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id } }
+                ) %>
+              </div><!-- /.menu -->
+            </div><!-- /.ui floating dropdown item -->
+            <% if @message %>
+              <div class="item">
+                <%= link_to(
+                  "This Lead Has Responded! Click Here To See!",
+                  display_thread_path(
+                    contact_id: lead.contact.id,
+                    thread_id: @message.thread_id,
+                    message_id: @message.id,
+                    "url" => request.original_url,
+                    anchor: "#{@message.id}"
+                  ),
+                  id: "#{@message.id}"
+                ) %>
+              </div><!-- /.item -->
+            <% end %>
+            <div class="right item">
+              <%= lead_received_time_in_words(lead, true) %>
+            </div><!-- /.right item -->
+          </div><!-- /.ui menu -->
+        <% end %>
+      </div><!-- /.introduction -->
+    </div><!-- /.ui container -->
+  </div><!-- /.ui masthead vertical segment -->
+<% end %>

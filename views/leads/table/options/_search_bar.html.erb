@@ -1,0 +1,63 @@
+<% show_user_leads = (action_name == "user_leads" ? true : false) %>
+
+<div class="ab-search-bar-header">
+  <div class="ab-search-bar-header-left">
+    <div class="ui icon fluid input">
+      <input class="prompt" type="search" placeholder="Search leads..." id="leads-search-input" data-search-url="<%= search_leads_path %>" data-action-name="<%= action_name %>" />
+      <i class="search icon"></i>
+    </div>
+  </div><!-- /.ab-search-bar-header-left -->
+
+  <div class="ab-search-bar-header-right">
+    <div class="ab-search-bar-header__sort-container">
+      <div class="ui selection dropdown basic button ab-search-bar-header__sort-dropdown" data-ui-behavior="dropdown-sort" id="leads-btn-group-status" data-value="<%= display_index_button_type(show_user_leads, @current_status) %>">
+        Display:
+        <div class="default text" data-value=""><%= display_label_on_button_type(show_user_leads, @current_status) %></div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <% if show_user_leads %>
+            <div class="item active" data-value="lead_all" data-not-found-text="leads">All</div>
+            <div class="item" data-value="lead_unclaimed" data-not-found-text="unclaimed leads">Unclaimed</div>
+            <div class="item" data-value="0" data-not-found-text="leads that haven't been contacted">Not Contacted</div>
+            <div class="item" data-value="1" data-not-found-text="leads you have attempted to contact">Attempted Contact</div>
+            <div class="item" data-value="2" data-not-found-text="awaiting client response">Awaiting Client Response</div>
+            <div class="item" data-value="3" data-not-found-text="not converted leads">Not Converted</div>
+            <div class="item" data-value="lead_junk" data-not-found-text="junk leads">Junk</div>
+          <% else %>
+            <div class="item active" data-value="current_pipeline" data-not-found-text="current pipeline clients">Current Pipeline</div>
+            <div class="item" data-value="1" data-not-found-text="prospective clients">Prospect</div>
+            <div class="item" data-value="2" data-not-found-text="active clients">Active</div>
+            <div class="item" data-value="3" data-not-found-text="pending clients">Pending</div>
+            <div class="item" data-value="4" data-not-found-text="closed clients">Closed</div>
+            <div class="item" data-value="5" data-not-found-text="paused clients">Paused</div>
+            <div class="item" data-value="6" data-not-found-text="lost clients">Not Converted</div>
+            <div class="item" data-value="8" data-not-found-text="long term prospects">Long Term Prospect</div>
+            <div class="item" data-value="all" data-not-found-text="clients">All</div>
+          <% end %>
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown button -->
+
+      <div class="ui selection dropdown basic button ab-search-bar-header__sort-dropdown" data-ui-behavior="dropdown-sort" id="leads-btn-group-order-by" data-value="first_name asc">
+        Sort by:
+        <div class="default text" data-value="<%= (show_user_leads ? "created_at desc" : "first_name asc") %>"><%= (show_user_leads ? "Date created" : "First Name") %></div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Sort by</div>
+          <div class="item <%= (show_user_leads ? "" : "active") %>" data-value="contacts.first_name asc">First Name</div>
+          <div class="item" data-value="contacts.first_name desc">First Name (Z-A)</div>
+          <div class="item" data-value="contacts.last_name asc">Last Name</div>
+          <div class="item" data-value="contacts.last_name desc">Last Name (Z-A)</div>
+          <div class="item <%= (show_user_leads ? "active" : "") %>" data-value="leads.created_at desc">Most recent</div>
+          <% if not show_user_leads %>
+            <div class="item" data-value="leads.status asc">Stage</div>
+            <div class="item" data-value="leads.displayed_price asc">Price</div>
+            <div class="item" data-value="leads.displayed_gross_commission asc">Commission</div>
+            <div class="item" data-value="leads.displayed_closing_date_at asc">Closing Date</div>
+          <% end %>
+
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown button -->
+
+    </div><!-- /.p-l -->
+  </div><!-- /.ab-search-bar-header-right -->
+</div><!-- /.ab-search-bar-header -->

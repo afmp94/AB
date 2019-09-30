@@ -1,0 +1,27 @@
+<div class="activity_container">
+  <article class="activity">
+  <%= activity_icon("info", "pin icon") %>
+    <div class="activity-flat-container">
+      <div class="activity-flat">
+        <%= render(
+          partial: "public_activity/shared/activity_timestamp",
+          locals: { activity: activity }
+        ) %>
+        <div class="action">
+          <%= activity_creator(activity) %>
+          <%= activity_subject(
+            activity,
+            action: "added the property",
+            link: activity_link(activity.recipient)
+          ) %>
+          <%= activity_bucket(
+            activity,
+            "to",
+            recipient_name(activity),
+            activity_link(activity.recipient)
+          ) %>
+        </div><!-- /.action -->
+      </div><!-- /.activity-flat -->
+    </div><!-- /.activity-flat-container -->
+  </article><!-- /.activity -->
+</div><!-- /.activity_container -->

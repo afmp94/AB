@@ -1,0 +1,24 @@
+<div class="header">
+  <h2 class="ui modal-title" id="myModalLabel">Send to:</span> <%= display_primary_email_address(lead.contact) %></h2>
+  </div><!-- /modal-header -->
+  <div class="content">
+    <%= form_tag({
+      controller: "emails",
+      action: "send_lead_email_through_nylasapp",
+      contact_id: lead.contact.id,
+      lead_id: lead.id },
+      class: "ui form") do |f| %>
+
+        <div class="field">
+          <div class="default text">Subject:</div>
+          <%= text_field :subject, :email_subject %>
+        </div>
+        <div class="field">
+          <div class="default text">Your message:</div>
+          <%= text_area :body, :email_body, rows: 8 %>
+        </div>
+
+        <%= submit_tag("Send", class: "ui primary button", "data-disable-with": "Sending...") %>
+        <a class="ui basic button" data-dismiss="modal">Cancel</a>
+    <% end %>
+</div><!-- /content -->

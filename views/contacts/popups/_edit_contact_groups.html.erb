@@ -1,0 +1,37 @@
+<div class="ui flowing popup transition hidden" data-behavior="contact-<%= contact.id %>-groups-popup" data-info="groups-popup">
+  <h3>Edit Groups</h3>
+  <div class="ui search">
+    <div class="ui fluid icon input">
+      <input type="text" placeholder="Search for a group..." data-behavior="search-groups" data-contact-id="<%= contact.id %>">
+      <i class="search icon"></i>
+    </div><!-- /.ui input -->
+  </div><!-- /.ui search -->
+  </br>
+  <div class="ab-edit-group-list-container groups-popup-height">
+    <div class="ui list" data-info="contact-group-list">
+      <% contact.contact_groups_by_user(current_user).each do |group| %>
+        <div class="item" data-info="group-element" data-group-name="<%= group %>">
+          <div class="ui checkbox checked" data-ui-behavior="checkbox">
+            <input type="checkbox" checked="checked" value="<%= group %>" id="<%= group_name_label(group) %>">
+            <label for="<%= group_name_label(group) %>"><%= group %></label>
+          </div><!-- /.ui checkbox -->
+        </div><!-- /.item -->
+      <% end %>
+      <% contact.not_selected_contact_groups_by_user(current_user).each do |group| %>
+        <div class="item" data-info="group-element" data-group-name="<%= group %>">
+          <div class="ui checkbox" data-ui-behavior="checkbox">
+            <input type="checkbox" name="contact-group" value="<%= group %>" id="<%= group_name_label(group) %>">
+            <label for="<%= group_name_label(group) %>"><%= group %></label>
+          </div><!-- /.ui checkbox -->
+        </div><!-- /.item -->
+      <% end %>
+    </div><!-- /.ui list -->
+  </div><!-- /.ab-edit-group-list-container -->
+  <div class="ui divider"></div>
+  <button class="ui primary button" data-behavior="save-contact-groups" data-contact-id="<%= contact.id %>">
+    Save
+  </button>
+  <button class="ui button" data-behavior="cancel-contact-groups" data-contact-id="<%= contact.id %>">
+    Cancel
+  </button>
+</div><!-- /.ui popup -->

@@ -1,0 +1,83 @@
+<div class="ui horizontal list">
+  <% if lead.client_type == "Seller" %>
+    <% case lead.status %>
+    <% when 1 # Prospect %>
+      <%= slat_data_block('Est. Selling Price', num_to_currency(lead.displayed_price)) %>
+      <%= slat_data_block('Est. Commission', num_to_currency(lead.displayed_net_commission)) %>
+      <%= slat_data_block("Timeframe", lead.timeframe_to_s) %>
+    <% when 2 # Active %>
+      <%= slat_data_block('List Price', num_to_currency(lead.displayed_price)) %>
+      <%= slat_data_block('Est. Commission', num_to_currency(lead.displayed_net_commission)) %>
+      <%= slat_data_block("Timeframe", lead.timeframe_to_s) %>
+      <%= slat_data_block("Time on Market", time_active(lead)) %>
+    <% when 3 # Pending %>
+      <% if lead.accepted_listing_contract %>
+        <%= slat_data_block('Contract Price', num_to_currency(lead.displayed_price)) %>
+        <%= slat_data_block('Est. Commission', num_to_currency(lead.displayed_net_commission)) %>
+        <%= slat_data_block("Scheduled Closing Date", cal_date(lead.displayed_closing_date_at)) %>
+      <% else %>
+        <%= slat_data_block(
+          "This client is pending, but without a contract.",
+          link_to(
+            "Add Contract",
+            new_lead_property_contract_path(
+              lead,
+              lead.listing_property,
+              redirect_page: "#{controller_name}_#{action_name}"
+            )
+          )
+        ) %>
+      <% end %>
+      <%= slat_data_block("Time on Market", time_active(lead)) %>
+    <% when 4 # Closed %>
+      <% if lead.accepted_listing_contract %>
+        <%= slat_data_block('Closing Price', num_to_currency(lead.displayed_price)) %>
+        <%= slat_data_block('Commission', num_to_currency(lead.displayed_net_commission)) %>
+        <%= slat_data_block("Closing Date", cal_date(lead.displayed_closing_date_at)) %>
+        <%= slat_data_block("Time to Sell", time_active(lead)) %>
+      <% else %>
+        <%= slat_data_block(
+          "This client is closed, but without a contract.",
+          link_to(
+            "Add Contract",
+            new_lead_property_contract_path(
+              lead,
+              lead.listing_property
+            ),
+            redirect_page: "#{controller_name}_#{action_name}"
+          )
+        ) %>
+      <% end %>
+    <% end %>
+  <% elsif lead.client_type == "Buyer" %>
+    <% case lead.status %>
+    <% when 1 # Prospect %>
+      <%= slat_data_block("Price Range", display_lead_price_range(lead)) %>
+      <%= slat_data_block("Commission",num_to_currency(lead.displayed_net_commission)) %>
+      <%= slat_data_block("Timeframe", lead.timeframe_to_s) %>
+    <% when 2 # Active %>
+      <%= slat_data_block("Price Range", display_lead_price_range(lead)) %>
+      <%= slat_data_block("Commission",num_to_currency(lead.displayed_net_commission)) %>
+      <%= slat_data_block("Timeframe", lead.timeframe_to_s) %>
+    <% when 3 # Pending %>
+      <% if lead.accepted_listing_contract %>
+        <%= slat_data_block('Contract Price', num_to_currency(lead.displayed_price)) %>
+        <%= slat_data_block('Est. Commission', num_to_currency(lead.displayed_net_commission)) %>
+        <%= slat_data_block('Scheduled Closing Date', cal_date(lead.displayed_closing_date_at)) %>
+      <% else %>
+        <%= slat_data_block(
+          "This client is pending, but without a contract.",
+          link_to("Add Contract", lead_add_contract_path(lead))
+        ) %>
+      <% end %>
+    <% when 4 # Closed %>
+      <% if lead.accepted_listing_contract %>
+        <%= slat_data_block('Closing Price', num_to_currency(lead.displayed_price)) %>
+        <%= slat_data_block('Commission', num_to_currency(lead.displayed_net_commission)) %>
+        <%= slat_data_block('Closing Date', cal_date(lead.displayed_closing_date_at)) %>
+      <% else %>
+        <%= slat_data_block("This client is closed, but without a contract.", link_to("Add Contract", lead_add_contract_path(lead))) %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div><!-- /.ui horizontal list -->

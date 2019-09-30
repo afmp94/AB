@@ -1,0 +1,54 @@
+<div id="commission-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Broker Split",
+        edit_fixed_list_lead_path(
+          lead,
+          lead_type: "buyer_client",
+          section: "commission"
+        ),
+        "edit-buyer-client-commission"
+      ) %>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan=2>
+          <p>
+            For this transaction,
+            <% if lead.displayed_broker_commission_custom %>
+              you have specified a <span class="fwb">custom</span> broker commission split.
+            <% else %>
+              you are set to use
+              <% if lead.user == current_user %>
+                your
+              <% else %>
+               <%= "#{lead.user.name}'s" %>
+              <% end %>
+              <span class="fwb">default</span>
+            <% end %>
+            commission split with your broker.
+          </p>
+        </td>
+      </tr>
+      <% if lead.displayed_broker_has_franchise_fee %>
+        <%= fixed_list_item("Franchise fee", lead.displayed_broker_franchise_fee) %>
+      <% end %>
+      <% if lead.displayed_broker_commission_type == "Percentage" %>
+        <%= fixed_list_item(
+          "Your split",
+          lead.displayed_broker_commission_percentage
+        ) %>
+        <%= fixed_list_item(
+          "Broker's split",
+          lead.displayed_broker_commission_percentage ? (100 - lead.displayed_broker_commission_percentage) : ""
+        ) %>
+      <% elsif lead.displayed_broker_commission_type == "Fee" %>
+        <%= fixed_list_item(
+          "Broker fee",
+          num_to_currency(lead.displayed_broker_commission_fee)
+        ) %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

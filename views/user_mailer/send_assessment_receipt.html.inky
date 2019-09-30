@@ -1,0 +1,18 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <p>
+          Hi <%= @user.name %>,
+          <spacer size="16"></spacer>
+          You just ordered full assessment report. Click on this <%= link_to "link", public_survey_full_view_report_url(@survey_result.survey_token) %>
+          to get full view of your assessment report.
+        </p>
+        <spacer size="16"></spacer>
+        Regards,
+        <spacer size="16"></spacer>
+        The AgentBright Team
+      </columns>
+    </row>
+  </container>
+<% end %>

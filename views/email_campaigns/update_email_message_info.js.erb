@@ -1,0 +1,12 @@
+<% if @recipient.present? %>
+  $("[data-email-preview=recipient_to]").text("<%= @recipient.name %> (<%= @recipient.email %>)");
+
+  if ("<%= @email_campaign.location_source(@recipient) %>" === "default") {
+    $("[data-email-preview=recipient_location]").text("<%= @email_campaign.location_name(@recipient) %> (default)");
+  } else {
+    $("[data-email-preview=recipient_location]").text("<%= @email_campaign.location_name(@recipient) %>");
+  }
+<% else %>
+  $("[data-email-preview=recipient_to]").text("");
+  $("[data-email-preview=recipient_location]").text("<%= @email_campaign.location_name(nil) %> (default)");
+<% end %>

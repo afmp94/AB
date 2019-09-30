@@ -1,0 +1,38 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <h2>AgentBright Could Not Process An Email</h>
+        <p>AgentBright could not process this email, most likely because it's a system generated email.</p>
+        <p>If it's actually from a lead, we have <strong>NOT</strong> contacted them on your behalf.</p>
+      </columns>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <columns large="8">
+        <p>If you have any questions, please contact us at <a href="mailto:support@agentbright.com?subject=%5BLead%20Email%20Processing%5D" target="_self"> support@agentbright.com</a>.</p>
+        <h2>Original Email</h2>
+        <p>
+          <strong>From:</strong>
+          <%= @email.from %>
+          <spacer size="8"></spacer>
+          <strong>To:</strong>
+          <%= @email.to %>
+          <spacer size="8"></spacer>
+          <strong>Subject:</strong>
+          <%= @email.subject %>
+        </p>
+      </columns>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <columns large="8">
+        <%= render 'original_email' %>
+      </columns>
+    </row>
+  </container>
+<% end %>

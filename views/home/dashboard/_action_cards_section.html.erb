@@ -1,0 +1,50 @@
+<% if next_cards.present? %>
+  <div class="row center aligned p-t-0">
+    <div class="column">
+      <div class="ui hide-mobile-and-down positive message">
+        <div class="ui basic vertical segment">
+          <h1 class="ui dividing header">
+            Getting Started
+            <div class="sub header m-y-sm">
+              Welcome to the family! You're on the path to maximizing your
+              potential and transforming your business. Here are some ways you can
+              get started:
+            </div><!-- /.sub header -->
+          </h1><!-- /.ui dividing header -->
+        </div><!-- /.ui basic vertical segment -->
+        <div class="ui four doubling stackable cards ab-action-cards">
+          <% next_cards.each do |card| %>
+            <%= render(
+              partial: "home/dashboard/action_card",
+              locals: { card: card }
+            ) %>
+          <% end %>
+        </div><!-- /.ui cards -->
+      </div><!-- /.ui message -->
+      <div class="ui hide-tablet-and-up positive message">
+       <div class="ui fluid accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+              Getting Started
+          </div>
+          <div class="content">
+            <div class="ui hide-tablet-and-up positive four stackable cards ab-action-cards"></br>
+            <span> To get the most out of using <%= white_labeled_app_name(current_subdomain) %>, complete these steps:</span>
+              <% next_cards.each do |card| %>
+                <%= render(
+                  partial: "home/dashboard/action_card_mobile",
+                  locals: { card: card }
+                ) %>
+              <% end %>
+            </div><!-- /.ui cards -->
+          </div>
+        </div>
+      </div><!-- /.ui message -->
+    </div><!-- /.column -->
+  </div><!-- /.row -->
+<% end %>
+<script charset="utf-8">
+  $('.ui.accordion')
+    .accordion()
+  ;
+</script>

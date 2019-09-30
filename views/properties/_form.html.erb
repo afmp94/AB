@@ -1,0 +1,56 @@
+<%= simple_form_for([@lead, @property], html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }) do |f| %>
+  <%= hidden_field_tag(
+    :parent_id,
+    @lead.id,
+    disabled: "disabled",
+    data: { info: "lead_id" }
+  ) %>
+  <h3 class="ui header">Address</h3>
+  <%= f.simple_fields_for(:address) do |address_form| %>
+    <%= address_form.hidden_field(:require_basic_address_validations, value: true) %>
+    <%= render("addresses/form", f: address_form) %>
+  <% end %>
+  <%= f.input(
+    :level_of_interest,
+    collection: ["Possible", "Interested", "Not Interested", "Not Available"],
+    default: "Possible",
+    label: "Levels of Interest"
+  ) %>
+
+  <h3 class="ui header">Property Info</h3>
+  <% if show_beta_features? %>
+    <%#<button class="btn btn-primary btn-embossed below24" data="find-property-info">Find Info</button>%>
+  <% end %>
+  <%= f.input(
+    :property_type,
+    collection: Property::PROPERTY_TYPES,
+    include_blank: false,
+    label: "Property Type"
+  ) %>
+  <div class="two fields">
+    <%= f.input(:bedrooms) %>
+    <%= f.input(:bathrooms) %>
+  </div><!-- /.two fields -->
+  <div class="two fields">
+    <%= f.input(:sq_feet, label: "Square Feet") %>
+    <%= f.input(:lot_size, label: "Lot Size (in acres)") %>
+  </div><!-- /.two fields-->
+  <%= f.input(
+    :transaction_type,
+    as: :hidden,
+    input_html: { value: "Buyer" }
+  ) %>
+
+  <h3 class="ui header">Listing Info</h3>
+  <%= f.input(:list_price, label: "List Price", as: :currency) %>
+  <%= f.input(:mls_number, label: "MLS Number") %>
+  <%= f.input(:rental, as: :boolean) %>
+  <%= f.input(:property_url, label: "Property URL") %>
+  <%= f.input(:notes, input_html: { rows: 6 }) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", :back, class: "ui basic button") %>
+<% end %>

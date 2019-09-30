@@ -1,0 +1,5 @@
+$("[data-ui-behavior=tiny-modal]").empty();
+$("[data-ui-behavior=tiny-modal]")
+  .append('<%= j render("leads/modals/snooze_lead", lead: @lead) %>');
+
+$('[data-ui-behavior=dropdown]').dropdown();

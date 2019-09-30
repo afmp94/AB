@@ -1,0 +1,43 @@
+<h4 class="ui header">Send Email</h4>
+<%= form_tag(
+  {
+    "controller": "emails",
+    "action": "send_contact_email_through_nylasapp",
+    "contact_id": contact.id
+  },
+  { class: "ui form buttonforce contact_quick_email_form" }
+) do |f| %>
+  <div class="field">
+    <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="to-recipients">
+      <input name="to_recipients" type="hidden">
+      <div class="default text">To</div>
+    </div>
+    <div class="error-message"></div>
+  </div>
+  <div class="field">
+    <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="cc-recipients">
+      <input name="cc_recipients" type="hidden">
+      <div class="default text">Cc</div>
+    </div>
+    <div class="error-message"></div>
+  </div>
+  <div class="field">
+    <div class="ui fluid multiple search selection dropdown" data-info="email-form" data-behavior="bcc-recipients">
+      <input name="bcc_recipients" type="hidden">
+      <div class="default text">Bcc</div>
+    </div>
+    <div class="error-message"></div>
+  </div>
+  <div class="field">
+    <%= text_field "subject", "email_subject", placeholder: "Subject", autocomplete: "email-subject" %>
+  </div><!-- /.form-group -->
+  <div class="field">
+    <input id="email_body" type="hidden" name="body[email_body]">
+    <trix-editor input="email_body" placeholder="Your message"></trix-editor>
+  </div><!-- /.form-group -->
+  <%= submit_tag(
+    "Send",
+    class: "ui primary submit button",
+    "data-disable-with": "Sending..."
+  ) %>
+<% end %>

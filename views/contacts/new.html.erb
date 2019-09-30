@@ -1,0 +1,10 @@
+<% content_for(:title, "Add Contact") %>
+<% breadcrumb(:add_contact) %>
+<%= page_header(
+  primary_name: "Contacts",
+  primary_path: contacts_path,
+  secondary_name: "Add New Contact"
+) %>
+<div class="ui main container">
+  <%= render(partial: "form") %>
+</div><!-- /.ui main container -->

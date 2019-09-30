@@ -1,0 +1,31 @@
+<% if content_for? :extra_html_body %>
+  <%= yield :extra_html_body %>
+<% end %>
+
+<%= render(partial: "shared/modal") %>
+
+<% if content_for? :javascript %>
+  <%= yield :javascript %>
+<% end %>
+
+<script type="text/javascript" data-turbolinks-eval=always>
+  $(function() {
+    <% if content_for? :extra_js %>
+      <%= yield :extra_js %>
+    <% end %>
+  });
+
+  RBS.process();
+</script>
+
+<script type="text/javascript">
+  <% if current_user %>
+    analytics.identify('<%= current_user.id %>',{
+      created: '<%= current_user.created_at %>',
+      email: '<%= current_user.email %>',
+      name: '<%= current_user.name %>'
+    });
+  <% end %>
+</script>
+
+<%= javascript_include_tag "common/tracking" %>

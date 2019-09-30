@@ -1,0 +1,38 @@
+<%= simple_form_for(
+  resource,
+  as: resource_name,
+  url: registration_path(resource_name),
+  html: {
+    class: "large",
+    autocomplete: "on",
+    data: { behavior: "sign_up" }
+  },
+  remote: true
+) do |f| %>
+  <div class="ui left aligned segment">
+    <%= f.input(:first_name, autofocus: true) %>
+    <%= f.input(:last_name) %>
+    <%= f.input(:email) %>
+    <%= f.input(:password) %>
+    <%= f.input(:password_confirmation) %>
+    <% if f.object.survey_result_token.present? %>
+      <%= f.input(:survey_result_token, as: :hidden) %>
+    <% end %>
+    <% if f.object.referral_code.present? %>
+      <%= f.input(:referral_code, as: :hidden) %>
+    <% end %>
+    <% if f.object.broker? %>
+      <%= f.input(:broker, as: :hidden) %>
+    <% end %>
+    <% if f.object.agent_token.present? %>
+      <%= f.input(:agent_token, as: :hidden) %>
+    <% end %>
+    <%= f.button(
+      :submit,
+      "Sign up",
+      class: "ui fluid large teal submit button",
+      "data-disable-with": "Signing up..."
+    ) %>
+  </div><!-- /.ui stacked left aligned segment -->
+  <div class="ui error message"></div>
+<% end %>

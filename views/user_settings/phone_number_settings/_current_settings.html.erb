@@ -1,0 +1,22 @@
+<div class="ui grid basic segment">
+  <% if number.present? %>
+    <div class="seven wide column">
+      <h4>You have sms messaging phone number enabled:</h4>
+      <p><%= number.twilio_number %></p>
+    </div>
+    <div class="seven wide column">
+      <%= link_to "Disable current phone number",
+                  user_settings_phone_number_settings_path,
+                  data: { confirm: "Are you sure? You won't be able to recover this number later." },
+                  method: :delete,
+                  class: "ui negative basic button"
+      %>
+    </div>
+  <% else %>
+    <div class="seven wide column">
+      <h4>You have no sms messaging phone number enabled.</h4>
+    </div>
+  <% end %>
+</div>
+
+<br/>

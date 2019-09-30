@@ -1,0 +1,9 @@
+<%= render(
+  partial: "leads/inline_forms/#{@inline_form}",
+  locals: { lead: @lead, contact: @contact }
+) %>
+
+<% flash.each do |f| %>
+  <% type = f[0].to_s.gsub("danger", "error").gsub("alert", "error").gsub("notice", "success") %>
+  toastr["<%= type %>"]("<%= f[1] %>")
+<% end %>

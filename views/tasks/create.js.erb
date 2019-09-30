@@ -1,0 +1,86 @@
+<% if @task.errors.blank? %>
+  if ($("[data-ui-behavior=modal]").length) {
+    $("[data-ui-behavior=modal]").empty();
+    $("[data-ui-behavior=modal]").modal('hide');
+  }
+
+  $('.task-errors').html('')
+  $('#new_task').remove();
+  $('#add-new-task').show();
+
+  <% if @task.taskable_id.present? && @task.taskable_type == "Lead" %>
+    if ($("[data-info-status-board-row-id='<%= @task.taskable.id %>']").length) {
+      $("[data-info-status-board-row-id='<%= @task.taskable.id %>']")
+        .replaceWith('<%= j render(partial: "leads/status_board/row_content", locals: { lead: @task.taskable }) %>')
+    }
+  <% end %>
+
+  updateDashboardTasksSection();
+  updateRecentActivitiesSection();
+
+  toastr.success("Task successfully created!");
+
+  function updateDashboardTasksSection() {
+    // Created this function to separate out task-section update code.
+    <% if @task.teamtask_for?(current_user) %>
+      <% if @task.due_date_at.present? && @task.due_date_at.to_date <= Time.current.to_date %>
+        var $tasksListSectionElement = $('[data-info="team_today_incomplete_tasks"]')
+      <% else %>
+        var $tasksListSectionElement = $('[data-info="team_upcoming_incomplete_tasks"]')
+      <% end %>
+    <% else %>
+      <% if @task.due_date_at.present? && @task.due_date_at.to_date <= Time.current.to_date %>
+        var $tasksListSectionElement = $('[data-info="today_incomplete_tasks"]');
+      <% else %>
+        var $tasksListSectionElement = $('[data-info="upcoming_incomplete_tasks"]');
+      <% end %>
+    <% end %>
+
+    if ($tasksListSectionElement && $tasksListSectionElement.length){
+      $tasksListSectionElement.find('[data-info="no-data-block"]').hide();
+      $tasksListSectionElement.append('<%= j render partial: "task", object: @task, as: :task %>');
+    }
+
+    var $tasksList = $("[data-info=tasks_list]")
+    if($tasksList.length) {
+      $tasksList.find('[data-info="no-data-block"]').hide()
+      $tasksList.append('<%= j render partial: "task", object: @task, as: :task %>')
+    }
+
+    // This 'submitOnCheck' function should get called only when all tasks (which
+    // have checkbox for toggle feature) get rendered.
+    $("[data-task-id='<%= @task.id %>']").submitOnCheck();
+  }
+
+  function updateRecentActivitiesSection() {
+    $('#activities-section').remove();
+
+    <% if @lead.present? %>
+      $('[data-behavior="activity-section-container"]')
+        .append('<%= j render(partial: "leads/activities/recent_activity_section",
+                              locals: { lead: @lead }) %>');
+
+      $("[data-behavior='activity-stream']")
+        .html('<%= j render(partial: "activities/activities_by_day",
+                            locals: { activities: @lead_recent_activities,
+                                      activities_url: @activities_url }) %>')
+    <% end %>
+
+    <% if @contact.present? %>
+      $("[data-behavior='activity-stream']")
+        .html('<%= j render(partial: "activities/activities_by_day",
+                            locals: { activities: @contact_recent_activities,
+                                      activities_url: @activities_url }) %>')
+    <% end %>
+
+    <% if @user_all_activities  %>
+        $("[data-behavior='activity-stream']")
+          .html('<%= j render(partial: "activities/activities_by_day",
+                              locals: { activities: @activities,
+                                        activities_url: @activities_url }) %>')
+    <% end %>
+  }
+
+<% else %>
+  $('[data-for="task-errors"]').html('<%= @task_errors.join("<br >") %>')
+<% end %>

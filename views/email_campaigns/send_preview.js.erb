@@ -1,0 +1,6 @@
+$("#send_test_email_form")[0].reset();
+<% flash.each do |f| %>
+  <% type = f[0].to_s.gsub("danger", "error").gsub("alert", "error").gsub("notice", "success") %>
+  toastr["<%= type %>"]("<%= f[1] %>")
+<% end %>
+

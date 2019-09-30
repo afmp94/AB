@@ -1,0 +1,1200 @@
+<% content_for(:meta_tags) do %>
+  <meta property="og:title" content="Take the <%= white_labeled_company_name(current_subdomain) %> Assessment" />
+  <meta property="og:image" content="<%= asset_url(white_label_image_name("box-200.png", current_subdomain)) %>" />
+  <meta property="og:description" content="See how your habits and systems stack up against the best agents" />
+<% end %>
+
+<div class="ui inverted vertical center aligned segment p-b">
+  <div class="ui text container top-header">
+    <i class="dashboard icon huge"></i>
+    <h2 class="ui inverted header m-t-0 m-b-0">
+      AGENT ASSESSMENT
+    </h2><!-- /.ui inverted header -->
+    <h5 class="m-t-0">Powered by <%= white_labeled_company_name(current_subdomain) %></h5>
+  </div><!-- /.ui text container top-header -->
+</div><!-- /.ui inverted vertical masthead center aligned segment -->
+
+<div class="ui tab transition fade in active" id="first-page" data-tab="first-page">
+  <div class="ui main container full-width-container">
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="row">
+          <div class="twelve wide column">
+            <h1 class="ui header">
+              <div class="content">
+                Welcome to the <%= white_labeled_company_name(current_subdomain) %> Agent Assessment.
+                <div class="sub header">
+                  You're here because you're ready to elevate your business. We help guide agents toward which areas they can and should improve, in order to increase their production and reach their potential.
+                </div><!-- /.sub header -->
+              </div><!-- /.content -->
+            </h1>
+          </div><!-- /.column -->
+        </div><!-- /.row -->
+      </div><!-- /.ui center aligned grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="nine wide column">
+          <h4>Here's how it works:</h4>
+          <div class="ui left aligned padded segment">
+            <h3 class="ui header">
+              <i class="blue hourglass half icon"></i>
+              <div class="content">
+                It should take about 10 minutes
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="black settings icon"></i>
+              <div class="content">
+                You'll answer some questions about your marketing and service systems and habits
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="green money icon"></i>
+              <div class="content">
+                We'll break down and calculate your production goals
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="yellow file text outline icon"></i>
+              <div class="content">
+                When you're finished, you'll receive a comprehensive report on your business
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+          </div><!-- /.ui segment -->
+        </div><!-- /.column -->
+      </div><!-- /.ui center aligned grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="ten wide column">
+          <h4>Here's a quick snapshot of what you'll receive:</h4>
+          <%= image_tag("assessment-preview.gif", class: "ui centered rounded big image") %>
+        </div><!-- /.ten wide column -->
+      </div><!-- /.ui center aligned stackable grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+
+    <div class="ui basic center aligned segment">
+      <div class="horizontal divider"></div><!-- /.horizontal divider -->
+      <h1>Ready? Let's get started.</h1>
+      <div class="horizontal divider"></div><!-- /.horizontal divider -->
+      <h3>I consider myself a:</h3>
+      <div class="ui huge buttons">
+        <div class="ui button" data-tab-open="second-page">New Agent</div>
+        <div class="or"></div>
+        <div class="ui positive button" data-tab-open="second-page">Experienced Agent</div>
+      </div><!-- /.ui buttons -->
+    </div><!-- /.ui segment -->
+  </div><!-- /.ui main container -->
+</div><!-- /.ui segment tab -->
+
+<div class="assessment ui container tab transition fade in" id="second-page" data-tab="second-page">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+      <div class="row two columns">
+        <div class="four wide column hide-mobile-and-down">
+          <div class="ui vertical fluid steps m-y">
+            <div class="active step" data-ui-behavior="tab" data-tab="agent-info">
+              <div class="content">
+                <div class="title">Agent Info</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="branding-info" >
+              <div class="content">
+                <div class="title">Branding</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="contacts-info">
+              <div class="content">
+                <div class="title">Contacts</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="personal-marketing-info">
+              <div class="content">
+                <div class="title">Personal Marketing</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="mass-marketing-info">
+              <div class="content">
+                <div class="title">Mass Marketing</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="lead-generation-info">
+              <div class="content">
+                <div class="title">Lead Generation</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="service-clients-info">
+              <div class="content">
+                <div class="title">Service Clients</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="goal-setting">
+              <div class="content">
+                <div class="title">Goal Setting</div>
+              </div>
+            </div>
+            <div class="step" data-ui-behavior="tab" data-tab="current-year-progress">
+              <div class="content">
+                <div class="title">Current Year Progress</div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.column -->
+
+        <div class="column">
+          <%= simple_form_for(
+            @survey_result,
+            url: public_survey_results_path,
+            method: :post,
+            html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+          ) do |f| %>
+
+            <div class="ui segment tab transition fade in active" id="agent-info" data-tab="agent-info">
+              <h4 class="ui dividing header">Agent Info</h4>
+              <%= f.hidden_field(:payment_status) %>
+              <%= f.hidden_field(:broker_code, value: @broker_code) %>
+              <%= f.hidden_field(:office_code, value: @office_code) %>
+              <%= f.hidden_field(:access_code, value: @access_code) %>
+              <% if !current_user.present? || current_user&.special_type? %>
+                <%= f.input(
+                  :email,
+                  label: "What is your email address?",
+                  as: :string,
+                  input_html: {
+                    data: { info: (@survey_result.free? ? "" : "email") },
+                    value: @email || current_user&.email,
+                    disabled: current_user.present? && !@survey_result.free?,
+                    autocomplete: "on"
+                  }
+                ) %>
+                <div data-info="email-message" style="margin-bottom:1em;color:red;display:none">
+                  <div data-info="app-login" style="display:none">
+                    This email address is already associated with an account, click here to
+                    <%= link_to "sign in", new_user_session_path(redirect_to: assessment_path) %> and continue, or use a
+                    different email address
+                  </div>
+                  <div data-info="assessment-login" style="display:none">
+                    You already have taken the survey, click here to
+                    <%= link_to "sign in", assessment_login_path %> and proceed...
+                  </div>
+                </div>
+                <%= f.input(
+                  :first_name,
+                  label: "What is your first name?",
+                  input_html: {
+                    value: current_user&.first_name,
+                    disabled: current_user.present? && !@survey_result.free?,
+                    autocomplete: "on"
+                  }
+                ) %>
+                <%= f.input(
+                  :last_name,
+                  label: "What is your last name?",
+                  input_html: {
+                    value: current_user&.last_name,
+                    disabled: current_user.present? && !@survey_result.free?,
+                    autocomplete: "on"
+                  }
+                ) %>
+                <%= f.input(
+                  :zip_code,
+                  label: "What is your home zip code?",
+                  input_html: { value: current_user&.zip, autocomplete: "on" }
+                ) %>
+              <% end %>
+              <%= f.input(
+                :years_experience,
+                label: "How many years have you been selling real estate?"
+              ) %>
+              <%= f.input(
+                :workload,
+                label: "How many hours do you spend on average per week on your real estate business?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::WORKLOADS
+              ) %>
+              <%= f.input(
+                :other_work,
+                label: "Do you have another job besides selling real estate? (check any that apply)",
+                as: :sui_check_boxes,
+                wrapper: :vertical_check_boxes,
+                collection: [
+                  "Broker",
+                  "Insurance Agent",
+                  "Other"
+                ]
+              ) %>
+              <div class="ui primary icon button" data-tab-open="branding-info" data-validate-container>Next</div>
+            </div><!-- /#section-name -->
+            <div class="ui segment tab transition fade in" id="branding-info" data-tab="branding-info">
+              <h4 class="ui dividing header">Branding Basics</h4>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :headshot_current,
+                label: "Do you have a current personal headshot saved (updated in last 12 months)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :bio_current,
+                label: "Do you have a current personal bio saved (updated in last 12 months)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :profile_broker_pages_current,
+                label: "Does your personal website or broker-provided web page have an updated headshot, bio and at least 3 recent testimonials?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :online_profiles_current,
+                label: "Are your online profiles (Trulia, Zillow, Realtor.com, etc) updated with your current headshot, bio and at least 3 recent testimonials?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+
+              <%= f.input(
+                :testimonials_current,
+                label: "How often do you solicit testimonials from your satisfied clients after their closing?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::TESTIMONIALS_CURRENT_SCORING.keys) %>
+              <div class="ui primary icon button" data-tab-open="agent-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="contacts-info" data-validate-container>Next</div>
+            </div><!-- /#contacts-info -->
+            <div class="ui segment tab transition fade in" id="contacts-info" data-tab="contacts-info" >
+              <h4 class="ui dividing header">Contacts</h4>
+              <%= f.input(
+                :tracking_tool,
+                label: "What do you use most often to keep track of your contacts?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::TRACKING_TOOL_SCORING.keys) %>
+              <%= f.input(
+                  :networking_meetings,
+                  label: "How often do you attend local networking events or community functions?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::NETWORKING_MEETINGS_SCORING.keys) %>
+              <%= f.input(
+                :contacts_grouped,
+                label: "Do you have your database of contacts sorted into groups (e.g. family, friends, past clients, lenders, etc)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::CONTACTS_GROUPED_SCORING.keys) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :contacts_ranked,
+                label: "Have you ranked or graded all of your contacts to separate out the most valuable to your business?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :local_service_list,
+                label: "Do you have an updated, ready-to-go list of local service providers that you could print out, email or refer to?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <div class="ui primary icon button" data-tab-open="branding-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="personal-marketing-info" data-validate-container>Next</div>
+            </div><!-- /#contactsdbase-->
+            <div class="ui segment tab transition fade in" id="personal-marketing-info" data-tab="personal-marketing-info">
+              <h4 class="ui dividing header">Personal Marketing</h4>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :referral_system,
+                label: "Do you have a system to track who refers your business?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :size_of_database,
+                label: "How many people do you know that could potentially do business with you, or refer you new business?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::SIZE_OF_DATABASE_SCORING.keys) %>
+              <%= f.input(
+                :past_clients_touch,
+                label: "How often do you stay in touch and follow up with your past clients?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::PAST_CLIENTS_TOUCH_SCORING.keys) %>
+              <%= f.input(
+                :daily_personal_marketing_effort,
+                label: "How much time do you spend daily on personal or relationship marketing (promoting yourself through networking, sending out mailings or email newsletters, or personal communication with your database of contacts)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::DAILY_PERSONAL_MARKETING_EFFORT_SCORING.keys) %>
+              <div class="ui primary icon button" data-tab-open="contacts-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="mass-marketing-info" data-validate-container>Next</div>
+            </div><!-- /#mass-marketing -->
+            <div class="ui segment tab transition fade in" id="mass-marketing-info" data-tab="mass-marketing-info">
+              <h4 class="ui dividing header">Mass Marketing</h4>
+              <%= f.input(
+                :social_media_engagement,
+                label: "How often do you post on social media?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::SOCIAL_MEDIA_ENGAGEMENT_SCORING.keys) %>
+              <%= f.input(
+                :monthly_email_newsletter_sent,
+                label: "Do you currently send a monthly email newsletter?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::MONTHLY_EMAIL_NEWSLETTER_SENT_SCORING.keys) %>
+              <%= f.input(
+                :monthly_print_sent,
+                label: "Do you send a print newsletter by mail?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::MONTHLY_PRINT_SENT_SCORING.keys) %>
+              <%= f.input(
+                :neighborhood_farming_cards_sent,
+                label: "Do you send 'just listed' or 'just sold' cards out to neighborhoods?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::NEIGHBORHOOD_FARMING_CARDS_SENT_SCORING.keys) %>
+              <div class="ui primary icon button" data-tab-open="personal-marketing-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="lead-generation-info" data-validate-container>Next</div>
+            </div><!-- /#mass-marketing -->
+            <div class="ui segment tab transition fade in" id="lead-generation-info" data-tab="lead-generation-info">
+              <h4 class="ui dividing header">Lead Generation</h4>
+              <%= f.input(
+                :lead_response_measurement,
+                label: "How often do you respond to new incoming leads within 5 minutes?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::LEAD_RESPONSE_MEASUREMENT_SCORING.keys) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :lead_source_analysis,
+                label: "Do you track where your leads come from and which is the best return on your time spent? ",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :drip_campaigns_to_followup,
+                label: "Do you put new leads onto an automated drip campaign so you can follow up at regular intervals?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::DRIP_CAMPAIGNS_TO_FOLLOWUP_SCORING.keys
+              ) %>
+
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :follow_up_system,
+                label: "Do you have a system that sends you automatic reminders about which long term prospects you need to follow up with each week?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :use_crm,
+                label: "Do your new incoming leads go automatically into a CRM (or other application) so you can track them?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::USE_CRM_SCORING.keys) %>
+              <div class="ui primary icon button" data-tab-open="mass-marketing-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="service-clients-info" data-validate-container>Next</div>
+            </div><!-- /#lead-generatin -->
+            <div class="ui segment tab transition fade in" id="service-clients-info" data-tab="service-clients-info">
+              <h4 class="ui dividing header">Service Clients</h4>
+
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :pre_made_marketing_plan,
+                label: "Do you have prepared, well-designed, customized marketing materials that communicate your value proposition (information about you, your brokerage, your services, and why a potential client should choose you as their agent)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::PRE_MADE_MARKETING_PLAN_SCORING.keys ) %>
+              <!-- VERICAL RADIOS - STRING -->
+              <%= f.input(
+                :listing_plan,
+                label: "Do you sit down with each new client and present a gameplan, have a conversation about how you do business and what your expectations are, and provide them a rough outline of the next 6-12 months (or the likely duration of the transaction)?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::LISTING_PLAN_SCORING.keys) %>
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :regular_service_reports,
+                label: "Do you currently send regular service reports to your clients?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+
+              <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+              <%= f.input(
+                :seller_weekly_update,
+                label: "Do you have a regular time scheduled each week to proactively reach out to and update your seller clients?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <!-- VERICAL RADIOS - STRING -->
+              <%= f.input(
+                :buyer_touches,
+                label: "How often are you in touch with your typical buyer clients? ",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::BUYER_TOUCHES_SCORING.keys) %>
+              <%= f.input(
+                :system_for_transactions,
+                label: "Do you have a system for managing and tracking your prospects, active clients and pending clients?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+
+              <!-- VERICAL RADIOS - STRING -->
+              <%= f.input(
+                :daily_pipeline_review,
+                label: "How often do you review your entire sales pipeline top to bottom to make sure you're on top of everything?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::DAILY_PIPELINE_REVIEW_SCORING.keys) %>
+
+              <!-- VERICAL RADIOS - STRING -->
+              <%= f.input(
+                :daily_tasks_set,
+                label: "Do you have a daily task list to keep track of your tasks to follow up with leads and prospects and service your clients?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                collection: SurveyResult::DAILY_TASKS_SET_SCORING.keys) %>
+              <div class="ui primary icon button" data-tab-open="lead-generation-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="goal-setting" data-validate-container>Next</div>
+            </div><!-- /#service-clients -->
+            <div class="ui segment tab transition fade in" id="goal-setting" data-tab="goal-setting">
+              <h4 class="ui dividing header">Goal Setting</h4>
+              <% if false # We don't want to show this field for now %>
+                <%= f.input(
+                  :past_year_income,
+                  label: "How much money did you make in 2018? (Net income, after paying the broker and your real estate expenses)",
+                  as: :currency
+                ) %>
+              <% end %>
+              <%= f.input(
+                :average_home_price,
+                label: "What is the average price of a home you sell or buy?" ,
+                as: :currency,
+                input_html: { pattern: "^[1-9]\d*$" }
+              ) %>
+              <%= f.input(
+                :desired_annual_income,
+                label: "What is your annual income goal through selling real estate?",
+                as: :currency
+              ) %>
+              <%= f.input(
+                :est_business_expenses,
+                label: "What are your estimated real estate expenses for the year?",
+                as: :currency
+              ) %>
+              <%= f.input(
+                :avg_commission_rate,
+                label: "What is your average gross commission percentage for a transaction side? (Usually between 2-4%)",
+                placeholder: "e.g. 2.5",
+                as: :percentage_two_decimal
+              ) %>
+              <%= f.input(
+                :pays_monthly_broker_fee,
+                label: "Do you pay a monthly fee to your broker?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                input_html: { data: { behavior: "pays_monthly_broker_fee"} },
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :monthly_broker_fees_paid,
+                label: "How much in monthly fees do you pay?",
+                wrapper_html: { style: "display:none", data: { behavior: "monthly_broker_fees_paid" } },
+                input_html: { disabled: "disabled" },
+                as: :currency
+              ) %>
+              <%= f.input(
+                :franchise_fee,
+                label: "Do you pay a franchise fee to your broker on each transaction?",
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                input_html: { data: { behavior: "franchise_fee"} },
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :franchise_fee_per_transaction,
+                label: "What is the percentage franchise fee you pay?",
+                wrapper_html: { style: "display:none", data: { behavior: "franchise_fee_per_transaction" } },
+                input_html: { disabled: "disabled" },
+                as: :percentage_two_decimal
+              ) %>
+              <%= f.input(
+                :commission_split_type,
+                label: "How does the broker take their cut of the commission on each transaction?" ,
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                input_html: { data: { behavior: "commission_split_type"} },
+                collection: [
+                  "Percentage",
+                  "Fee",
+                  "None"
+                ]
+              ) %>
+              <div class="field" style="display:none;" data-behavior="agent_percentage_split">
+                <label>What is the commission split between you and your broker?</label>
+                <div class="two fields">
+                  <%= f.input(
+                    :agent_percentage_split,
+                    label: "You get:",
+                    label_html: { class: "fsi" },
+                    wrapper_html: {
+                      data: { behavior: "agent_percentage_split_field" }
+                    },
+                    input_html: {
+                      disabled: "disabled",
+                      data: { agent_split_field: true }
+                    },
+                    as: :percentage_two_decimal
+                  ) %>
+                  <div class="field">
+                    <label class="fsi">Broker gets:</label>
+                    <input type="text" class="no-border" readonly tabindex="-1" data-broker-split-field />
+                  </div><!-- /.field -->
+                </div><!-- /.two fields -->
+              </div><!-- /.field -->
+              <%= f.input(
+                :broker_fee_per_transaction,
+                label: "What is the per-transaction fee paid to the broker?",
+                wrapper_html: { style: "display:none", data: { behavior: "broker_fee_per_transaction" } },
+                input_html: { disabled: "disabled" },
+                as: :currency
+              ) %>
+              <%= f.input(
+                :broker_fee_alternative,
+                label: "If the commission is small enough, do you pay a percentage instead of your usually flat fee to the broker?" ,
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                wrapper_html: { style: "display:none", data: { behavior: "broker_fee_alternative_wrapper" } },
+                input_html: { data: { behavior: "broker_fee_alternative"} },
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :broker_fee_alternative_split,
+                label: "What is the alternative percentage you pay?",
+                wrapper_html: { style: "display:none", data: { behavior: "broker_fee_alternative_split" } },
+                input_html: { disabled: "disabled" },
+                as: :percentage_two_decimal
+              ) %>
+              <%= f.input(
+                :per_transaction_fee_capped,
+                label: "Are your broker fees capped after a certain number of transactions?" ,
+                wrapper: :vertical_radio_buttons,
+                as: :sui_radio_buttons,
+                input_html: { data: { behavior: "per_transaction_fee_capped"} },
+                collection: [
+                  ["Yes", true],
+                  ["No", false]
+                ]
+              ) %>
+              <%= f.input(
+                :transaction_fee_cap,
+                label: "How many transactions do you need for your fees to be capped?" ,
+                wrapper_html: { style: "display:none", data: { behavior: "transaction_fee_cap" } },
+                input_html: { disabled: "disabled" }
+              ) %>
+              <div class="ui primary icon button" data-tab-open="service-clients-info">Back</div>
+              <div class="ui primary icon button" data-tab-open="current-year-progress" data-validate-container>Next</div>
+            </div>
+            <div class="ui segment tab transition fade in" id="current-year-progress" data-tab="current-year-progress">
+              <h4 class="ui dividing header">Current Pipeline</h4>
+              <%= f.input(
+                :current_ytd_income,
+                label: "What is your income YTD (on closed business)? " ,
+                as: :currency
+              ) %>
+              <%= f.input(
+                :current_ytd_lead_count,
+                label: "How many leads do you currently have (that are not yet clients)? "
+              ) %>
+              <%= f.input(
+                :current_ytd_client_count,
+                label: "How many clients do you currently have (that are not closed yet)?"
+              ) %>
+              <div class="ui primary icon button" data-tab-open="goal-setting">Back</div>
+              <%= f.button(
+                :submit,
+                value:  "Submit",
+                class: "ui primary submit button",
+                disable_with: "Submiting..."
+              ) %>
+
+            </div>
+          <% end %>
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui centered grid -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->
+
+<script charset="utf-8">
+
+  $('.step').click(function(event) {
+    event.stopImmediatePropagation();
+    return false;
+  });
+
+  $('[data-ui-behavior=tab]').tab();
+
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[email]': {
+        validators: {
+          notEmpty: {
+            message: 'Email address is required'
+          },
+          regexp: {
+            regexp: /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+            message: 'Please enter a valid email address',
+          }
+        }
+      },
+      'survey_result[first_name]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[last_name]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[zip_code]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[years_experience]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[workload]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        },
+      },
+      'survey_result[headshot_current]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[bio_current]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[profile_broker_pages_current]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[online_profiles_current]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[testimonials_current]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[tracking_tool]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[networking_meetings]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[contacts_grouped]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[contacts_ranked]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[local_service_list]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[referral_system]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[size_of_database]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[past_clients_touch]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_personal_marketing_effort]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[social_media_engagement]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[monthly_email_newsletter_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[monthly_print_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[neighborhood_farming_cards_sent]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[lead_response_measurement]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[lead_source_analysis]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[drip_campaigns_to_followup]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[follow_up_system]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[use_crm]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[pre_made_marketing_plan]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[listing_plan]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[regular_service_reports]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[seller_weekly_update]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[buyer_touches]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[system_for_transactions]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_pipeline_review]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_tasks_set]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[past_year_income]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[average_home_price]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          },
+          greaterThan: {
+            value: 0,
+            inclusive: false,
+            message: 'This value must be greater than 0',
+            transformer: function($field, validatorName, validator) {
+              var value = $field.val();
+              return value.replace(/,/g, '');
+            }
+          }
+        }
+      },
+      'survey_result[desired_annual_income]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          },
+          greaterThan: {
+            value: 0,
+            inclusive: false,
+            message: 'This value must be greater than 0',
+            transformer: function($field, validatorName, validator) {
+              var value = $field.val();
+              return value.replace(/,/g, '');
+            }
+          }
+        }
+      },
+      'survey_result[est_business_expenses]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[avg_commission_rate]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          },
+          greaterThan: {
+            value: 0,
+            inclusive: false,
+            message: 'This value must be greater than 0'
+          }
+        }
+      },
+      'survey_result[pays_monthly_broker_fee]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[franchise_fee]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[commission_split_type]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[broker_fee_alternative]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[per_transaction_fee_capped]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[current_ytd_income]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[current_ytd_lead_count]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[current_ytd_client_count]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+    }
+  });
+
+  $(document).on('change', '[data-agent-split-field]', function() {
+    var $agentSplitField = $(this);
+    var $brokerSplitField = $('[data-broker-split-field]');
+    var brokerSplit = 0;
+    brokerSplit = (100 - $agentSplitField.val()).toFixed(2);
+
+    $brokerSplitField.val(brokerSplit + '%');
+  })
+
+  $(document).on('click', '[data-tab-open]', function() {
+    var $button = $(this);
+    var $currentTab = $button.parent();
+    var nextTab = $button.attr('data-tab-open');
+
+    if ($button.attr('data-validate-container') !== undefined) {
+      $formToValidate.data('formValidation').validateContainer($currentTab);
+
+      if ($formToValidate.data('formValidation').isValidContainer($currentTab)) {
+        $('.ui.steps').find('.step').tab('change tab', nextTab);
+        console.log("scrollTop");
+        jQuery('html,body').animate({scrollTop:160},100);
+      }
+    } else {
+      $('.ui.steps').find('.step').tab('change tab', nextTab);
+      console.log("scrollTop");
+      jQuery('html,body').animate({scrollTop:160},100);
+    }
+  });
+
+</script>

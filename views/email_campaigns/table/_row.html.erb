@@ -1,0 +1,114 @@
+<tr class="index-page-table__row" data-behavior="show-email-campaign" data-link="<%= show_link_for_email_campaign(email_campaign) %>">
+  <td class="index-page-table__checkbox-cell">
+    <div class="ui fitted checkbox">
+      <input class="email-campaign-search-item" type="checkbox" value="<%= email_campaign.id %>" id="checkbox-table-<%=email_campaign.id %>">
+      <label></label>
+    </div>
+  </td>
+  <td class="index-page-table__main-cell" data-behavior="email-campaign-main-cell" class="clickable">
+    <div class="item">
+      <div class="ui small header">
+        <div class="content">
+          <%= link_to(email_campapign_name(email_campaign)) %>
+          <div class="sub header"><%= email_campaign.humanize_campaign_status %></div><!-- /.sub header -->
+          <div class="sub header">
+            <% if email_campaign.campaign_status == "sent" %>
+              <strong>Delivered</strong> <%= email_campaign.delivered_at.try(:strftime, "%B %d, %Y at %I:%M %p") %>
+            <% else %>
+              <strong>Last edited</strong>  <%= email_campaign.updated_at.try(:strftime, "%B %d, %Y at %I:%M %p") %> by you
+            <% end %>
+          </div><!-- /.sub header -->
+        </div><!-- /.content -->
+      </div><!-- /.ui small header -->
+    </div><!-- /.item -->
+  </td>
+  <% if email_campaign.sent? %>
+    <td class="index-page-table__hidden-section-cell hide-tablet-and-up">
+      <div class="ui accordion" data-ui-behavior="table-row-accordion">
+        <div class="title" data-accordion>
+          <div class="ui two basic tiny buttons">
+            <div class="ui icon button" data-ui-behavior="table-row-view-more">
+              View Stats
+              <i class="dropdown icon"></i>
+            </div><!-- /.ui icon button -->
+            <%= link_to(
+              "View Report",
+              email_campaign_path(email_campaign),
+              class: "ui center aligned button"
+            ) %>
+          </div><!-- /.ui two basic tiny buttons -->
+        </div><!-- /.title -->
+        <div class="content" data-accordion>
+          <div class="ui mini statistic">
+            <div class="value"><i class="ui child icon"></i> <%= email_campaign.campaign_messages.count %></div><!-- /.value -->
+            <div class="label">recipients</div><!-- /.label -->
+          </div><!-- /.ui mini statistic -->
+          <div class="ui mini statistic">
+            <div class="value"><i class="ui mail outline icon"></i> <%= email_campaign.opens_percentage %>%</div><!-- /.value -->
+            <div class="label">opens</div><!-- /.label -->
+          </div><!-- /.ui mini statistic -->
+          <div class="ui mini statistic">
+            <div class="value"><i class="ui mouse pointer icon"></i> <%= email_campaign.clicks_percentage %>%</div><!-- /.value -->
+            <div class="label">clicks</div><!-- /.label -->
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.content -->
+      </div><!-- /.ui accordion -->
+    </td>
+    <td class="index-page-table__data-cell">
+      <div class="ui mini statistic">
+        <div class="value"><i class="ui child icon"></i> <%= email_campaign.campaign_messages.count %></div><!-- /.value -->
+        <div class="label">recipients</div><!-- /.label -->
+      </div><!-- /.ui mini statistic -->
+    </td>
+    <td class="index-page-table__data-cell">
+      <div class="ui mini statistic">
+        <div class="value"><i class="ui mail outline icon"></i> <%= email_campaign.opens_percentage %>%</div><!-- /.value -->
+        <div class="label">opens</div><!-- /.label -->
+      </div><!-- /.ui mini statistic -->
+    </td>
+    <td class="index-page-table__data-cell">
+      <div class="ui mini statistic">
+        <div class="value"><i class="ui mouse pointer icon"></i> <%= email_campaign.clicks_percentage %>%</div><!-- /.value -->
+        <div class="label">clicks</div><!-- /.label -->
+      </div><!-- /.ui mini statistic -->
+    </td>
+  <% else %>
+    <td class="index-page-table__hidden-section-cell hide-tablet-and-up">
+      <div class="ui two basic tiny buttons">
+        <%= link_to(
+          "Edit",
+          edit_email_campaign_path(email_campaign),
+          class: "ui button"
+        ) %>
+        <%= link_to(
+          email_campaign_path(email_campaign),
+          method: :delete,
+          class: "ui basic icon button negative",
+          data: {
+            confirm: "Are you sure you want to delete this campaign?",
+            "mobile-app-forced-delete": request_from_mobile_app?
+          }
+        ) do %>
+          <i class="trash outline icon"></i>
+          Delete
+        <% end %>
+      </div><!-- /.ui two basic tiny buttons -->
+    </td>
+    <td class="index-page-table__data-cell"></td>
+    <td class="index-page-table__data-cell"></td>
+    <td class="right aligned index-page-table__data-cell"">
+      <%= link_to(
+        email_campaign_path(email_campaign),
+        method: :delete,
+        class: "ui basic button negative",
+        data: {
+          confirm: "Are you sure you want to delete this campaign?",
+          "mobile-app-forced-delete": request_from_mobile_app?
+        }
+      ) do %>
+        <i class="trash outline icon"></i>
+        Delete
+      <% end %>
+    </td>
+  <% end %>
+</tr>

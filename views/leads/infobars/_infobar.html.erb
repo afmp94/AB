@@ -1,0 +1,20 @@
+<div class="ui raised segment" data-introjs="step12">
+  <div class="ui very basic compact left floated segment p-a-0 m-b-0 hide-mobile-and-down">
+    <%= display_avatar(lead.user) %>
+  </div><!-- /.ui very basic compact left floated segment -->
+
+  <div class="ui floating dropdown button m-r" data-ui-behavior="dropdown">
+    <div class="text"><%= lead.status_to_s %></div>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      <%= render(
+        partial: "leads/options/change_status",
+        locals: { lead: lead }
+      ) %>
+    </div><!-- /.menu -->
+  </div><!-- /.ui floating dropdown button -->
+
+  <% if lead.status > 0 %>
+    <%= display_infobar_data(lead) %>
+  <% end %>
+</div><!-- /.row well infobar below18 -->

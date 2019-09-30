@@ -1,0 +1,19 @@
+<%= page_header(
+  primary_name: "Marketing Center",
+  primary_path: marketing_center_index_path,
+  secondary_name: "Set Production Goals"
+) %>
+<div class="ui main container">
+  <%= simple_form_for(@goal, url: { action: "activities_update" }) do |f| %>
+    <%= f.error_notification %>
+    <%= render(partial: "activity_form", locals: {f: f, editable_activities_fields: true, display_weekly_goals_link: false}) %>
+
+    <%= f.button(
+      :submit,
+      class: "ui primary buton",
+      value: "Save",
+      "data-disable-with": "Saving..."
+     ) %>
+   <%= link_to "Cancel", edit_goal_path(@goal) %>
+  <% end %>
+</div>

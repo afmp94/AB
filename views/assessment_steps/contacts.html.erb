@@ -1,0 +1,161 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 2, data_total: 10 }
+        ) %>
+        <%= render_quick_results(
+          previous_step: "Agent Info",
+          data_percent: @branding_service.total_score_in_percentage.round
+        ) do %>
+          <%= sanitize contacts_result(@branding_service.total_score_in_percentage) %>
+        <% end %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+        <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 2 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <%= render_title_message(icon_class: "orange address card outline icon") do %>
+              <div class="header"><i class="yellow circle lightbulb"></i>Contacts</div>
+              <p>Your database of contacts and relationships is the foundation of every successful agent's business.</p>
+              <div class="header"></div>
+              <p class=“fwb”><i>Per NAR 2018, 65% or more business comes from personal relationships.</p>
+            <% end %>
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+              <div class="ui segment tab transition fade in active" id="contacts-info" data-tab="contacts-info" >
+                <%= f.input(
+                  :tracking_tool,
+                  label: "What do you use most often to keep track of your contacts?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::TRACKING_TOOL_SCORING.keys) %>
+                <%= f.input(
+                    :networking_meetings,
+                    label: "How often do you attend local networking events or community functions?",
+                    wrapper: :vertical_radio_buttons,
+                    as: :sui_radio_buttons,
+                    collection: SurveyResult::NETWORKING_MEETINGS_SCORING.keys) %>
+                <%= f.input(
+                  :contacts_grouped,
+                  label: "Do you have your database of contacts sorted into groups (e.g. family, friends, past clients, lenders, etc)?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::CONTACTS_GROUPED_SCORING.keys) %>
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :contacts_ranked,
+                  label: "Have you ranked or graded all of your contacts to separate out the most valuable to your business?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :local_service_list,
+                  label: "Do you have an updated, ready-to-go list of local service providers that you could print out, email or refer to?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+
+                <input type="hidden" value="personal_marketing" name="next_step_id">
+                <input type="hidden" value="branding" name="last_step_id">
+                <%= f.submit(
+                  "Next",
+                  class: "ui primary button",
+                  id: "contacts_next_button"
+                ) %>
+              </div><!-- /#contactsdbase-->
+            <% end %>
+         </div><!-- /.ui vertical basic segment -->
+        </div><!-- /.column -->
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[tracking_tool]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[networking_meetings]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[contacts_grouped]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[contacts_ranked]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[local_service_list]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

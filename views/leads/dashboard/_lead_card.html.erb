@@ -1,0 +1,11 @@
+<% cache(["lead_card", lead, current_user.id]) do %>
+  <% if lead.state != "claimed" %>
+    <%= render partial: "leads/dashboard/lead_cards/unclaimed", locals: { lead: lead } %>
+  <% elsif lead.contacted_status == 0 %>
+    <%= render partial: "leads/dashboard/lead_cards/not_contacted", locals: { lead: lead } %>
+  <% elsif lead.contacted_status == 3 %>
+    <%= render partial: "leads/dashboard/lead_cards/contacted", locals: { lead: lead } %>
+  <% else %>
+    <%= render partial: "leads/dashboard/lead_cards/attempted_contact", locals: { lead: lead } %>
+  <% end %>
+<% end %>

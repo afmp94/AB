@@ -1,0 +1,22 @@
+<div id="key-people-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Key Parties & Role",
+        edit_fixed_list_lead_path(
+          lead,
+          lead_type: lead_type,
+          section: "key_people"
+        ),
+        link_id
+      ) %>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan=2>
+          <%= render partial: "leads/key_people/key_person", locals: { lead: lead } %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

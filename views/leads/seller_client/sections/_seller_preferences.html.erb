@@ -1,0 +1,11 @@
+<div id="seller-preferences-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header("Seller Preferences", edit_fixed_list_lead_path(lead, lead_type: "seller_client", section: "seller_preferences"), "edit-seller-client-seller-preferences") %>
+    </thead>
+    <tbody>
+        <%= fixed_list_item("Timeframe", lead.timeframe_to_s) %>
+        <%= fixed_list_item("Amount Owed", num_to_currency(lead.amount_owed)) %>
+    </tbody>
+  </table>
+</div>

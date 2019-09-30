@@ -1,0 +1,16 @@
+<div class="ui top fixed borderless inverted menu">
+  <div class="ui container">
+    <div class="item p-y-sm">
+      <%= link_to(
+        root_path,
+        class: "ui mini rounded image m-r hide-mobile-and-down"
+      ) do %>
+        <%= image_tag(white_label_image_name("box-200.png", current_subdomain)) %>
+      <% end %>
+      <%= link_to(white_labeled_app_name(current_subdomain), root_path, class: "fwb") %>
+    </div>
+    <div class="right menu">
+      <%= link_to("Sign In", new_user_session_path, class: "item") %>
+    </div><!-- /.right menu -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui top fixed borderless inverted main menu -->

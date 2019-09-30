@@ -1,0 +1,67 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+      <h1 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 34px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -1px;text-align: left;color: #606060 !important;">
+        Your To Do List
+      </h1>
+
+      <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 16px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -.5px;text-align: left;color: #606060 !important;">
+        Today + Overdue
+      </h3>
+
+      <ul>
+        <% @tasks_due_today_and_overdue.each do |task| %>
+          <li style="margin: .3em 0; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+            <strong><%= task.subject %></strong><br /><%= show_taskable(task) %>
+          </li>
+        <% end %>
+      </ul>
+
+      <a rel="noopener noreferrer" href="https://app.agentbright.com/tasks" target="_blank" style="word-wrap: break-word;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #6c6cdd;font-weight: bold;text-decoration: underline;">
+        View more tasks
+      </a>
+      <% end %>
+      </columns>
+    </row>
+  </container>
+
+  <container>
+    <row>
+      <columns large="8">
+        <h1 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 34px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -1px;text-align: left;color: #606060 !important;">
+          Leads
+        </h1>
+
+        <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 16px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -.5px;text-align: left;color: #606060 !important;">
+          These leads need action:
+        </h3>
+
+        <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size: 14px;line-height: 150%;text-align: left;">
+          <% @leads_yesterday.each do |lead| %>
+            <img align="center" height="40" src="https://gallery.mailchimp.com/2ebad66220aae2fda12951af8/images/062.png" style="width: 40px;height: 40px;margin: 0px 10px 10px 0px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;" width="40" />
+            <strong><%= link_to lead.contact.full_name.presence || display_primary_email_address(lead.contact), lead_url(lead) %></strong>
+            <% if lead.lead_source.present? %>
+              via <strong><%= lead.lead_source.name %></strong>
+            <% end %>
+             - unclaimed<br />
+          <% end %>
+        </p>
+
+        <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 16px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -.5px;text-align: left;color: #606060 !important;">
+          Here's a summary of yesterday's leads:
+        </h3>
+
+        <% @leads_yesterday.each do |lead| %>
+          <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size: 14px;line-height: 150%;text-align: left;">
+            <strong><%= lead.contact.full_name %></strong> via
+            <strong><%= lead.lead_source.name if lead.lead_source %></strong> - <%= just_time(lead.incoming_lead_at) %><br />
+            <em>
+              <%= lead_status_in_email(lead, @user) %>
+            </em>
+          </p>
+        <% end %>
+      </columns>
+    </row>
+  </container>
+<% end %>

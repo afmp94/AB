@@ -1,0 +1,137 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 8, data_total: 10 }
+        ) %>
+          <h4 class="ui horizontal divider header">
+            Quick grade from the last page:
+          </h4>
+          <div class="ui attached message assessment-quick-results">
+            <div class="ui items">
+              <div class="item">
+                  <div class="ui small image assessment-quick-results_score_gauge_container">
+                    <i style="margin-top:40px;width:100px;height:100px;font-size:75px;color:#66DA81" class="dollar sign icon"></i>
+                  </div><!-- /.ui small image -->
+                <div class="middle aligned content">
+                  <div class="header" style="margin-top:10px;">
+                    Goal Setting
+                  </div><!-- /.header -->
+                  <div class="description">
+                    <% income_goal = @survey_result.desired_annual_income.round(0) + @survey_result.gross_commission.round(0) %>
+                    <% if income_goal > 39800 %>
+                      <p>Congratulations! Based on your goals, you are above national average income! To achieve that you will need to sell or buy <%= @survey_result.annual_transaction_goal&.round %> homes. That's <%= @survey_result.quarterly_transaction_goal&.round %> per quarter. </p>
+                    <% else %>
+                      <p>Congratulations! Based on your goals, your income goals are <%= number_to_currency(income_goal, precision: 0) %>. To achieve that you will need to sell or buy <%= @survey_result.annual_transaction_goal&.round %> homes. That's <%= @survey_result.quarterly_transaction_goal&.round %> per quarter. </p>
+                    <% end %>
+                  </div><!-- /.description -->
+                </div><!-- /.middle aligned content -->
+              </div><!-- /.ui item -->
+            </div><!-- /.ui items -->
+          </div><!-- /.ui message -->
+          <%= render(
+            partial: "assessment_steps/quick_feedback",
+            locals: { next_step: @next_step, survey_result: @survey_result }
+          ) %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+        <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 8 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <%= render(
+              partial: "assessment_steps/title_message",
+              locals: {
+                icon_class: "green big money bill alternate outline",
+                header: "Agent Income",
+                content: "According to NAR, the median gross income of REALTORS® was $42,500 in 2018."
+              }
+            ) %>
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+              <div class="ui segment tab transition fade in active" id="current-year-progress" data-tab="current-year-progress">
+                <h4 class="ui dividing header">Current Pipeline</h4>
+                <%= f.input(
+                  :current_ytd_income,
+                  label: "What is your income YTD (on closed business)? " ,
+                  as: :currency
+                ) %>
+                <%= f.input(
+                  :current_ytd_lead_count,
+                  label: "How many leads do you currently have (that are not yet clients)? "
+                ) %>
+                <%= f.input(
+                  :current_ytd_client_count,
+                  label: "How many clients do you currently have (that are not closed yet)?"
+                ) %>
+
+                <input type="hidden" value="goal_setting" name="last_step_id">
+                <input type="hidden" value="info" name="next_step_id">
+                <%= f.button(
+                  :submit,
+                  value: "Next",
+                  id: "current_year_progress_next_button",
+                  class: "ui primary button",
+                  disable_with: "Submiting..."
+                ) %>
+              </div>
+            <% end %>
+          </div><!-- /.ui vertical basic segment -->
+        </div><!-- /.column -->
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[current_ytd_income]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[current_ytd_lead_count]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[current_ytd_client_count]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

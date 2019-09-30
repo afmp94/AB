@@ -1,0 +1,23 @@
+<div class="sub-section hidejs">
+  <h2>Miscellaneous</h2>
+  <%= f.input(
+    :lost_date_at,
+    as: :datepicker,
+    input_html: { value: format_for_datepicker(f.object.lost_date_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:stage_lost, label: "Stage not converted") %>
+  <%= f.input(:reason_for_loss, label: "Reason for loss") %>
+  <%= f.input(
+    :pause_date_at,
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.pause_date_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:stage_paused, label: "Stage paused") %>
+  <%= f.input(:reason_for_pause, label: "Reason for pause") %>
+  <%= f.input(:notes, input_html: { rows: 4 }) %>
+</div>

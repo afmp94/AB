@@ -1,0 +1,91 @@
+<div class="row" id="activities-section" data-introjs-step="step423">
+  <div class="eight wide column">
+    <div class="ui raised segment">
+      <div class="ui items">
+        <div class="item">
+          <div class="content">
+            <a class="header">Last Activity</a>
+          </div><!-- /.content -->
+          <div class="content">
+            <% if lead.most_recent_activity %>
+              <div class="description"><strong>
+                <% if lead.most_recent_activity == lead.most_recent_contact_activity %><i class="check circle icon"></i>
+                  <%= lead.most_recent_activity.activity_type %>:
+                <% else %>
+                  Task:
+                <% end %>
+                <%= lead.most_recent_activity.subject %></strong>
+              </div><!-- /.description -->
+              <div class="meta">
+                <span><strong><%= time_ago_in_words(lead.most_recent_activity.completed_at) if lead.most_recent_activity.completed_at %> ago</strong></span>
+              </div><!-- /.meta -->
+              <div class="meta">
+                <%= lead.most_recent_activity.user.name %>,
+                <%= cal_date(lead.most_recent_activity.completed_at) %>
+              </div><!-- /.meta -->
+            <% else %>
+              <div class="header">
+                <i class="remove circle icon"></i>
+                No Past Activity
+              </div><!-- /.header -->
+              <div clas="meta">
+                Get started by setting a task now
+              </div><!-- /.meta -->
+            <% end %>
+          </div><!-- /.content -->
+        </div><!-- /.item -->
+      </div><!-- /.ui items -->
+    </div><!-- /.ui raised segment -->
+  </div><!-- /.eight wide column -->
+  <div class="eight wide column">
+    <div class="ui raised segment">
+      <div class="ui items">
+        <div class="item">
+          <div class="content">
+            <a class="header">Next Activity:</a>
+          </div><!-- /.content -->
+          <div class="content">
+            <% if lead.next_action %>
+              <div class="description">
+                <strong><%= lead.next_action.subject %></strong>
+              </div><!-- /.description-->
+              <% if lead.next_action.due_date_at %>
+                <% if lead.next_action.due_date_at < (Time.now - 1.day)%>
+                  <div class="meta">
+                    <span><strong>Overdue by <%= time_ago_in_words(lead.next_action.due_date_at)%></strong></span>
+                    <span class="stay">1 Month</span>
+                  </div><!-- /.meta -->
+                <% elsif %>
+                  <div class="meta">
+                    <span><strong>Due in <%= time_ago_in_words(lead.next_action.due_date_at)%></strong></span>
+                  </div><!-- /.meta -->
+                <% elsif %>
+                  <div class="meta">
+                    <span>Due <strong>Today</strong></span>
+                  </div><!-- /.meta -->
+                <% end %>
+              <% end %>
+              <div class="meta">
+                <%= lead.next_action.user.name %>,
+                <%= cal_date(lead.next_action.due_date_at)%>
+              </div><!-- /.meta -->
+            <% else %>
+              <div class="header">
+                <i class="remove circle icon"></i>
+                No Next Action Set
+              </div><!-- /.header -->
+              <div clas="meta">
+                <%= link_to(
+                  "Set One Now",
+                  open_set_next_action_modal_lead_path(id: lead.id),
+                  remote: true,
+                  data: { toggle: "modal", target: "#mainModal", id: lead.id }
+                ) %>
+              </div><!-- /.meta -->
+            <% end %>
+          </div><!-- /.content -->
+        </div><!-- /.item -->
+      </div><!-- /.ui items -->
+    </div><!-- /.ui raised segment -->
+  </div><!-- /.eight wide column -->
+</div><!-- /.row -->

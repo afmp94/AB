@@ -1,0 +1,129 @@
+<%= mc_partial("text_block", style: "text-align:center;") do %>
+  <div id="campaign-preview-title" style="width: 44%; margin: 0 auto; word-wrap: break-word;">
+    <h1 class="header" style="text-align: center;" data-behavior="campaign-preview-title">
+      <%= email_campaign.title %>
+    </h1>
+  </div>
+<% end %>
+
+<%= mc_partial("image_block") do %>
+  <div id="campaign-preview-image">
+    <img width="<%= email_image_width(email_campaign.campaign_image) %>" src="<%= email_campaign.campaign_image_url %>" style="max-width:100%;">
+  </div>
+<% end %>
+
+<%= mc_partial("text_block", style: "padding-right: 30px; padding-left: 30px; font-size: 15px; line-height: 150%; text-align: center;") do %>
+  <div id="campaign-preview-content" style="width: 44%; margin: 0 auto;" >
+    <div data-behavior="campaign-preview-content" style="margin: 0 auto; word-wrap: break-word;"><%= simple_format(email_campaign.custom_message) %></div>
+  </div>
+<% end %>
+
+<!-- CONTACT ME -->
+
+<!-- NEED HELP TEXT -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock">
+  <tbody class="mcnTextBlockOuter">
+    <tr>
+      <td valign="top" class="mcnTextBlockInner">
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="60%" class="mcnTextContentContainer">
+          <tbody>
+            <tr>
+              <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
+                <div style="text-align: center;">
+                  <span style="font-size:11px">Want to know more? Need help?</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- CONTACT ME BUTTON -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnButtonBlock">
+  <tbody class="mcnButtonBlockOuter">
+    <tr>
+      <td style="padding-top:0; padding-right:18px; padding-bottom:18px; padding-left:18px;" valign="top" align="center" class="mcnButtonBlockInner">
+        <table border="0" cellpadding="0" cellspacing="0" class="mcnButtonContentContainer" style="border-collapse: separate !important;border: 2px none #707070;border-radius: 5px;background-color: #000033;">
+          <tbody>
+            <tr>
+              <td align="center" valign="middle" class="mcnButtonContent" style="font-family: Arial; font-size: 20px; padding: 16px;">
+                <a rel="noopener noreferrer" class="mcnButton " title="Contact me" href="mailto:<%= user.email %>" target="_blank" style="font-weight: bold;letter-spacing: normal;line-height: 100%;text-align: center;text-decoration: none;color: #FFFFFF;">
+                  Contact me
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- DIVIDER -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnDividerBlock">
+  <tbody class="mcnDividerBlockOuter">
+    <tr>
+      <td class="mcnDividerBlockInner" style="padding: 8px 18px;">
+        <table class="mcnDividerContent" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-top-width: 1px;border-top-style: solid;border-top-color: #999999;">
+          <tbody>
+            <tr>
+              <td>
+                <span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- FOOTER -->
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock">
+  <tbody class="mcnTextBlockOuter">
+    <tr>
+      <td valign="top" class="mcnTextBlockInner">
+        <table align="left" border="0" cellpadding="0" cellspacing="0" width="60%" class="mcnTextContentContainer">
+          <tbody>
+            <tr>
+              <td valign="top" class="mcnTextContent" style="padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;">
+                <h2 class="null">
+                  <% if user.profile_image.try(:file) %>
+                    <img align="left" alt="<%= user.name %> Headshot" src="<%= user.profile_image.file %>" style="border: 2px solid ; width: 100px; margin-right: 25px; margin-bottom: 50px;" width="100">
+                  <% end %>
+                  <%= user.name %>
+                </h2>
+
+                <% if user.company %>
+                  <h4 class="null" style="color: #808080 !important;"><%= user.company %></h4>
+                <% end %>
+
+                <h4 class="null" style=""><br>
+                  <span style="font-size:14px">
+                    <% if user.mobile_number.present? %>
+                      <%= user.mobile_number %><br>
+                    <% end %>
+                    <% if user.personal_website.present? %>
+                      <a href="<%= user.personal_website %>"><%= user.personal_website %></a><br>
+                    <% end %>
+                    <%= user.email %>
+                  </span>
+                </h4>
+                <div class="unsubscribe-link">
+                  <%= link_to "Unsubscribe", unsubscribe_path_for(@contact) %>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>

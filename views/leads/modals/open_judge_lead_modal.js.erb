@@ -1,0 +1,3 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("leads/modals/judge_lead", lead: @lead, property: @property) %>');

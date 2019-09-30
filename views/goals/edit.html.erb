@@ -1,0 +1,10 @@
+<% breadcrumb(:edit_goal, @goal) %>
+<%= page_header(
+  primary_name: "Marketing Center",
+  primary_path: marketing_center_index_path,
+  secondary_name: "Goals"
+) %>
+
+<div class="ui main container">
+  <%= render("form") %>
+</div>

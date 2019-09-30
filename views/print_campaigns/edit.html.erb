@@ -1,0 +1,12 @@
+<% content_for(:title, "Edit Print Campaign | #{@print_campaign.name}") %>
+<% breadcrumb(:edit_print_campaign, @print_campaign) %>
+
+<%= page_header(
+  primary_name: "Print Campaigns",
+  primary_path: print_campaigns_path,
+  secondary_name: "Edit Print Campaign"
+) %>
+
+<div class="ui main container">
+  <%= render("form") %>
+</div>

@@ -1,0 +1,7 @@
+<div id='contacts-grading-container'>
+  <%= render(partial: "contact_grader", locals: { no_contact_text: "No Contacts to Rank." }) %>
+</div>
+
+<div id="graded-contacts-list">
+  <%= render(partial: "graded_contacts", locals: { graded_contacts: @graded_contacts }) %>
+</div>

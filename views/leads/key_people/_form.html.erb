@@ -1,0 +1,51 @@
+<%= simple_form_for lead, remote: true do |f| %>
+  <%= render partial: "leads/key_people/key_person", locals: { lead: lead } %>
+  <%= hidden_field_tag(:inline_form, inline_form) %>
+  <h4 class="ui dividing header">Add New Key Person</h4>
+
+  <% if f.object.errors.present? %>
+    <div class="has-error m-b">
+      <label class="control-label error-message">Errors:</label>
+      <% f.object.errors[:base].each do |error| %>
+        <div class="error-message"><%= error %></div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= f.fields_for :key_people, lead.key_people.build do |kpf| %>
+    <%= kpf.input :contact_id, as: :hidden, input_html: { data: { "js-info": "contact-id" } } %>
+    <div class="field">
+      <label>Contact</label>
+      <div class="ui search">
+        <div class="ui icon input">
+          <input class="prompt"
+            type="text"
+            placeholder="Search contact"
+            autocomplete="off"
+            data-behavior="search-contacts-autocomplete"
+            data-autocomplete-source="<%= search_contacts_for_autocomplete_path %>"
+            />
+          <i class="search icon"></i>
+        </div>
+      </div>
+     </div>
+    <div class="six wide field">
+      <label>Role</label>
+      <%= kpf.input(
+        :role_type,
+        wrapper: :vertical_select,
+        label: false,
+        collection: KeyPerson::ROLES.values,
+      ) %>
+    </div>
+  <% end %>
+
+  <%= f.button(
+    :submit,
+    "data-disable-with": "Saving...",
+    value: 'Save',
+    remote: true
+  ) %>
+
+  <a data-cancel-section="#key-people-section" class="ui basic button">Cancel</a>
+<% end %>

@@ -1,0 +1,40 @@
+<% content_for(:title, "Rank Contacts") %>
+<% breadcrumb(:rank_contacts) %>
+<%= show_alert_if_processing_csv_file(current_user) %>
+
+<%= page_header(
+  primary_name: "Contacts",
+  primary_path: contacts_path,
+  secondary_name: "Rank Contacts"
+) %>
+
+<div class="ui main container">
+  <div class="ui vertical basic segment">
+    <% if @current_contact %>
+      <%= link_to(
+        rank_contact_path({ dont_rank: @current_contact.id }),
+        class: "ui button",
+        style: "letter-spacing: 0",
+        id: "skip_contact_link",
+        data: {
+          rank_contact_path: rank_contact_path,
+          turbolinks_action: "replace"
+        }
+      ) do %>
+        Skip This Contact <i class="chevron right icon"></i>
+      <% end %>
+    <% end %>
+  </div><!-- /.ui vertical segment -->
+  <div id="grading-and-graded-container">
+    <div id="contacts-grading-container">
+      <%= render(
+        partial: "contact_grader",
+        locals: { no_contact_text: "No more contacts to rank." }
+      ) %>
+    </div><!-- /#contacts-grading-container -->
+    </br>
+    <div id="graded-contacts-list">
+      <%= render(partial: "graded_contacts", locals: { graded_contacts: @graded_contacts }) %>
+    </div>
+  </div><!-- /#grading-and-graded-container -->
+</div><!-- /.ui main container -->

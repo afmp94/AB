@@ -1,0 +1,23 @@
+<div class="ab-search-bar-header">
+  <div class="ab-search-bar-header-left">
+    <div class="ui icon fluid input">
+      <input type="search" class="form-control slat-bar-search nomargin" placeholder="Search announcements" id="announcements-search-input" data-search-url="<%= search_announcements_path %>">
+      <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+    </div>
+  </div><!-- /.ab-search-bar-header-left -->
+
+  <div class="ab-search-bar-header-right">
+    <div class="p-l display-inline-block">
+      <div class="ui selection dropdown basic button" data-ui-behavior="dropdown-sort-announcements" id="announcements-btn-group-order-by" data-value="starts_at asc">
+        Sort by:
+        <div class="default text" data-value="starts_at asc">Starts at</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Sort contacts by</div><!-- /.header -->
+          <div class="item" data-value="starts_at asc">Starts at</div><!-- /.item -->
+          <div class="item" data-value="ends_at asc">Ends at</div><!-- /.item -->
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown button -->
+    </div><!-- /.p-l -->
+  </div><!-- /.ab-search-bar-header-right -->
+</div><!-- /.ab-search-bar-header -->

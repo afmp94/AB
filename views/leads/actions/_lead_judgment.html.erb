@@ -1,0 +1,41 @@
+<div class="ui inverted segment">
+  <div class="ui relaxed divided inverted list">
+      <%= action_list_item(
+        title: "Promote this lead to a prospect",
+        description: "This lead could potentially become a client",
+        link: prospect_lead_status_path(lead),
+        link_data_method: "post",
+        data: { lead_id: lead.id },
+        link_attributes: "data-mobile-app-forced-patch-link=#{request_from_mobile_app?}",
+        icon_class:"thumbs up"
+      ) %>
+      <%= action_list_item(
+        title: "Put on hold",
+        description: "I might do business with this lead in the future",
+        link: open_long_term_prospect_modal_lead_path(lead),
+        icon_class: "remove from calendar",
+        link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+      ) %>
+      <%= action_list_item(
+        title: "Snooze",
+        description: "Remind me to follow up later",
+        link: open_snooze_modal_lead_path(lead),
+        icon_class: "hourglass start",
+        link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+      ) %>
+      <%= action_list_item(
+        link: open_not_converted_modal_lead_path(id: lead.id),
+        title: "Mark as 'Not Converted'",
+        description: "Not interested in my services and should be closed",
+        icon_class: "remove circle outline",
+        link_attributes: "data-toggle=modal data-target=#mainModal data-remote=true"
+      ) %>
+      <%= action_list_item(
+        link: open_junk_modal_lead_path(lead),
+        title: "Junk",
+        description: "This lead is not real",
+        icon_class: "trash",
+        link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+      ) %>
+  </div><!-- /.ui relaxed divided list -->
+</div><!-- /.ui inverted segment -->

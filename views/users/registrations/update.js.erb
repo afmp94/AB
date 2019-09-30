@@ -1,0 +1,8 @@
+<% if resource.errors.empty? %>
+  var path = "<%= response.location %>";
+
+  $.fn.redirectTo(path);
+<% else %>
+  toastr.error("<%= resource.errors.full_messages.join(",") %>");
+  $('.new-record').replaceWith('<%= j render partial: 'users/registrations/password_form' %>');
+<% end %>

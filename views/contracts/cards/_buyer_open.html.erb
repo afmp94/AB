@@ -1,0 +1,125 @@
+<% cache(["contract_buyer_open", contract, contract.property]) do %>
+  <% if contract.status != "Fell Through" %>
+    <div class="ui raised segment">
+      <h3 class="ui header"><%= contract.property.one_line_address %></h3>
+      <h3 class="fwl">
+        <span class="fwn">Contract</span></br><%= contract.status_to_s %>:
+        <span class="fwb"><%= num_to_currency(contract.offer_price) %></span>
+      </h3>
+      <div class="row">
+        <div class="ui dropdown button" data-ui-behavior="dropdown">
+          <%= contract.status_to_s %>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <%= link_to(
+              "Pending contingencies",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "pending_contingencies" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Ready to close",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract, { status: "ready_to_close" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Closed",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract, { status: "closed" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Fell through",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "fell_through" }
+              ),
+              class: "item"
+            ) %>
+          </div><!-- /.menu -->
+        </div><!-- /.ui dropdown -->
+        <div class="row">
+          <%= link_to(
+            "Edit",
+            edit_lead_property_contract_path(
+              @lead,
+              contract.property,
+              contract,
+              redirect_page: "#{controller_name}_#{action_name}"
+            )
+          ) %> |
+          <%= link_to(
+            "Delete",
+            [@lead, contract.property, contract],
+            method: :delete,
+            data: {
+              "mobile-app-forced-delete": request_from_mobile_app?,
+              confirm: "Are you sure you want to delete this contract?"
+            }
+          ) %>
+        </div><!-- /.row -->
+        <table class="ui very basic unstackable table info-list-table">
+          <tbody>
+            <%= fixed_list_item("Seller", contract.seller ) %>
+            <%= fixed_list_item("Seller Agent", contract.seller_agent) %>
+            <%= fixed_list_item("Proposed Closing", cal_date(contract.closing_date_at)) %>
+          <tbody>
+        </table>
+      </div><!-- /.row-->
+      <div class="ui accordion" data-ui-behavior="accordion">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          Property information
+        </div>
+        <div class="content">
+          <table class="ui very basic unstackable table info-list-table">
+            <tbody>
+              <%= fixed_list_item("MLS", contract.property.mls_number) %>
+              <%= fixed_list_item("Bedrooms", contract.property.bedrooms) %>
+              <%= fixed_list_item("Bathrooms", contract.property.bathrooms) %>
+              <%= fixed_list_item("Sq Feet", contract.property.sq_feet) %>
+              <%= fixed_list_item("Property URL", contract.property.property_url) %>
+              <%= fixed_list_item("Notes", contract.property.notes) %>
+              <%= fixed_list_item("Level of Interest", contract.property.level_of_interest) %>
+              <% if show_beta_features? %>
+                <%= fixed_list_item(
+                  link_to(
+                    "Refresh Property Image",
+                    {
+                      controller: "properties",
+                      action: "refresh_image",
+                      id: contract.property.id,
+                      lead_id: @lead.id
+                    },
+                    method: :post,
+                    class: "ui basic button"
+                  )
+                ) %>
+              <% end %>
+            </tbody>
+          </table>
+          <%= link_to("Edit Property", edit_lead_property_path(@lead, contract.property)) %> |
+          <%= link_to(
+            "Delete Property",
+            [@lead, contract.property],
+            method: :delete,
+            data: { confirm: "Are you sure you want to delete this property?" }
+          ) %>
+        </div><!-- /.content -->
+      </div><!-- /.ui.accordion -->
+    </div><!-- /.ui.raised.segment -->
+  <% end %>
+<% end %>

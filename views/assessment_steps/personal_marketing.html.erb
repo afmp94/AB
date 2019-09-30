@@ -1,0 +1,144 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 3, data_total: 10 }
+        ) %>
+        <%= render_quick_results(
+          previous_step: "Contacts",
+          data_percent: @database_service.total_score_in_percentage.round
+        ) do %>
+          <%= sanitize personal_marketing(@database_service.total_score_in_percentage) %>
+        <% end %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+        <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 3 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <%= render_title_message(icon_class: "orange big settings icon") do %>
+              <div class="header"><i class="yellow circle lightbulb"></i>Personal Marketing</div>
+              <p>Your database of contacts and relationships is the foundation of every successful agent's business.</p>
+
+              <div class="header"></div>
+              <p class=“fwb”><i>Did you know that successful agents focus on building a strong network of contacts?</i></p>
+            <% end %>
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+              <div class="ui segment tab transition fade in active" id="personal-marketing-info" data-tab="personal-marketing-info">
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :referral_system,
+                  label: "Do you have a system to track who refers your business?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+                <%= f.input(
+                  :size_of_database,
+                  label: "How many people do you know that could potentially do business with you, or refer you new business?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::SIZE_OF_DATABASE_SCORING.keys) %>
+                <%= f.input(
+                  :past_clients_touch,
+                  label: "How often do you stay in touch and follow up with your past clients?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::PAST_CLIENTS_TOUCH_SCORING.keys) %>
+                <%= f.input(
+                  :daily_personal_marketing_effort,
+                  label: "How much time do you spend daily on personal or relationship marketing (promoting yourself through networking, sending out mailings or email newsletters, or personal communication with your database of contacts)?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::DAILY_PERSONAL_MARKETING_EFFORT_SCORING.keys) %>
+
+                <input type="hidden" value="mass_marketing" name="next_step_id">
+                <input type="hidden" value="contacts" name="last_step_id">
+                <%= f.submit(
+                  "Next",
+                  id: "personal_marketing_next_button",
+                  class: "ui primary button"
+                ) %>
+              </div><!-- /#personal-marketing -->
+            <% end %>
+         </div><!-- /.ui vertical basic segment -->
+
+        </div><!-- /.column -->
+
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[referral_system]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[size_of_database]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[past_clients_touch]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_personal_marketing_effort]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

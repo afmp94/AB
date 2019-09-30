@@ -1,0 +1,91 @@
+<div class="ui basic vertical segment">
+  <%= render(partial: "contacts/grading_progress") %>
+</div><!-- /.ui basic vertical segment -->
+
+<% if @current_contact %>
+  <div id="current_contact_id" data-contact-id="<%= @current_contact.id %>"></div>
+
+  <div class="ui raised segment">
+    <div class="ui very basic segment p-a-0 m-a-0">
+      <h1 class="ui header">
+        <%= display_avatar(
+          @current_contact,
+          size: :tiny,
+          circular: false,
+          additional_class: "ab-avatar__rank-contacts"
+        ) %>
+        <div class="content">
+          <%= @current_contact.full_name %>
+          <div class="sub header sub-header-default-size">
+            <p class="m-b-sm"><b>Email:</b> <%= display_primary_email_address(@current_contact) %></p>
+            <p class="m-b-sm"><b>Phone:</b> <%= display_primary_phone_number(@current_contact) %></p>
+            <p class="m-b-sm">
+              <b>Address:</b><br />
+              <% if @current_contact.primary_address %>
+                <%= render(
+                  partial: "addresses/address",
+                  object: @current_contact.primary_address
+                ) %>
+              <% end %>
+            </p>
+          </div><!-- /.sub header -->
+        </div><!-- /.content -->
+      </h1>
+    </div><!-- /.ui very basic right floated compact segment -->
+
+    <div class="ab-grading-buttons">
+      <% Contact::GRADES.each do |grade, grade_id| %>
+        <% grade_path = grade_contact_path(@current_contact, {grade_id: "#{grade_id}"}) %>
+        <%= link_to(
+          "#{grade}",
+          grade_path,
+          class: "ui huge button ab-grading-buttons__button",
+          "data-ui-behavior": "popup",
+          "data-content": "#{grade_tooltip(grade_id)}",
+          "data-variation": "small",
+          "data-inverted": true,
+          method: :post,
+          data: { grade_path: grade_path, behaviour: "contacts-grader" }
+        ) %>
+      <% end %>
+      <%= link_to(
+        raw("<i class='trash icon'></i>"),
+        destroy_from_grader_contact_path(@current_contact),
+        method: :delete,
+        remote: true,
+        data: { confirm: "You are about to delete contact for #{@current_contact.full_name}. Are you sure?" },
+        class: "ui huge icon negative button ab-grading-buttons__button",
+        id: "contact-delete"
+      ) %>
+    </div><!-- /.ab-grading-buttons -->
+  </div><!-- /.ui raised segment -->
+<% else %>
+    <% unless grading_progress_bar_width(current_user) == "100" %>
+      <h3><%= no_contact_text %></h3>
+    <% end %>
+    <br/>
+    <br/>
+<% end %>
+
+<% if @contact_graded_message.present? && grading_progress_bar_width(current_user) == "100" %>
+  <% msg = "Congratulations, your contacts are ranked" %>
+  <div class="ui positive icon message">
+    <i class="checkmark icon"></i>
+    <div class="content">
+      <div class="header">
+        <%= msg %>
+      </div>
+    </div><!-- /.content -->
+  </div><!-- /.ui message -->
+<% elsif @contact_graded_message.present? %>
+  <div class="ui positive icon message">
+    <i class="checkmark icon"></i>
+    <div class="content">
+      <div class="header">
+        <%= @contact_graded_message %>
+      </div>
+    </div><!-- /.content -->
+  </div><!-- /.ui message -->
+<% end %>
+
+<%= render(partial: "contacts/graded_enough_contacts_message") %>

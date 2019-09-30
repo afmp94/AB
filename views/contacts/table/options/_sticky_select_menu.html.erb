@@ -1,0 +1,60 @@
+<div class="ab-sticky-select-menu-container ui sticky" data-ui-behavior="stick-bar" style="display:none">
+  <div class="ui inverted menu ab-sticky-select-menu">
+    <div class="left menu">
+      <a class="item" style="display:none">Add activity</a>
+      <div class="ui dropdown item not-for-ajax">
+        More
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="header">Edit contacts by</div><!-- /.header -->
+          <div class="item" data-ui-behavior="mass-update-grade-popup-trigger">
+            <i class="font icon"></i>
+            Grade
+          </div><!-- /.item -->
+          <div class="item" data-behavior="contacts-edit-groups">
+            <i class="users icon"></i>
+            Group
+          </div>
+          <div class="ui flowing popup transition hidden" data-behavior="contacts-groups-popup">
+            <h3>Edit Groups</h3>
+            <div class="ui search">
+              <div class="ui fluid icon input">
+                <input class="prompt" type="text" placeholder="Search for a group..." data-behavior="search-groups">
+                <i class="search icon"></i>
+              </div>
+              <div class="results"></div>
+            </div>
+            </br>
+            <div class="ab-edit-group-list-container groups-popup-height">
+              <div class="ui selection list" data-behavior="mass-groups-update">
+                <% current_user.all_contact_groups.each do |group| %>
+                  <div class="item" data-info="group-element" data-group-name="<%= group %>">
+                    <div class="ui checkbox" data-ui-behavior="checkbox">
+                      <input type="checkbox" name="contact-group" value="<%= group %>">
+                      <label for="contact-group"><%= group %></label>
+                    </div>
+                  </div><!-- /.item -->
+                <% end %>
+              </div><!-- /.ui list -->
+            </div><!-- /.ab-edit-group-list-container -->
+            <div class="ui divider"></div>
+            <button class="ui primary button" data-behavior="save-mass-groups">
+              Save
+            </button>
+            <button class="ui button" data-behavior="contacts-cancel-groups">
+              Cancel
+            </button>
+          </div><!-- /.ui popup -->
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown -->
+    </div><!-- /.left menu -->
+    <div class="borderless item" id="items-selected-count" style="display:none">
+      <span id="total-count"></span>&ensp;|&ensp;<span><a href="javascript:void(0)" id="deselect-all-items">Clear</a></span>
+    </div><!-- /.item -->
+    <div class="right menu">
+      <a class="item trash-icon" id="items-delete-button" data-url="<%= contacts_destroy_multiple_path %>">
+        <i class="large trash outline icon m-a-0"></i>
+      </a>
+    </div>
+  </div><!-- /.ui inverted menu ab-contacts-select-menu -->
+</div><!-- /.ui sticky -->

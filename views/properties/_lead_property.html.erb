@@ -1,0 +1,17 @@
+<table class="ui very basic unstackable table info-list-table">
+  <thead>
+    <tr>
+      <th colspan="2">
+        <h4 class="ui header">
+          <%= property.property_address.street %><br />
+          <%= "#{property.property_address.city}, #{property.property_address.state} #{property.property_address.zip}" %>
+        </h4>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= fixed_list_item("List Price", num_to_currency(property.list_price)) %>
+    <%= fixed_list_item("MLS", property.mls_number) %>
+    <%= fixed_list_item("Message", property.notes) %>
+  </tbody>
+</table><!-- /.ui very basic unstackable table info-list-table -->

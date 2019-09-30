@@ -1,0 +1,39 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Mark this <%= display_text_status(lead) %> as not converted: <%= lead.name %></h4>
+</div>
+
+<div class="content">
+  <%= simple_form_for(lead, url: not_converting_lead_path(lead),
+    html: {
+      data: {
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |f| %>
+    <%= f.input :lost_date_at,
+      label: "Date this client was not converted",
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.lost_date_at),
+        type: type_for_datepicker
+      }
+    %>
+    <%= f.input(:reason_for_loss, label: "Reason for not converting") %>
+
+    <% if lead.status == 0 %>
+        <div id='activate_contact'>
+          <div class="checkbox">
+            <%= check_box_tag"[lead]activate_contact" %>
+            <%= label_tag("[lead]activate_contact" , "Add as a Contact?") %>
+          </div><!-- /.checkbox -->
+        </div>
+    <% end %>
+    <%= f.button(
+      :submit,
+      "Mark as Not Converted",
+      class: "ui primary button",
+      "data-disable-with": "Updating..."
+    ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

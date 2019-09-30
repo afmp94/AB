@@ -1,0 +1,7 @@
+<% if resource.errors.empty? %>
+  var path = "<%= response.location %>";
+
+  $.fn.redirectTo(path);
+<% else %>
+  $('.new-record').replaceWith('<%= j render partial: 'users/confirmations/form' %>');
+<% end %>

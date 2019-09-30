@@ -1,0 +1,32 @@
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon dividing header">
+      <i class="bullseye icon"></i>
+      <div class="content">
+        Set your goals
+        <div class="sub header"></div><!-- /.sub header -->
+      </div><!-- /.content -->
+    </h2><!-- /.ui header -->
+    <p>Did you know 70% of people who set Goals achieve them?&nbsp;&nbsp; We will help you set realistic and achieveable goals based on how much you want to make, and work backwards to set weekly marketing activity targets. </p>
+    <p>Don't worry, you can always adjust your goals later.</p>
+    <%= simple_form_for(
+      @user,
+      url: wizard_path,
+      method: :put,
+      remote: true,
+      html: { class: 'commission-data', data: { "mobile-app-forced-form": request_from_mobile_app? } }
+    ) do |f| %>
+      <%= f.hidden_field :id %>
+      <%= f.fields_for(:goals, @goal) do |goal_form| %>
+        <%= render partial: 'goals/inputs', locals: { goal_form: goal_form, user_form: f }  %>
+      <% end %>
+      <%= f.button(
+        :submit,
+        class: "ui primary button",
+        value: "Save and continue",
+        "data-loading-text": "Loading..."
+      ) %>
+      <%= link_to 'Skip', next_wizard_path, class: "ui button" %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,60 @@
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Lead Groups",
+    secondary_name: "Teams"
+  }
+) do %>
+
+  <h2 class="ui header">Lead Group Details</h2>
+  <h4 class="ui header"><strong>Name:</strong>
+    <%= @lead_group.name %>
+    <%= link_to(
+      "Edit Lead Group Details",
+      edit_user_settings_lead_group_path(@lead_group),
+      class: "ui button primary m-l"
+    ) %>
+  </h4>
+
+  <h3>Current Lead Group Members:</h3>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lead_group.users.each do |member| %>
+        <tr>
+          <td class="breakword">
+            <%= member.full_name %>
+          </td>
+          <td class="breakword">
+            <%= member.email %>
+          </td>
+          <td><%= member.mobile_number %></td>
+          <td class="right aligned">
+            <%= link_to(
+              "Remove",
+              remove_user_from_lead_group_user_settings_lead_group_path(
+                @lead_group,
+                { member_id: member.id }
+              ),
+              method: :delete,
+              data: {
+                confirm: "You are about to remove '#{member.name}' from the Lead Group. Are you sure?",
+                "mobile-app-forced-delete": request_from_mobile_app?
+              }
+            ) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3 class="ui header">Add an Agent to your Lead Group:</h3>
+  <%= render(partial: "agent_add_form") %>
+<% end %>

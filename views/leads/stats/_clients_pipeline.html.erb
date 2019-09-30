@@ -1,0 +1,16 @@
+<% if current_user.user_has_teammates? %>
+  <div class="ui secondary menu" data-ui-behavior="clients-pipeline-menu">
+    <a class="item active" data-tab="team-pipeline">Team Pipeline</a>
+    <a class="item " data-tab="individual-pipeline">Individual Pipeline</a>
+  </div><!-- /.ui top attached tabular menu -->
+  <div class="ui tab segment p-a-0 m-b-0 active" data-tab="team-pipeline">
+    <%= render(partial: "leads/stats/team_pipeline") %>
+  </div><!-- /.ui tab segment active -->
+  <div class="ui tab segment p-a-0" data-tab="individual-pipeline">
+    <%= render(partial: "leads/stats/individual_pipeline") %>
+  </div><!-- /.ui tab segment -->
+<% else %>
+  <div class="ui vertical segment p-b-0">
+    <%= render(partial: "leads/stats/individual_pipeline") %>
+  </div><!-- /.ui vertical segment -->
+<% end %>

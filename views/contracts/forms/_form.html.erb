@@ -1,0 +1,89 @@
+<%= simple_form_for(
+  [@lead, @property, @contract],
+  html: { data: { fv_live: "submitted","mobile-app-forced-form": request_from_mobile_app?, form: 'contract_form' } }
+) do |f| %>
+  <h3>Contract Info</h3>
+  <%= f.input :offer_price,
+                placeholder: "e.g. 350,000",
+                input_html: { class: "form-control below12",
+                data: { input_mask: "currency"}  },
+                label: "Contract Price" %>
+  <%= f.input :commission_rate,
+              wrapper: :append,
+              label: "Commission Side" do %>
+      <%= f.input_field :commission_rate,
+                        class: "form-control",
+                        type: 'text',
+                        placeholder: 'ex. 2.5'  %>
+      <%= content_tag :span, "%",
+                      class: "input-group-addon" %>
+  <% end %>
+  <%= f.input :closing_date_at,
+              label: "Closing Date",
+              as: :datepicker,
+              input_html: {
+                :value => format_for_datepicker(f.object.closing_date_at),
+                 type: type_for_datepicker
+               } %>
+  <%= f.input(
+    :status,
+    collection: Contract::STATUSES.invert,
+    include_blank: false
+  ) %>
+  <%= f.input :buyer,
+              input_html: { class: "form-control" } %>
+  <%= f.input :buyer_agent,
+              input_html: { class: "form-control" },
+              label: "Buyer Agent" %>
+  <%= f.button(
+    :submit,
+    class: 'ui primary button',
+    "data-disable-with": "Saving..."
+  )%>
+  <%= link_to "Cancel", :back %>
+<% end %>
+<% content_for :javascript do %>
+  <script>
+  document.addEventListener('turbolinks:load', function() {
+    var formToValidate = $("[data-form~='contract_form']");
+    formToValidate
+      .formValidation({
+        framework: "bootstrap",
+        excluded: [':disabled'],
+        err: {
+          clazz: "error-message"
+        },
+        fields: {
+          "contract[offer_price]": {
+            validators: {
+              notEmpty: {
+                message: "You must enter an offer price"
+              }
+            }
+          },
+        },
+        onError: function(e) {
+          formToValidate.find(".btn-loading").button('reset');
+        }
+      })
+      .on('success.form.fv', function(e) {
+      // Called when the form is valid
+        var $form = $(e.target);
+        if ($form.data('remote')) {
+          e.preventDefault();
+          return false;
+        }
+      })
+      .on('submit', function(e) {
+        var $form = $(e.target);
+        if ($form.data('remote')) {
+          var numInvalidFields = $form.data('formValidation').getInvalidFields().length;
+          if (numInvalidFields) {
+            e.preventDefault();
+            return false;
+        }
+      }
+    });
+  });
+  </script>
+<% end %>

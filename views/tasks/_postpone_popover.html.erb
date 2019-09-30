@@ -1,0 +1,17 @@
+<div class="dropdown">
+  <button class="btn btn-primary btn-embossed dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    Postpone until:
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation">
+      <%= link_to "Tomorrow", postpone_task_path(task, { postpone: 1.day }), role: "menuitem", tabindex: "-1" %>
+    </li>
+    <li role="presentation">
+      <%= link_to "3 days from now", postpone_task_path(task, { postpone: 3.days }), role: "menuitem", tabindex: "-1" %>
+    </li>
+    <li role="presentation">
+      <%= link_to "Next week", postpone_task_path(task, { postpone: 7.days }), role: "menuitem", tabindex: "-1" %>
+    </li>
+  </ul>
+</div>

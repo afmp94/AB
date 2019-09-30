@@ -1,0 +1,55 @@
+<div id="buyer-section" class="reveal-section" data-reveal-set-name="client_type" data-reveal-show-value="Buyer">
+  <h3 class="ui header">Buyer Preferences</h3>
+  <%= f.input(:buyer_area_of_interest, label: "Area of Interest") %>
+  <div class="two fields">
+    <%= f.input(
+      :property_type,
+      label: "Property Type",
+      as: :select,
+      collection: Lead::PROPERTY_TYPES,
+      include_blank: false
+    ) %>
+    <%= f.input(
+      :timeframe,
+      as: :select,
+      label: "Timeframe",
+      collection: Lead::TIMEFRAMES,
+      include_blank: false
+    ) %>
+  </div>
+  <div class="two fields">
+    <%= f.input(:min_price_range, as: :currency, label: "Min Price") %>
+    <%= f.input(:max_price_range, as: :currency, label: "Max Price") %>
+  </div>
+  <div class="two fields">
+    <%= f.input(:buyer_prequalified, as: :select, label: "Is the buyer prequalified?") %>
+    <%= f.input(:prequalification_amount, as: :currency) %>
+  </div>
+  <h2 class="ui header">Properties Interested In</h2>
+  <%= f.simple_fields_for(:properties, @lead.properties.build) do |builder| %>
+    <%= builder.input(
+      :transaction_type,
+      as: :hidden,
+      input_html: { value: "Buyer" }
+    ) %>
+    <%= builder.input(
+      :level_of_interest,
+      as: :hidden,
+      input_html: { value: "Interested" }
+    ) %>
+    <%= builder.simple_fields_for(
+      :address,
+      builder.object.address || builder.object.build_address
+    ) do |address_form| %>
+      <%= render(partial: "addresses/form", locals: { f: address_form }) %>
+    <% end %>
+    <div class="two fields">
+      <%= builder.input(:bedrooms) %>
+      <%= builder.input(:bathrooms) %>
+    </div>
+    <div class="two fields">
+      <%= builder.input(:sq_feet) %>
+      <%= builder.input(:lot_size, label: "Lot Size") %>
+    </div>
+  <% end %>
+</div><!-- /#buyer-section -->

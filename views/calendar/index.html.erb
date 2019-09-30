@@ -1,0 +1,67 @@
+<% content_for(:title, "Calendar") %>
+<% breadcrumb(:calendar) %>
+
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container full-width-container">
+    <% if current_user.nylas_calendar_setting_id %>
+      <div class="ui horizontal segments no-border m-y-0">
+        <div class="ui very basic segment p-a-0">
+          <h1 class="ui header">
+            <%= link_to("Calendar", "javascript:void(0)") %>
+          </h1><!-- /.ui header -->
+          <div class="ui hidden divider"></div>
+          <%= link_to(calendar_new_event_path, class: "ui button primary") do %>
+            <i class="plus icon"></i>
+            Add Event
+          <% end %>
+          <div class="ui grid p-a-0 m-t">
+            <div class="ui sixteen column">
+              <div data-info="calendar" data-cal-events-resource="/nylas_accounts/calendar" >
+              </div>
+              <div class="ui disabled inverted dimmer" data-behavior="loader">
+                <div class="ui text loader">Loading</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if super_admin_signed_in? %>
+        <div class="ui segments">
+          <div class="ui top attached negative icon message">
+            <i class="wrench icon"></i>
+            <div class="content">
+              <div class="header">
+                Super Admin
+              </div><!-- /.header -->
+            </div><!-- /.content -->
+          </div><!-- /.ui top attached warning message -->
+          <div class="ui attached segment">
+            <div>
+              <div>
+                </br>
+                <b>Events for debugging:</b> Total events from Nylas <b><span data-info="events-count">0</span></b>
+              </div>
+              </br>
+              <div>
+                <table style="width:100%;border: 1px solid black;border-spacing: 5px;">
+                  <thead>
+                    <tr style="border: 1px solid black">
+                      <th style="border: 1px solid black">ID</th>
+                      <th style="border: 1px solid black">Title</th>
+                      <th style="border: 1px solid black">Start time</th>
+                      <th style="border: 1px solid black">End time</th>
+                    </tr>
+                  </thead>
+                  <tbody data-info="debug-events">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- /.ui attached segment -->
+        </div><!-- /.ui segments -->
+      <% end %>
+    <% else %>
+      You haven't connected to your calendar yet.
+    <% end %>
+  </div>
+</div>

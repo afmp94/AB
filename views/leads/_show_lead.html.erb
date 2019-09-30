@@ -1,0 +1,205 @@
+<% content_for(:demo_button, "lead-show") %>
+<% breadcrumb(:lead, lead) %>
+<%= render(partial: "leads/header/main", locals: { lead: lead }) %>
+
+<div class="ui main container full-width-container">
+  <div class="ui internally divided stackable grid" >
+    <div class="row" data-introjs-step="step322">
+      <div class="column">
+        <% if lead.state != "claimed" %>
+          <%= link_to(
+            "Claim This Lead",
+            claim_lead_path(lead, { user_id: current_user }),
+            method: :patch,
+            class: "ui button",
+            data: { "mobile-app-forced-patch-link": request_from_mobile_app? }
+          ) %>
+          <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+            <div class="text">Refer This Lead</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <% @user_lead_groups_owned_or_part_of.each do |lead_group| %>
+                <%= link_to(
+                  "Refer to #{lead_group.name}",
+                  refer_lead_public_lead_path(
+                    lead,
+                    { user_id: current_user, lead_group_id: lead_group.id }
+                  ),
+                  method: :patch,
+                  data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                  confirm: "You are about to refer #{lead.contact.full_name} to Lead Group: #{lead_group.name}. This will stop all automated lead forwarding related actions for this lead. Are you sure?",
+                  class: "item"
+                ) %>
+              <% end %>
+            </div><!-- /.menu -->
+          </div><!-- /.ui floating dropdown button -->
+        <% else %>
+          <%= link_to(
+            "Unclaim Lead",
+            unclaim_lead_path(lead),
+            class: "ui button",
+            "data-loading-text" => "Unclaiming...",
+            method: :patch,
+            data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+          ) %>
+          <% if lead.snoozed_by_id %>
+            <%= link_to(
+              "Unsnooze Lead",
+              unsnooze_lead_path(lead),
+              class: "ui button",
+              method: :patch,
+              data: {
+                "loading-text": "Unclaiming...",
+                "mobile-app-forced-patch-link": request_from_mobile_app?
+              }
+            ) %>
+          <% end %>
+        <% end %>
+        <% if lead.user == current_user %>
+          <%= link_to(
+            "Merge",
+            open_merge_lead_modal_lead_path,
+            data: { toggle: "tiny-modal", target: "#tinyModal"},
+            class: "ui basic button",
+            remote: true
+          ) %>
+        <% end %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <% if lead.client_type == "Buyer" %>
+        <div class="eight wide column" data-introjs-step=step323>
+          <%= render(
+            partial: "leads/actions/list",
+            locals: { columns: "sixteen wide column", lead: lead }
+          ) %>
+        </div><!-- /.eight wide column -->
+        <div class="eight wide column">
+          <% if properties.empty? %>
+            <%= link_to(
+              "Add New Property",
+              new_lead_property_path(lead),
+              class: "ui primary button",
+              data: { trail: breadcrumb_trail }
+            ) %>
+            <%= no_data_block(
+              icon_class: "checkmark",
+              title: "Buyer Properties",
+              message: "No Current Properties."
+            ) %>
+          <% else %>
+            <%# cache([
+              "properties_card_column",
+              lead.properties.pluck(:id),
+              lead.properties.maximum(:updated_at)
+            ]) do %>
+              <%= render(
+                partial: "leads/properties/card_column",
+                locals: { lead: lead, properties: properties }
+              ) %>
+            <%# end %>
+          <% end %>
+        </div><!-- /.eight wide column -->
+      <% else %>
+        <div class="eight wide column" data-introjs-step=step323>
+          <%= render(
+            partial: "leads/actions/list",
+            locals: { columns: "eight wide column", lead: lead }
+          ) %>
+        </div><!-- /.eight wide column -->
+      <% end %>
+
+
+    </div><!-- /.row -->
+
+    <div class="row">
+      <div class="eight wide column">
+        <% if show_beta_features? %>
+          <%= render(
+            partial: "leads/sections/action_plans",
+            locals: { lead: lead }
+          ) %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="eight wide column" data-introjs-step=step324>
+        <% if lead.contact.social_info_present? %>
+          <h3 class="ui header">Researched Info</h3>
+          <div class="ui cards m-b-md">
+            <%= render(
+              partial: "contacts/social_card",
+              locals: { contact: lead.contact }
+            ) %>
+          </div><!-- /.ui cards -->
+        <% end %>
+        <%= render(partial: "leads/info/list", locals: { lead: lead }) %>
+      </div><!-- /.eight wide column -->
+      <div class="eight wide column" data-introjs-step=step325>
+        <%= render(
+          partial: "leads/stream/tabbed_section",
+          locals: {
+            lead: lead,
+            activities: activities,
+            activities_url: activities_url
+          }
+        ) %>
+      </div><!-- /.eight wide column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui grid -->
+</div><!-- /.ui main container -->
+
+<% if show_beta_features? %>
+  <script type="text/javascript">
+    function startIntro() {
+      var intro = introJs();
+        intro.setOptions({
+          steps: [
+            {
+              intro: "Whether it is a buyer or seller, the Lead Show Page displays relevant details about your Lead and their potential."
+              ,
+              position: 'top'
+            },
+            {
+              element: '[data-introjs=step11]',
+              intro: "The header displays Lead type and contact details - name, phone and email."
+              ,
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step21]',
+              intro: "Headlines feature the Lead status (contacted, not contacted, waiting for reply, attempted contact) and length of time since last response.",
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step22]',
+              intro: "Convert the Lead quickly.  Claim, Unclaim or refer the Lead.",
+              position: 'bottom'
+            },
+            {
+              element: '[data-introjs=step23]',
+              intro: "Quickly add a property and/or take action on the Lead.",
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step24]',
+              intro: "Continue to capture key Lead details on the Lead including key preferences, lead and property details and commissions.",
+              position: 'right'
+            },
+            {
+              element: '[data-introjs=step25]',
+              intro: "Easy to add a task, capture comments, send emails or record events such as calls, notes or visits.                          <%= white_labeled_app_name(current_subdomain) %> automatically keeps an history of your task, comments, emails and logs activity updates which you can scroll."
+              ,
+              position: 'left'
+            },
+            {
+              intro: "Our single page view is designed to make it simple and easy to use.",
+              position: 'bottom'
+            }
+          ]
+        });
+        intro.start();
+    }
+  </script>
+<% end %>

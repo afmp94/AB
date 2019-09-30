@@ -1,0 +1,24 @@
+<%= simple_form_for(
+  @lead,
+  html: { data: { fv_live: "submitted", form: "seller_client_commission_form" } },
+  remote: true
+) do |form| %>
+  <%= hidden_field_tag :inline_form, "sc_commission" %>
+  </br>
+  <div class="well">
+    <%= render(
+      partial: "leads/form_fields/broker_split_form",
+      locals: { form: form, user: @lead.user }
+    ) %>
+  </div>
+
+  <%= form.button(
+    :submit,
+    class: "ui primary button  mar-r3",
+    "data-disable-with": "Saving...",
+    value: "Save",
+    remote: true
+  ) %>
+
+  <a data-cancel-section="#commission-section" class="clickable">Cancel</a>
+<% end %>

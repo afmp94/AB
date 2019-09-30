@@ -1,0 +1,26 @@
+<% content_for(:body_class, "grey_background") %>
+<div class="row">
+  <div class="col-xs-12 login-logo">
+    <div class="bounding-box"></div>
+  </div>
+</div>
+
+<!--HEADER-->
+<div class="row">
+  <div class="lastUnit col-sm-12 header form-signin">
+    <h1>Assessment sign in</h1>
+  </div>
+</div>
+<!--END HEADER-->
+
+<div class="row">
+  <div class="new-record-wrapper line active">
+    <%= form_tag(assessment_email_login_path, method: :get, class: "new-record below48 form-signin") do %>
+      <%= text_field_tag(:email) %>
+      <br />
+      <br />
+      <%= submit_tag "Login" %>
+    <% end %>
+  </div>
+</div>
+

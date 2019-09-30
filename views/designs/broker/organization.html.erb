@@ -1,0 +1,135 @@
+<%# breadcrumb(:team_teammates) %>
+<!-- SIDEBAR MENU -->
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Organization",
+    secondary_name: "Broker"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">Organization Profile</h2>
+  <form class="ui form max-width-600">
+    <div class="field">
+      <div class="field">
+        <label>Brokerage Name</label>
+        <input type="text" />
+      </div><!-- /.field -->
+    </div><!-- /.field -->
+    <div class="two fields">
+      <div class="field">
+        <label>Phone Number</label>
+        <input type="text" />
+      </div><!-- /.field -->
+      <div class="field">
+        <label>Fax Number</label>
+        <input type="text" />
+      </div><!-- /.field -->
+    </div><!-- /.two fields -->
+    <div class="field">
+      <label>Company Website</label>
+      <input type="text" />
+    </div><!-- /.field -->
+
+    <div class="field">
+      <label>Address</label>
+      <input type="text" />
+    </div><!-- /.field -->
+
+    <div class="two fields">
+      <div class="field">
+        <label>City</label>
+        <input type="text" />
+      </div><!-- /.field -->
+      <div class="field">
+        <label>State</label>
+        <input type="text" />
+      </div><!-- /.field -->
+    </div><!-- /.two fields -->
+    <div class="two fields">
+      <div class="field">
+        <label>Zip</label>
+        <input type="text" />
+      </div><!-- /.field -->
+      <div class="field">
+        <label>Country</label>
+        <input type="text" />
+      </div><!-- /.field -->
+    </div><!-- /.two fields -->
+    <div class="field">
+      <label>Time Zone</label>
+      <input type="text" />
+    </div><!-- /.field -->
+    <div class="ui primary button">Update</div>
+    <div class="ui basic button">Cancel</div>
+  </form><!-- /.ui form -->
+
+  <h2 class="ui dividing header">Offices</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Office</th>
+        <th>Active Agents</th>
+        <th>Inactive Agents</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="breakword">
+          Madison
+        </td>
+        <td>
+          22
+        </td>
+        <td>
+          4
+        </td>
+        <td class="collapsing">
+          <div class="ui red basic button">Deactivate</div>
+          <div class="ui red basic icon button"><i class="trash icon"></i></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">
+          Guilford
+        </td>
+        <td>
+          28
+        </td>
+        <td>
+          6
+        </td>
+        <td class="collapsing">
+          <div class="ui red basic button">Deactivate</div>
+          <div class="ui red basic icon button"><i class="trash icon"></i></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">
+          Old Saybrook
+          <div class="ui red horizontal label">Inactive</div><!-- /.ui horizonatal red label -->
+        </td>
+        <td>
+          0
+        </td>
+        <td>
+          0
+        </td>
+        <td class="collapsing">
+          <div class="ui green basic button">Reactivate</div>
+          <div class="ui red basic icon button"><i class="trash icon"></i></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="ui dividing header">Add a new office</h2>
+  <form class="ui form max-width-600">
+    <div class="field">
+      <label>Name</label>
+      <input type="text" />
+    </div><!-- /.field -->
+    <div class="ui primary button">Add</div>
+  </form><!-- /.ui form max-width-600 -->
+<% end %>

@@ -1,0 +1,127 @@
+<% content_for(:title, "#{@contact.name}") %>
+<% content_for(:demo_button, "contact-show") %>
+<% breadcrumb(:contact, @contact) %>
+
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction" data-info="contact-introduction"  data-introjs-step="step220">
+      <%= render partial: "contacts/show/introduction", locals: { contact: @contact } %>
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical tab segment -->
+
+=
+<div class="ui main container full-width-container" data-contact-show-id="<%= @contact.id %>">
+  <div class="ui internally divided stackable grid"  >
+    <!-- MENU BUTTONS -->
+    <div class="row" data-introjs-step="step221">
+      <div class="column ab-fluid-button__container">
+        <%= link_to(
+          "Log New Activity",
+          new_contact_activity_path(
+            contact_id: @contact.id
+          ),
+          class: "ui basic button",
+          data: { trail: breadcrumb_trail }
+        ) %>
+        <%= link_to(
+          "Add as New Client",
+          new_lead_path(contact_id: @contact.id, from_page: FromPage::CONTACTS_SHOW),
+          class: "ui basic button",
+          data: { trail: breadcrumb_trail }
+        ) %>
+        <%= link_to(
+          "View Campaigns",
+          contacts_email_campaigns_sent_path(id: @contact.id),
+          class: "ui basic button",
+          data: { trail: breadcrumb_trail }
+        ) %>
+        <%= link_to(
+          "Merge",
+          open_merge_modal_contact_path,
+          data: { toggle: "tiny-modal", target: "#tinyModal"},
+          class: "ui basic button",
+          remote: true
+        ) %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <!-- INFO AND FEED COLUMNS -->
+    <div class="row" data-info="contact-tabs-container">
+      <div class="eight wide column" data-introjs-step="step222">
+        <% if @contact.transactions.present? %>
+          <%= render(
+              partial: "contacts/sections/transactions",
+              locals: { contact: @contact }
+          ) %>
+        <% end %>
+
+        <% if show_beta_features? %>
+          <% if @contact.action_plan_memberships.present? %>
+            <%= render(
+              partial: "contacts/sections/action_plans",
+              locals: { contact: @contact }
+            ) %>
+          <% else %>
+            <div id="contact-action_plans-section" class="info-list-section">
+              <h3 class="ui dividing header">Action Plans</h3>
+              <%= link_to("Add to a action plan today!", action_plans_path) %>
+            </div>
+          <% end %>
+        <% end %>
+        <%= render(
+          partial: "contacts/sections/details",
+          locals: {
+            contact: @contact,
+            email_addresses: @email_addresses,
+            phone_numbers: @phone_numbers
+          }
+        ) %>
+        <div class="ui cards m-b-md">
+          <%= render(
+            partial: "contacts/social_card",
+            locals: { contact: @contact }
+          ) %>
+        </div>
+        <%= render(
+          partial: "contacts/sections/correspondence",
+          locals: { contact: @contact}
+        ) %>
+        <%= render(
+          partial: "contacts/sections/work_info",
+          locals: { contact: @contact }
+        ) %>
+        <% if super_admin_signed_in? %>
+          <%= render(
+            partial: "contacts/sections/admin",
+            locals: { contact: @contact }
+          ) %>
+        <% end %>
+      </div><!-- /.eight wide column -->
+      <div class="eight wide column" data-introjs-step="step223">
+        <%= render(
+          partial: "contacts/stream/tabbed_section",
+          locals: {
+            contact:         @contact,
+            activities:      @activities,
+            messages:        @messages,
+            activities_url:  @activities_url,
+            sms_message:     @sms_message,
+            sms_messages:    @sms_messages,
+            contact_numbers: @contact_numbers
+          }
+        ) %>
+      </div><!-- /.eight wide column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui internally divided stackable grid -->
+</div><!-- /.ui main container -->
+
+
+<script>
+  $('[data-behavior~=email-campaign-activity]').click(function() {
+    window.location.href="<%= contacts_email_campaigns_sent_path(id: @contact.id) %>";
+  });
+
+  // Initialize tabs
+  $(".js-main-section-menu .item").tab();
+  $(".js-side-section-menu .item").tab();
+</script>

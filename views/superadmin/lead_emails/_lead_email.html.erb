@@ -1,0 +1,19 @@
+<tr class="<%= lead_email_row_class(lead_email) %>">
+  <td><%= link_to lead_email.id, lead_email_path(lead_email) %></td>
+  <td><%= lead_email.importing_state %></td>
+  <td><%= lead_email.date&.to_time&.to_s(:util_datetime_seconds) %></td>
+  <td><%= lead_email.created_at.to_s(:util_datetime_seconds) %></td>
+  <td><%= lead_email&.lead&.created_at&.to_s(:util_datetime_seconds) %></td>
+  <td><%= time_to_process_lead_email(lead_email) %></td>
+  <td><%= lead_email.recipient %></td>
+  <td><%= link_to lead_email.subject, lead_email_path(lead_email) %></td>
+  <td class="align right">
+    <%= link_to(
+      "Process",
+      lead_email_lead_email_parsers_path(lead_email),
+      method: :post,
+      remote: true,
+      data: { disable_with: "Processed.", confirm: "This could affect user data. Make sure you know what you're doing" }
+    ) %>
+  </td>
+</tr>

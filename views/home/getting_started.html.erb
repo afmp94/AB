@@ -1,0 +1,19 @@
+<% content_for(:title, "Getting started") %>
+<div class="ui center aligned grid">
+  <div class="row">
+    <div class="column">
+      <h1 class="ui header m-t-lg">
+        <div class="content">
+          Welcome to <%= white_labeled_app_name(current_subdomain) %>, <%= @user.first_name %>!
+          <h3 class="ui grey header m-t-sm">Takes just 20 minutes</h3>
+           <h3 class="ui header m-t-sm" >Click step 1 below to get started!</h3>
+        </div><!-- /.content -->
+      </h1>
+    </div><!-- /.column -->
+  </div><!-- /.row -->
+  <div class="ui center floated segment">
+    <div class="ui ordered vertical steps">
+      <%= render(partial: "profile_steps/navigation_links") %>
+    </div><!-- /.ui.vertical.steps -->
+  </div><!-- /.ui.segment -->
+</div><!-- /.ui.grid -->

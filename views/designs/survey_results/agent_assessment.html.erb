@@ -1,0 +1,757 @@
+<style type="text/css">
+
+  .masthead.segment {
+    min-height: 700px;
+    padding: 1em 0em;
+  }
+
+  /*.masthead h1.ui.header {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+  }
+  .masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+  }*/
+
+  .masthead .main-score h1.ui.header {
+    font-size: 4em;
+    font-weight: bold;
+  }
+
+  .progress-report {
+    max-width: 400px;
+    margin-top: 6em;
+    margin-bottom: 6em;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .assessment-section h1.ui.header {
+    font-size: 4em;
+  }
+
+  .section-progress-bar {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-score {
+    font-size: 3em;
+  }
+
+  .ui.container.section-metric-breakdown {
+    max-width: 900px;
+  }
+
+  .ui.vertical.stripe {
+    padding: 8em 0em;
+  }
+  .ui.vertical.stripe h3 {
+    font-size: 2em;
+  }
+  .ui.vertical.stripe .button + h3,
+  .ui.vertical.stripe p + h3 {
+    margin-top: 3em;
+  }
+  .ui.vertical.stripe .floated.image {
+    clear: both;
+  }
+  .ui.vertical.stripe p {
+    font-size: 1.33em;
+  }
+  .ui.vertical.stripe .horizontal.divider {
+    margin: 3em 0em;
+  }
+
+  .quote.stripe.segment {
+    padding: 0em;
+  }
+  .quote.stripe.segment .grid .column {
+    padding-top: 5em;
+    padding-bottom: 5em;
+  }
+
+  .footer.segment {
+    padding: 5em 0em;
+  }
+
+  .secondary.pointing.menu .toc.item {
+    display: none;
+  }
+
+  @media only screen and (max-width: 700px) {
+    .ui.fixed.menu {
+      display: none !important;
+    }
+    .secondary.pointing.menu .item,
+    .secondary.pointing.menu .menu {
+      display: none;
+    }
+    .secondary.pointing.menu .toc.item {
+      display: block;
+    }
+    .masthead.segment {
+      min-height: 350px;
+    }
+    .masthead h1.ui.header {
+      font-size: 2em;
+      margin-top: 1.5em;
+    }
+    .masthead h2 {
+      margin-top: 0.5em;
+      font-size: 1.5em;
+    }
+  }
+
+  .ui.vertical.segment.assessment-section.off-white-section {
+    background-color: lightgray;
+  }
+
+  .GaugeMeter {
+    position: Relative;
+    text-align: Center;
+    cursor: default;
+    display: inline-block;
+    margin-bottom: -100px;
+  }
+
+  .GaugeMeter.main-gauge {
+    margin-bottom: -100px;
+    overflow: hidden;
+  }
+
+  .GaugeMeter SPAN, .GaugeMeter B {
+    width: 54%;
+    position: Absolute;
+    text-align: Center;
+    display: Inline-Block;
+    color: RGBa(0,0,0,.8);
+    font-weight: 100;
+    font-family: "Open Sans", Arial;
+    overflow: Hidden;
+    white-space: NoWrap;
+    text-overflow: Ellipsis;
+    margin: 0 23%;
+  }
+
+  .GaugeMeter[data-style="Semi"] B {
+    width: 80%;
+    margin: 0 10%;
+  }
+
+  .GaugeMeter S, .GaugeMeter U {
+    text-decoration: None;
+    font-size: .60em;
+    font-weight: 200;
+    opacity: .6;
+  }
+
+  .GaugeMeter B {
+    color: #000;
+    font-weight: 200;
+    opacity: .8;
+  }
+</style>
+
+<!-- Page Contents -->
+<div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui text container top-header">
+    <i class="dashboard icon huge"></i>
+    <h2 class="ui inverted header m-t-0 m-b-0">
+      AGENT ASSESSMENT
+    </h2><!-- /.ui inverted header -->
+    <h5 class="m-t-0">Powered by AgentBright</h4>
+    </div><!-- /.ui text container -->
+
+    <div class="ui text container main-score">
+      <div data-behavior="gauge-meter" class="GaugeMeter main-gauge" data-percent="75" data-size="400" data-back="RGBa(0,0,0,.1)" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="15"data-style="Arch" data-label_color="#FFF"></div>
+      <h1 class="ui inverted header">
+        <span class="fwb">Your business is solid.</span>
+        <div class="sub header">
+          Not bad! Let's see how we can go to the next level.
+        </div><!-- /.sub header -->
+      </h1>
+    </div>
+    <div class="ui container">
+      <div class="progress-report">
+        <div class="ui small red inverted progress" data-percent="30" data-ui-progress-bar="total-score">
+          <div class="label">Branding</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small yellow inverted progress" data-percent="60" data-ui-progress-bar="total-score">
+          <div class="label">Database</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small green inverted progress" data-percent="80" data-ui-progress-bar="total-score">
+          <div class="label">Relationship Marketing</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small green inverted progress" data-percent="80" data-ui-progress-bar="total-score">
+          <div class="label">Mass Marketing</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small yellow inverted progress" data-percent="60" data-ui-progress-bar="total-score">
+          <div class="label">Lead Response</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small yellow inverted progress" data-percent="50" data-ui-progress-bar="total-score">
+          <div class="label">Prospect Conversion</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small red inverted progress" data-percent="25" data-ui-progress-bar="total-score">
+          <div class="label">Service</div>
+          <div class="bar"></div>
+        </div>
+        <div class="ui small red inverted progress" data-percent="30" data-ui-progress-bar="total-score">
+          <div class="label">Sales Pipeline</div>
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.progress-report -->
+    </div><!-- /.ui text container -->
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          BRANDING
+          <div class="sub header">
+            Having a consistent, professional presence is crucial to expanding your business.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">TESTIMONIALS</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>HEADSHOT</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>BIO</h3>
+          <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="75" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>WEBSITE</h3>
+          <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="75" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>ONLINE PROFILES</h3>
+          <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="75" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.ui text container -->
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg off-white-section">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          DATABASE
+          <div class="sub header">
+            Your database of contacts and relationships is the foundation of every successful agent's business.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">CONTACT MANAGEMENT</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            What do you use most often to keep track of your contacts?
+          </p>
+        </div>
+        <div class="column">
+          <h3>COMMUNITY INVOLVEMENT</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            How involved are you with local organizations or groups?
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>GROUPING CONTACTS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>RANKING CONTACTS</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>SERVICES PROVIDERS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>TRACK REFERRALS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.ui text container -->
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          RELATIONSHIP MARKETING
+          <div class="sub header">
+            The consistent communication with your database has the highest return on investment of any activity an agent can do
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">CONTACT SIZE</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            What do you use most often to keep track of your contacts?
+          </p>
+        </div>
+        <div class="column">
+          <h3>PERSONAL CONTACT</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            How involved are you with local organizations or groups?
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>SOCIAL MEDIA</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>PAST CLIENTS</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+</div>
+
+  <div class="ui vertical stripe segment assessment-section m-b-lg off-white-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score>7</span>/10</h2>
+          <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            MASS MARKETING
+            <div class="sub header">
+              Modern agents are leveraging technology to expand their audience, as well as track what is working best.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">EMAIL MARKETING</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            What do you use most often to keep track of your contacts?
+          </p>
+        </div>
+        <div class="column">
+          <h3>MAIL MARKETING</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            How involved are you with local organizations or groups?
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>AREA FARMING</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>SOCIAL MEDIA</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          LEAD RESPONSE
+          <div class="sub header">
+            Responding to leads quickly and professionally will dramatically improve your conversion rates.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>IMMEDIATE RESPONSE</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>TRACK LEADS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>LEAD SOURCE MEASUREMENT</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>LEAD RETARGETING</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg off-white-section">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          PROSPECT CONVERSION
+          <div class="sub header">
+            Automate the process of followup, reminders, retargeting and email campaigns.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">FOLLOW-UP SYSTEM</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>PROSPECT MATERIALS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.ui text container -->
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          SERVICE
+          <div class="sub header">
+            Present clear expectations and deliver responsive service to your clients, and they'll be more likely to recommend and refer you to others.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+    </div><!-- row -->
+  </div><!-- segment -->
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled relaxed grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3 class="ui header">MARKETING PLAN</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            What do you use most often to keep track of your contacts?
+          </p>
+        </div>
+        <div class="column">
+          <h3>LISTING PREPARATION PLAN</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            How involved are you with local organizations or groups?
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>SERVICE REPORTS</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>SELLER COMMUNICATION</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>BUYER COMMUNICATION</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.ui text container -->
+</div>
+
+<div class="ui vertical stripe segment assessment-section m-b-lg off-white-section">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="center aligned column section-progress-bar">
+        <h2><span class=section-score>7</span>/10</h2>
+        <div class="ui yellow progress" data-percent="70" data-ui-progress-bar="total-score">
+          <div class="bar"></div>
+        </div>
+      </div><!-- /.center aligned column -->
+    </div><!-- /.row -->
+    <div class="row">
+      <div class="center aligned column">
+        <h1 class="ui header">
+          PIPELINE
+          <div class="sub header">
+            Managing every stage of your pipeline will keep it flowing steadily, overcoming the ups and downs of the seasonal real estate market.
+          </div><!-- /.sub header -->
+        </h1>
+      </div><!-- /.center aligned column -->
+      <!-- <div class="eight wide column">
+        <h3 class="ui header">We Help Companies and Companions</h3>
+        <p>We can give your company superpowers to do things that they never thought possible. Let us delight your customers and empower your needs...through pure data analytics.</p>
+        <h3 class="ui header">We Make Bananas That Can Dance</h3>
+        <p>Yes that's right, you thought it was the stuff of dreams, but even bananas can be bioengineered.</p>
+      </div>
+      <div class="six wide right floated column">
+        <img src="http://semantic-ui.com/examples/assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
+      </div> -->
+    </div>
+  </div>
+  <div class="ui container section-metric-breakdown">
+    <div class="ui equal width stackable internally celled grid m-t-lg">
+      <div class="center aligned row">
+        <div class="column">
+          <h3>CLIENT MANAGEMENT</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            Do you have your database of contacts sorted into groups?
+          </p>
+        </div>
+        <div class="column">
+          <h3>DAILY PIPELINE REVIEW</h3>
+          <i class="remove red icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+        <div class="column">
+          <h3>DAILY TASK LIST</h3>
+          <i class="check green icon huge"></i>
+          <p>
+            A crisp headshot that reflects how you look builds trust and communications your professionalism.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.ui text container -->
+</div>
+
+<!-- <div class="ui vertical stripe segment">
+  <div class="ui text container">
+    <h3 class="ui header">Breaking The Grid, Grabs Your Attention</h3>
+    <p>Instead of focusing on content creation and hard work, we have learned how to master the art of doing nothing by providing massive amounts of whitespace and generic content that can seem massive, monolithic and worth your attention.</p>
+    <a class="ui large button">Read More</a>
+    <h4 class="ui horizontal header divider">
+      <a href="#">Case Studies</a>
+    </h4>
+    <h3 class="ui header">Did We Tell You About Our Bananas?</h3>
+    <p>Yes I know you probably disregarded the earlier boasts as non-sequitur filler content, but its really true. It took years of gene splicing and combinatory DNA research, but our bananas can really dance.</p>
+    <a class="ui large button">I'm Still Quite Interested</a>
+  </div>
+</div> -->
+
+<div class="ui inverted vertical footer segment">
+  <div class="ui container">
+    <div class="ui stackable inverted divided equal height stackable grid">
+      <div class="three wide column">
+        <h4 class="ui inverted header">About</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">Sitemap</a>
+          <a href="#" class="item">Contact Us</a>
+          <a href="#" class="item">Religious Ceremonies</a>
+          <a href="#" class="item">Gazebo Plans</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="ui inverted header">Services</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">Banana Pre-Order</a>
+          <a href="#" class="item">DNA FAQ</a>
+          <a href="#" class="item">How To Access</a>
+          <a href="#" class="item">Favorite X-Men</a>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <h4 class="ui inverted header">Footer Header</h4>
+        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $('[data-ui-progress-bar=total-score]').progress();
+  $('[data-behavior=gauge-meter]').gaugeMeter();
+</script>

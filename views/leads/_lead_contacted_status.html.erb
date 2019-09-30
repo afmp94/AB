@@ -1,0 +1,1 @@
+<span class="label label-<%= contacted_status_to_color(lead) %>"><strong><% if lead.state == "claimed" %><%= lead.contacted_status_to_s %><% else %>Unclaimed<% end %></strong></span>

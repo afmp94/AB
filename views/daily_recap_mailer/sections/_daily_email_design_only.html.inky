@@ -1,0 +1,690 @@
+  <row>
+    <columns small="8" large="1" >
+      <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="https://a.radikal.ru/a02/1801/c0/6fbb9e835fb0.png" />
+    </columns>
+    <columns small="20" valign="bottom">
+      <center>
+        <h2>AgentBright Daily Recap</h2>
+        <h3> <small>2/1/18</small></h3>
+      </center>
+    </columns>
+  </row>
+
+  <row>
+    <columns small="12" large="12">
+      <row>
+        <columns small="1" large="1"></columns>
+        <columns small="5" large="5" class="large-offset-1" valign="middle" style="background-color: #A9A9A98;border-radius:6px; width: 30%;
+        -moz-border-radius:6px;">
+          <row>
+             <h3 class="text-center" style=" height: 10px;width: 100%;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 16px; text-decoration: underline;" >
+            2019 Goals</h3>
+          </row>
+          <row>
+            <h3 class="text-center" style="height: 10px; width: 100%;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 16px;" >$100,000</h3>
+          </row>
+        </columns>
+        <columns small="1" large="1"></columns>
+        <columns small="5" large="5" class="large-offset-1" valign="middle" style="background-color: #A9A9A98;border-radius:6px; width: 30%; -moz-border-radius:6px;">
+          <row>
+            <h3 class="text-center" style=" height: 10px;width: 100%;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 16px; text-decoration: underline;">Actuals</h3>
+          </row>
+          <row>
+            <h3 class="text-center" style="height: 10px; width: 100%;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 16px;" >$42,000</h3>
+          </row>
+        </columns>
+      </row>
+      <spacer size="6"></spacer>
+      <%# if @quote.present? %>
+        <row>
+          <columns small="12" large="12" class="large-offset-10">
+            <row>
+              <h3 class="text-center" style=" height: 10px;width: 100%;color:#2B547E; margin-top: 5px; margin-bottom: 5px; font-size: 16px; text-decoration: underline;" >
+                <i>"Quote of the Day Goes here - Nothing to it but to do it"</i>
+              </h3>
+              <br/>
+              <h4 class="text-center" style=" height: 10px;width: 100%;color:#2B547E; margin-top: 5px; margin-bottom: 5px; font-size: 14px;">
+                - Ben Franklin
+              </h4>
+            </row
+          </columns>
+        </row>
+      <%# end %>
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+    <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 22px;"
+      >Key happenings TODAY</h3>
+  </columns>
+</row>
+
+<%# if @events.present? || @important_dates.present? %>
+  <%# if @events.present? && @events.count.nonzero? %>
+    <spacer size="6"></spacer>
+    <row>
+      <columns small="12" large="12" style="background-color: #E3ECF5;">
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+              Today's Calendar
+          </h3>
+      </columns>
+    </row>
+    <spacer size="6"></spacer>
+    <%# @events.each do |event| %>
+      <row>
+        <columns small="2" large="2">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+            <strong>7:00 AM</strong>
+          </span>
+        </columns>
+        <columns small="6" large="6">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+            <row>
+               Breakfast with Tiffany
+            </row>
+          </span>
+        </columns>
+      </row>
+      <row>
+        <columns small="2" large="2">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+            <strong>10:00 AM</strong>
+          </span>
+        </columns>
+        <columns small="6" large="6">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+            <row>
+               Office Meeting
+            </row>
+          </span>
+        </columns>
+      </row>
+      <row>
+        <columns small="2" large="2">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+            <strong>8:00 PM</strong>
+          </span>
+        </columns>
+        <columns small="6" large="6">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+            <row>
+               Dinner with Jen and Jim
+            </row>
+          </span>
+        </columns>
+      </row>
+    <%# end %>
+    <row>
+      <columns small="12" large="12" style="background-color: #E3ECF5;">
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+              Today's Reminders
+          </h3>
+      </columns>
+    </row>
+  <%# end %>
+
+  <spacer size="6"></spacer>
+
+  <%# @important_dates.each do |important_date| %>
+    <row>
+      <columns small="1" large="1">
+      <%# if important_date.contact&.display_image&.file&.url.present? %>
+        <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+      <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <strong> Beth Boring</strong>
+        </span>
+        860-575-6950
+      </columns>
+      <columns small="5" large="5">
+        <strong> Beth (Birthday)</strong>
+      </columns>
+    </row>
+    <row>
+      <columns small="1" large="1">
+      <%# if important_date.contact&.display_image&.file&.url.present? %>
+        <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+      <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <strong> John Smith</strong>
+        </span>
+        860-575-6950
+      </columns>
+      <columns small="5" large="5">
+        <strong>John's and Judy Anniversary</strong>
+      </columns>
+    </row>
+  <%# end %>
+<%#else %>
+  <spacer size="6"></spacer>
+  Click here to start marketing
+  <spacer size="6"></spacer>
+<%# end %>
+
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+    <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 0px; font-size: 22px;" >Tasks</h3>
+  </columns>
+</row>
+
+<spacer size="6"></spacer>
+
+<%# if @tasks_due_today_and_overdue.count > 0 %>
+  <row>
+    <columns small="12" large="12" style="background-color: #E3ECF5;">
+      <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+            Today + Overdue
+        </h3>
+    </columns>
+  </row>
+
+  <spacer size="6"></spacer>
+
+  <%# @tasks_due_today_and_overdue.first(3).each do |task| %>
+    <row>
+      <columns small="1" large="1">
+        <%# if task.taskable&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+           <strong>
+          <row>
+            Update key Information (Closing date, Price, Commission) - may impact your Income Goals</row>
+          <row>
+           - Miriam Hobbs (Buyer) (Client</row></strong> </span>
+      </columns>
+      <columns small="3" large="3">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Date due: 2/1/18 %>
+          </span>
+      </columns>
+      <columns small="2" large="2">
+          <span>
+            <button href="<%#= edit_task_url(task) %>" target="_blank" class="rounded small-expanded secondary button-size: tiny">Update</button>
+          </span>
+      </columns>
+    </row>
+    <row>
+      <columns small="1" large="1">
+        <%# if task.taskable&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+           <strong>
+          <row>
+            Complete Final Walkthru Checklist</row>
+          <row>
+           - Stuart Dowsett - 99 Main Street Guilford (Seller) (Client)</row></strong> </span>
+      </columns>
+      <columns small="3" large="3">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Date due: 2/9/18 %>
+          </span>
+      </columns>
+      <columns small="2" large="2">
+        <span>
+          <button href="<%#= edit_task_url(task) %>" target="_blank" class="rounded small-expanded secondary button-size: tiny">Update</button>
+        </span>
+      </columns>
+    </row>
+  <%# end %>
+
+  <row>
+    <columns valign="middle" small="12" large="12"  style="background-color: #E3ECF5;">
+      <h3 style="height: 5px; margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+          <strong>Team Tasks</strong>
+      </h3>
+    </columns>
+  </row>
+
+  <spacer size="6"></spacer>
+
+  <%# @todays_and_overdue_team_tasks.first(3).each do |task| %>
+    <row>
+      <columns small="1" large="1">
+        <%# if task.taskable&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+           <strong>
+          <row>
+            Complete Final Walkthru Checklist</row>
+          <row>
+           - Stuart Dowsett - 99 Main Street Guilford (Seller) (Client)</row></strong> </span>
+      </columns>
+      <columns small="3" large="3">
+        <row>
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Date due: 2/9/18 %>
+          </span>
+        </row>
+        <row>
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Jane Jones
+          </span>
+        </row>
+      </columns>
+    </row>
+  <%# end %>
+<%# else %>
+  <row>
+    <columns large="12" small="12" style="background-color: lightgreen">
+      <h2 class="text-center" style="margin:6px 0 9px;font-size:18px;font-weight:normal;margin-bottom:20px;line-height:16px;"><span style="color:#2B547E;;letter-spacing:normal;">Good Job! No Tasks Overdue<%#= "Good Job! No Tasks Overdue" %></span></h2>
+    </columns>
+  </row>
+<%# end %>
+<row>
+  <columns large="12" small="12">
+    View all Tasks
+      <%#= link_to("View All Tasks", tasks_url) %>
+  </columns>
+</row>
+
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+    <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 0px; font-size: 22px;" >Leads</h3>
+  </columns>
+</row>
+<spacer size="6"></spacer>
+<%# if @leads_yesterday.count > 0 %>
+  <row>
+    <columns small="12" large="12" style="background-color: #E3ECF5;">
+      <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+          Yesterday's leads:
+        </h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <%# @leads_yesterday.each do |lead| %>
+    <row>
+      <columns small="1" large="1">
+        <%# if lead.contact&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size: 14px;line-height: 150%;text-align: left;">
+          <row>
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+              <strong>Bobby Knight<%#= lead.contact.full_name %></strong> via
+              <strong>Trulia<%#= lead.lead_source.name if lead.lead_source %></strong>
+            </span>
+          </row>
+          <row>
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+            at 1/31/18 <%#= just_time(lead.incoming_lead_at) %>
+            <em><%#= lead_status_in_email(lead, @user) %>
+            </em>
+            attempted contact
+            <%#= lead.contacted_status_to_s %>
+          </span>
+           </row>
+         </p>
+      </columns>
+      <columns small="3" large="3">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            bknight@gmail.com
+            <%#= display_primary_email_address(lead.contact) %>
+          </row>
+          <row>
+            867-123-3425
+            <%#= display_primary_phone_number(lead.contact) %>
+          </row>
+        </span>
+      </columns>
+        <columns small="2" large="2">
+          <button href="<%#= lead_url(lead) %>" target="_blank" class="rounded small-expanded secondary button-size: tiny">Update</button>
+      </columns>
+    </row>
+  <%# end %>
+   View All Leads (hyperlink)
+   <%#= link_to("View All Leads", leads_url) %>
+<%# else %>
+  <spacer size="6"></spacer>
+  If no data, wantt to see link to hints and tips for generating Leads and/or button
+  <spacer size="6"></spacer>
+<%# end %>
+
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+    <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 22px;"
+      <h2 class="text-center" style="color:#FFFFFF" >Personal Marketing Ideas</h3>
+  </columns>
+</row>
+
+<%# if @top_contacts.present? %>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small="12" large="12" style="background-color: #E3ECF5;">
+      <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+        Some people to call, write or visit:
+      </h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <%# @top_contacts.each do |contact| %>
+    <row>
+      <columns small="1" large="1">
+        <%# if contact&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            <strong>Bob Smith</strong>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px; background-color: yellow">A+</span>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;">December 22, 2018 %>
+            </span>
+          </row>
+        </span>
+      </columns>
+      <columns small="3" large="3">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            bob@gmail.com
+          </row>
+          <row>
+            860-575-9999
+          </row>
+        </span>
+      </columns>
+      <columns small="2" large="2">
+        <span>
+          <button href="<%#= new_contact_activity_url(contact_id: contact.id) %>"
+          target="_blank" class="rounded small-expanded secondary button-size:
+          tiny">Log Activity</button>
+        </span>
+      </columns>
+    </row>
+    <row>
+      <columns small="1" large="1">
+        <%# if contact&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            <strong>Samantha Sanders</strong>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px; background-color: yellow">A+</span>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;">December 22, 2018 %>
+            </span>
+          </row>
+        </span>
+      </columns>
+      <columns small="3" large="3">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            Samanta@gmail.com
+          </row>
+          <row>
+            860-575-8888
+          </row>
+        </span>
+      </columns>
+      <columns small="2" large="2">
+        <span>
+          <button href="<%#= new_contact_activity_url(contact_id: contact.id) %>"
+          target="_blank" class="rounded small-expanded secondary button-size:
+          tiny">Log Activity</button>
+        </span>
+      </columns>
+    </row>
+    <row>
+      <columns small="1" large="1">
+        <%# if contact&.display_image&.file&.url.present? %>
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+        <%# end %>
+      </columns>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            <strong>Dana Devins</strong>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px; background-color: yellow">A+</span>
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;">December 22, 2018 %>
+            </span>
+          </row>
+        </span>
+      </columns>
+      <columns small="3" large="3">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            dana@gmail.com
+          </row>
+          <row>
+            860-575-9999
+          </row>
+        </span>
+      </columns>
+      <columns small="2" large="2">
+        <span>
+          <button href="<%#= new_contact_activity_url(contact_id: contact.id) %>"
+          target="_blank" class="rounded small-expanded secondary button-size:
+          tiny">Log Activity</button>
+        </span>
+      </columns>
+    </row>
+
+  <%# end %>
+  <row>
+    <columns small="12" large="12">
+        Get In Touch (hyperlink)
+    </columns>
+  </row>
+<%# else %>
+  <spacer size="6"></spacer>
+  If no data, want a link or button to see hints and tips of creating a successful Referral based business
+  <spacer size="6"></spacer>
+<%# end %>
+
+
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+    <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 22px;" >
+      Clients
+    </h3>
+  </columns>
+</row>
+<%# if @leads.long_term_prospect_clients.count.nonzero? || @leads_for_client_activities.count.nonzero? %>
+  <row>
+    <columns large="8">
+      <!-- CLIENTS UPDATED LIST -->
+      <spacer size="3"></spacer>
+      <%# if @leads.long_term_prospect_clients.count.nonzero? %>
+        <h2 style="margin:6px 0 9px;font-size:18px;font-weight:normal;margin-bottom:20px;line-height:16px;"><span style="color:#aa9c84;letter-spacing:normal;">Reminder - Review your long term prospects</h2>
+          <%# @lead.long_term_prospects.each do |lead| %>
+            <h3 style="margin:0 0 0 18px;padding:0;list-style-type:disc;font-size:15px;line-height:19px;">
+              <%#= link_to(lead.name, lead_url(lead), target: "_blank", rel: "noopener noreferrer") %> <%#= lead.reason_for_long_term_prospect %>
+              Barbara Wiltsie - They are waiting till school is out
+            </h3>
+          <%# end %>
+      <%# end %>
+      <%# if @leads_for_client_activities.count.zero? %>
+        <h2 style="margin:6px 0 9px;font-size:18px;font-weight:normal;margin-bottom:20px;line-height:16px;">
+          <span style="color:#aa9c84;letter-spacing:normal;">
+            No Client Activity Yesterday
+          </span>
+        </h2>
+      <%# end %>
+      <spacer size="6"></spacer>
+      <%# @leads_for_client_activities.each do |lead| %>
+        <!-- CLIENT -->
+        <row>
+          <columns small="1" large="1">
+            <%# if lead.contact&.display_image&.file&.url.present? %>
+              <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/jenny.jpg">
+            <%# end %>
+          </columns>
+          <columns small ="6" large="6">
+            <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size: 14px;line-height: 150%;text-align: left;">
+              <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+                <%#= link_to(
+                  lead.name,
+                  lead_url(lead),
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  style: "color:black;text-decoration:none;font-weight:bold;letter-spacing:normal;"
+                ) %>
+                Cindy Davis
+            </span>
+          </p>
+          </columns>
+          <columns small="3" large="3">
+            <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+              <row>
+                cindy@gmail.com
+                <%#= display_primary_email_address(lead.contact) %>
+              </row>
+              <row>
+                758-123-4532
+                <%#= display_primary_phone_number(lead.contact) %>
+              </row>
+            </span>
+          </columns>
+          <columns small="2" large="2">
+            <button href="<%#= lead_url(lead) %>" target="_blank" class="rounded small-expanded secondary button-size: tiny">Update</button>
+          </columns>
+        </row>
+        <%# if lead.tasks_created_or_completed_since_yesterday.present? %>
+          <!-- TO-DOs -->
+            <h3 style="font-size:14px;font-weight:bold;line-height:20px;margin:4px 0"><span style="color:#aa9c84;letter-spacing:normal;">2 tasks added and 1 task completed<%#= display_number_of_tasks_create_and_completed_since_yesterday(lead) %></span></h3>
+          <!-- LIST -->
+            <%# lead.tasks_created_or_completed_since_yesterday.not_completed.each do |task| %>
+              <!-- TO-DO -->
+              <row>
+                <columns small="1" large="1" ></columns>
+                <columns small="1" large="1" style= style= "font-weight:normal;text-align:right;font-size:14px; line-height:80%">❏</columns>
+
+                <columns small="10" large="10" style="font-size:15px;line-height:19px;color:#000000;padding:0;border-collapse:collapse;border-spacing:0;padding-top:2px;padding-bottom:2px;vertical-align:top;width:99%; line-height:80%">
+                  <%#= link_to(
+                    task_url(task),
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    style: "color:black;text-decoration:none"
+                  ) do %>
+                    <span>Call health department<%#= task.subject %></span>
+                    <span style="font-weight:normal;font-size:12px;line-height:80%;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+                      Date due:   2/4/18<%#= task_pill_contents(task) %>
+                    </span>
+                  <%# end %>
+                </columns>
+              </row>
+            <%# end %>
+
+            <%# lead.tasks_created_or_completed_since_yesterday.completed.each do |task| %>
+              <!-- TO-DO -->
+                <row>
+                  <columns small="1" large="1" ></columns>
+                  <columns small="1" large="1" style= "font-weight:normal;text-align:right;font-size:14px">✔</columns>
+                  <columns  small="10" large="10" style= "font-weight:normal;text-align:leftt;font-size:14px">
+                    <%#= link_to(
+                      task_url(task),
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      style: "color:black;text-decoration:none"
+                    ) do %>
+                      <span>Arrange Photos for house<%#= task.subject %></span>
+                      <span style="font-weight:normal;font-size:12px;line-height:15px;color:grey">
+                        (Completed by Jane Jones<%#= task.completed_by_name %>)
+                      </span>
+                    <%# end %>
+                  </columns >
+                </row>
+                <row>
+                  <columns small="1" large="1" ></columns>
+                  <columns small="1" large="1" style= "font-weight:normal;text-align:right;font-size:14px">✔</columns>
+                  <columns  small="10" large="10" style= "font-weight:normal;text-align:leftt;font-size:14px">
+                    <%#= link_to(
+                      task_url(task),
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      style: "color:black;text-decoration:none"
+                    ) do %>
+                      <span>Schedule Open House<%#= task.subject %></span>
+                      <span style="font-weight:normal;font-size:12px;line-height:15px;color:grey">
+                        (Completed by Jane Jones<%#= task.completed_by_name %>)
+                      </span>
+                    <%# end %>
+                  </columns >
+                </row>
+            <%# end %>
+          <%# end %>
+
+          <%# if lead.comments_created_since_yesterday.present? %>
+            <!-- DISCUSSIONS -->
+              <!-- HEADING -->
+            <h3 style="font-size:14px;font-weight:bold;line-height:20px;margin:4px 0"><span style="color:#aa9c84;letter-spacing:normal;">1 comment<%#= pluralize(lead.number_of_comments_created_since_yesterday, "comment was", plural: "comments were") %> made:</span></h3>
+            <%# lead.comments_created_since_yesterday.each do |comment| %>
+              <!-- DISCUSSION -->
+              <%#= link_to(
+                lead_url(lead),
+                target: "_blank",
+                rel: "noopener noreferrer",
+                style: "color:black;text-decoration:none"
+              ) do %>
+              <!-- TITLE -->
+                <p style="font-size:15px;line-height:19px;color:#000000;margin:0 0 19px;font-weight:bold;margin-bottom:0!important">
+                  John
+                  <%#= comment.user.first_name %> wrote at <%#= just_time(comment.updated_at) %>:
+                </p>
+                <!-- META DATA -->
+                <p style="margin:6px 0 19px 20px;margin-bottom:0;font-size:14px;color:grey;line-height:18px;font-style:italic;">
+                  Be sure to check with Beth on her plans for creative staging plans
+                  <%#= comment.content %>
+                </p>
+              <%# end %>
+            <%# end %>
+          <%# end %>
+        <hr class="style5">
+      <%# end %>
+      View All Clients (this is a hyperlink)
+    </columns>
+  </row>
+<%# else %>
+  <spacer size="6"></spacer>
+  If no data, want a pretty message - See hints and tips for creating a Sales Pipeline and a link
+  <spacer size="6"></spacer>
+<%# end %>
+    <row>
+        <columns small="12" large="12" valign="middle" style="background-color: #FF8C00">
+
+          <h3 class="text-center" style="height: 100%;color:#FFFFFF; margin-top: 5px; margin-bottom: 5px; font-size: 18x;" > <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" />
+            Coaches Corner</h3>
+        </columns>
+      </row>
+      <spacer size="6"></spacer>
+      <row>
+       <columns small="2" large="2">
+          <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="http://semantic-ui.com/images/avatar/small/helen.jpg">
+        </columns>
+        <columns small="8" large="8" style="font-size:15px;line-height:19px;color:#000000;padding:0;border-collapse:collapse;border-spacing:0;padding-top:2px;padding-bottom:2px;vertical-align:top;width:99%; line-height:80%">
+            Get more out of your day, read this article
+        </columns>
+        <columns small="2" large="2">
+          <button href="#" class="rounded small-expanded secondary button-size: tiny">Sales</button>
+        </columns>
+      </row>
+    </columns>
+  </row>

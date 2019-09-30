@@ -1,0 +1,162 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 5, data_total: 10 }
+        ) %>
+        <%= render_quick_results(
+          previous_step: "Personal Marketing",
+          data_percent: @marketing_service.total_score_in_percentage.round
+        ) do %>
+          <%= sanitize lead_generation(@marketing_service.total_score_in_percentage) %>
+        <% end %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+          <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 5 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <%= render_title_message(icon_class: "orange address card outline icon") do %>
+              <div class="header"><i class="teal big hourglass half"></i>Lead Response</div>
+              <p>Did you know that for the average agent, only 3% to 6% of closed business leads come via the internet? Where do the rest come from?</p>
+              <div class="header"></div>
+              <p class=“fwb”><i>"Success isn't always about greatness. It's about consistency. Consistent hard work leads to success. Greatness will come." - Dwayne 'The Rock' Johnson<i></p>
+            <% end %>
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+
+              <div class="ui segment tab transition fade in active" id="lead-generation-info" data-tab="lead-generation-info">
+                <%= f.input(
+                  :lead_response_measurement,
+                  label: "How often do you respond to new incoming leads within 5 minutes?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::LEAD_RESPONSE_MEASUREMENT_SCORING.keys) %>
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :lead_source_analysis,
+                  label: "Do you track where your leads come from and which is the best return on your time spent? ",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+                <%= f.input(
+                  :drip_campaigns_to_followup,
+                  label: "Do you put new leads onto an automated drip campaign so you can follow up at regular intervals?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::DRIP_CAMPAIGNS_TO_FOLLOWUP_SCORING.keys
+                ) %>
+
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :follow_up_system,
+                  label: "Do you have a system that sends you automatic reminders about which long term prospects you need to follow up with each week?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+                <%= f.input(
+                  :use_crm,
+                  label: "Do your new incoming leads go automatically into a CRM (or other application) so you can track them?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::USE_CRM_SCORING.keys) %>
+
+                <input type="hidden" value="service_clients" name="next_step_id">
+                <input type="hidden" value="mass_marketing" name="last_step_id">
+                <%= f.submit(
+                  "Next",
+                  id: "lead_generation_next_button",
+                  class: "ui primary button"
+                ) %>
+              </div><!-- /#lead-generatin -->
+            <% end %>
+          </div><!-- /.ui vertical basic segment -->
+        </div><!-- /.column -->
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[lead_response_measurement]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[lead_source_analysis]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[drip_campaigns_to_followup]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[follow_up_system]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[use_crm]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

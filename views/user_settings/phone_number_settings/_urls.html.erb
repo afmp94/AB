@@ -1,0 +1,36 @@
+<div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+<div class="ui raised segments">
+  <div class="ui top attached negative icon message">
+    <i class="wrench icon"></i>
+    <div class="content">
+      <div class="header">
+        Super Admin
+      </div><!-- /.header -->
+    </div><!-- /.content -->
+  </div><!-- /.ui top attached warning message -->
+  <div class="ui raised attached segment">
+    <%= form_tag(user_settings_phone_number_urls_path, method: :post, remote: true, class: "ui form max-width-600") do %>
+      <div class="field">
+        <div class="ui action input">
+          <%= text_field_tag(:custom_url, nil, placeholder: "Leave blank for default") %>
+          <%= submit_tag("Update URLs", remote: true, class: "ui primary button") %>
+        </div><!-- /.ui action input -->
+      </div><!-- /.field -->
+    <% end %>
+
+    <div class="ui inverted segment">
+      <pre data-behavior="current-urls"></pre>
+    </div><!-- /.ui inverted segment -->
+
+    <%= link_to(
+      user_settings_phone_number_urls_path,
+      remote: true,
+      class: "ui icon labeled button"
+    ) do %>
+      <i class="sync icon"></i>
+      Fetch Current URLs
+    <% end %>
+
+  </div><!-- /.ui raised segment -->
+</div><!-- /.ui raised segments -->
+

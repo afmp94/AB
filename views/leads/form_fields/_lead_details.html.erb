@@ -1,0 +1,78 @@
+<% cache("new_lead_form_lead_details_1") do %>
+  <%= f.association(
+    :lead_type,
+    label: "Where did this lead come from?",
+    collection: LeadType.all.order("name asc"),
+    label_method: :name,
+    input_html: { "data-behavior": "display-referral-field" }
+  ) %>
+  <%= f.input(
+    :lead_source_id,
+    label: "Lead Source",
+    collection: LeadType.order(:name),
+    as: :grouped_select,
+    group_method: :lead_sources,
+    label_method: :name,
+    include_blank: true,
+    input_html: { class: "ui dropdown", "data-ui-behavior": "dropdown" },
+    wrapper_html: { "data-ui-behavior": "lead-source-id" }
+  ) %>
+<% end %>
+
+<div id="referring-field" class="hidejs m-t m-b">
+  <%= f.association(
+    :referring_contact,
+    as: :select,
+    label: "Referrer",
+    collection: f.object.user.contacts.active.order("first_name asc"),
+    label_method: lambda { |contact| format_display_name(contact) },
+    input_html: { data: { behavior: "contacts_select_field" } }
+  ) %>
+
+  <% if current_user %>
+    <%= link_to(
+      "Add New Contact",
+      open_contact_modal_path(
+        modal_id: "new_referring_contact_modal_form",
+        target_select_id: "lead_referring_contact_id",
+        for_page: "lead"
+      ),
+      class: "ui button m-b",
+      data: { toggle: "modal", target: "#mainModal" },
+      remote: true
+    ) %>
+  <% end %>
+
+  <%= f.input(
+    :referral_fee_type,
+    collection: ["Percentage", "Fee"],
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_radio_buttons,
+    label: "Referral Percentage or Fee?",
+    input_html: { "data-behavior": "display-commission-referral-fields" }
+  ) %>
+</div><!-- /#referring-field.hidejs -->
+
+<% cache("new_lead_form_lead_details_2") do %>
+  <%= f.input(
+    :referral_fee_rate,
+    label: "What is the referral percentage?",
+    as: :percentage_two_decimal,
+    placeholder: "ex. 65",
+    wrapper_html: { id: "percentage2-field", class: "hidejs" }
+  ) %>
+  <%= f.input(
+    :referral_fee_flat_fee,
+    as: :currency,
+    label: "What is the referral fee?",
+    placeholder: "ex. 100",
+    wrapper_html: { id: "fee2-field", class: "hidejs" }
+  ) %>
+  <%= f.input(
+    :client_type,
+    label: "What type of lead?",
+    as: :sui_radio_buttons,
+    collection:  ["Buyer", "Seller"],
+    wrapper_html: { "data-section-reveal-toggle": "client_type", class: "m-b-lg" }
+  ) %>
+<% end %>

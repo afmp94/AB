@@ -1,0 +1,85 @@
+<%= simple_form_for(
+  @contact,
+  html: { data: { fv_live: "submitted", form: "contact_form", "mobile-app-forced-form": request_from_mobile_app? }},
+) do |f| %>
+  <%= f.input_field(:require_basic_validations, value: true, as: :hidden) %>
+  <%= render(partial: "server_side_form_errors") %>
+  <h4 class="ui dividing header">Basic Information</h4>
+  <div class="two fields">
+    <%= f.input(:first_name, label: "First Name") %>
+    <%= f.input(:last_name, label: "Last Name") %>
+  </div><!-- /.two fields -->
+  <div class="two fields">
+    <%= f.input(:spouse_first_name, label: "Spouse/Partner First Name") %>
+    <%= f.input(:spouse_last_name, label: "Spouse/Partner Last Name") %>
+  </div><!-- /.two fields -->
+  <%= f.input(
+    :grade,
+    label: "Contact Rank",
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_radio_buttons,
+    collection: Contact::GRADES
+  ) %>
+  <%= render(partial: "contact_groups_tag_field", locals: { contact: @contact })%>
+  <h4 class="ui dividing header">Phone Numbers</h4><!-- /.ui dividing header -->
+  <p>Check the primary phone number</p>
+  <%= f.fields_for :phone_numbers do |builder| %>
+    <%= render(partial: "phone_number_fields", locals: { contact: @contact, f: builder })%>
+  <% end %>
+  <%= link_to_add_fields "Add Phone Number", f, :phone_numbers %>
+  <h4 class="ui dividing header">Email Addresses</h4><!-- /.ui dividing header -->
+  <%= f.fields_for :email_addresses do |builder| %>
+    <%= render(partial: "email_address_fields", locals: { contact: @contact, f: builder })%>
+  <% end %>
+  <%= link_to_add_fields "Add Email Address", f, :email_addresses %>
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <h4 class="ui dividing header">Address</h4>
+  <%= f.fields_for :addresses do |builder| %>
+    <%= render(partial: "address_fields", locals: { contact: @contact, f: builder })%>
+  <% end %>
+  <%= link_to_add_fields "Add Address", f, :addresses %>
+
+  <h4 class="ui dividing header">Salutations</h4>
+  <div class="inline field" id="edit_salutations">
+    <div class="ui toggle checkbox" data-ui-behavior="checkbox">
+      <%= check_box_tag(
+        :enable_salutation_field,
+        nil,
+        false,
+        "data-behavior": "enable-salutation-fields"
+      ) %>
+      <%= label_tag(:enable_salutation_field, "Edit Salutations") %>
+    </div><!-- /.checkbox -->
+  </div>
+  <%= f.input(
+    :envelope_salutation,
+    label: "Envelope Salutation",
+    input_html: { readonly: true, "data-behavior": "contact-envelope-salutation" }
+  ) %>
+  <%= f.input(
+    :letter_salutation,
+    label: "Letter Salutation",
+    input_html: { readonly: true, "data-behavior": "contact-letter-salutation" }
+  ) %>
+  <h4 class="ui dividing header">Professional</h4><!-- /.ui dividing header -->
+  <%= f.input(:profession) %>
+  <%= f.input(:company) %>
+  <%= f.input(:title, label: "Business Title") %>
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <% if f.object.new_record? %>
+    <%= f.button(
+      :submit,
+      value: "Save & Add Another",
+      name: "btn_save_and_add_another",
+      "data-disable-with": "Saving..."
+    ) %>
+    <%= link_to("Cancel", contacts_path, class: "ui basic button") %>
+  <% else %>
+    <%= link_to("Cancel", contact_path(@contact), class: "ui basic button") %>
+  <% end %>
+<% end %>

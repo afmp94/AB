@@ -1,0 +1,18 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <p>
+          Hi <%= @user.name %>, </p>
+          <spacer size="16"></spacer>
+        <p><%= @message %>
+        </p>
+        <spacer size="16"></spacer>
+        <p>Regards,</p>
+        <spacer size="16"></spacer>
+        <p>The AgentBright Team</p>
+      </columns>
+    </row>
+  </container>
+<% end %>
+

@@ -1,0 +1,35 @@
+<% if current_user.coaching_cards.count.nonzero? %>
+  <% current_user.coaching_cards.each do |card| %>
+    <div class="ui raised card">
+      <div class="content">
+        <div class="header">
+          <%= card.header %>
+          <div class="right floated extra content">
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="meta center aligned">
+          <i class="icon <%= card.icon %> <%= card.icon_color %> huge"></i>
+        </div>
+        <div class="description">
+          <%= card.description %>
+        </div>
+      </div>
+      <div class="extra content">
+        <div class="ui two buttons">
+          <%= link_to card.action, card.link, class: "ui green button" %>
+          <%= link_to "Remind Me Later", remind_later_card_path(card), method: :put, remote: true, class: "ui basic button"  %>
+        </div>
+      </div>
+    </div><!-- /.card -->
+  <% end %>
+<% else %>
+    <%= no_data_block(
+      icon_class: "check",
+      title: "Nice job",
+      message: "You are current with your Coaching!",
+      block_id: "coach_emptymessage"
+    ) %>
+<% end %>
+

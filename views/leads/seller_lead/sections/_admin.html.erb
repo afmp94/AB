@@ -1,0 +1,299 @@
+<div class="ui accordion" data-ui-behavior="accordion">
+  <div class="title">
+    <h3 class="ui header">
+      <i class="dropdown icon"></i>
+      Admin
+    </h3>
+  </div><!-- /.title -->
+  <div class="content">
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Basics") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Name", lead.name) %>
+        <%= fixed_list_item("Client Type", lead.client_type) %>
+        <%= fixed_list_item("Owner", "#{lead.user.try(:full_name)} (ID: #{lead.user.try(:id)})") %>
+        <%= fixed_list_item("Stage", lead.stage) %>
+        <%= fixed_list_item("Created At", cal_date(lead.created_at)) %>
+        <%= fixed_list_item("Updated at", cal_date(lead.updated_at)) %>
+        <%= fixed_list_item("", lead.state) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Contact Info") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Contact name", lead.contact.try(:name)) %>
+        <%= fixed_list_item("Contact ID", lead.contact.try(:id)) %>
+        <%= fixed_list_item("First name", lead.contact.try(:first_name)) %>
+        <%= fixed_list_item("Last name", lead.contact.try(:last_name)) %>
+        <%= fixed_list_item("Owner", "#{lead.contact.try(:user).try(:name)} (ID: #{lead.contact.try(:user_id)})") %>
+        <tr>
+          <td>Email addresses</td>
+          <td>
+            <% lead.contact.email_addresses.each do |email_address| %>
+                <%= "#{email_address.email} - #{email_address.email_type}" %>
+                <br />
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Phone numbers</td>
+          <td>
+            <% lead.contact.phone_numbers.each do |phone_number| %>
+              <%= phone_number_with_info(phone_number) %><br />
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>Addresses</td>
+          <td>
+            <% lead.contact.addresses.each do |address| %>
+              <%= "#{address.street}" %><br />
+              <%= "#{address.city_state_zip}" %><br /><br />
+            <% end %>
+          </td>
+        </tr>
+        <%= fixed_list_item("Import source ID", lead.contact.try(:import_source_id)) %>
+        <%= fixed_list_item("Import source type", lead.contact.try(:import_source_type)) %>
+        <%= fixed_list_item("Created by user", "#{lead.contact.try(:created_by_user).try(:name)} (ID: #{lead.contact.try(:created_by_user_id)})") %>
+        <%= fixed_list_item("Avatar color", lead.contact.try(:avatar_color)) %>
+        <%= fixed_list_item("Active?", lead.contact.try(:active)) %>
+        <tr>
+          <td>Contact Image</td>
+          <td>
+            <% if lead.contact.contact_image %>
+                <%= image_tag lead.contact.try(:contact_image).try(:file) %>
+            <% else %>
+              N/A
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("FullContact Info") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Search status", lead.contact.try(:search_status)) %>
+        <%= fixed_list_item("Status code", lead.contact.try(:search_status_code)) %>
+        <%= fixed_list_item("Status message", lead.contact.try(:search_status_message)) %>
+        <%= fixed_list_item("Last search at", lead.contact.try(:suggestion_received)) %>
+        <%= fixed_list_item("First name", lead.contact.try(:suggested_first_name)) %>
+        <%= fixed_list_item("Last name", lead.contact.try(:suggested_last_name)) %>
+        <%= fixed_list_item("Location", lead.contact.try(:suggested_location)) %>
+        <%= fixed_list_item("Organization name", lead.contact.try(:suggested_organization_name)) %>
+        <%= fixed_list_item("Job title", lead.contact.try(:suggested_job_title)) %>
+        <%= fixed_list_item("LinkedIn Bio", lead.contact.try(:suggested_linkedin_bio)) %>
+        <%= fixed_list_item("Facebook URL", lead.contact.try(:suggested_facebook_url)) %>
+        <%= fixed_list_item("LinkedIn URL", lead.contact.try(:suggested_linkedin_url)) %>
+        <%= fixed_list_item("Twitter URL", lead.contact.try(:suggested_twitter_url)) %>
+        <%= fixed_list_item("Google+ URL", lead.contact.try(:suggested_googleplus_url)) %>
+        <%= fixed_list_item("Instagram URL", lead.contact.try(:suggested_instagram_url)) %>
+        <%= fixed_list_item("YouTube URL", lead.contact.try(:suggested_youtube_url)) %>
+        <tr>
+          <td>Contact Image</td>
+          <td>
+            <% if lead.contact.contact_image %>
+                <%= image_tag lead.contact.try(:contact_image).try(:file) %>
+            <% else %>
+              N/A
+            <% end %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Lead Forwarding") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Created by user", "#{lead.created_by_user.try(:full_name)} (ID: #{lead.created_by_user_id})") %>
+        <%= fixed_list_item("Import source ID", lead.import_source_id) %>
+        <%= fixed_list_item("Import source type", lead.import_source_type) %>
+        <%= fixed_list_item("Last Broadcast At", cal_date(lead.last_broadcast_at))%>
+        <%= fixed_list_item("State", lead.state) %>
+        <%= fixed_list_item("Claimed?", lead.claimed) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Lead Processing") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Contacted status", lead.contacted_status) %>
+        <%= fixed_list_item("Attempted contact at", datetime_to_s(lead.attempted_contact_at)) %>
+        <%= fixed_list_item("Time before attempted contact", lead.time_before_attempted_contact) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Status") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Status", lead.status_to_s) %>
+        <%= fixed_list_item("Initial status when created", lead.initial_status_when_created) %>
+        <%= fixed_list_item("Lost date", cal_date(lead.lost_date_at)) %>
+        <%= fixed_list_item("Stage lost", lead.stage_lost_to_s) %>
+        <%= fixed_list_item("Reason for loss", lead.reason_for_loss) %>
+        <%= fixed_list_item("Pause date", cal_date(lead.pause_date_at)) %>
+        <%= fixed_list_item("Stage paused", lead.stage_paused_to_s) %>
+        <%= fixed_list_item("Reason for pause", lead.reason_for_pause) %>
+        <%= fixed_list_item("Unpause date", cal_date(lead.unpause_date_at)) %>
+        <%= fixed_list_item("Junk reason", lead.junk_reason) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Lead Info") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Lead received at", datetime_to_s(lead.incoming_lead_at)) %>
+        <%= fixed_list_item("Lead source", lead.lead_source.try(:name)) %>
+        <%= fixed_list_item("Lead type", lead.lead_type.try(:name)) %>
+        <%= fixed_list_item("Referring contact", "#{lead.referring_contact.try(:name)} (ID: #{lead.referring_contact_id})") %>
+        <%= fixed_list_item("Lead type (deprecated)", lead.lead_type_old) %>
+        <%= fixed_list_item("Lead source (deprecated)", lead.lead_source_old) %>
+        <%= fixed_list_item("Notes", lead.notes) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Client Info") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Timeframe", lead.timeframe) %>
+        <%= fixed_list_item("Rental?", lead.rental) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Buyer Info" ) %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Min Price", num_to_currency(lead.min_price_range)) %>
+        <%= fixed_list_item("Max Price", num_to_currency(lead.max_price_range)) %>
+        <%= fixed_list_item("Area of Interest", lead.buyer_area_of_interest) %>
+        <%= fixed_list_item("Buyer prequalified?", lead.buyer_prequalified) %>
+        <%= fixed_list_item("Prequalification amount", num_to_currency(lead.prequalification_amount)) %>
+      </tbody>
+    </table>
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header(
+          "Seller Info"
+        ) %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Property type", lead.property_type) %>
+        <%= fixed_list_item("Amount owed", num_to_currency(lead.amount_owed)) %>
+        <%= fixed_list_item("Original list date", cal_date(lead.original_list_date_at)) %>
+        <%= fixed_list_item("Original list price", num_to_currency(lead.original_list_price)) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Price and Commission") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Incoming lead price", num_to_currency(lead.incoming_lead_price)) %>
+        <%= fixed_list_item("Referral fee type", lead.referral_fee_type) %>
+        <%= fixed_list_item("Referral fee rate", lead.referral_fee_rate) %>
+        <%= fixed_list_item("Referral fee flat fee", num_to_currency(lead.referral_fee_flat_fee)) %>
+        <%= fixed_list_item("Additional fees", num_to_currency(lead.additional_fees)) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Displayed Info") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Displayed Price", num_to_currency(lead.displayed_price)) %>
+        <%= fixed_list_item("Displayed Closing Date", cal_date(lead.displayed_closing_date_at)) %>
+        <%= fixed_list_item("Displayed Commission Type", lead.displayed_commission_type) %>
+        <%= fixed_list_item("Displayed Commission Rate", lead.displayed_commission_rate) %>
+        <%= fixed_list_item("Displayed Commission Fee", num_to_currency(lead.displayed_commission_fee)) %>
+        <%= fixed_list_item("Displayed Referral Type", lead.displayed_referral_type) %>
+        <%= fixed_list_item("Displayed Referral Percentage", lead.displayed_referral_percentage) %>
+        <%= fixed_list_item("Displayed Referral Fee", num_to_currency(lead.displayed_referral_fee)) %>
+        <%= fixed_list_item("Displayed Additional Fees", num_to_currency(lead.displayed_additional_fees)) %>
+        <%= fixed_list_item("Displayed Gross Commission", num_to_currency(lead.displayed_gross_commission))%>
+        <%= fixed_list_item("Displayed Broker Commission Custom", lead.displayed_broker_commission_custom) %>
+        <%= fixed_list_item("Displayed Broker Has Franchise Fee?", lead.displayed_broker_has_franchise_fee) %>
+        <%= fixed_list_item("Displayed Broker Franchise Fee", lead.displayed_broker_franchise_fee) %>
+        <%= fixed_list_item("Displayed Broker Commission Split Type", lead.displayed_broker_commission_type) %>
+        <%= fixed_list_item("Displayed Broker Commission Percentage", lead.displayed_broker_commission_percentage) %>
+        <%= fixed_list_item("Displayed Broker Commission Fee", num_to_currency(lead.displayed_broker_commission_fee)) %>
+        <%= fixed_list_item("Displayed Net Commission", num_to_currency(lead.displayed_net_commission)) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Snooze") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Snoozed at", lead.snoozed_at ) %>
+        <%= fixed_list_item("Snoozed until", lead.snoozed_until ) %>
+        <%= fixed_list_item("Snoozed by", "#{lead.snoozed_by.try(:name)} (ID: #{lead.snoozed_by_id})") %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Follow Up") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Follow up at", cal_date(lead.follow_up_at)) %>
+        <%= fixed_list_item("Last follow up at", cal_date(lead.last_follow_up_at)) %>
+        <%= fixed_list_item("Lead followup reminder time", lead.lead_followup_reminder_time ) %>
+        <%= fixed_list_item("Lead followup reminder attempted?", lead.lead_followup_reminder_attempted ) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header("Misc") %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("First email attempted ID", lead.first_email_attempted_id ) %>
+        <%= fixed_list_item("Next action", "#{lead.next_action.try(:subject)} (ID: #{lead.next_action_id})" ) %>
+      </tbody>
+    </table>
+
+    <table class="ui very basic unstackable table info-list-table">
+      <thead>
+        <%= fixed_list_header(
+          "Counters"
+        ) %>
+      </thead>
+      <tbody>
+        <%= fixed_list_item("Incomplete Tasks Count", lead.incomplete_tasks_count ) %>
+      </tbody>
+    </table>
+
+    <%= button_to(
+      "Refresh Social Info",
+      {
+        controller: "contacts",
+        action: "refresh_fullcontact_info",
+        id: lead.contact.id,
+        lead_id: lead.id
+      },
+      class: "ui primary button"
+    ) %>
+  </div>
+</div>

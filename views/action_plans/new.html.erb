@@ -1,0 +1,10 @@
+<% content_for(:title, "Add Action Plan") %>
+<% breadcrumb(:add_action_plan) %>
+
+<%= page_header(
+  primary_name: "Action Plans",
+  primary_path: action_plans_path,
+  secondary_name: "Add New Action Plan"
+) %>
+
+<%= render partial: "form", locals: { action_plan: @action_plan } %>

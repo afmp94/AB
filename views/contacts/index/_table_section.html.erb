@@ -1,0 +1,21 @@
+<div class="ui segments index-page-table-grid__segments">
+  <div class="ui segment ab-search-bar-segment">
+    <%= render(partial: "contacts/table/options/search_bar") %>
+    <div class="ui basic segment p-a-0 ab-search-bar-segment__active-filters-area">
+      <%= render(partial: "contacts/table/options/active_filters_area") %>
+    </div><!-- /.ui basic segment p-a-0-->
+  </div><!-- /.ui segment -->
+
+  <div class="ui segment p-a-0">
+    <%= render(partial: "contacts/table/options/sticky_select_menu") %>
+
+    <div class="ui disabled inverted dimmer" data-behavior="loader">
+      <div class="ui text loader">Loading</div>
+    </div>
+
+    <div id="items-container" data-container="contact-items">
+      <%= render(partial: "contacts/table/data", locals: { contacts: @contacts }) %>
+    </div><!-- /.#items-container -->
+  </div><!-- /.ui segment -->
+</div><!-- /.ui segments -->
+

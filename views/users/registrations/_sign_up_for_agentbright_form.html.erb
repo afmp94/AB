@@ -1,0 +1,29 @@
+<%= simple_form_for(
+  resource,
+  as: resource_name,
+  url: registration_path(resource_name),
+  html: { autocomplete: "on", data: { behavior: "sign_up_for_agentbright" } },
+  remote: true
+) do |f| %>
+  <div class="field">
+    <div class="two fields">
+      <%= f.input(:first_name, autofocus: true) %>
+      <%= f.input(:last_name) %>
+    </div>
+    <%= f.input(:email) %>
+    <div class="two fields">
+      <%= f.input(:password) %>
+      <%= f.input(:password_confirmation) %>
+    </div>
+    <% if f.object.survey_result_token.present? %>
+      <%= f.input(:survey_result_token, as: :hidden) %>
+    <% end %>
+    <%= f.button(
+      :submit,
+      "Sign up",
+      class: "ui button",
+      "data-disable-with": "Signing up..."
+    ) %>
+  </div><!-- /.field -->
+  <div class="ui error message"></div>
+<% end %>

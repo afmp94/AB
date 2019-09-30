@@ -1,0 +1,65 @@
+<fieldset class="ui raised segment">
+  <div class="ui segment">
+    <div class="three fields">
+      <div class="field">
+        <%= f.input :delay_in_days, label: "Delay (days)" %>
+      </div>
+    </div>
+    <div class="field">
+      <% ordered_email_templates = current_user.email_templates_order_by_name %>
+      <%= f.association(
+        :email_template,
+        label: 'Email Template',
+        collection: ordered_email_templates,
+        wrapper: :vertical_search_select,
+        autofocus: true,
+        label_method: lambda { |email_template| email_template.name },
+        value_method: :id,
+        input_html: { data: { behavior: "contacts_select_field" } },
+        default: (ordered_email_templates.first.name rescue '')
+      ) %>
+
+    </div>
+    <div class="field">
+      <label>Send Time (leave blank to send immediately)</label>
+      <div class="ui calendar" data-ui-behavior="calendar_time">
+        <div class="ui input left icon">
+        <i class="clock icon"></i>
+          <%= f.text_field(:send_time, value: f.object.send_time) %>
+        </div>
+      </div>
+    </div>
+    <h4 class="ui dividing header">Tracking</h4>
+    <div class="p-a-0 m-t">
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <%= f.input(:track, as: :boolean, label: "Track open, clicks and replies") %>
+      </div>
+    </div>
+    <div class="field p-a-0 m-t">
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <%= f.input(:require_approval, as: :boolean, label: "Require approval before sending") %>
+      </div>
+    </div>
+    <div class="field p-a-0 m-t">
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <%= f.input(:notify_if_opened, as: :boolean, label: "Notify me if message is opened") %>
+      </div>
+    </div>
+    <div class="field p-a-0 m-t">
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <%= f.input(:reset_delay_if_interaction, as: :boolean, label: "Reset delay if we interact") %>
+      </div>
+    </div>
+    <%= f.hidden_field(:action_plan_id, value: @action_plan.id) %>
+    <%= f.hidden_field(:step_type, value: :email) %>
+    <button class="ui basic button move_up_btn order_btn"> Move Up</button>
+    <button class="ui basic button move_down_btn order_btn"> Move Down</button>
+    <%= f.hidden_field(:_destroy) %>
+    <button class="ui negative basic button remove_fields">Delete this step</button>
+  </div>
+  <div class="ui hidden divider"></div>
+</fieldset>

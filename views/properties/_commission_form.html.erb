@@ -1,0 +1,126 @@
+<h3 class="ui dividing header">Commission</h3>
+<%= f.input(
+  :commission_type,
+  label: "Which type of commission will this listing pay?",
+  as: :sui_radio_buttons,
+  collection: ["Percentage", "Fee"],
+  input_html: { data: { behavior: "select-commission-type-radios" } }
+) %>
+
+<div id="commission-type-errors"></div>
+<div id="commission-errors"></div>
+<div id="commission-percentage-field" class="hidejs">
+  <table class="ui single line very basic table">
+    <tbody>
+      <tr>
+        <td>Seller side</td>
+        <td>
+          <%= f.input(
+            :commission_percentage,
+            label: false,
+            as: :percentage_two_decimal,
+            input_html: {
+              data: {
+                behavior: "commission_autocalculate",
+                field: "seller_commission"
+              }
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Buyer side</td>
+        <td>
+          <%= f.input(
+            :commission_percentage_buyer_side,
+            label: false,
+            as: :percentage_two_decimal,
+            input_html: {
+              data: {
+                behavior: "commission_autocalculate",
+                field: "buyer_commission"
+              }
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td >Total commission</td>
+        <td >
+          <h3><span id="display-total-commission"></span>%</h3>
+          <%= f.input(
+            :commission_percentage_total,
+            input_html: {
+              data: {
+                behavior: "commission_autocalculate",
+                field: "total_commission"
+              }
+            },
+            as: :hidden
+          ) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div><!-- /#commission-percentage-field.hidejs -->
+
+<div id="commission-fee-field" class="hidejs">
+  <table class="ui single line very basic table">
+    <tbody>
+      <tr>
+        <td>Seller side</td>
+        <td>
+          <%= f.input(
+            :commission_fee,
+            label: false,
+            as: :currency,
+            input_html: {
+              data: {
+                behavior: "commission_autocalculate",
+                field: "seller_fee_commission"
+              }
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Buyer side</td>
+        <td>
+          <%= f.input(
+            :commission_fee_buyer_side,
+            label: false,
+            as: :currency,
+            input_html: {
+              data: {
+                behavior: "commission_fee_autocalculate",
+                field: "buyer_fee_commission"
+              }
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Total fees</td>
+        <td>
+          <h3>$<span id="display-total-fee-commission"></span></h3>
+          <%= f.input(
+            :commission_fee_total,
+            input_html: {
+              data: {
+                input_mask: "currency",
+                behavior: "commission_fee_autocalculate",
+                field: "total_fee_commission"
+              }
+            },
+            type: "text",
+            as: :hidden
+          ) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div><!-- /#commission-fee-field -->
+
+<script>
+  commissionTypeSelection();
+</script>

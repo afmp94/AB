@@ -1,0 +1,8 @@
+<div class="sellersection hidejs" data-reveal-set-name="client_type" data-reveal-show-value="Seller">
+  <%= f.simple_fields_for(:properties, f.object.properties.first) do |property_form| %>
+    <h2 class="ui header">Seller Preferences</h2>
+    <%= f.input(:timeframe, collection: Lead::TIMEFRAMES, include_blank: false) %>
+    <%= f.input(:amount_owed, as: :currency, label: "Amount Owed") %>
+    <%= render(partial: "properties/listing_form", locals: { f: property_form }) %>
+  <% end %>
+</div>

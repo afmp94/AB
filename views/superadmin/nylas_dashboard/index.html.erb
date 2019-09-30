@@ -1,0 +1,52 @@
+<% content_for(:title, "Nylas Dashbaord") %>
+<%= page_header(
+  primary_name: "Nylas Dashboard",
+  secondary_name: "Superadmin"
+) %>
+
+<div class="main ui container full-width-container">
+  <h2 class="ui header">Webhooks</h2><!-- /.ui header -->
+  <table class="ui basic table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Info</th>
+        <th>Triggers</th>
+        <th>State</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @webhooks.each do |webhook| %>
+        <tr class="<%= table_row_color_class(webhook[:state]) %>">
+          <td rowspan=3><%= webhook[:id] %></td>
+          <td>
+            <span class="fwb">Application ID:</span><br />
+            <%= webhook[:application_id] %>
+          </td>
+          <% if webhook[:triggers].present? %>
+            <td rowspan=3>
+              <% webhook[:triggers].each do |trigger| %>
+                <%= trigger %><br />
+              <% end %>
+            </td>
+          <% end %>
+          <td rowspan=3><%= webhook[:state] %></td>
+        </tr>
+        <tr class="<%= table_row_color_class(webhook[:state]) %>">
+          <td>
+            <span class="fwb">Callback URL::</span><br />
+            <%= webhook[:callback_url] %>
+          </td>
+        </tr>
+        <tr class="<%= table_row_color_class(webhook[:state]) %>">
+          <td>
+            <span class="fwb">Version::</span><br />
+            <%= webhook[:version] %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table><!-- /.ui basic table -->
+
+</div><!-- /.main ui container -->
+

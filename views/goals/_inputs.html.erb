@@ -1,0 +1,143 @@
+<%= goal_form.error_notification %>
+
+<h2 class="ui header">Find out how much gross commission you need:</h2>
+<%= goal_form.input :year, collection: goal_years, prompt: "Select goal year", selected: goal_form.object.year || Time.current.year %>
+<%= goal_form.input(
+  :desired_annual_income,
+  label: "Income Goal",
+  hint: "This is your total desired take-home pay",
+  as: :currency,
+  input_html: { "data-goal-param" => "income_goal", class: "field-width-150" }
+) %>
+<%= goal_form.input(
+  :est_business_expenses,
+  label: "Estimated Business Expenses",
+  hint: "Business expenses, excluding broker fees, is typically 10%-20% of your income goal",
+  input_html: { "data-goal-param" => "est_business_expenses", class: "field-width-150" },
+  as: :currency
+) %>
+<div class="ui raised segment">
+  <%= render("shared/edit_commission", { f: goal_form }) %>
+</div>
+
+<div data-display="commission_split_type_not_nil" style="display: <%= @commission_carrier.handle_display_if_attribute_nil(:commission_split_type, goal_form.object) %>;">
+  <div data-display="fee">
+    <%= goal_form.input(
+      :avg_commission_rate,
+      label: "My Average Commission Rate",
+      hint: "The average commission rate for each closed transaction side",
+      placeholder: "e.g. 2.5",
+      input_html: {
+        "data-goal-param" => "avg_commission_rate_fee",
+        "data-v-min" => "0.00",
+        "data-v-max" => "100.00",
+        class: "field-width-150"
+      },
+      as: :percentage_two_decimal
+    ) %>
+    <%= goal_form.input(
+      :avg_price_in_area,
+      label: "My Average Sales Price (in the last 12 months)",
+      input_html: { "data-goal-param" => "avg_sales_price_fee", class: "field-width-150" },
+      as: :currency
+    ) %>
+  </div>
+  <h4 class="ui header">Your gross commission goal:</h4>
+  <%= goal_form.input(
+    :gross_commission_goal,
+    label: false,
+    hint: "This is your gross commission goal before expenses and broker fees",
+    input_html: {
+      "data-goal-param" => "gross_commission_goal",
+      readonly: "readonly",
+      class: "field-width-150"
+    },
+    as: :currency
+  ) %>
+
+  <div data-display="percentage">
+    <h2 class="ui header">Calculate the sales volume needed to reach your goal</h2>
+    <%= goal_form.input(
+      :avg_commission_rate,
+      label: "My Average Commission Rate",
+      hint: "The average commission rate for each closed transaction side",
+      placeholder: "e.g. 2.5",
+      input_html: {
+        "data-goal-param" => "avg_commission_rate",
+        "data-v-min" => "0.00",
+        "data-v-max" => "100.00",
+        class: "field-width-75"
+      },
+      as: :percentage_two_decimal
+    ) %>
+  </div>
+  <h4 class="ui header">Total sales volume needed to reach your goal:</h4>
+  <%= goal_form.input(
+    :gross_sales_vol_required,
+    as: :currency,
+    label: false,
+    hint: "This is your total sales volume required to achieve your goals",
+    input_html: {
+      "data-goal-param" => "sales_volume_needed",
+      readonly: "readonly",
+      class: "field-width-150"
+    }
+  ) %>
+
+  <div data-display="percentage">
+    <h2 class="ui header">How many transactions do you need in order to reach your goal?</h2>
+    <%= goal_form.input(
+      :avg_price_in_area,
+      label: "My Average Sales Price (in the last 12 months)",
+      input_html: { "data-goal-param" => "avg_sales_price", class: "field-width-150" },
+      as: :currency
+    ) %>
+  </div>
+  <h2><u>Transaction Goals</u></h2>
+
+  <h4 class="ui header">Based on your inputs, here are the number of transactions requried to achieve your desired income goals.</h4>
+  </br>
+  <div class="three fields">
+    <%= goal_form.input(
+      :annual_transaction_goal,
+      label: "Annual",
+      hint: "Number of transactions required annually to meet your Income Goals",
+      input_html: {
+        "data-goal-param" => "annual_transaction_goal",
+        data: { input_mask: "formatted-integer" },
+        "readonly" => "readonly",
+        type: "text"
+      }
+    ) %>
+    <%= goal_form.input(
+      :qtrly_transaction_goal,
+      label: "Quarterly",
+      hint: "This is the number of houses to aim to sell Quarterly, although recognise there are potentially seasonal fluctuations",
+      input_html: {
+        "data-goal-param" => "quarterly_transaction_goal",
+        data: { input_mask: "formatted-integer" },
+        "readonly" => "readonly",
+        type: "text"
+      }
+    ) %>
+    <%= goal_form.input(
+      :monthly_transaction_goal,
+      label: "Monthly",
+      hint: "This is the average number of houses you need to sell per month to acheive your income goals!",
+      input_html: {
+        "data-goal-param" => "monthly_transaction_goal",
+        data: { input_mask: "formatted-integer" },
+        "readonly" => "readonly",
+        type: "text"
+      }
+    ) %>
+  </div><!-- /.three fields -->
+  <%= render(
+    partial: "goals/activity_form",
+    locals: {
+      f: goal_form,
+      editable_activities_fields: false,
+      display_weekly_goals_link: @goal.persisted?
+    }
+  ) %>
+</div><!-- /[data-display="commission_split_type_not_nil"] -->

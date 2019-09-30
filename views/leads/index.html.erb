@@ -1,0 +1,48 @@
+<% content_for :title, "Clients" %>
+<% content_for(:demo_button, "clients-index") %>
+<% breadcrumb(:clients) %>
+
+<div class="ui masthead vertical segment">
+  <div class="ui container full-width-container" >
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0"  data-introjs-step="step400">
+        <h1 class="ui header">
+          <%= link_to("Clients", clients_path) %>
+        </h1><!-- /.ui header -->
+        <div class="ui hidden divider"></div>
+        <%= link_to(new_lead_path, class: "ui button primary") do %>
+          <i class="plus icon"></i>
+          Add New Client
+        <% end %>
+      </div><!-- /.ui segment -->
+      <div class="ui very basic segment no-border p-a-0 hide-mobile-and-down" data-ui-context="clients-pipeline" data-introjs-step="step401">
+        <%= render(partial: "leads/stats/clients_pipeline") %>
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui horizontal segments -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container full-width-container">
+  <div class="ui vertical basic segment p-t-0 index-page-table-container">
+    <div class="ui segments sticky-black-menu-container index-page-table-container__segments">
+      <div class="ui segment ab-search-bar-segment" data-introjs-step="step402">
+        <%= render(partial: "leads/table/options/search_bar", action_name: "clients") %>
+      </div><!-- /.ui segment -->
+
+      <div class="ui segment p-a-0" data-introjs-step="step403">
+        <%= render(partial: "leads/table/options/sticky_select_menu") %>
+
+        <div class="ui disabled inverted dimmer" data-behavior="loader">
+          <div class="ui text loader">Loading</div>
+        </div>
+
+        <div id="items-container" data-container="lead-items" data-introjs-step="step404">
+          <%= render(
+            partial: "leads/table/data",
+            locals: { leads: @leads, action_name: "clients" }
+          ) %>
+        </div><!-- /.#contacts-container -->
+      </div><!-- /.ui segment -->
+    </div><!-- /.ui segments -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.ui main container full-width-container -->

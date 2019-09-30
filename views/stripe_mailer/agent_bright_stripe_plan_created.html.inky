@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">New Stripe Plan Created</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">A new plan has just been added to the stripe database, please check the stripe dashboard to make sure that it has been authorized</p>
+<% end %>

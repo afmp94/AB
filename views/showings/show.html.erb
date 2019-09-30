@@ -1,0 +1,74 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lead:</strong>
+  <%= @showing.lead_id %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @showing.status %>
+</p>
+
+<p>
+  <strong>Address1:</strong>
+  <%= @showing.address1 %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @showing.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @showing.state %>
+</p>
+
+<p>
+  <strong>Zip:</strong>
+  <%= @showing.zip %>
+</p>
+
+<p>
+  <strong>Date time:</strong>
+  <%= @showing.date_time %>
+</p>
+
+<p>
+  <strong>Comments:</strong>
+  <%= @showing.comments %>
+</p>
+
+<p>
+  <strong>Mls number:</strong>
+  <%= @showing.mls_number %>
+</p>
+
+<p>
+  <strong>Listing agent:</strong>
+  <%= @showing.listing_agent %>
+</p>
+
+<p>
+  <strong>Email request to agent:</strong>
+  <%= @showing.email_request_to_agent %>
+</p>
+
+<p>
+  <strong>Requested:</strong>
+  <%= @showing.requested %>
+</p>
+
+<p>
+  <strong>Confirmed:</strong>
+  <%= @showing.confirmed %>
+</p>
+
+<p>
+  <strong>List price:</strong>
+  <%= @showing.list_price %>
+</p>
+
+<%= link_to 'Edit', edit_showing_path(@showing) %> |
+<%= link_to 'Back', showings_path %>

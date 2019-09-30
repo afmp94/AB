@@ -1,0 +1,27 @@
+<div data-behavior="lead-forwarding-header" class="m-t-lg">
+  <%= render(partial: "lead_forwarding_header") %>
+</div>
+
+
+<%= simple_form_for(
+  @lead_setting,
+  url: lead_forward_update_user_settings_lead_settings_path,
+  html: { class: "ui form", data: { "mobile-app-forced-form": request_from_mobile_app? } }
+) do |f| %>
+  <h3 class="ui subheader">Configure Lead Forwarding</h3>
+  <p><%= white_labeled_app_name(current_subdomain) %> can automatically forward leads to your team if you are unavailable</p>
+  <%= f.association(
+    :forward_to_group,
+    label: "Which team?",
+    collection: @user_lead_groups_owned_or_part_of,
+    include_blank: false,
+    wrapper: :vertical_multiselect
+  ) %>
+  <%= f.input(
+    :forward_after_minutes,
+    label: "How long should #{white_labeled_app_name(current_subdomain)} wait before forwarding the lead?",
+    collection: LeadGroup::DURATION_BEFORE_LEAD_FORWARD,
+    include_blank: false
+  ) %>
+  <%= f.button(:submit, value: "Save", "data-disable-with": "Saving...") %>
+<% end %>

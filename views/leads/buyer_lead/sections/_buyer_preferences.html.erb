@@ -1,0 +1,30 @@
+<div id="buyer-preferences-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Buyer Preferences",
+        edit_fixed_list_lead_path(lead, lead_type: "buyer_lead", section: "buyer_preferences"),
+        nil,
+        "lead-details-section"
+      ) %>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Area</td>
+        <td><%= lead.buyer_area_of_interest %></td>
+      </tr>
+      <tr>
+        <td>Property type</td>
+        <td><%= lead.property_type_to_s %></td>
+      </tr>
+      <tr>
+        <td>Timeframe</td>
+        <td><%= lead.timeframe_to_s %></td>
+      </tr>
+      <tr>
+        <td>Price Range</td>
+        <td><%= display_lead_price_range(lead) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

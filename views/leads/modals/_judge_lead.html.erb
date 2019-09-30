@@ -1,0 +1,129 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Call Result: <%= lead.name %></h4>
+</div><!-- /modal-header -->
+<div class="content">
+  <%= simple_form_for(
+    lead,
+    html: {
+      data: { "mobile-app-forced-form": request_from_mobile_app? }
+    }
+  ) do |form| %>
+    <h3>Assess lead:</h3>
+    <div class="row quiz-group">
+      <div class="col-xs-12 btn-group quiz-column quiz-column-full-width" data-toggle="buttons">
+        <div class="quizbox quiz-answer">
+          <label class="btn btn-primary js-reveal-quiz-answer">
+            <%= form.radio_button(
+              :status,
+              1,
+              autocomplete: "off",
+              data: { quizbox_toggle: "true" }
+            ) %>
+            <div id="lead-call-result-modal-business-now" class="quizbox-label quizbox-label-with-icon">
+              <div class="mdi-action-done"></div>
+              <div>
+                Possibly looking to do business now
+              </div>
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+        <div class="quizbox quiz-answer">
+          <label class="btn btn-primary js-reveal-quiz-answer">
+            <%= form.radio_button(
+              :status,
+              8,
+              autocomplete: "off",
+              data: {
+                quizbox_toggle: "true",
+                quizbox_reveal: "js-quiz-reveal-01"
+              }
+            ) %>
+            <div class="quizbox-label quizbox-label-with-icon">
+              <div class="mdi-device-access-time"></div>
+              <div>Not ready yet, but could do business in the future</div>
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+        <div class="quizbox quiz-answer">
+          <label class="btn btn-primary js-reveal-quiz-answer">
+            <%= form.radio_button(
+              :status,
+              6,
+              autocomplete: "off",
+              data: {
+                quizbox_toggle: "true",
+                quizbox_reveal: "js-quiz-reveal-02"
+              }
+            ) %>
+            <div class="quizbox-label quizbox-label-with-icon">
+              <i class="mdi-navigation-close"></i> Not interested in your services
+            </div><!-- /.quizbox-label -->
+          </label>
+        </div><!-- /.quizbox -->
+      </div><!-- /.col-sm-4 -->
+      <div class="col-xs-12">
+        <div class="card quiz-follow-up-wrap js-quiz-reveal-01">
+          <div class="card-content">
+            <div class="form-group">
+              <label for="long_term_prospect_timeframe">When are they looking to buy or sell?</label>
+              <select name="long_term_prospect_timeframe" id="lead-call-result-modal-business-future-time" class="select">
+                <option value="0-3 months">0-3 months</option>
+                <option value="3-6 months">3-6 months</option>
+                <option value="6-12 months">6-12 months</option>
+                <option value="1-2 years">1-2 years</option>
+                <option value="more than 2 years">more than 2 years</option>
+                <option value="unknown amount of time">Not sure</option>
+              </select>
+            </div><!-- /.form-group -->
+            <label for="waiting_reason">Why are they waiting?:</label>
+            <%= text_area_tag(
+              "waiting_reason",
+              nil,
+              rows: 5
+            ) %>
+            <%= form.button(
+              :submit,
+              "Save",
+              class: "ui primary button"
+            ) %>
+          </div><!-- /.card-content -->
+        </div><!-- /.card quiz-follow-up-wrap -->
+        <div class="card quiz-follow-up-wrap js-quiz-reveal-02">
+          <div class="card-content">
+            <h4>Why aren't they interested?</h4>
+            <div class="row button-grid below36">
+              <div class="col-sm-6">
+                <label id="lead-call-result-modal-not-interested-checkbox1" class="btn btn-primary">
+                  <input id="lead-call-result-modal-not-interested-not-serious" type="checkbox" autocomplete="off" value="0">
+                  <div class="button-grid-text">Not a serious buyer/seller</div>
+                </label>
+              </div><!-- /.col-sm-6 -->
+              <div class="col-sm-6">
+                <label id="lead-call-result-modal-not-interested-checkbox2" class="btn btn-primary">
+                  <input id="lead-call-result-modal-not-interested-has-agent" type="checkbox" autocomplete="off" value="0">
+                  <div class="button-grid-text">Already have an agent</div>
+                </label>
+              </div><!-- /.col-sm-6 -->
+            </div><!-- /row -->
+            <%= form.button(
+              :submit,
+              "Save",
+              class: "ui primary button"
+            ) %>
+          </div><!-- /.card-content -->
+        </div><!-- /.card quiz-follow-up-wrap -->
+      </div><!-- /.col-sm-8 -->
+    </div><!-- /row -->
+    <a class="ui basic button float-right" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div><!-- /content -->
+
+<% content_for :javascript do %>
+  <script>
+    $("#lead-call-result-modal-business-now").click(function() {
+      var form = this.closest("form");
+      $("#lead_status_1").prop("checked", true)
+      form.submit();
+    });
+  </script>
+<% end %>

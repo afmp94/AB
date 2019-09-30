@@ -1,0 +1,58 @@
+<% breadcrumb(:email_campaign_tracking) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Email Campaigns Tracking",
+    secondary_name: "Connections"
+  }
+) do %>
+<!-- MAIN SECTION -->
+  <%= simple_form_for(current_user, url: user_settings_email_campaigns_path, html: { data: { "mobile-app-forced-form": request_from_mobile_app? }, class: "ui form" }) do |f| %>
+
+    <h2 class="ui dividing header m-t-0">Settings</h2>
+    <table class="ui unstackable table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>On/Off</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="breakword">
+            Track Opens
+          </td>
+          <td >
+            <%=f.input(
+              :email_campaign_track_opens,
+              wrapper: :toggle_switch,
+              label: false
+            ) %>
+          </td>
+        </tr>
+        <tr>
+          <td class="breakword">
+            Track Clicks
+          </td>
+          <td>
+            <%=f.input(
+              :email_campaign_track_clicks,
+              wrapper: :toggle_switch,
+              label: false
+            ) %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+      <%=f.button(
+        :submit,
+        value: "Update Email Campaigns Tracking",
+        class: "ui button primary",
+        "data-disable-with": "Updating..."
+      ) %>
+  <% end %>
+<% end %>
+
+
+

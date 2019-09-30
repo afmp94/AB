@@ -1,0 +1,87 @@
+<%= simple_form_for(
+  [lead, contract],
+  html: {
+    data: {
+      fv_live: "submitted",
+      form: "add_contract_form",
+      "mobile-app-forced-form": request_from_mobile_app?,
+      page: "add_buyer_contract"
+    }
+  }
+) do |f| %>
+  <%= hidden_field_tag(:redirect_page, "leads_show") %>
+  <%= hidden_field_tag(:render_page, "contracts_add_contract") %>
+  <%= f.input(
+    :property_id,
+    label: "Select Property",
+    collection: lead.properties,
+    input_html: { data: { behavior: "property-select" } },
+    include_blank: false,
+    label_method: lambda { |property| "#{property.one_line_address}" }
+  ) %>
+  <%= link_to(
+    "Add New Property",
+    open_add_property_modal_lead_path(id: lead.id),
+    class: "ui button m-b",
+    data: { remote: true, toggle: "modal", target: "#mainModal" }
+  ) %>
+  <%= f.input(
+    :offer_price,
+    label: "Contract Price",
+    as: :currency,
+    placeholder: "ex. 350000"
+  ) %>
+  <h3 class="ui header">Commission</h3>
+  <div class="ui raised segment">
+    <%= render(partial: "contracts/forms/commission", locals: { f: f }) %>
+  </div>
+  <%= f.input(
+    :status,
+    collection: Contract::STATUSES.invert,
+    include_blank: false
+  ) %>
+  <%= f.input(
+    :closing_date_at,
+    label: "Closing Date",
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.closing_date_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:seller_agent) %>
+  <%= f.input(:seller) %>
+  <h3 class="ui header">Do you have to pay a referral?</h3>
+  <div class="two fields">
+    <%= f.input(
+      :referral_fee_type,
+      label: "Referral percentage or fee?",
+      collection: ["Percentage","Fee"],
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      input_html: { data: { behavior: "display-commission-referral-fields" } }
+    ) %>
+    <%= f.input(
+      :referral_fee_rate,
+      label: "What is the referral percentage?",
+      as: :percentage,
+      placeholder: "ex. 65",
+      wrapper_html: { id: "percentage2-field" }
+    ) %>
+    <%= f.input(
+      :referral_fee_flat_fee,
+      label: "What is the referral fee?",
+      as: :currency,
+      placeholder: "ex. 100",
+      wrapper_html: { id: "fee2-field" }
+    ) %>
+  </div><!-- /.two fields -->
+  <%= f.input(
+    :additional_fees,
+    label: "Any additional Fees?",
+    as: :currency,
+    placeholder: "ex. 100"
+  ) %>
+  <%= f.button(:submit, "Save", "data-disable-with": "Saving...") %>
+  <%= link_to("Cancel", @lead, class: "ui basic button") %>
+<% end %>

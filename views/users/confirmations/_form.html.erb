@@ -1,0 +1,18 @@
+<%= simple_form_for(
+  resource,
+  as: resource_name,
+  url: confirmation_path(resource_name),
+  html: { method: :post, class: "large" },
+  remote: true
+) do |f| %>
+  <div class="ui stacked left aligned segment">
+    <%= devise_error_messages! %>
+    <%= f.input(:email, autofocus: true) %>
+    <%= f.button(
+      :submit,
+      "Resend confirmation instructions",
+      class: "ui fluid large teal submit button"
+    ) %>
+  </div>
+  <div class="ui error message"></div>
+<% end %>

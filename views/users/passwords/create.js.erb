@@ -1,0 +1,11 @@
+<% if resource.errors.empty? %>
+  var path = "<%= response.location %>";
+
+  $.fn.redirectTo(path);
+<% else %>
+<% resource.errors.full_messages.each do |error| %>
+  toastr["error"]("<%= error %>");
+<% end %>
+
+  $('.new-record').replaceWith('<%= j render partial: 'users/passwords/reset_form' %>');
+<% end %>

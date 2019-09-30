@@ -1,0 +1,15 @@
+<li>
+  <%= render 'public_activity/activity_date', activity: activity -%>
+
+  <%= activity.owner.name if activity.owner %>
+
+  updated referral activity information for
+  <span class="activity_name">
+      <% if activity.recipient %>
+        <%= show_contact_activity_link(activity.recipient) %>
+      <% else %>
+         <%= human_activity_name(activity) %>
+      <% end %>.
+  </span>
+
+</li>

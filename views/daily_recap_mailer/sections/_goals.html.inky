@@ -1,0 +1,49 @@
+<% if @goal.present? %>
+  <row>
+    <columns small="12" large="12" valign="middle" style="background-color: #3f729b">
+      <h3 class="text-left" style="height: 10px;color:#eaece5; margin-top: 5px; margin-bottom: 10px; margin-left: 15px;font-size: 22px;" >Goals</h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small="6" large="6">
+      <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 60px;padding:0 7px;display:inline-block;border-radius:12px">
+        <strong> <%= number_to_currency(@goal.desired_annual_income, precision: 0) %> (2019)</strong>
+      </span>
+    </columns>
+    <columns small="6" large="6">
+      <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">
+        <strong> <%= number_to_currency(@stats_service.individual_closed_ytd_leads_commission, precision: 0) %> (YTD)</strong>
+      </span>
+    </columns>
+  </row>
+<% else %>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small=8" large="8" >
+      <span style="font-weight:normal;font-size:14px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px"> Just getting started with AgentBright?  Take the first step. </span>
+     </columns>
+    <columns small="3" large="3">
+      <button href="<%= new_goal_url %>" target="_blank" class="rounded small-expanded primary button-size: tiny">Set Goals</button>
+        <spacer size="6"></spacer>
+      </button>
+    </columns>
+  </row>
+<% end %>
+
+<spacer size="6"></spacer>
+<% if @quote.present? %>
+  <row>
+    <columns small="12" large="12" class="large-offset-10">
+      <row>
+        <h3 class="text-center" style=" height: 10px;width: 100%;color:#2B547E; margin-top: 5px; margin-bottom: 5px; font-size: 16px; " >
+          <i>"<%= "#{@quote.text}" %>"</i>
+        </h3>
+        <spacer size="2"></spacer>
+        <h4 class="text-center" style=" height: 10px;width: 100%;color:#2B547E; margin-top: 5px; margin-bottom: 5px; font-size: 14px;">
+          -<%= @quote.author %>
+        </h4>
+      </row
+    </columns>
+  </row>
+<% end %>

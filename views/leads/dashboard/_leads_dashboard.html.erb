@@ -1,0 +1,26 @@
+<div class="col-sm-6 no-max-width">
+  <h2>Open Leads</h2>
+  <% if @dashboard_presenter.open_leads.present? %>
+    <ul class="dotted-list">
+      <%= render partial: 'leads/dashboard/dashboard_lead', collection: @dashboard_presenter.open_leads.first(5), as: :lead %>
+    </ul><!-- /.dotted-list -->
+    <% if @dashboard_presenter.open_leads.count > 5 %>
+      <div class="fwb">
+        <%= link_to "Show all leads", user_leads_path %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="row sub-section" id="openleadsemptymessage">
+      <div class="col-xs-12">
+        <div class="no-data alignc">
+          <div class="ab-icon">
+            <span class="fui-check"></span>
+          </div>
+          <h2>
+            Great job! You have no open leads!
+          </h2>
+        </div><!-- no-data -->
+      </div><!-- /.col-xs-12 -->
+    </div><!-- /row -->
+  <% end %>
+</div><!-- /.col-sm-6 -->

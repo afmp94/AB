@@ -1,0 +1,11 @@
+<div class="field">
+  <label>Contact Groups</label>
+  <%= select_tag(
+    :contact_tag_list,
+    options_for_select(
+      current_user.all_contact_groups,
+      contact.contact_groups_by_user(current_user)
+    ),
+    { class: "ui fluid search dropdown addition", multiple: true, "data-ui-behavior" => "dropdown-allow-addition" }
+  ) %>
+</div><!-- /.field -->

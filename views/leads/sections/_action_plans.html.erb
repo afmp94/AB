@@ -1,0 +1,89 @@
+<div id="contact-action_plans-section" class="info-list-section">
+  <h3 class="ui dividing header">
+    Action Plans
+  </h3>
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <tr>
+        <th colspan="6" >
+          Name
+        </th>
+        <th>
+          Last Step
+        </th>
+        <th>
+          Next Step
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+        </th>
+      <tr>
+    </thead>
+    <tbody>
+      <% lead.action_plan_memberships.each do |action_plan_membership| %>
+        <tr>
+          <td colspan="6">
+            <%= link_to(action_plan_membership.action_plan.name, action_plan_path(action_plan_membership.action_plan)) %> </br>
+            <%= action_plan_membership.action_plan.purpose %>
+          </td>
+          <td >
+            <div class="ui gray circular label"> <%= action_plan_membership.last_step_id %></div>
+            <br>
+            <%= short_date(action_plan_membership.last_step_at) %>
+          </td>
+          <td >
+            <div class="ui gray circular label"> <%= action_plan_membership.next_step&.order %></div>
+            </br>
+            <%= short_date(action_plan_membership.next_step_at) %>
+          </td>
+          <td >
+            <%= action_plan_membership.state %>
+          </td>
+          <td>
+            <%= link_to cancel_action_plan_membership_path(action_plan_membership, from_leads: true), method: :post, data: { confirm: 'Are you sure?' } do %>
+              <i class="trash icon red"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <a href="#" class="ui icon button add_to_action_plan_btn noloading">
+    <i class="plus icon"></i>
+    Add to action plan
+  </a>
+
+  <div class="add_action_plan_membership_from_contact_view hide">
+    <%= simple_form_for ActionPlanMembership.new, defaults: { input_html: { class: 'ui form' } } do |f| %>
+      <div class="field action_plan_add_field">
+        <label>Select action_plan:</label>
+        <div class="ui selection dropdown action_plans_dropdown">
+          <input type="hidden" name="action_plan_membership[action_plan_id]" id="membership_action_plan_id">
+          <div class="default text"></div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <% current_user.action_plans.each do |action_plan| %>
+              <div class="item" data-value= <%= action_plan.id %> > <%= action_plan.name %> </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="action_plan_membership[lead_id]" value= <%= lead.id %>>
+      <input type="hidden" name="action_plan_membership[contact_id]" value= <%= lead.contact.id %>>
+      <input type="hidden" name="action_plan_membership[state]" value="active">
+      <input type="hidden" name="from_leads" value="true">
+      <input type="hidden" name="action_plan_membership[lead_status_when_initiated]" value=<%= lead.status%>>
+
+      <%= f.submit "Add", class: "ui primary button form_add_submit_btn" %>
+      <%= link_to("Cancel", "#", class: "ui basic button cancel_to_action_plan_btn noloading") %>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  .hide {
+    display: none;
+  }
+</style>

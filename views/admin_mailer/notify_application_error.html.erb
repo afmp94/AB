@@ -1,0 +1,9 @@
+<b>Application Error </b>
+
+Error: <%= @error %>
+
+<% if @error_metadata.present? %>
+  <pre>
+    <%= @error_metadata.inspect %>
+  </pre>
+<% end %>

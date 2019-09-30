@@ -1,0 +1,12 @@
+<dt>
+  <p>
+    <%= "For #{pluralize(team_group.users_count, "team member", plural: "team members")}, you save:" %>
+  </p>
+</dt>
+<dd>
+  <p>
+    <span class="subscription-charge">
+      <%= team_group.annualized_savings %> per year
+    </span>
+  </p>
+</dd>

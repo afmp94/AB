@@ -1,0 +1,80 @@
+<% breadcrumb(:broker_organization) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: { primary_name: "Organization Profile", secondary_name: "My Business" }
+) do %>
+  <h2 class="ui dividing header m-t-0" id="organization-info">Organization Info</h2>
+  <%= simple_form_for @organization, url: broker_organization_path, method: :put, html: { css: "ui form max-width-600"} do |f| %>
+    <%= f.input :brokerage_name  %>
+
+    <div class="two fields">
+      <%= f.input :phone_number, input_html: { data: { input_mask: "phone"} } %>
+      <%= f.input :fax_number, input_html: { data: { input_mask: "phone"} } %>
+    </div><!-- /.two fields -->
+
+    <%= f.input :website, label: "Company Website", placeholder: "http://your-domain.com", input_html: { autocomplete: "organization-website" } %>
+    <%= f.input :address, as: :string, input_html: { autocomplete: "organization-address" } %>
+
+    <div class="two fields">
+      <%= f.input :city, input_html: { autocomplete: "organization-city" } %>
+      <%= f.input :state, collection: Carmen::Country.coded('US').subregions.map { |c| c.code } %>
+    </div><!-- /.two fields -->
+
+    <div class="two fields">
+      <%= f.input :zip, input_html: { data: { input_mask: "zipcode" }, autocomplete: "organization-zip" } %>
+      <%= f.input :country, wrapper: :vertical_select, priority: ["United States"], selected: (f.object&.country || "US") %>
+    </div><!-- /.two fields -->
+
+    <%= f.input :time_zone, priority: /Eastern Time/, input_html: { class: "ui selection dropdown" } %>
+
+    <%= f.submit "Update", class: "ui primary button" %>
+    <%= link_to("Cancel", dashboard_path, class: "ui basic button") %>
+  <% end %>
+
+  <h2 class="ui dividing header" id="offices">Offices</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Office</th>
+        <th>Active Agents</th>
+        <th>Inactive Agents</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @organization.offices.find_each do |office| %>
+        <tr>
+          <td class="breakword">
+            <%= office.name %>
+            <% unless office.active? %>
+              <div class="ui red horizontal label">Inactive</div>
+            <% end %>
+          </td>
+          <td>
+            <%= office.organization_members.active.count %>
+          </td>
+          <td>
+            <%= office.organization_members.inactive.count %>
+          </td>
+          <td class="collapsing">
+            <% if office.active? %>
+              <%= link_to("Deactivate", deactivate_office_broker_organization_path(office_id: office.id), method: :put, class: "ui red basic button") %>
+            <% else %>
+              <%= link_to("Reactivate", reactivate_office_broker_organization_path(office_id: office.id), method: :put, class: "ui green basic button") %>
+            <% end %>
+
+            <%= link_to remove_office_broker_organization_path(office_id: office.id), method: :delete, class: "ui red basic icon button", data: { confirm: "Are you sure? "} do %>
+              <i class="trash icon"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h3 class="ui dividing header">Add a new office</h2>
+  <%= simple_form_for @office, url: add_office_broker_organization_path, html: { css: "ui form max-width-600"} do |f| %>
+    <%= f.input :name  %>
+    <%= f.submit "Add", class: "ui primary button" %>
+  <% end %>
+<% end %>

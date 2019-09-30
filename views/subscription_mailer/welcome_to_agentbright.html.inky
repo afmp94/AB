@@ -1,0 +1,11 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <p class="text-left">Hi <%= @user.first_name %>,</p>
+  <spacer size="16"></spacer>
+  <p class="text-left">Thanks for subscribing to <%= t('shared.subscription.name') %>!  We're glad to have you.</p>
+  <p class="text-left">Our mission is to make great software so that you can do what you love to do as a Real Estate Agent! </p>
+  <spacer size="16"></spacer>
+  <p class="text-left">Let us know what you think.  Drop us a line. Talk soon!</p>
+  <spacer size="16"></spacer>
+  <p class="text-left">Patrick O'Grady
+  CEO of AgentBright</p>
+<% end %>

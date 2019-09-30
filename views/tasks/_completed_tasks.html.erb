@@ -1,0 +1,30 @@
+<% article_class = nil if local_assigns[:article_class].nil? %>
+<% cache(
+  [
+    "completed_tasks",
+    tasks.map(&:id),
+    tasks.maximum(:updated_at),
+    article_class,
+    completed_tasks_count
+  ]
+) do %>
+  <% if !tasks.empty? %>
+    <section class="completed_todos">
+      <article class="todolist <%= article_class %>" data-task-section="task_list">
+        <ul>
+          <%= render(
+            partial: "tasks/completed_task",
+            collection: tasks,
+            as: :task
+          ) %>
+        </ul>
+      </article>
+    </section>
+    <% if completed_tasks_count > 5 %>
+      <%= link_to(
+        "#{completed_tasks_count - 5} more completed tasks",
+        all_completed_tasks_path
+      ) %>
+    <% end %>
+  <% end %>
+<% end %>

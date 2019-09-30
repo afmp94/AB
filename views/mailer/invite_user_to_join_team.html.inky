@@ -1,0 +1,9 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <hr />
+  <p><strong><%= @invitee.full_name %></strong> has requested to be your teammate.</p>
+
+  <spacer size="12"></spacer>
+  <p>This means <%= @invitee.first_name %> and you will be able to view and edit each other's information. Please be sure that <%= @invitee.first_name %> can be trusted before accepting.</p>
+  <p><%= link_to "Click here", user_settings_teams_url %>, and we will bring you to the teammates page, where you can accept or decline <%= @invitee.first_name %>'s request.</p>
+
+<% end %>

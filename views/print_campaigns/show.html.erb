@@ -1,0 +1,21 @@
+<% content_for(:title, "Print Campaign | #{@print_campaign.name}") %>
+<% breadcrumb(:show_print_campaign) %>
+
+<%= page_header(
+  primary_name: "Print Campaigns",
+  primary_path: print_campaigns_path,
+  secondary_name: "Download PDF"
+) %>
+
+<div class="ui main container">
+  <h5 class="ui header">Print Campaign File:</h5>
+  <p><%= (@print_campaign.title_to_s) %> <%= "- "%> <%= (@print_campaign.name) %></p>
+  <%= link_to(
+    'Download PDF',
+    download_campaign_labels_print_campaign_path,
+    "data-no-turbolink": "true",
+    class: "ui primary button",
+    method: :patch
+  ) %>
+  <%= link_to "Go back", print_campaigns_path %>
+</div><!-- /.ui main container -->

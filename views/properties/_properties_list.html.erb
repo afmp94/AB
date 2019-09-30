@@ -1,0 +1,23 @@
+<% if @active_properties.present? || @archived_properties.present? %>
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="inline-block"><a data-toggle="collapse" class="clickable" data-toggle-event="true" data-target="#properties-list"><div class="title-arrow fui-arrow-right"></div>Properties</a></h3>
+      <%= link_to "Add a property", new_lead_property_path(@lead), class: "add-btn btn btn-primary btn-embossed float-right b0 btn-sm btn-loading js-track-link", value: "Save", "data-loading-text" => "Loading..."  %>
+      <div id="properties-list" class="collapse in">
+        <% if @active_properties.present? %>
+          <ul class="dotted-list">
+            <%= render partial: "properties/property", collection: @active_properties, as: :property %>
+          </ul>
+        <% end %>
+        <% if @archived_properties.present? %>
+          <a data-toggle="collapse" data-target="#archived-properties" class="clickable">Show archived properties</a>
+          <div id="archived-properties" class="collapse">
+            <ul class="dotted-list no-dots">
+              <%= render partial: "properties/property_archived", collection: @archived_properties, as: :property %>
+            </ul>
+          </div><!-- /.collapse -->
+        <% end %>
+      </div><!-- /#properties-list -->
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row -->
+<% end %>

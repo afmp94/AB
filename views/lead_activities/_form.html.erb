@@ -1,0 +1,33 @@
+<%= simple_form_for(@lead_activity, url: lead_activities_path, html: { class: "ui form" }) do |f| %>
+  <%= f.association(
+    :lead,
+    collection: current_user.leads.order("name asc"),
+    label_method: :name,
+    wrapper: :vertical_search_select,
+    include_blank: false
+  ) %>
+  <%= f.input(
+    :activity_type,
+    label: "What kind of activity was it?",
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_radio_buttons,
+    collection: ["Call", "Email", "Meeting"]
+  ) %>
+  <%= f.input(:subject) %>
+  <%= f.input(
+    :completed_at,
+    label: "Date",
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.completed_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:comments, input_html: { rows: 6 }) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", :back, class: "ui basic button") %>
+<% end %>

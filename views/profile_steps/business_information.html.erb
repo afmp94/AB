@@ -1,0 +1,61 @@
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon dividing header">
+      <i class="travel icon"></i>
+      <div class="content">
+        Add business information
+        <div class="sub header"></div><!-- /.sub header -->
+      </div><!-- /.content -->
+    </h2><!-- /.ui header -->
+    <p>
+      Set up your professional contact information once and it can then be used in your marketing materials automatically - saving you time.
+    </p>
+    <%= simple_form_for(
+      @user,
+      url: wizard_path,
+      method: :put,
+      remote: true
+    ) do |f| %>
+      <%= f.hidden_field :id %>
+      <%= f.input(:company, label: "Company/Agency") %>
+      <%= f.input(
+        :personal_website,
+        label: "Personal Website URL",
+        placeholder: "e.g. www.google.com or google.com"
+      ) %>
+      <%= f.input(:mobile_number, input_html: { data: { input_mask: "phone" } }) %>
+      <%= f.input(:office_number, input_html: { data: { input_mask: "phone" } }) %>
+      <%= f.input(:fax_number, input_html: { data: { input_mask: "phone" } }) %>
+
+      <h3 class="ui header">Office/Brokerage Address</h3>
+      <%= f.input(:address) %>
+      <div class="two fields">
+        <%= f.input :city %>
+        <%= f.input(
+          :state,
+          collection: Carmen::Country.coded('US').subregions.map { |c| c.code }
+        ) %>
+      </div>
+      <div class="two fields">
+        <%= f.input(
+          :zip,
+          label: "Zip/Postal Code",
+          input_html: { data: { input_mask: "zipcode"} }
+        ) %>
+        <%= f.input(
+          :country,
+          as: :hidden,
+          input_html: { value: "US" },
+          priority: ["US"],
+          selected: "US"
+        ) %>
+      </div>
+      <%= f.button(
+        :submit,
+        class: "ui primary button",
+        value: "Save and continue",
+        "data-loading-text": "Loading..."
+      ) %>
+    <% end %>
+  </div><!--/.ui segment -->
+<% end %>

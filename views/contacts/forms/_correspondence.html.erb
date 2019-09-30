@@ -1,0 +1,24 @@
+<%= simple_form_for @contact, remote: true do |f| %>
+  <%= hidden_field_tag(:inline_form, "correspondence") %>
+  <!--These hidden input fields are added for salutation.js.coffee-->
+  <%= f.input(:first_name, as: :hidden, input_html: { disabled: true }) %>
+  <%= f.input(:last_name, as: :hidden, input_html: { disabled: true }) %>
+  <%= f.input(:spouse_first_name, as: :hidden, input_html: { disabled: true }) %>
+  <%= f.input(:spouse_last_name, as: :hidden, input_html: { disabled: true }) %>
+  <h4 class="ui header">Please check your salutation texts</h4>
+  <%= f.input(:envelope_salutation, label: "Envelope Salutation", input_html: { data: { behavior: "contact-envelope-salutation" } }) %>
+  <%= f.input(:letter_salutation, label: "Letter Salutation", input_html: { data: { behavior: "contact-letter-salutation" } }) %>
+  <%= f.input(
+    :unsubscribed,
+    label: "User has opted out of email campaigns?",
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_inline_radio_buttons
+  ) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-cancel-section="#contact-correspondence-section" class="ui basic button">Cancel</a>
+<% end %>

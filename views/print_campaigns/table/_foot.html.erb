@@ -1,0 +1,11 @@
+<tfoot>
+  <% if @print_campaigns.total_pages > 1 %>
+    <tr>
+      <th colspan="8" class="index-page-table__pagination-footer">
+        <div data-info="pagination" data-current-page="<%= @print_campaigns.current_page %>">
+          <%= paginate(@print_campaigns, params: { controller: "print_campaigns", action: "index" }) %>
+        </div>
+      </th>
+    </tr>
+  <% end %>
+</tfoot>

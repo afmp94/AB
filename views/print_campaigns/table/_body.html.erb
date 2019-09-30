@@ -1,0 +1,7 @@
+<tbody>
+  <% cache(["print_campaigns_index", @print_campaigns.pluck(:id), @print_campaigns.maximum(:updated_at)], expires_in: 1.hour) do %>
+    <% print_campaigns.each do |print_campaign| %>
+      <%= render(partial: "print_campaigns/table/row", locals: { print_campaign: print_campaign }) %>
+    <% end %>
+  <% end %>
+</tbody>

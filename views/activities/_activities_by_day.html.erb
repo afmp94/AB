@@ -1,0 +1,37 @@
+<% if activities.present?  %>
+  <% activities_by_day(activities).each do |date, activities_on_date| %>
+    <div class="date-header" data-grouped-dates-divider data-datetime="<%= date %>">
+      <%= date %>
+    </div><!-- /.date-header -->
+    <% activities_on_date.each do |activity| %>
+      <% cache([activity, current_user.id]) do %>
+        <%= render_activities(activity) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if !activities.last_page? %>
+    <div id="show-more-activities" class="more-activities-link">
+      <div class="js-loading">
+        <%= link_to(
+          "Show more activities",
+          activities_url,
+          "data-behavior" => "js-loading",
+          remote: true
+        ) %>
+        <div class="clear-loading loading-effect-2"><span></span></div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <i class="smile icon"></i> No activity yet!
+<% end %>
+
+<% content_for :javascript do %>
+  <script charset="utf-8">
+    <% if activities.present? %>
+      $('[data-behavior="activity-stream"]').addClass("activity-stream")
+    <% else %>
+      $('[data-behavior="activity-stream"]').removeClass("activity-stream")
+    <% end %>
+  </script>
+<% end %>

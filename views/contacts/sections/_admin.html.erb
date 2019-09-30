@@ -1,0 +1,69 @@
+<div class="ui segments">
+  <div class="ui top attached negative icon message">
+    <i class="wrench icon"></i>
+    <div class="content">
+      <div class="header">
+        Super Admin
+      </div><!-- /.header -->
+    </div><!-- /.content -->
+  </div><!-- /.ui top attached warning message -->
+  <div class="ui very basic segment">
+    <div class="ui accordion" data-ui-behavior="accordion">
+      <div class="title">
+        <h3 class="ui header">
+          <i class="dropdown icon"></i>
+          Admin
+        </h3><!-- /.ui header -->
+      </div><!-- /.title -->
+      <div class="content">
+        <div id="contact-admin-section"  class="info-list-section">
+          <table class="ui very basic unstackable table info-list-table">
+            <thead>
+              <%= fixed_list_header("Basics") %>
+            </thead>
+            <tbody>
+              <%= fixed_list_item("Owner", contact.user&.full_name) %>
+              <%= fixed_list_item("Last Call", cal_date(contact.last_called_at)) %>
+              <%= fixed_list_item("Next Call", cal_date(contact.next_call_at)) %>
+              <%= fixed_list_item("Next Call", cal_date(contact.next_call_at)) %>
+              <%= fixed_list_item("Last Note", cal_date(contact.last_note_sent_at)) %>
+              <%= fixed_list_item("Next Note", cal_date(contact.next_note_at)) %>
+              <%= fixed_list_item("Last Visit", cal_date(contact.last_visited_at)) %>
+              <%= fixed_list_item("Next Visit", cal_date(contact.next_visit_at)) %>
+            </tbody>
+          </table><!-- /.ui table -->
+          <div class="ui dividing header"></div>
+          <table class="ui very basic unstackable table info-list-table">
+            <thead>
+              <%= fixed_list_header("Emails") %>
+            </thead>
+            <tbody>
+              <%= fixed_list_item("Total Email Messages Sent", contact.received_email_messages_total_count) %>
+              <%= fixed_list_item("Total Email Messages In Last Year", contact.received_email_messages_in_last_year_count) %>
+              <%= fixed_list_item("Last Email Sent", cal_date(contact.last_received_email_sent_at&.localtime)) %>
+              <%= fixed_list_item("Overall Last Contacted", cal_date(contact.overall_last_contacted_at&.localtime)) %>
+              <% if contact.user.has_nylas_token? %>
+                <tr data-behavior="contact-nylas-report-info" data-contact-id="<%= contact.id %>">
+                  <td colspan=2>Loading Nylas info...</td>
+                </tr>
+                <tr>
+                  <td colspan=2>
+                    <%= button_to(
+                      "Refresh Social Info",
+                      {
+                        controller: "contacts",
+                        action: "refresh_fullcontact_info",
+                        id: contact.id
+                      },
+                      class: "ui button"
+                    ) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table><!-- /.ui table -->
+        </div><!-- /#contact-admin-section -->
+      </div><!-- /.content -->
+    </div><!-- /.ui accordion -->
+  </div><!-- /.ui very basic segment -->
+</div><!-- /.ui raised segments -->

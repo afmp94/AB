@@ -1,0 +1,16 @@
+<tr>
+  <td>Total Email Messages Sent  <br/> (Nylas API)::</td>
+  <td><%= @contact.received_email_messages_total_count_from_nylas  %></td>
+</tr>
+<tr>
+  <td>Total Email Messages In Last Year <br/>(Nylas API):</td>
+  <td><%= @contact.received_email_messages_total_count_from_nylas_in_past_year %></td>
+</tr>
+<tr>
+  <td>Overall Last Contacted <br/>(Nylas API):</td>
+  <td><%= cal_date(@contact.last_received_email_sent_at_from_nylas.try(:localtime)) %></td>
+</tr>
+<tr>
+  <td>Overall Last Contacted <br/>(Nylas API):</td>
+  <td><%= cal_date(@contact.overall_last_contacted_at_from_nylas.try(:localtime)) %></td>
+</tr>

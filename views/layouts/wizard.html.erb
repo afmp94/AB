@@ -1,0 +1,35 @@
+<%= render(partial: "layouts/google_tag_manager_noscript") %>
+
+<% content_for(:body_class, "wizard-layout") %>
+
+<%= render("shared/flashes") %>
+
+<%= yield %>
+
+
+<div class="ui vertical footer segment no-border">
+  <div class="ui center aligned container">
+    <%#= image_tag("logo.png", class: "ui centered mini image") %>
+    <div class="ui horizontal inverted small divided link list">
+      <%= link_to(
+        "Sign Out",
+        destroy_user_session_path,
+        method: :delete,
+        class: "ui basic tiny button m-b"
+      ) %>
+      <p>©2011–<%= Time.zone.now.strftime("%Y") %> <%= white_labeled_company_name(current_subdomain) %>. All rights reserved.
+        <a target="_blank" href="https://www.agentbright.com/terms-of-service/" rel="noopener noreferrer">
+        Terms of Service
+        </a>
+        and
+        <a target="_blank" href="https://www.iubenda.com/privacy-policy/7900045" rel="noopener noreferrer">
+          Privacy Policy
+        </a>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<% parent_layout "base" %>
+

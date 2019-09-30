@@ -1,0 +1,18 @@
+<%= form_with url: user_settings_phone_number_settings_path,
+              method: :put,
+              remote: false,
+              class: "modal ui hide form",
+              data: { info: "available-numbers-modal" } do %>
+  <div class="header">
+    <h3>Please select a new phone number</h3>
+  </div>
+  <div class="content">
+    <section data-info="available-numbers"></section>
+  </div>
+
+  <div class="ui left aligned segment actions">
+    <h4>Please note changing your phone number will stop your old number from working.</h4>
+    <%= submit_tag "Change Phone Number", class: "ui primary button" %>
+    <div class="ui cancel button">Cancel</div>
+  </div>
+<% end %>

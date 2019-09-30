@@ -1,0 +1,12 @@
+<%= simple_form_for @organization_member, url: broker_agents_path, method: :post, input_html: { class: "ui form max-width-600" } do |f| %>
+  <div class="field">
+    <div class="field">
+      <%= f.input :email_address, label: "Email Address" %>
+    </div><!-- /.field -->
+  </div><!-- /.field -->
+  <div class="field">
+    <%= f.input :office_id, collection: @organization_offices.collect { |office| [office.name, office.id] }, prompt: "Select office" %>
+  </div><!-- /.field -->
+  <%= f.submit "Send Invite", class: "ui primary button" %>
+  <div class="ui basic button">Cancel</div>
+<% end %>

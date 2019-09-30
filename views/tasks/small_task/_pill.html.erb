@@ -1,0 +1,7 @@
+<div class="ui horizontal label">
+  <%= task.assigned_to.try(:name) %>
+  <% if task.due_date_at.present? %>
+    ·
+    <%= short_date(task.due_date_at) %>
+  <% end %>
+</div>

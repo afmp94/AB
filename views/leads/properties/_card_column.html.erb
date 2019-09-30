@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="column">
+    <h3 class="ui dividing header">Properties</h3><!-- /.ui dividing header -->
+    <%= link_to(
+      new_lead_property_path(lead),
+      class: "ui button m-b",
+      data: { trail: breadcrumb_trail },
+    ) do %>
+      <i class="plus icon"></i>Add New Property
+    <% end %>
+    <div class="ui raised cards">
+      <% if properties.not_under_contract_and_active.present? %>
+        <%= render(
+          partial: "properties/property_card",
+          collection: properties.not_under_contract_and_active,
+          as: :property
+        ) %>
+      <% end %>
+    </div>
+
+    <% if properties.archived.present? %>
+      <div class="ui accordion" data-ui-behavior="accordion">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          Show archived properties...
+        </div>
+        <div class="content">
+          <div class="ui raised cards">
+              <%= render(
+                partial: "properties/property_archived",
+                collection: properties.archived,
+                as: :property
+              ) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

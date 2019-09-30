@@ -1,0 +1,7 @@
+$("#header-info").hide().after('<%= j render(partial: "leads/buyer_lead/forms/header", locals: { lead: @lead }) %>');
+$("#edit-lead-header").hide();
+$("[data-behavior~=cancel-form]").cancelForm();
+$('form').addAndRemoveFields();
+
+
+new InputMask(); // This will hookup input mask for phone number

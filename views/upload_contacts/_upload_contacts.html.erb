@@ -1,0 +1,161 @@
+<div class="ui vertical segment">
+  <h4 class="ui header">Where do you store your Contacts?</h4>
+    <div class="ui positive button" data-ui-behavior="onboarding-google-button">Google</div>
+    <div class="ui blue button" data-ui-behavior="other-options-email-only-button">Other Email</div>
+    <div class="ui yellow button" data-ui-behavior="other-options-csv-button">CSV file</div>
+    <div class="ui purple button" data-ui-behavior="iphone-button">iphone</div>
+    <% if !current_user.onboarding_completed? %>
+      <div class="ui orange button" data-ui-behavior="add-contact-manually-button">Pen/Paper</div>
+    <% end %>
+</div><!-- /.ui vertical segment -->
+
+<div class="ui vertical segment tab" data-tab="upload-with-google">
+  <% if current_user.imported_google_contacts? %>
+    <div class="ui warning icon message">
+      <i class="warning icon"></i>
+      <div class="header">
+        You’ve already imported contacts!
+      </div>
+    </div>
+  <% end %>
+  <h4 class="ui header">Link your email account and import your contacts</h4>
+  <%= link_to(
+    "Import Google Contacts",
+    "/contacts/gmail",
+    class: "ui primary button",
+    data: { turbolinks: false }
+  ) %>
+</div><!-- /.tab-->
+
+<div class="ui vertical basic segment tab" data-tab="upload-with-csv">
+  <h4 class="ui header">Upload your contacts from a CSV File</h4>
+  <% if browser.platform.ios? %>
+    <div class="ui icon message">
+      <i class="warning icon"></i>
+      <div class="content">
+        <div class="header">
+          We can't upload a CSV file from an iPhone or iPad
+        </div>
+        <p>But if you come back to this page on a desktop, we can do it from there!</p>
+      </div><!-- /.content -->
+    </div><!-- /.ui.message -->
+  <% else %>
+    <p>
+      File type accepted:
+      Outlook CSV format.
+    </p>
+    <%= direct_upload_form_for(
+      @csv_file,
+      html: { class: "ui form", data: { behavior: "upload-contacts" } },
+      remote: true
+    ) do |f| %>
+      <div class="ui inverted disabled dimmer" data-ui-behavior="upload-contacts-loader">
+        <div class="ui indeterminate text loader">Uploading...</div>
+      </div>
+      <div class="field">
+        <label>Choose a CSV file:</label>
+        <div class="ui fluid file input action" data-ui-behavior="file-upload">
+          <input type="text" readonly/>
+          <%= f.file_field(:file, data: { "file-size": Rails.application.secrets.carrierwave[:max_file_size] }) %>
+          <div class="ui button">
+            Select...
+          </div><!-- /.ui button -->
+        </div><!-- /.ui fluid file input action -->
+        <small class="error-message" style="display:none"></small>
+      </div><!-- /.field -->
+      <%= f.submit(
+        value: "Upload Contacts File",
+        class: "ui primary button",
+        "data-loading-text": "Uploading..."
+      ) %>
+    <% end %>
+  <% end %>
+</div><!-- /.tab-->
+
+<% if request_from_mobile_app? %>
+  <div class="ui vertical  center aligned segment">
+    <h4 class="ui header">Upload your iphone Contacts?</h4>
+    <div class="ui buttons">
+      <button class="positive ui button" data-ui-behavior="upload-from-ios-button" data-info="import-contacts-button">
+        Upload Now
+      </button>
+    </div>
+  </div><!-- /.ui vertical segment -->
+<% else %>
+  <div class="ui vertical basic segment tab" data-tab="iphone-only" >
+    <h2 class="ui dividing header m-t-0">Get the Mobile App</h2>
+    <p>Access <%= white_labeled_app_name(current_subdomain) %> on your iPhone with our app. Click on the badge below and download it now from the App Store.</p>
+    <%= link_to(AppConstants::IOS_APP_LINK) do %>
+      <%= image_tag("apple-store-badge.svg") %>
+    <% end %>
+  </div>
+<% end %>
+
+<div class="ui vertical basic segment tab" data-tab="upload-with-email-only" >
+  <h4 class="ui header">Upload just email addresses but no phone numbers</h4>
+  <p>This is a great way to identify potential contacts but will requires some work to get phone numbers.</p>
+  <%= form_tag(
+    add_nylas_email_path,
+    method: :post,
+    class: "ui form",
+    data: {
+      info: "import-contacts-form",
+      "mobile-app-forced-form": request_from_mobile_app?
+    }
+  ) do |f| %>
+    <% if current_user.imported_nylas_contacts? %>
+      <div class="ui warning message" style="display:block">
+        <div class="header">
+          You’ve already imported contacts!
+        </div>
+      </div>
+    <% end %>
+    <% if current_user.nylas_token.present? %>
+      <% if current_user.nylas_connected_email_account.present? %>
+        <div class="ui info message">
+          <div class="content">
+            You have already connected <b><%= white_labeled_app_name(current_subdomain) %></b> to your email account
+            <b><%= current_user.nylas_connected_email_account %></b>. We can import names
+            and email addresses from this account.
+          </div>
+        </div>
+        <%= hidden_field_tag("already_connected_with_nylas", "true") %>
+        <%= submit_tag(
+          "Import Contacts",
+          class: "ui primary button",
+          "data-disable-with": "Importing..."
+        ) %>
+      <% else %>
+        <div class="ui warning message" style="display:block">
+          You have already connected <b><%= white_labeled_app_name(current_subdomain) %></b> to your email account but your email address is not stored
+          in our system yet.
+          <br/>
+          Please try to reload this page after sometime. If problem persists then contact
+          <b>support@agentbright.com</b>.
+        </div>
+      <% end %>
+    <% else %>
+      <%= hidden_field_tag("from_page", "import_contacts") %>
+      <div class="field">
+        <%= text_field_tag(
+          "email",
+          nil,
+          placeholder: "Enter your email address..."
+        ) %>
+      </div>
+      <%= submit_tag(
+        "Import Contacts",
+        class: "ui primary button",
+        "data-disable-with": "Importing..."
+      ) %>
+    <% end %>
+  <% end %>
+</div><!-- /.tab-->
+
+<% if !current_user.onboarding_completed? %>
+  <div class="ui vertical basic segment tab" data-tab="add-contact-manually" >
+    <div class="ui main container" data-info="onboarding-create-contact">
+      <%= render partial: "contacts/onboarding_create_contact", locals: { contact: @contact } %>
+    </div>
+  </div>
+<% end %>

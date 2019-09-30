@@ -1,0 +1,88 @@
+<h3 class="ui dividing header">Send a Text</h3>
+
+<%= simple_form_for(
+  sms_message,
+  remote: true,
+  html: { class: "ui form contact_quick_sms_message_form max-width-600 p-b-md" }
+) do |f| %>
+
+  <%= hidden_field_tag(
+    :image_id,
+    f.object.image.try(:id),
+    data: { behavior: "attach-hidden-field" }
+  ) %>
+
+  <div class="field">
+    <%= f.label(:phones, "Mobile Phone") %>
+
+    <%= select_tag(
+      :phones,
+      options_for_select(
+        contact_numbers.map { |n| [number_to_phone(n), n] },
+        contact_numbers.first
+      ),
+      class: "ui dropdown selection multiple",
+      multiple: true,
+      data: { info: "recipents-phone-numbers", "ui-behavior": "dropdown" }
+    ) %>
+  </div>
+
+  <%= f.input(:body, input_html: { rows: 3, data: { info: "sms-message-body" } }) %>
+
+  <div class="ab-image-upload m-y <%= display_fileinput_class(sms_message.image) %>">
+    <img src="<%= sms_message.image&.url %>" class="ui mini rounded image ab-image-exists" data-image="mms-image" />
+  </div><!-- /.ab-image-upload -->
+
+  <div class="ui inverted dimmer" data-ui-behavior="loader">
+    <div class="ui indeterminate text loader">Uploading...</div>
+  </div>
+
+  <div class="button-section ui clearing">
+    <div class="ui floating dropdown basic button exclude" data-ui-behavior="non-select-dropdown">
+      <div class="text">Use Template</div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="ui icon search input">
+          <i class="search icon"></i>
+          <input type="text" placeholder="Search templates...">
+        </div>
+        <div class="scrolling menu">
+          <div class="item">Buyer - New</div>
+          <div class="item">Buyer - Followup</div>
+          <div class="item">Seller - New</div>
+          <div class="item">Seller - Followup</div>
+          <div class="item">General - Birthday</div>
+          <div class="item">General - It's been awhile</div>
+          <div class="item">General - Lunch/Dinner?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui negative icon button left floated" data-behavior="remove-mms-image" style="<%= sms_message.image ? '' : 'display:none' %>">
+      <i class="trash icon"></i>
+    </div><!--/.ui button -->
+
+    <div class="ui file input action" data-ui-behavior="file-upload">
+      <%= file_field_tag(
+        "image[file]",
+        data: {
+          behavior: "mms-image-uploader",
+          url: images_path,
+          "sequential-uploads": true,
+          "data-type": "json",
+          "type": "POST",
+          "limit-concurrent-uploads": 1
+        }
+      ) %>
+      <div class="ui icon button" data-tooltip="Upload an image">
+        <i class="image icon"></i>
+      </div><!-- /.ui button -->
+    </div><!-- /.ui file input action -->
+
+    <%= f.submit(
+      "Send Text",
+      class: "ui primary button right floated",
+      data: { behavior: "send-sms-message-form" }
+    ) %>
+  </div>
+<% end %>

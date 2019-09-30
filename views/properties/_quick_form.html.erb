@@ -1,0 +1,84 @@
+<%= simple_form_for [@lead, @property] do |f| %>
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <h3>Address</h3>
+      <%= f.simple_fields_for(:address) do |address_form| %>
+        <%= address_form.hidden_field :require_basic_address_validations, value: true %>
+        <%= render 'addresses/form', f: address_form %>
+      <% end %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <%= f.input(
+        :level_of_interest,
+        collection: ["Possible", "Interested", "Not Interested", "Not Available" ],
+        default: "Possible"
+      ) %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <h3>Property Info</h3>
+      <%= f.input :property_type,
+                  as: :select,
+                  collection: Property::PROPERTY_TYPES,
+                  include_blank: false, label: "Property Type" %>
+      <div class="row multiple-fields">
+        <div class="col-sm-6">
+          <%= f.input :bedrooms, input_html: { class: "form-control" } %>
+        </div><!-- /.col-sm-6 -->
+        <div class="col-sm-6">
+          <%= f.input :bathrooms, input_html: { class: "form-control" } %>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row multiple-fields -->
+      <div class="row multiple-fields">
+        <div class="col-sm-6">
+          <%= f.input :sq_feet, input_html: { class: "form-control" } %>
+        </div><!-- /.col-sm-6 -->
+        <div class="col-sm-6">
+          <%= f.input :lot_size, input_html: { class: "form-control" } %>
+        </div><!-- /.col-sm-6 -->
+      </div><!-- /.row multiple-fields -->
+        <%= f.input :transaction_type,
+                  as: :hidden,
+                  :input_html => { class: "form-control", :value => "Buyer" }, label: "Transaction Type" %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <h3>Listing Info</h3>
+        <%= f.input(
+          :list_price,
+          label: "List Price",
+          as: :currency
+        ) %>
+      <%= f.input :mls_number, input_html: { class: "form-control" }, label: "MLS Number"%>
+      <div class="checkbox below24">
+        <%= f.input :rental, as: :boolean, wrapper: :default %>
+      </div>
+      <%= f.input :property_url, input_html: { class: "form-control" }, label: "Property URL" %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <%= f.input :notes, input_html: { class: "form-control below12", rows: 6 } %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+
+  <div class="row sub-section">
+    <div class="col-xs-12">
+      <%= f.button(
+        :submit,
+        class: "ui primary button",
+        value: "Save",
+        "data-disable-with": "Saving..."
+      ) %>
+      <%= link_to "Cancel", :back %>
+    </div><!-- /.col-xs-12 -->
+  </div><!-- /.row sub-section -->
+
+<% end %>

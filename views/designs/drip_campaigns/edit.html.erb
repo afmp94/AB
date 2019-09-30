@@ -1,0 +1,68 @@
+
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">Drip Campaign Template</h1>
+      <div class="sub header">Edit Template</div>
+    </div>
+  </div>
+</div>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <div class="ui centered grid">
+      <div class="column">
+        <form class="ui form max-width-600">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" />
+          </div><!-- /.field -->
+          <div class="field">
+            <label>Purpose</label>
+            <input type="text" />
+          </div><!-- /.field -->
+          <div class="field">
+            <label>Subject</label>
+            <input type="text" />
+          </div>
+          <div class="field">
+            <label>Message Body</label>
+            <textarea></textarea>
+          </div>
+
+          <div class="field p-a-0 m-t">
+            <div class="ui checkbox" data-ui-behavior="checkbox">
+              <input type="checkbox" tabindex="0" class="hidden">
+              <label>Include your default signature</label>
+            </div>
+          </div>
+          <div class="field">
+            <label>Add Attachment</label>
+            <div class="ui file input action p-a-0 m-t">
+              <input type="text" value="http://ww.short.url/c0opq">
+              <button class="ui button">
+                <i class="copy icon"></i>
+                Select
+              </button>
+            </div>
+          </div>
+          <div class="ui primary button">Save</div>
+          <div class="ui basic button">Cancel</div>
+        </form><!-- /.ui form -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize Semantic UI dropdowns
+  $('[data-ui-behavior=checkbox]').checkbox();
+
+  // Initialize Semantic UI checkboxes
+  $('[data-ui-behavior=dropdown]').dropdown();
+
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+
+</script>

@@ -1,0 +1,25 @@
+<div class="modal fade" id="leadEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title" id="myModalLabel">Send to:</span> <%= display_primary_email_address(@lead.contact) %></h4>
+  </div><!-- /modal-header -->
+  <div class="content">
+    <%= form_tag("controller"=>"emails", "action"=>"send_lead_email_through_nylasapp", "contact_id" => @lead.contact.id, "lead_id" => @lead.id ) do |f| %>
+        <%= text_field "subject", "email_subject", placeholder: "Subject", class: "form-control" %>
+        <%= text_area "body", "email_body", placeholder: "Your message", class: "form-control", rows: 8 %>
+    <% end %>
+    <%= submit_tag(
+      value: "Send",
+      class: "ui primary button",
+      "data-disable-with": "Sending..."
+     ) %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  </div><!-- /content -->
+</div><!-- /modal#leadEmailModal -->
+<% content_for :javascript do %>
+  <script>
+    $('[data-behavior~=input-disable]').click(function() {
+      $input.disabled = true;
+    });
+  </script>
+<% end %>

@@ -1,0 +1,24 @@
+<thead>
+  <tr>
+    <th>Client</th>
+    <% if action_name == "pendings_team" %>
+      <th>Lead Agent</th>
+    <% end %>
+    <th>Closing Date</th>
+    <th class="right aligned">Sale Price</th>
+    <th class="right aligned">Net Commission</th>
+  </tr>
+</thead>
+<tbody>
+  <% leads.each do |lead| %>
+    <tr class="<%= handle_pending_row_classes(lead) %>">
+      <td><%= link_to(lead.name, lead) %></td>
+      <% if action_name == "pendings_team" %>
+        <td><%= lead.user.name %> </td>
+      <% end %>
+      <td><%= cal_date(lead.displayed_closing_date_at) %></td>
+      <td class="right aligned"><%= num_to_currency(lead.displayed_price) %></td>
+      <td class="right aligned"><%= num_to_currency(lead.displayed_net_commission) %></td>
+    </tr>
+  <% end %>
+</tbody>

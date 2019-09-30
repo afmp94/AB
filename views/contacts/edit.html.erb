@@ -1,0 +1,10 @@
+<!--HEADER-->
+<%= page_header(
+  primary_name: "Contacts",
+  primary_path: contacts_path,
+  secondary_name: "Edit #{@contact.full_name}"
+) %>
+<div class="ui main container">
+  <%= render(partial: "form") %>
+</div><!--
+<!--END HEADER-->

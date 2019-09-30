@@ -1,0 +1,95 @@
+<div class="new_action_plan_membership_form hidden display_inline">
+  <%= simple_form_for(
+    ActionPlanMembership.new,
+    defaults: { input_html: { class: '' } },
+    html: { class: "full-width-form" },
+    remote: true
+  ) do |f| %>
+    <%= f.error_notification %>
+    <%= f.association(
+      :contact,
+      label: false,
+      collection: current_user.contacts.active.selectable_contacts(@action_plan),
+      wrapper: :vertical_search_select,
+      autofocus: true,
+      label_method: lambda { |contact| format_display_name(contact) },
+      value_method: :id,
+      input_html: { data: { behavior: "contacts_select_field" } }
+    ) %>
+    <%= f.hidden_field :action_plan_id, value: @action_plan.id %>
+    <%= f.hidden_field :state, value: :active %>
+    <%= f.button(
+      :submit,
+      class: "ui positive button action_plan_membership_save_btn",
+      value: "Save",
+      "data-disable-with": "Saving..."
+    ) %>
+  <% end %>
+</div>
+
+<style type="text/css">
+  .action_plan_membership_contact {
+    display: inline-block;
+  }
+  .display_inline {
+    display: inline-block;
+  }
+  .ui.form .required.field > label:after {
+    display: none;
+  }
+  small.error-message {
+    display: table;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  $(document).on('click', ".add_new_contact", function(){
+    $(this).hide();
+    $(".new_action_plan_membership_form").show();
+  });
+
+  document.addEventListener('turbolinks:load', function() {
+    var $formToValidate = $("#new_action_plan_membership");
+    $formToValidate
+      .formValidation({
+        framework: 'semantic',
+        excluded: [':disabled', ':hidden', ':not(:visible)'],
+        err: {
+          clazz: "error-message"
+        },
+        row: {
+          selector: '.field'
+        },
+        fields: {
+          "action_plan_membership[contact_id]": {
+            excluded: false,
+            validators: {
+              notEmpty: {
+                message: "You must select a contact from the list"
+              }
+            }
+          }
+        }
+    })
+    .on('success.form.fv', function(e) {
+      var $form = $(e.target);
+      if ($form.data('remote')) {
+        e.preventDefault();
+        return false;
+      }
+    })
+    .on('submit', function(e) {
+      var $form = $(e.target);
+      if ($form.data('remote')) {
+        var numInvalidFields = $form.data('formValidation').getInvalidFields().length;
+        if (numInvalidFields) {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+  });
+</script>

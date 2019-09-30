@@ -1,0 +1,3 @@
+<% if user_signed_in? %>
+  $.fn.redirectTo("<%= j controller.send(:after_sign_in_path_for, resource, @location) %>")
+<% end %>

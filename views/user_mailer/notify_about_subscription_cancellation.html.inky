@@ -1,0 +1,17 @@
+<container>
+  <row>
+    <columns large="8">
+      Hello <%= @user.name || @user.email %>,
+      <br />
+      <br />
+      You have successfully cancelled your account, and will lose access to your account on <%= @subscription.scheduled_for_cancellation_on %>
+
+      <br/>
+      <br/>
+      Regards,
+      <br/>
+      <br/>
+      The AgentBright Team
+    </columns>
+  </row>
+</container>

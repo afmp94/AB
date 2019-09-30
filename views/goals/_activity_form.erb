@@ -1,0 +1,147 @@
+<%
+   activity_field_options = {class: "form-control max100", "data-goal-param" => "suggested_calls_needed_per_week", data: { input_mask: "formatted-integer"}, type: "text"}
+   activity_field_options["readonly"] = "readonly" unless editable_activities_fields
+   read_only_activity_field_options = activity_field_options.merge("readonly" => "readonly")
+%>
+<%= f.hidden_field(
+  :monthly_transaction_goal,
+  "data-goal-param" => "monthly_transaction_goal",
+  data: { input_mask: "formatted-integer"},
+  "readonly" => "readonly",
+  type: "hidden"
+) %>
+<h2 class="ui header"><u>Personal Marketing Activity Goals</u></h2>
+<div style="display:none;">
+  <h2 class="ui header">Find out how much weekly activity is needed.</h2>
+  <%= f.input(
+    :contacts_to_generate_one_referral,
+    label: "Number of communications with your Contacts needed to get one referral",
+    hint: "If you aren't sure, put in 20.  That is the national average.",
+    input_html: {
+      "data-goal-param" => "communications_needed_per_referral",
+      data: { input_mask: "formatted-integer"},
+      class: "field-width-100"
+    }
+  ) %>
+  <%= f.input(
+    :referrals_for_one_close,
+    label: "Number of Referrals/Leads needed to get one closed sale:", placeholder: "e.g. 5",
+    hint: "If you aren't sure, put in 5.  That is the national average.",
+    input_html: {
+      "data-goal-param" => "referrals_needed_per_closed_sale",
+      data: { input_mask: "formatted-integer" },
+      class: "field-width-100"
+    }
+  ) %>
+</div>
+<div>
+  <h4 class="ui header">Based on your Income Goals, here are your recommended <u>daily</u> personal marketing activities.</h4>
+  </br>
+    <p>The activity is calculated on the industry average that it takes <u><em> 5 leads </em>to generate a referral.</u>and it takes <u><em>20 referrals to close a sale.</em></u></p>
+</div>
+</br>
+<p>For simplicity, numbers are rounded.  Daily activity is based on recommended 4 day work week.</p>
+<div style="display:none;">
+  <div class="ui stackable grid">
+    <div class="two column row">
+      <div class="column">
+        <h4 class="ui header">Weekly</h4>
+        <%= f.input(
+          :calls_required_wkly,
+          label: "Calls",
+          input_html: {
+            "data-goal-param" => "suggested_calls_needed_per_week",
+            data: { input_mask: "formatted-integer" }
+          }
+        ) %>
+        <%= f.input(
+          :note_required_wkly,
+          label: "Notes",
+          input_html: {
+            "data-goal-param" => "suggested_note_required_wkly",
+            data: { input_mask: "formatted-integer" }
+          }
+        ) %>
+        <%= f.input(
+          :visits_required_wkly,
+          label: "Face-to-face visits",
+          input_html: {
+            "data-goal-param" => "suggested_visits_required_wkly",
+            data: { input_mask: "formatted-integer" }
+          }
+        ) %>
+        <%= f.input(
+          :total_weekly_effort,
+          label: "Total Weekly Effort (calls, notes, visit)",
+          input_html: {
+            "data-goal-param" => "suggested_total_weekly_effort",
+            data: { input_mask: "formatted-integer" }
+          }
+        ) %>
+      </div><!-- /.column -->
+    </div><!-- /.two column row -->
+  </div><!-- /.ui stackable grid -->
+</div>
+<!--<%# if display_weekly_goals_link %>-->
+    <!--<h4><%#= link_to "Edit Weekly Activity Goals", activities_edit_goal_path %></h4>-->
+<!--<%# end %>-->
+<div class="ui stackable grid m-b">
+  <div class="row">
+    <div class="four wide column">
+      <%= f.input(
+          :calls_required_daily,
+          label: "Calls"
+        ) do %>
+          <%= text_field_tag(
+            :calls_required_daily,
+            nil,
+            "data-goal-param" => "suggested_calls_needed_daily",
+            data: { input_mask: "formatted-integer" }
+          ) %>
+        <% end %>
+    </div><!-- /.four wide column -->
+    <div class="four wide column">
+        <%= f.input(
+          :note_required_daily,
+          label: "Notes"
+        ) do %>
+          <%= text_field_tag(
+            :note_required_daily,
+            nil,
+            "data-goal-param" => "suggested_note_required_daily",
+            data: { input_mask: "formatted-integer" },
+            readonly: "readonly"
+          ) %>
+        <% end %>
+    </div><!-- /.four wide column -->
+    <div class="four wide column">
+        <%= f.input(
+          :visits_required_daily,
+          label: "Face-to-face"
+        ) do %>
+          <%= text_field_tag(
+            :visits_required_daily,
+            nil,
+            "data-goal-param" => "suggested_visits_required_daily",
+            data: { input_mask: "formatted-integer" },
+            readonly: "readonly"
+          ) %>
+        <% end %>
+
+    </div><!-- /.four wide column -->
+    <div class="four wide column">
+        <%= f.input(
+          :total_daily_effort,
+          label: "Total Daily Effort"
+        ) do %>
+          <%= text_field_tag(
+            :total_daily_effort,
+            nil,
+            "data-goal-param" => "suggested_total_daily_effort",
+            data: { input_mask: "formatted-integer" },
+            readonly: "readonly"
+          ) %>
+        <% end %>
+    </div><!-- /.four wide column -->
+  </div><!-- /.row -->
+</div><!-- /.ui stackable grid -->

@@ -1,0 +1,11 @@
+<div class="ui inverted segment">
+  <div class="ui relaxed divided inverted list">
+    <%= action_list_item(
+      title: "This lead responded",
+      description: "Log the response from this lead",
+      icon_class: "write square",
+      link: open_response_modal_path(lead_id: lead.id),
+      link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+    ) %>
+  </div><!-- /.ui relaxed divided list -->
+</div><!-- /.ui inverted segment -->

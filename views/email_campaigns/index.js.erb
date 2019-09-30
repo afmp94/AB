@@ -1,0 +1,2 @@
+$('#email_campaigns').html("<%= escape_javascript render(partial: 'email_campaigns/table/row', collection: @email_campaigns, as: :email_campaign)%>");
+$('#paginator').html('<%= escape_javascript(paginate(@email_campaigns, remote: true).to_s) %>'

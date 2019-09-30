@@ -1,0 +1,202 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 9, data_total: 10 }
+        ) %>
+      </div><!-- /.twelve wide column -->
+
+      <div class="row two columns">
+        <div class="four wide column hide-mobile-and-down">
+          <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 9 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <div class="ui message">
+              <div class="header">Almost complete!</div><!-- /.header -->
+              <p>Enter your name and email so we can send you your report!</p>
+            </div><!-- /.ui message -->
+
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+
+              <div class="ui segment tab transition fade in active" id="agent-info" data-tab="agent-info">
+                <h4 class="ui dividing header">Agent Info</h4>
+                <%= f.hidden_field(:broker_code, value: @broker_code) %>
+                <%= f.hidden_field(:office_code, value: @office_code) %>
+                <%= f.hidden_field(:access_code, value: @access_code) %>
+                <% if !current_user.present? || current_user&.special_type? %>
+                  <%= f.input(
+                    :email,
+                    label: "What is your email address?",
+                    as: :string,
+                    input_html: {
+                      data: { info: (@survey_result.free? ? "" : "email") },
+                      value: @email || current_user&.email || f.object.email,
+                      disabled: current_user.present? && !@survey_result.free?,
+                      autocomplete: "on"
+                    }
+                  ) %>
+                  <div data-info="email-message" style="margin-bottom:1em;color:red;display:none">
+                    <div data-info="app-login" style="display:none">
+                      This email address is already associated with an account, click here to
+                      <%= link_to "sign in", new_user_session_path(redirect_to: assessment_path) %> and continue, or use a
+                      different email address
+                    </div>
+                    <div data-info="assessment-login" style="display:none">
+                      You already have taken the survey, click here to
+                      <%= link_to "sign in", assessment_login_path %> and proceed...
+                    </div>
+                  </div>
+                  <%= f.input(
+                    :first_name,
+                    label: "What is your first name?",
+                    input_html: {
+                      value: (current_user&.first_name || f.object.first_name),
+                      disabled: current_user.present? && !@survey_result.free?,
+                      autocomplete: "on"
+                    }
+                  ) %>
+                  <%= f.input(
+                    :last_name,
+                    label: "What is your last name?",
+                    input_html: {
+                      value: (current_user&.last_name || f.object.last_name),
+                      disabled: current_user.present? && !@survey_result.free?,
+                      autocomplete: "on"
+                    }
+                  ) %>
+                  <%= f.input(
+                    :zip_code,
+                    label: "What is your home zip code?",
+                    input_html: { value: (current_user&.zip || f.object.zip_code), autocomplete: "on" }
+                  ) %>
+                <% end %>
+                <%= f.input(
+                  :years_experience,
+                  label: "How many years have you been selling real estate?"
+                ) %>
+                <%= f.input(
+                  :workload,
+                  label: "How many hours do you spend on average per week on your real estate business?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::WORKLOADS
+                ) %>
+                <%= f.input(
+                  :other_work,
+                  label: "Do you split your time between selling real estate and another job? (check any that apply)",
+                  as: :sui_check_boxes,
+                  wrapper: :vertical_check_boxes,
+                  collection: [
+                    "Broker",
+                    "Insurance Agent",
+                    "Other"
+                  ]
+                ) %>
+
+                <input type="hidden" value="current_year_progress" name="last_step_id">
+                <input type="hidden" value="finish_survey" name="next_step_id">
+                <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+                <%= f.submit(
+                  "Get My Results",
+                  id: "info_next_button",
+                  class: "ui huge fluid primary positive button"
+                ) %>
+                <div class="ui message">
+                  <p>By clicking the button above, you agree to the
+                    <%= link_to(
+                      "terms of service",
+                      "https://www.agentbright.com/terms-of-service",
+                      target: "_blank",
+                      rel: "noopener noreferrer"
+                    ) %>.
+                  </p>
+                  <p>We take privacy and security very seriously. Your data is encrypted and secure, and we will never rent, share or sell your personal information.</p>
+                </div><!-- /.ui message -->
+              </div><!-- /#section-name -->
+            <% end %>
+          </div><!-- /.ui vertical basic segment -->
+
+        </div><!-- /.column -->
+
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[email]': {
+        validators: {
+          notEmpty: {
+            message: 'Email address is required'
+          },
+          regexp: {
+            regexp: /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+            message: 'Please enter a valid email address',
+          }
+        }
+      },
+      'survey_result[first_name]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[last_name]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[zip_code]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[years_experience]': {
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[workload]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+
+</script>
+

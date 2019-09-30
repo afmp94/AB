@@ -1,0 +1,66 @@
+ <!--FORM SECTION-->
+<div class="row main-section">
+  <%= simple_form_for(@showing, :html=> {class: "new-record below48"}) do |f| %>
+    <%= f.error_notification %>
+    <!--FORM TITLE-->
+    <h2 class="col-xs-12">Enter your Showing information below</h2>
+    <%= f.input(:lead_id, as: :hidden) %>
+    <%= f.input(
+      :status,
+      wrapper: :radio_inline,
+      label: "Showing Status",
+      as: :radio_buttons,
+      collection: Showing::SHOWING_STATUS,
+      input_html: { "data-toggle" => "radio" }
+    ) %>
+    <%= f.input(:address1, label: "Street Address") %>
+    <%= f.input(:city, label: "City") %>
+    <%= f.input(
+      :state,
+      collection: Carmen::Country.coded('US').subregions.map { |c| c.code }
+    ) %>
+    <%= f.input(
+      :zip,
+      input_html: {
+        class: "form-control",
+        data: { input_mask: "zipcode"},
+        pattern: "[0-9]*"
+      },
+      label: "Zip Code"
+    ) %>
+    <%= f.input(:mls_number, label: "MLS Number") %>
+    <div class="col-xs-12">
+      <%= f.input(
+        :date_time,
+        as: :datepicker
+        label: "Showing Date",
+        input_html: {
+          value: format_for_datepicker(f.object.date_time),
+          type: type_for_datepicker
+        }
+      ) %>
+    </div>
+    <%= f.input(:listing_agent, label: "Listing Agent") %>
+    <%= f.input(:comments) %>
+    <%= f.input(:list_price, wrapper: :abprepend, label: "List Price") do %>
+      <%= content_tag(:span, "$", class: "input-group-addon") %>
+      <%= f.input_field(
+        :list_price,
+        class: "form-control",
+        "data-goal-param" => "income_goal",
+        "data-goal-format" => "auto-numeric",
+        type: "text",
+        pattern: "[0-9]*"
+      ) %>
+    <% end %>
+    <div class="form-actions">
+      <%= f.button(
+        :submit,
+        class: "ui primary button",
+        value: "Save",
+        "data-disable-with": "Saving..."
+      ) %>
+      <%= link_to "Back", showings_path %>
+    </div>
+  <% end %>
+</div>

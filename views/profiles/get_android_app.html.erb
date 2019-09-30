@@ -1,0 +1,16 @@
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Mobile Devices",
+    secondary_name: "Connections"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">Get the Mobile App</h2>
+  <p>Access <%= white_labeled_app_name(current_subdomain) %> on your android with our app. Click on the badge below and download it now from the Play Store.</p>
+
+  <%= link_to(AppConstants::ANDROID_APP_LINK) do %>
+    <%= image_tag("https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png", height: "65", width: "165") %>
+  <% end %>
+
+<% end %>

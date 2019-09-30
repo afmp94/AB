@@ -1,0 +1,31 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Preview Email</h4>
+</div>
+
+<div class="content">
+  <% email_template = action_plan_membership.next_step.email_template %>
+
+  <h4>To: <%= action_plan_membership.contact_email %></h4>
+  <h4>Subject: <%= email_template.subject %></h4>
+
+  <%= simple_form_for(
+    email_template,
+    url: send_action_plan_email_message_action_plan_membership_path(action_plan_membership),
+    method: :post,
+    html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+  ) do |form| %>
+
+    <div class="field">
+      <input id="email_template_msg_body" value="<%= message %>" type="hidden" name="email_template[message_body]">
+      <trix-editor input="email_template_msg_body"></trix-editor>
+    </div>
+
+    <%= form.button(
+      :submit,
+      "Send",
+      class: "ui primary button",
+      "data-disable-with": "Sending..."
+    ) %>
+    <a class="ui basic button float-right" data-dismiss="modal">Cancel</a>
+  <% end %>
+</div>

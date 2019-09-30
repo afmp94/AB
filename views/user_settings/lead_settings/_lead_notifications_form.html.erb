@@ -1,0 +1,161 @@
+<%= simple_form_for(
+  @lead_setting,
+  url: user_settings_lead_settings_path(@lead_setting, format: :js),
+  html: {
+    id: "update_lead_notifications",
+    "data-submit-form": "lead-notifications-form"
+  },
+  remote: true
+) do |f| %>
+  <h2 class="ui dividing header m-t-0">Notification Settings</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Notification Type</th>
+        <th>Email</th>
+        <th>SMS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="breakword">Notify me when a new lead is available:</td>
+        <td>
+          <%= f.input(
+            :new_lead_email_notification,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+        <td>
+          <%= f.input(
+            :new_lead_sms_notification,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">Notify me when a team lead is claimed:</td>
+        <td>
+          <%= f.input(
+            :lead_claimed_email_notification,
+            label: false,
+            wrapper: :toggle_switch
+          ) %>
+        </td>
+        <td>
+          <%= f.input(
+            :lead_claimed_sms_notification,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">Notify me when a lead is no longer available:</td>
+        <td>
+          <%= f.input(
+            :lead_unclaimed_email_notification,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+        <td>
+          <%= f.input(
+            :lead_unclaimed_sms_notification,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 class="ui dividing header">Lead Follow-Up Settings</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Follow Up Type</th>
+        <th>Email</th>
+        <th>SMS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="breakword">Send me morning Email on Open Leads:</td>
+        <td>
+          <%= f.input(
+            :will_receive_morning_awaiting,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td class="breakword">Send reminders to follow up on Leads:</td>
+        <td>
+          <%= f.input(
+            :followup_lead_email_permission,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+        <td>
+          <%= f.input(
+            :followup_lead_sms_permission,
+            label: false,
+            wrapper: :toggle_switch,
+            wrapper_html: {
+              "data-behavior": "submit-on-checkbox-change",
+              "data-submit-form-target": "lead-notifications-form"
+            }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Send me a reminder about an uncontacted lead every:</td>
+        <td colspan=2>
+          <%= f.input(
+            :notification_time_interval,
+            collection: LeadSetting::NOTIFICATION_TIME_INTERVAL.map { |name, interval| [name, interval] },
+            label: false,
+            input_html: {
+              data: { behavior: "remind-uncontacted-lead" },
+              class: "compact"
+            }
+          ) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

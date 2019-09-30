@@ -1,0 +1,22 @@
+<%= f.fields_for(:contact) do |contact_form| %>
+  <%= contact_form.hidden_field(:require_basic_validations, value: true) %>
+  <div class="two fields">
+    <%= contact_form.input(:first_name, label: "First Name") %>
+    <%= contact_form.input(:last_name, label: "Last Name") %>
+  </div>
+  <div class="two fields">
+    <%= contact_form.fields_for(:email_addresses) do |email_address| %>
+      <%= email_address.input(:email, label: "Email Address") %>
+    <% end %>
+    <%= contact_form.fields_for(:phone_numbers) do |phone_number| %>
+      <%= phone_number.input(
+        :number,
+        label: "Mobile Phone",
+        input_html: {
+          data: { input_mask: "phone" },
+          pattern: "[0-9]*"
+        }
+      ) %>
+    <% end %>
+  </div>
+<% end %>

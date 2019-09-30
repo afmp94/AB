@@ -1,0 +1,14 @@
+<% content_for(:title, "Quick Video") %>
+
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="header">Take a quick tour of <%= white_labeled_app_name(current_subdomain) %></h2><!-- /.header -->
+    <div class="ui embed"
+         data-ui-behavior="embed"
+         data-source="youtube"
+         data-id="mY5Y-SBI-FQ"
+         data-placeholder="<%= asset_path("onboarding_video_placeholder.jpg") %>">
+    </div>
+    <%= link_to("Next", next_wizard_path, class: "ui primary button m-t") %>
+  </div><!-- /.ui segment -->
+<% end %>

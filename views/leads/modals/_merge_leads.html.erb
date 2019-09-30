@@ -1,0 +1,38 @@
+<div class="header">
+  <h4 class="modal-title" id="merge_leads_modal" data-lead_id="<%= lead.id %>">Merge lead into <%= lead.name %> </h4>
+</div>
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="content">
+      <div class="ui form segment">
+        <div class="inline fields">
+          <label>Select a lead to merge into this one: </label>
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <%= select_tag(:lead_merge_list, options_for_select(
+              total_leads.map{|a| [a.name, a.id]}
+              ),
+              { class: "ui fluid search dropdown addition", multiple: false, "data-ui-behavior" => "dropdown-allow-addition" }
+            ) %>
+          </div>
+        </div>
+      </div>
+      <div class="ui form">
+      <button id="submit_merge_lead_form" class="ui positive button" <%= total_leads.present? ? '' : 'disabled' %>  >Merge</button>
+      <a class="ui basic button" data-dismiss="modal">Cancel</a>
+      </div>
+    </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#submit_merge_lead_form").click(function(){
+      $(this).addClass("loading");
+      var current_lead_id = $("#merge_leads_modal").data("lead_id");
+      var merge_lead_id = $("#lead_merge_list option:selected").attr("value");
+      $.ajax({
+        type:'POST',
+        url:'/leads/merge_leads',
+        data: { lead_ids: [ current_lead_id, merge_lead_id ] }
+      });
+    });
+  });
+</script>

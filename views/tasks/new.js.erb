@@ -1,0 +1,54 @@
+var form = $('<%= j render "small_form", {task: @task} %>');
+
+if ($('#new_task').length == 0){
+  // Hide button and display form
+  $('#add-new-task').hide().after(form);
+}
+
+// Hide no_data_block
+$('#taskemptymessage').hide();
+
+// Focus cursor on subject field
+form.find('#task_subject').focus();
+
+// Bind events
+form.find('#task_due_date_at, [data-ui-behavior=calendar_date]')
+  .on('enable', function(event) {
+    $(this).parents('.field').show();
+  });
+
+form.find('[data-ui-behavior=calendar_date]')
+  .on('enable', function(event) {
+    var $datepicker = $(this).calendar('show');
+  });
+
+form.find('#task_due_date_at, [data-ui-behavior=calendar_date]')
+  .on('disable', function(event) {
+    $(this).parents('.field').hide();
+  });
+
+form.find('[data-ui-behavior~=calendar_date]')
+  .calendar(
+    {
+      type: "date",
+      today: true,
+    }
+  );
+
+form.find('[data-ui-behavior~=dropdown]').dropdown();
+
+form.find('#task_due_date_at')
+  .toggleFormControls({value: ' ', target: '[data-ui-behavior=calendar_date] input'});
+
+VTF.validate();
+
+// Cancel task
+$('[data-behavior~=cancel-new-task]').cancelNewTask();
+
+<% if params[:shortcut] == "true" %>
+    $(".js-leads-tabbed-section .item").tab('change tab', 'tasks');
+
+    setTimeout(function() {
+      $("input[name='task[subject]']").focus();
+    }, 200);
+<% end %>

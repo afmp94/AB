@@ -1,0 +1,13 @@
+<%= simple_form_for(
+  :teammate,
+  url: add_user_to_team_user_settings_team_path(@team),
+  html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }
+) do |f| %>
+  <h3 class="ui header">Add a user as your teammate:</h3>
+  <%= f.input(:email, label: "Email Address") %>
+  <%= f.button(
+    :submit,
+    value: "Add New Teammate",
+    "data-disable-with": "Adding..."
+  ) %>
+<% end %>

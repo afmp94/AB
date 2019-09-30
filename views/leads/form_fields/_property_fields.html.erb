@@ -1,0 +1,35 @@
+<fieldset class="ui raised segment">
+  <div class="row well form-well">
+    <%= f.fields_for(:address, f.object.build_address) do |address_form| %>
+        <%= render(partial: "addresses/form", locals: {f: address_form}) %>
+    <% end %>
+    <%= f.input(:transaction_type, as: :hidden, input_html: { value: "Buyer" }) %>
+    <%= f.input(
+      :property_type,
+      as: :select,
+      collection: Property::PROPERTY_TYPES,
+      include_blank: false
+    ) %>
+    <div class="two fields">
+      <%= f.input(
+        :list_price,
+        label: "List Price",
+        as: :currency,
+        placeholder: "ex. 500,000"
+      ) %>
+      <%= f.input(:mls_number, label: "MLS Number") %>
+    </div>
+    <%= f.input(:property_url, label: "Property URL") %>
+    <div class="four fields">
+      <%= f.input(:bedrooms) %>
+      <%= f.input(:bathrooms) %>
+      <%= f.input(:sq_feet, label: "Square Feet") %>
+      <%= f.input(:lot_size, label: "Lot Size") %>
+    </div>
+    <%= f.hidden_field(:level_of_interest, value: "Interested") %>
+    <%= f.hidden_field(:_destroy) %>
+    <%= link_to("#", class: "remove_fields") do %>
+      <i class="trash icon"></i>
+    <% end %>
+  </div><!-- /.row well form-well -->
+</fieldset>

@@ -1,0 +1,79 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Desired annual income:</strong>
+  <%= number_to_currency @goal.desired_annual_income %>
+</p>
+
+<p>
+  <strong>Est business expenses:</strong>
+  <%= number_to_currency @goal.est_business_expenses %>
+</p>
+
+<p>
+  <strong>Portion of agent split:</strong>
+  <%= @goal.portion_of_agent_split %>
+</p>
+
+<p>
+  <strong>Gross commission goal:</strong>
+  <%= @goal.gross_commission_goal %>
+</p>
+
+<p>
+  <strong>Avg commission rate:</strong>
+  <%= @goal.avg_commission_rate %>
+</p>
+
+<p>
+  <strong>Gross sales vol required:</strong>
+  <%= @goal.gross_sales_vol_required %>
+</p>
+
+<p>
+  <strong>Avg price in area:</strong>
+  <%= number_to_currency @goal.avg_price_in_area %>
+</p>
+
+<p>
+  <strong>Annual transaction goal:</strong>
+  <%= @goal.annual_transaction_goal %>
+</p>
+
+<p>
+  <strong>Qtrly transaction goal:</strong>
+  <%= @goal.qtrly_transaction_goal %>
+</p>
+
+<p>
+  <strong>Referrals for one close:</strong>
+  <%= @goal.referrals_for_one_close %>
+</p>
+
+<p>
+  <strong>Contacts to generate one referral:</strong>
+  <%= @goal.contacts_to_generate_one_referral %>
+</p>
+
+<p>
+  <strong>Contacts need per month:</strong>
+  <%= @goal.contacts_need_per_month %>
+</p>
+
+<p>
+  <strong>Calls required wkly:</strong>
+  <%= @goal.calls_required_wkly %>
+</p>
+
+<p>
+  <strong>Note required wkly:</strong>
+  <%= @goal.note_required_wkly %>
+</p>
+
+<p>
+  <strong>Visits required wkly:</strong>
+  <%= @goal.visits_required_wkly %>
+</p>
+
+<%= link_to 'Edit', edit_goal_path(@goal) %> |
+<%= link_to 'Back', marketing_center_index_path %>

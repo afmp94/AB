@@ -1,0 +1,46 @@
+<div class="ui vertical accordion menu fluid" data-ui-behavior="accordion-filter">
+  <div class="item">
+    <div class="<%= show_accordion_section? %> title">
+      <i class="dropdown icon"></i>
+      Groups
+    </div>
+    <div class="<%= show_accordion_section? %> content">
+      <div class="ui form">
+        <div class="grouped fields">
+          <% cache(["contacts_index_groups", current_user.all_contact_groups.join.gsub(" ", "")]) do %>
+            <% current_user.all_contact_groups.each do |group| %>
+              <div class="field">
+                <div class="ui checkbox" data-ui-behavior="filter-checkbox" data-info="group-checkbox" data-checkbox-name="<%= group %>">
+                  <input type="checkbox">
+                  <label><%= group %></label>
+                </div>
+              </div><!-- /.field -->
+            <% end %>
+          <% end %>
+        </div><!-- /.grouped fields -->
+      </div><!-- /.ui form -->
+    </div>
+  </div><!-- /.item -->
+  <div class="item">
+    <div class="title">
+      <i class="dropdown icon"></i>
+      Grades
+    </div>
+    <div class="content">
+      <div class="ui form">
+        <div class="grouped fields">
+          <% cache(["contacts_index_grades", Contact::GRADES.collect(&:first).join]) do %>
+            <% Contact::GRADES.each do |grade_name, grade_value| %>
+              <div class="field">
+                <div class="ui checkbox" data-ui-behavior="filter-checkbox" data-info="grade-checkbox" data-checkbox-name="<%= grade_name %>" data-checkbox-value="<%= grade_value %>">
+                  <input type="checkbox" data-behavior="grade-checkbox">
+                  <label><%= grade_name %></label>
+                </div>
+              </div><!-- /.field -->
+            <% end %>
+          <% end %>
+        </div><!-- /.grouped fields -->
+      </div><!-- /.ui form -->
+    </div>
+  </div><!-- /.item -->
+</div><!-- /.ui vertical accordion menu -->

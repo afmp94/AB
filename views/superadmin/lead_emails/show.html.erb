@@ -1,0 +1,126 @@
+<%= provide(:title, "Lead Email ##{@lead_email.id}") %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Lead Emails",
+    primary_path: lead_emails_path,
+    secondary_name:  @lead_email.id
+  }
+) do %>
+  <table class="ui single line table">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ID</td>
+        <td class="breakword"><%=@lead_email.id%></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Record in YAML format</td>
+        <td>
+          <%= link_to(
+            "View",
+            view_yaml_lead_email_path(@lead_email.id),
+            data: { turbolinks: false }
+          ) %>
+        </td>
+      </tr>
+      <tr>
+        <td>Administrate</td>
+        <td class="breakword">
+          <%#= link_to("Open in new window", "/admin/lead_email_data/#{@lead_email.id}", target: '_blank', rel: "noopener noreferrer") %>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Importing State</td>
+        <td class="breakword"><%= @lead_email.importing_state %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Parsing Attempts</td>
+        <td class="breakword"><%= @lead_email.parsing_attempts %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Date</td>
+        <td class="breakword"><%= @lead_email.date %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Recipient</td>
+        <td class="breakword"><%= @lead_email.recipient %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>To</td>
+        <td class="breakword"><%= @lead_email.to %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>From</td>
+        <td class="breakword"><%= @lead_email.from %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Token</td>
+        <td class="breakword"><%= @lead_email.token %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Nylas Message ID</td>
+        <td class="breakword"><%= @lead_email.nylas_message_id %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Created At</td>
+        <td class="breakword"><%= @lead_email.created_at %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Updated At</td>
+        <td class="breakword"><%= @lead_email.updated_at %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Contact</td>
+        <td class="breakword">
+          <%= @lead_email.contact ? link_to("ID: #{@lead_email.contact.id} - #{@lead_email.contact.full_name}", "/admin/contacts/#{@lead_email.contact.id}", target: '_blank', rel: "noopener noreferrer") : "N/A" %>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Lead</td>
+        <td class="breakword">
+          <%= @lead_email.lead ? link_to("ID: #{@lead_email.lead.id} - #{@lead_email.lead.name}", "/admin/leads/#{@lead_email.lead.id}", target: '_blank', rel: "noopener noreferrer") : "N/A" %>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Subject</td>
+        <td class="breakword"><%= @lead_email.subject %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Text Content</td>
+        <td class="breakword"><%= simple_format @lead_email.text.to_s %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>HTML Content</td>
+        <td class="breakword"><%= raw @lead_email_html_string %></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Headers</td>
+        <td class="breakword"><%= @lead_email.headers %></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

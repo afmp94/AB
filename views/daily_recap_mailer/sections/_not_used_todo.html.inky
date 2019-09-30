@@ -1,0 +1,67 @@
+  <row>
+    <columns small="12" large="12" valign="middle" style="background-color: #2B547E;">
+      <h3 class="text-center" style="height: 10px;color:#FFFFFF; margin-top: 5px; margin-bottom: 0px; font-size: 22px;" >Tasks</h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <% if @tasks_due_today_and_overdue.count > 0 %>
+    <row>
+      <columns small="12" large="12" style="background-color: #E3ECF5;">
+        <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+              Today + Overdue
+          </h3>
+      </columns>
+    </row>
+    <sacer size="6"></spacer>
+    <% @tasks_due_today_and_overdue.first(5).each do |task| %>
+    <row>
+      <columns small="8" large="8">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <strong><%= task.subject %></strong> - <%= show_taskable(task) %> </span>
+      </columns>
+      <columns small="4" large="4">
+          <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+              Date due: <%= short_date(task.due_date_at) %>
+          </span>
+      </columns>
+    </row>
+  <% end %>
+  <row>
+    <columns valign="middle" small="12" large="12"  style="background-color: #E3ECF5;">
+      <h3 style="height: 5px; margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #606060 !important;">
+          <strong>Team Tasks</strong>
+      </h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <% @todays_and_overdue_team_tasks.first(5).each do |task| %>
+    <row>
+      <columns small="4" large="4">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+            <strong><%= task.subject %></strong><br /><%= show_taskable(task) %>
+        </span>
+      </columns>
+      <columns small="4" large="4">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+            Due: <%= short_date(task.due_date_at) %>
+        </span>
+      </columns>
+      <columns small="4" large="4">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;color:#666;display:inline-block;border-radius:12px">
+            <%= task.assigned_to.try(:name) %>
+        </span>
+      </columns>
+    </row>
+  <% end %>
+  <% else %>
+    <row>
+      <columns large="12" small="12" style="background-color: lightgreen">
+        <h2 class="text-center" style="margin:6px 0 9px;font-size:18px;font-weight:normal;margin-bottom:20px;line-height:16px;"><span style="color:#aa9c84;letter-spacing:normal;"><%= "Good Job! No Tasks Overdue" %></span></h2>
+      </columns>
+    </row>
+  <% end %>
+  <row>
+      <columns large="12" small="12">
+          <%= link_to("View All Tasks", tasks_url) %>
+      </columns>
+  </row>

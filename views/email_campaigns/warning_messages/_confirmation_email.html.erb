@@ -1,0 +1,22 @@
+<div class="ui warning message">
+  <div class="header">
+    Before we send any emails for you...
+  </div>
+  <p>
+    We need to make sure you aren't
+    an imposter, and that you actually own this email address.
+  </p>
+  <p>
+    When you signed up, we sent you an email message with a confirmation link. All you
+    have to do is click that link, and voila!, you're confirmed!
+  </p>
+  </p>
+    If you can't find that original email,
+    <%= link_to(
+      "click here",
+      send_email_confirmation_notification_path,
+      "data-turbolinks": false
+    ) %>
+    and we'll resend it to you!
+  </p>
+</div><!-- /.ui message -->

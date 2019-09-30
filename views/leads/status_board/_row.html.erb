@@ -1,0 +1,3 @@
+<% cache(["status_board_row", lead, current_user.id]) do %>
+  <%= render partial: "leads/status_board/row_content", locals: { lead: lead } %>
+<% end %>

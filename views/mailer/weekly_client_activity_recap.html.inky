@@ -1,0 +1,56 @@
+<container>
+  <row>
+    <columns large="4">
+    <%- starttime = Time.zone.now - 7.day %>
+    <%- endtime = Time.zone.now %>
+    <h4>Draft-Weekly Client Recap as of: <%= long_day_date(Time.zone.now) %></h4>
+
+    <h4><%= pluralize(@leads.count, "client was", plural: "clients were") %> updated:</h4>
+
+    <% @leads.each do |lead| %>
+      <li style="margin: .3em 0; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+        <span><strong><%= "#{lead.name}" %><strong></span>
+      </li>
+    <% end %>
+
+    <h4>Here's what happened with each client last week (<%= long_day_date(starttime) %> to  <%= long_day_date(Time.zone.now)%>):</h4>
+      <hr />
+      <spacer size="12"></spacer>
+
+      <% @leads.each do |lead| %>
+        <li style="margin: .3em 0; -ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+          <%= lead.name %>
+
+          <% if lead.tasks_created_or_completed_since_last_week.present? %>
+            <%= display_number_of_tasks_create_and_completed_since_last_week(lead) %>
+
+            <% lead.tasks_created_or_completed_since_last_week.not_completed.each do |task| %>
+
+              <%= task.subject %> (Assigned to <%= task.assigned_to_name %>, Due: <%= short_date(task.due_date_at) %>
+              )
+            <% end %>
+          <% end %>
+          <% lead.tasks_created_or_completed_since_last_week.completed.each do |task| %>
+            <p><%= task.subject %> (Completed by <%= task.completed_by_name %>)</p>
+            <% if lead.tasks_created_or_completed_since_last_week.present? && lead.comments_created_since_last_week.present? %>
+          <% end %>
+        </li>
+      <% end %>
+      <spacer size="12"></spacer>
+        <% if @leads.long_term_prospect_clients.count > 0 %>
+          <%= "Long Term Prospects" %>
+          <% @leads.long_term_prospect_clients.each do |lead| %>
+             <%= "  *  #{lead.name} #{lead.reason_for_long_term_prospect}" %>
+          <% end %>
+        <% end %>
+        <% if lead.comments_created_since_last_week.present? %>
+          <%= pluralize(lead.number_of_comments_created_since_last_week, "comment was", plural: "comments were") %> made:
+
+          <% lead.comments_created_since_last_week.each do |comment| %>
+              <%= comment.user.first_name %> wrote at <%= just_time(comment.updated_at) %>:
+              "<%= comment.content %>"
+          <% end %>
+        <% end %>
+    <% end %>
+  </row >
+</container >

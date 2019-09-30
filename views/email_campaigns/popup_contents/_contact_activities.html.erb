@@ -1,0 +1,31 @@
+<i class="close icon"></i>
+
+<div class="header">
+  Subscriber activity for: <%= @contact.email %>
+</div>
+
+<div class="content">
+  <table class="ui table">
+    <% @activities && @activities.each do |date, activities_on_date| %>
+      <thead>
+        <tr>
+          <th colspan=2><%= date %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% activities_on_date.each do |activity| %>
+          <tr>
+            <td><%= activity.event_generated_at.time.strftime("%I:%M %p") %></td>
+            <td><%= activity.event_type.titleize %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </table><!-- /.ui table -->
+</div><!-- /.content -->
+
+<div class="actions">
+  <div class="ui button">
+    Close
+  </div>
+</div>

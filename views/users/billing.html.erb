@@ -1,0 +1,44 @@
+<% breadcrumb(:billing) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Billing",
+    secondary_name: "Account Settings"
+  }
+) do %>
+
+  <% if current_user.subscriptions.any? %>
+    <% if current_user.subscription %>
+      <%= render(
+        "subscriptions/subscription",
+        subscription: current_user.subscription
+      ) %>
+    <% end %>
+    <p class="m-t-lg fwb">
+      <%= link_to(
+        "View all invoices",
+        subscriber_invoices_path,
+        class: "invoices"
+      ) %>
+    </p>
+  <% else %>
+    <%= render("subscriptions/no_subscription") %>
+  <% end %>
+  <% if super_admin_signed_in? %>
+    <div class="ui segments">
+      <div class="ui top attached negative icon message">
+        <i class="wrench icon"></i>
+        <div class="content">
+          <div class="header">
+            Super Admin
+          </div><!-- /.header -->
+        </div><!-- /.content -->
+      </div><!-- /.ui top attached warning message -->
+      <div class="ui attached segment">
+        <h2 class="ui header">Change Subscription Plan:</h2>
+        <%= render @plans %>
+      </div><!-- /.ui attached segment -->
+    </div><!-- /.ui segments -->
+  <% end %>
+<% end %>
+

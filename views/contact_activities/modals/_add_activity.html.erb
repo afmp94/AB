@@ -1,0 +1,113 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel">Add a new Activity</h4>
+</div><!-- /modal-header -->
+<% if show_all_fields %>
+  <div class="content">
+    <%= simple_form_for(@contact_activity, :html => {class: "new-record below48"}) do |f| %>
+      <% if @contact_activity.new_record? %>
+        <% content_for :extra_js do %>
+          display_datepicker_on_select();
+      <% end %>
+      <%= f.error_notification %>
+      <%= f.input :activity_type,
+                  collection: ['Call', 'Note', 'Visit'] %>
+      <%= f.association :contact,
+                        label: "Contact",
+                        collection: current_user.contacts.active,
+                        label_method: :full_name %>
+      <%= f.input :activity_for,
+                  as: :hidden,
+                  input_html: { value: ContactActivity::ACTIVITY_FOR[0] } %>
+      <%= f.input :subject,
+                  input_html: {class: "form-control"} %>
+      <% if @contact_activity.new_record? %>
+        <div class="two fields">
+          <%= f.input :custom_time,
+                label: "When was this activity completed?",
+                as: :sui_radio_buttons,
+                collection: ContactActivity::CUSTOM_TIME_TYPES.values,
+                wrapper_html: { id: "custom_time_group" } %>
+          <%= f.input :completed_at,
+                      as: :datepicker,
+                      label: "Date",
+                      :input_html => { :data => { :behavior => 'datepicker'}, :value => format_for_datepicker(f.object.completed_at) } %>
+        </div><!-- /.two fields -->
+      <% else %>
+        <%= f.input :completed_at,
+                    label: "Date",
+                    as: :datepicker,
+                    :input_html => { :data => { :behavior => 'datepicker'}, :value => format_for_datepicker(f.object.completed_at) } %>
+      <% end %>
+      <%= f.input :comments,
+                  input_html: {:class => 'form-control',
+                               :rows => 6} %>
+      <% if current_user.has_no_team_members? %>
+          <%= f.association :user,
+                            label: "Referral Activity Owner",
+                            collection: User.all,
+                            label_method: :full_name,
+                            default: current_user.full_name,
+                            input_html: { class: "form-control" } %>
+      <% end %>
+      <%= f.input :asked_for_referral,
+                  wrapper: :default,
+                  as: :boolean,
+                  label: "Asked for referral?" %>
+      <%= f.button :submit,
+                   class: "ui primary button",
+                   value: "Submit", "data-loading-text" => "Loading..." %>
+      <%= link_to 'Cancel',
+                  contact_activities_path,
+                  class: "new-record-cancel" %>
+  </div>
+<% else %>
+  <div class="content">
+    <%= simple_form_for(@contact_activity, :html => {class: "new-record below24"}) do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :activity_type,
+                  as: :hidden,
+                  :input_html => {:value => activitytype} %>
+      <%= f.input :contact_id,
+                  as: :hidden,
+                  :input_html => {:value => thiscontact} %>
+      <%= f.input :subject,
+                  as: :hidden,
+                  :input_html => {:value => "Proactive Marketing " + activitytype} %>
+      <%= f.input :completed_at,
+                  as: :hidden,
+                  :input_html => {:value => Time.zone.now} %>
+      <%= f.input :comments,
+                  :input_html => {:rows => 4 } %>
+      <%= f.input :asked_for_referral, as: :boolean,
+                    label: "Asked for referral?" %>
+      <%= hidden_field_tag :redirect_location,
+                           "marketingcenter" %>
+      <%= f.button :submit,
+                   class: "ui primary button set-active-tab",
+                   value: "Complete", "data-loading-text" => "Loading..." %>
+      <% if activitytype == "Call" %>
+          <%= link_to 'Postpone',
+                      contact_postponecall_path(thiscontact),
+                      class: "new-record-cancel set-active-tab" %>
+
+      <% elsif activitytype == "Note" %>
+          <%= link_to 'Postpone',
+                      contact_postponenote_path(thiscontact),
+                      class: "new-record-cancel set-active-tab" %>
+
+      <% elsif activitytype == "Visit" %>
+          <%= link_to 'Postpone',
+                      contact_postponevisit_path(thiscontact),
+                      class: "new-record-cancel set-active-tab" %>
+      <% end %>
+
+      <%= f.button(
+        :submit,
+        class: "ui primary button",
+        "data-disable-with": "Saving..."
+        value: "Save Activity"
+      ) %>
+      <a class="ui basic button" data-dismiss="modal">Cancel</a>
+    <% end %>
+  </div><!-- content-->
+<% end %>

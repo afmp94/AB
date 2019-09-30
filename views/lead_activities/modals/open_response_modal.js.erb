@@ -1,0 +1,53 @@
+$("[data-ui-behavior=tiny-modal]").empty();
+$("[data-ui-behavior=tiny-modal]")
+  .append('<%= j render("lead_activities/modals/response", lead: @lead, lead_activity: @lead_activity) %>');
+
+$('#lead-call-result-modal-business-now').click(function() {
+  var $buttonArea = $(this);
+  $('[data-info="prospect-lead-status"]').attr('checked', 'checked');
+  var form = this.closest('form');
+
+  if ($(form).data('formValidation').validate().isValid()) {
+    if ($(form).data("mobile-app-forced-form")) {
+      // iOS app works only with '$(form)' object and doesn't work
+      // directly with 'form' object.
+      $(form).submit();
+    } else {
+      form.submit();
+    }
+
+    $('[data-ui-dimmer=response-modal]').addClass('active');
+  }
+
+});
+
+$('[data-ui-behavior=dropdown]').dropdown();
+
+var $formToValidate = $("[data-form~='response_modal_form']");
+$formToValidate
+  .formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    err: {
+      clazz: "error-message"
+    },
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      "contact_activity[activity_type]": {
+        validators: {
+          notEmpty: {
+            message: "You must select an activity type"
+          }
+        }
+      },
+      "contact_activity[completed_at]": {
+        validators: {
+          notEmpty: {
+            message: "You must add a date"
+          }
+        }
+      },
+    }
+  });

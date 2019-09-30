@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">Agent Bright Invoice Payment Succeeded</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">Agent Bright successfully charged an invoice to your credit card on <%= Time.zone.now.strftime("%B %d, %Y at %I:%M %p") %> . Have a great day!</p>
+<% end %>

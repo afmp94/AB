@@ -1,0 +1,41 @@
+<fieldset class="ui raised <%= "orange" if f.object.primary? %> segment">
+  <div class="field">
+    <div class="ui action input">
+      <%= f.input(
+        :number,
+        label: false,
+        wrapper: false,
+        placeholder: "Phone number",
+        input_html: {
+          data: { input_mask: "phone" },
+          pattern: "[0-9]*"
+        }
+      ) %>
+      <%= f.input(
+        :number_type,
+        collection: PhoneNumber::NUMBER_TYPES,
+        wrapper: false,
+        input_html: { class: "ui basic floating dropdown button ab-narrow-dropdown" },
+        include_blank: false,
+        label: false
+      ) %>
+      <%= f.hidden_field(:_destroy) %>
+      <%= link_to("#", class: "ui basic red icon tiny button remove_fields") do %>
+        <i class="large trash icon"></i>
+      <% end %>
+    </div><!-- /.ui action input -->
+  </div><!-- /.field -->
+  <%= f.input(
+    :primary,
+    label: "Primary?",
+    title: nil,
+    wrapper_html: { "data-contact-primary-wrapper": "phone" },
+    input_html: {
+      class: "fitted",
+      data: {
+        checked: f.object.primary?,
+        "contact-primary": "phone"
+      }
+    }
+  ) %>
+</fieldset>

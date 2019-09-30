@@ -1,0 +1,12 @@
+<%= render(
+  partial: "contacts/js/inline_forms/#{@inline_form}",
+  locals: {
+    contact: @contact,
+    email_addresses: @email_addresses,
+    phone_numbers: @phone_numbers
+  }
+) %>
+
+<% if @contact.errors.present? %>
+  toastr["error"]("Please check your entry and try again.");
+<% end %>

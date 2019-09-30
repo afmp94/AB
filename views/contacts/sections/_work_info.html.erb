@@ -1,0 +1,19 @@
+<div id="contact-work-info-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header(
+        "Work",
+        edit_contact_work_info_contact_path(contact),
+        "edit-contact-work-info"
+      ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Company", contact.company) %>
+      </tr>
+      <%= fixed_list_item("Profession", contact.profession) %>
+      </tr>
+      <%= fixed_list_item("Title", contact.title) %>
+      </tr>
+    </tbody>
+  </table>
+</div><!-- /#contact-work-info-section -->

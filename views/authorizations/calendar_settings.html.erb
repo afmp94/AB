@@ -1,0 +1,70 @@
+<% breadcrumb(:edit_email_integrations) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Calendar",
+    secondary_name: "Connections"
+  }
+) do %>
+
+  <% if current_user.nylas_token.present? %>
+    <% if current_user.nylas_connected_email_account.present? %>
+      <h2 class="ui dividing header"><%= "Calendars" %></h2>
+      <% if @calendars %>
+        <h3 class="ui header">Select a calendar to display</h3>
+
+        <%= simple_form_for(:user, url: update_user_nylas_calendar_setting_path) do |f| %>
+          <select name="calendar[id]" id="calendar[id]" class="select ui dropdown"">
+            <% if current_user.nylas_calendar_setting_id %>
+              <% user_calendar = determine_user_calendar(@calendars, current_user) %>
+              <% if user_calendar %>
+                <option value="<%= user_calendar.id %>"><%= user_calendar.name %></option>
+              <% end %>
+            <% end %>
+            <div class="default text">No Calendar Selected</div>
+            <% @calendars.each do |calendar| %>
+
+                <% if not (user_calendar && (user_calendar.name == calendar.name)) %>
+                  <% if not (calendar.name == "#contacts@group.v.calendar.google.com") %>
+                    <% if not (calendar.name == "en.usa#holiday@group.v.calendar.google.com") %>
+                      <option value="<%= calendar.id %>"><%= calendar.name %></option>
+                    <% end %>
+                  <% end %>
+                <% end %>
+            <% end %>
+          </select>
+          <div class="m-t-md">
+            <%= f.button(
+             :submit,
+              value: "Save",
+             class: "ui primary button",
+             "data-disable-with": "Saving..."
+            ) %>
+          </div>
+        <% end %>
+      <% else %>
+        <label>You must first integrate an email account with <%= white_labeled_app_name(current_subdomain) %> before selecting which calendar you want to display.</label>
+        <div class="m-t-md">
+          <button class="ui button">
+            <%= link_to("Connect Email", edit_integrations_path) %>
+          </button>
+        </div>
+      <% end %>
+    <% else %>
+      <h2 class="ui dividing header"><%= "Calendars" %></h2>
+      <div class="ui warning message">
+        <div class="header">
+          Wait for few minutes your account is syncing or please contact support@agentbright.com.
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <h2 class="ui dividing header"><%= "Calendars" %></h2>
+    <div class="ui warning message">
+      <div class="header">
+        Wait for few minutes your account is syncing or please contact support@agentbright.com.
+      </div>
+    </div>
+  <% end %>
+
+<% end %>

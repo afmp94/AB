@@ -1,0 +1,38 @@
+<div class="ui menu stackable" data-introjs-step="step150">
+  <%= link_to(
+    "Referral Generation",
+    contact_activities_path,
+    class: "item"
+  ) %>
+  <%= link_to(
+    "Goals",
+    goals_path,
+    class: "item"
+  ) %>
+  <%= link_to(
+    "Email Campaigns",
+    email_campaigns_path,
+    class: "item"
+  ) %>
+  <% if show_beta_features? %>
+    <%= link_to(
+      "Email Templates",
+      email_templates_path,
+      class: "item hide-tablet-and-down"
+    ) %>
+  <% end %>
+  <%= link_to(
+    "Print Labels",
+    print_campaigns_path,
+    class: "item hide-tablet-and-down"
+  ) %>
+
+  <% if show_beta_features? %>
+    <%= link_to(
+      "Action Plans",
+      action_plans_path,
+      class: "item hide-tablet-and-down"
+    ) %>
+  <% end %>
+</div><!-- /.ui menu -->
+

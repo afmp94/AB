@@ -1,0 +1,40 @@
+<div class="event text-messsage">
+  <div class="label">
+    <i class="talk outline icon"></i>
+  </div>
+  <div class="content">
+    <div class="summary">
+      <% if sms_message.incoming %>
+        <span data-tooltip="<%= sms_message.from %>"><%= sms_message.contact_name %></span>
+        >
+        <span data-tooltip="<%= sms_message.to %>"><%= sms_message.user_name %></span>
+      <% else %>
+        <span data-tooltip="<%= sms_message.from %>"><%= sms_message.user_name %></span>
+        >
+        <span data-tooltip="<%= sms_message.to %>"><%= sms_message.contact_name %></span>
+      <% end %>
+      <div class="date">
+        <span data-tooltip="<%= sms_message.created_at.strftime("%B %e %Y, %I:%M:%S %p") %>"><%= time_ago_in_words(sms_message.created_at) %> ago</span>
+      </div>
+    </div>
+    <div class="extra text">
+      <% if sms_message.incoming %>
+        <div class="ui segment text-message__body--incoming">
+          <p>
+            <%= sms_message.body %>
+
+            <%= render 'sms_messages/images_thumbnail', images: sms_message.images %>
+          </p>
+        </div><!-- /.ui raised yellow segment -->
+      <% else %>
+        <div class="ui secondary inverted blue segment">
+          <p>
+            <%= sms_message.body %>
+
+            <%= render 'sms_messages/images_thumbnail', images: sms_message.images %>
+          </p>
+        </div><!-- /.ui raised yellow segment -->
+      <% end %>
+    </div><!-- /.extra text -->
+  </div>
+</div>

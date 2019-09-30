@@ -1,0 +1,10 @@
+<% breadcrumb(:add_new_lead) %>
+<% content_for(:title, "Add Lead") %>
+
+<%= page_header(
+  primary_name: "Leads",
+  primary_path: user_leads_path,
+  secondary_name: "Add New Lead"
+) %>
+
+<%= render partial: "leads/forms/new_lead", locals: { url_data: { action: "create_new_lead" } } %>

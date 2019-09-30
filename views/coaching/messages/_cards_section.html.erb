@@ -1,0 +1,9 @@
+<% if current_user.super_admin? %>
+  <div class="ui cards">
+    <%= render(
+      partial: "coaching/messages/message_card",
+      collection: coaching_messages,
+      as: :coaching_message
+    ) %>
+  </div><!-- /.ui cards -->
+<% end %>

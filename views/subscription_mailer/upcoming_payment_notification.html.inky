@@ -1,0 +1,12 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <p>Hi  <%= @user.first_name %>,</p>
+  <spacer size="16"></spacer>
+  <p> This is a reminder that your AgentBright <%= @subscription.plan_name %> subscription
+will be automatically renewed on <%= cal_date(@subscription.next_payment_on) %> for the
+amount of <%= number_to_currency(@subscription.next_payment_amount_in_dollars) %>.</p>
+
+  <p>If you need to make any changes, you can do so by accessing your account page at
+  <%= profile_url %></p>
+
+  <p class="text-center"> Thank You for your business!  The AgentBright Team</p>
+<% end %>

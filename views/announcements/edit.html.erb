@@ -1,0 +1,9 @@
+<%= page_header(
+  primary_name: "Site Wide Announcements",
+  primary_path: announcements_path,
+  secondary_name: "Edit Announcement"
+) %>
+
+<div class="ui main container">
+  <%= render(partial: "form", locals: { show_all_fields: true }) %>
+</div>

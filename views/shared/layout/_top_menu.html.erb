@@ -1,0 +1,179 @@
+<div class="ui top fixed borderless inverted main menu">
+  <div class="ui container">
+    <a class="icon item js-open-sidebar" id="menu-button">
+      <i class="large sidebar icon"></i>
+    </a>
+    <div class="item p-y-sm">
+      <%= link_to(
+        root_path,
+        class: "ui mini rounded image m-r hide-mobile-and-down"
+      ) do %>
+        <%= image_tag(white_label_image_name("box-200.png", current_subdomain)) %>
+      <% end %>
+      <%= link_to(white_labeled_app_name(current_subdomain), root_path, class: "fwb hide-sm-mobile") %>
+    </div>
+
+    <div class="right menu">
+      <!-- SEARCH
+        <div class="ui category search item">
+          <div class="ui inverted transparent icon input">
+            <input class="prompt" type="text" placeholder="Search...">
+            <i class="search link icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+      -->
+      <% if content_for?(:demo_button) %>
+        <div class="item hide-sm-mobile">
+          <div class="ui primary button" data-behavior-introjs="<%= yield(:demo_button) %>">
+            Demo
+          </div>
+        </div>
+      <% end %>
+      <%= link_to(
+        content_for?(:help_button) ? yield(:help_button) : help_button_link,
+        class: "icon item",
+        target: :_blank,
+        "data-tooltip": "Click for help",
+        "data-position": "bottom right",
+        "data-inverted": true
+      ) do %>
+        <i class="large help circle icon"></i>
+      <% end %>
+      <% if super_admin_signed_in? %>
+        <div class="ui floating pointing dropdown top right icon item" data-ui-behavior="dropdown">
+          <i class="wrench icon"></i>
+          <div class="menu">
+            <div class="header">Superadmin</div>
+            <%= link_to(
+              "Admin Dashboard",
+              admin_root_path,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Delayed Job Console",
+              "/delayed_job",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Mailers",
+              "/rails/mailers",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Routes",
+              "/rails/info/routes",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              class: "item"
+            ) %>
+            <div class="divider"></div>
+            <%= link_to(
+              "Users",
+              users_path,
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Lead Emails",
+              lead_emails_path,
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Nylas",
+              nylas_dashboard_index_path,
+              class: "item"
+            ) %>
+            <div class="divider"></div>
+            <% if show_beta_features? %>
+              <%= link_to(
+                "Hide Beta Features",
+                toggle_beta_features_path,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                class: "item"
+              ) %>
+            <% else %>
+              <%= link_to(
+                "Show Beta Features",
+                toggle_beta_features_path,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                class: "item"
+              ) %>
+            <% end %>
+            <% if masquerading? %>
+              <%= link_to(
+                "Stop Masquerading",
+                masquerade_path,
+                method: :delete,
+                title: "Masquerading #{current_user.email}",
+                class: "item"
+                ) %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div class="ui floating pointing dropdown top right icon item" data-ui-behavior="dropdown" data-tooltip="New..." data-position="bottom right" data-inverted="">
+        <i class="plus icon"></i>
+        <div class="menu">
+          <div class="header">Quick Add</div>
+          <%= link_to(
+            "Contact",
+            new_contact_path,
+            class: "item",
+            data: { trail: breadcrumb_trail }
+          ) %>
+          <%= link_to(
+            "Lead",
+            new_lead_lead_path,
+            class: "item",
+            data: { trail: breadcrumb_trail }
+          ) %>
+          <%= link_to(
+            "Client",
+            new_lead_path,
+            class: "item",
+            data: { trail: breadcrumb_trail }
+          ) %>
+          <%= link_to(
+            "Task",
+            new_task_path,
+            class: "item",
+            data: { trail: breadcrumb_trail }
+          ) %>
+          <%= link_to(
+            "Marketing Activity",
+            new_contact_activity_path,
+            class: "item",
+            data: { trail: breadcrumb_trail }
+          ) %>
+        </div><!-- /.menu -->
+      </div><!-- /.ui dropdown item -->
+      <!--
+        <div class="item">
+          <div>
+            <a class="ui red circular label">2</a>
+          </div>
+        </div>
+      -->
+      <div class="ui floating pointing dropdown top right item" data-ui-behavior="dropdown">
+        <%= display_avatar(current_user, size: :avatar, circular: false) %>
+        <div class="menu">
+          <div class="header">
+            <%= current_user.name %>
+          </div>
+          <div class="divider"></div>
+          <%= link_to("Settings", profile_path, class: "item") %>
+          <div class="divider"></div>
+          <%= link_to("Sign Out", destroy_user_session_path, method: :delete, class: "item") %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

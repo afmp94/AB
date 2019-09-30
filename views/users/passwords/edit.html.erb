@@ -1,0 +1,36 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <%= image_tag(white_label_image_name("box-114-transparent.png", current_subdomain), class: "image") %>
+      <div class="content">
+        Change Your Password
+      </div><!-- /.content -->
+    </h2>
+    <%= simple_form_for(
+      resource,
+      as: resource_name,
+      url: password_path(resource_name),
+      html: { method: :put, class: "ui form large", autocomplete: "on" }
+    ) do |f| %>
+      <div class="ui stacked left aligned segment">
+        <%= devise_error_messages! %>
+        <%= f.hidden_field(:reset_password_token) %>
+        <%= f.input(:password, label: false, placeholder: "New Password") %>
+        <%= f.input(
+          :password_confirmation,
+          label: false,
+          placeholder: "Confirm Password"
+        ) %>
+        <%= f.button(
+          :submit,
+          "Change my password",
+          class: "ui fluid large teal submit button",
+          "data-disable-with": "Changing..."
+        ) %>
+      </div><!-- /.ui stacked left aligned segment -->
+    <% end %>
+    <div class="ui message">
+      <%= render(partial: "users/shared/links") %>
+    </div>
+  </div><!-- /.column -->
+</div><!-- /.ui middle aligned center aligned grid -->

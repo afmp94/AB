@@ -1,0 +1,19 @@
+<% content_for(:title, "Import Contacts") %>
+
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon dividing header">
+      <i class="users icon"></i>
+      <div class="content">
+        Import your contacts
+        <div class="sub header"></div><!-- /.sub header -->
+      </div><!-- /.content -->
+    </h2><!-- /.ui header -->
+    <p>
+      People are the lifeblood of your business. &nbsp;&nbsp;Let’s import your contacts, so you don’t have to enter them in manually.&nbsp;&nbsp; Then we’ll be able to sort and help you build great relationships.
+    </p>
+    <%= render(partial: "upload_contacts/upload_contacts") %>
+    </br>
+    <%= link_to("Skip", next_wizard_path, class: "ui button") %>
+  </div><!-- /.segment -->
+<% end %>

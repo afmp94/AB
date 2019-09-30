@@ -1,0 +1,12 @@
+<div class="header">
+  <h4 class="modal-title" id="myModalLabel"><i class="alarm icon"></i>Remind Me Later</h4>
+</div><!-- /header -->
+
+<div class="content">
+  <%= link_to "7 Days", remind_later_card_path(@card, remind_after_days: "7"), class: "medium ui yellow button", method: :put, remote: true %>
+  <%= link_to "30 Days", remind_later_card_path(@card, remind_after_days: "30 "), class: "medium ui green button", method: :put, remote: true %>
+  <%= link_to "3 Months", remind_later_card_path(@card, remind_after_days: "90"), class: "medium ui teal button", method: :put, remote: true %>
+  <%= link_to "6 Months", remind_later_card_path(@card, remind_after_days: "190"), class: "medium ui blue button", method: :put, remote: true %>
+  <%= link_to "No Thanks", dismiss_card_path(card_id: @card.id), class: "medium ui red button", method: :post, remote: true %>
+  <%= link_to "Cancel", "javascript:void(0)", class: "medium ui right floated button", data: { dismiss: "modal" } %>
+</div>

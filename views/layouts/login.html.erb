@@ -1,0 +1,9 @@
+<%= render(partial: "layouts/google_tag_manager_noscript") %>
+
+<% content_for(:body_class, "login-layout") %>
+
+<%= render("shared/flashes") %>
+
+<%= yield %>
+
+<% parent_layout "base" %>

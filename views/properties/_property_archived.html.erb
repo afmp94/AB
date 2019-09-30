@@ -1,0 +1,16 @@
+<% index = property_counter + 1 %>
+<div class="card">
+  <div class="content">
+    <table id="property_<%= index %>">
+      <tbody>
+        <tr>
+          <td class="bk-word">
+            <p class="fwb"><%= property.property_address.street %> <%= property.property_address.city %> <span class="fwl"><%= num_to_currency(property.list_price) %></span> <%= property.level_of_interest %> <span class="small-meta"><br /><%= link_to "Edit", edit_lead_property_path(lead_id: @lead.id, id: property.id) %> | <%= link_to "Delete", [@lead, property], method: :delete, data: { confirm: 'Are you sure you want to delete this property?' } %></span>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div><!-- /.content -->
+</div><!-- /.card -->
+

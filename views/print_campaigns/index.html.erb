@@ -1,0 +1,21 @@
+<% breadcrumb(:print_campaigns) %>
+<%= page_header(
+  primary_name: "Print Campaigns",
+  primary_path: print_campaigns_path,
+  add_button_text: "Add a new print campaign",
+  add_button_path: new_print_campaign_path
+) %>
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid index-page-table-grid">
+      <div class="sixteen wide column sticky-black-menu-container">
+        <% if @print_campaigns.empty? %>
+          <%= render(partial: "print_campaigns/table/print_campaigns_empty_table") %>
+        <% else %>
+          <%= render(partial: "print_campaigns/table/print_campaigns_table", locals: { print_campaigns: @print_campaigns }) %>
+        <% end %>
+    </div>
+  </div>
+</div><!-- /.main ui container -->
+

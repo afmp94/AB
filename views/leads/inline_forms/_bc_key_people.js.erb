@@ -1,0 +1,12 @@
+$("#key-people-section")
+  .after('<%= j render(partial: "leads/buyer_client/sections/key_people", locals: { lead: lead }) %>')
+  .remove();
+
+<% if lead.errors.present? %>
+  $('#key-people-section').displayFixedListEditForm(
+    '<%= j render(partial: "leads/buyer_client/forms/key_people_form",
+                  locals: { lead: lead, inline_form: "bc_key_people" }) %>'
+  );
+
+  SCA.init();
+<% end %>

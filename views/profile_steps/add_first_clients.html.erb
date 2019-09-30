@@ -1,0 +1,232 @@
+<style>
+  .ab-list-container {
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+</style>
+
+<%= render(layout: "profile_steps/layout") do %>
+  <div class="ui segment">
+    <h2 class="ui center aligned dividing icon header">
+      <i class="home icon"></i>
+      <div class="content">
+        Add some clients
+      </div><!-- /.content -->
+    </h2><!-- /.ui center aligned dividing icon header -->
+
+    <%= content_tag(
+      :div,
+      id: "team-form",
+      data: {
+        team: team.to_json(includes: :players),
+        players_attributes: team.players.to_json,
+      }
+    ) do %>
+
+    <% end %>
+
+
+
+    <%= simple_form_for(
+      @user,
+      url: wizard_path,
+      method: :put,
+      remote: true
+    ) do |f| %>
+      <%= f.hidden_field :id %>
+
+
+
+      <div class="ui vertical basic segment">
+        <div class="ui centered grid">
+          <div class="column">
+            <div class="ui basic segments">
+              <div class="ui active transition fade in tab" data-tab="first">
+                <div class="ui segments">
+                  <% if @first_clients.count >= 5 %>
+                    <div class="ui segment">
+                      <h1>Identify 5 current clients</h1>
+                    </div><!-- /.ui segment -->
+                    <div class="ui segment">
+                      <div class="ui stackable mobile reversed two column divided grid">
+                        <div class="ten wide column p-a-0">
+                          <div class="ui basic segment m-b-0">
+                            <div class="ui search">
+                              <div class="ui fluid icon input">
+                                <input class="prompt" type="text" placeholder="Search for contacts...">
+                                <i class="search icon"></i>
+                              </div>
+                              <div class="results"></div>
+                            </div>
+                          </div><!-- /.ui segment -->
+
+                          <!--  <div class="ui basic vertical segment"> -->
+                            <div class="ab-list-container p-l">
+                              <div class="ui very relaxed selection middle aligned list">
+                                <% @first_clients.each do |client| %>
+                                  <div class="item" data-info="client-data">
+                                    <div class="right floated content">
+                                      <i class="big circle thin icon" data-behavior="select-client" data-info-client-id="<%= client.id %>"></i>
+                                    </div>
+                                    <img class="ui avatar image" src="http://semantic-ui.com/images/avatar2/small/rachel.png">
+                                    <div class="content">
+                                      <div class="header" data-info="client-name"><%= client.name %></div>
+                                      <div class="description"><%= client.email %></div>
+                                    </div>
+                                  </div>
+                                <% end %>
+                              </div>
+                            </div><!-- /.ab-list-container -->
+
+                            <!-- </div> --><!-- /.ui segment -->
+                        </div><!-- /.column -->
+                        <div class="six wide column p-a-0" style="background-color:#f3f4f5;">
+                          <div class="ui secondary basic segment m-b-0">
+                            <div class="ui mini horizontal statistic">
+                              <div class="value" data-info="selected-clients-count">
+                                0/5
+                              </div>
+                              <div class="label">
+                                Selected
+                              </div>
+                            </div>
+                          </div><!-- /.ui segment -->
+                          <div class="ui middle aligned selection tiny list m-x" data-info="selected-clients">
+                          </div><!-- /.column -->
+                      </div><!-- /.ui stackable two column grid -->
+                    </div><!-- /.ui segment -->
+                    <div class="ui clearing segment">
+                      <button class="ui right floated primary button" data-go-to-tab="second">
+                        Next
+                      </button>
+                    </div><!-- /.ui segment -->
+                  <% else %>
+                    <div class="ui segment">
+                      You don't have enough clients
+                    </div>
+                  <% end %>
+                </div><!-- /.ui stacked segments -->
+
+              </div>
+              <div class="ui transition fade in tab" data-tab="second">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <h1>Second</h1>
+                  </div><!-- /.ui segment -->
+                  <div class="ui segment">
+                    <p>Content</p>
+                  </div><!-- /.ui segment -->
+                  <div class="ui segment">
+                    <button class="ui button" data-go-to-tab="first">
+                      Back
+                    </button>
+                    <button class="ui primary right floated button" data-go-to-tab="third">
+                      Next
+                    </button>
+                  </div><!-- /.ui segment -->
+                </div><!-- /.ui segments -->
+              </div>
+
+              <div class="ui transition fade in tab" data-tab="third">
+                <div class="ui segments">
+                  <div class="ui segment">
+                    <h1>Third</h1>
+                  </div><!-- /.ui segment -->
+                  <div class="ui segment">
+                    <p>Content</p>
+                  </div><!-- /.ui segment -->
+                  <div class="ui segment">
+                    <button class="ui button" data-go-to-tab="second">
+                      Back
+                    </button>
+                    <button class="ui primary right floated button">
+                      Finish
+                    </button>
+                  </div><!-- /.ui segment -->
+                </div><!-- /.ui segments -->
+              </div>
+            </div><!-- /.ui segments -->
+          </div>
+        </div>
+      </div>
+      <%= hidden_field_tag :selected_client_ids %>
+      <%= f.button(:submit, value: "Continue") %>
+    <% end %>
+  </div><!--/.ui segment -->
+<% end %>
+
+<script charset="utf-8">
+  $('[data-behavior="select-client"]').click(function() {
+    $(this).toggleClass('check');
+    var clientId   = $(this).data('info-client-id');
+    var clientData = $(this).parents('[data-info="client-data"]');
+
+    var selectedClientIds = []
+
+    $('[data-info="selected-client"]').each(function() {
+      if ($(this).data('client-selected') !== undefined) {
+        selectedClientIds.push($(this).data('client-selected'));
+      }
+    })
+
+    if ((selectedClientIds.length == 0) || ((selectedClientIds.length > 0) && (_.indexOf(selectedClientIds, clientId) == -1))) {
+      htmlData =
+        "<div class='item' data-info='selected-client' data-client-selected='" + clientId + "'>" +
+        "<div class='right floated content'>" +
+        "<div class='circular mini ui icon button' data-behavior='remove-client' data-remove-client-id='"+ clientId + "'>" +
+        "<i class='icon remove'></i>" +
+        "</div>"+
+        "</div>" +
+        "<img class='ui avatar image' src='http://semantic-ui.com/images/avatar/small/helen.jpg'>" +
+        "<div class='content'>" +
+        "<div class='header'>"+ clientData.find('[data-info="client-name"]').html() + "</div>" +
+        "</div>" +
+        "</div>"
+
+      $('[data-info="selected-clients"]').append(htmlData);
+
+    }
+
+    if (_.indexOf(selectedClientIds, clientId) !== -1) {
+      $("[data-client-selected='" + clientId + "']").remove();
+    }
+
+    var selectedClientIds = []
+
+    $('[data-info="selected-client"]').each(function() {
+      if ($(this).data('client-selected') !== undefined) {
+        selectedClientIds.push($(this).data('client-selected'));
+      }
+    })
+
+    $('input[name="selected_client_ids"]').val(selectedClientIds.join(","));
+
+    updateCountForSelectedclients(selectedClientIds)
+  })
+
+  $(document).on('click', '[data-behavior="remove-client"]', function() {
+    var clientId   = $(this).data('remove-client-id');
+    var clientData = $(this).parents('[data-info="selected-client"]');
+
+    clientData.remove();
+
+    $("[data-info-client-id='" + clientId+ "']").toggleClass('check');
+
+    var selectedClientIds = []
+
+    $('[data-info="selected-client"]').each(function() {
+      if ($(this).data('client-selected') !== undefined) {
+        selectedClientIds.push($(this).data('client-selected'));
+      }
+    })
+
+    $('input[name="selected_client_ids"]').val(selectedClientIds.join(","));
+
+    updateCountForSelectedclients(selectedClientIds)
+  })
+
+  function updateCountForSelectedclients(selectedClientIds) {
+    $('[data-info="selected-clients-count"]').html(selectedClientIds.length + '/5');
+  }
+</script>

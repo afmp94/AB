@@ -1,0 +1,19 @@
+<div class="ui segments index-page-table-grid__segments">
+  <div class="ui segment">
+    <% cache "table_head" do %>
+      <%= render(partial: "print_campaigns/table/options/search_bar") %>
+    <% end %>
+  </div><!-- /.ui segment -->
+
+  <div class="ui segment p-a-0">
+    <%= render(partial: "print_campaigns/table/options/sticky_select_menu") %>
+
+    <div class="ui disabled inverted dimmer" data-behavior="loader">
+      <div class="ui text loader">Loading</div>
+    </div>
+
+    <div id="items-container" data-container="print-campaign-items">
+      <%= render(partial: "print_campaigns/table/data", locals: { print_campaigns: @print_campaigns }) %>
+    </div><!-- /.#items-container -->
+  </div><!-- /.ui segment -->
+</div><!-- /.ui segments -->

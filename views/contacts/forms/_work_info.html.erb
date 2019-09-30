@@ -1,0 +1,8 @@
+<%= simple_form_for(@contact, remote: true) do |f| %>
+  <%= hidden_field_tag :inline_form, "work_info" %>
+  <%= f.input(:company) %>
+  <%= f.input(:profession) %>
+  <%= f.input(:title, label: "Business Title") %>
+  <%= f.button(:submit, "Save", "data-disable-with": "Saving...", remote: true) %>
+  <a data-cancel-section="#contact-work-info-section" class="ui basic button">Cancel</a>
+<% end %>

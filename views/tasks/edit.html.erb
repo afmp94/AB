@@ -1,0 +1,11 @@
+<% breadcrumb(:task, @task) %>
+
+<%= page_header(
+  primary_name: "Tasks",
+  primary_path: tasks_path,
+  secondary_name: "Edit Task"
+) %>
+
+<div class="ui main container">
+  <%= render "form" %>
+</div>

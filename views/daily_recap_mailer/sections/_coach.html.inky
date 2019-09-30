@@ -1,0 +1,17 @@
+<row>
+  <columns small="12" large="12" valign="middle" style="background-color: #FF8C00">
+   <h3 class="text-left" style="height: 10px;margin-left: 15px;color:#FFFFFF; margin-top: 5px; margin-bottom: 10px; font-size: 22px;">
+    Coaches Corner</h3>
+  </columns>
+</row>
+<spacer size="6"></spacer>
+<row>
+  <columns small=8" large="8" >
+    <span style="font-weight:normal;font-size:14px;line-height:16px;margin-left: 15px;padding:0 7px;display:inline-block;border-radius:12px">Keep up to date, we have some personal suggestions for you  </span>
+   </columns>
+  <columns small="3" large="3">
+    <button href="<%= coaching_url %>" target="_blank" class="rounded small-expanded primaryndary button-size: tiny">Read Now</button>
+    <spacer size="6"></spacer>
+    </button>
+  </columns>
+</row>

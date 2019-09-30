@@ -1,0 +1,129 @@
+<% breadcrumb :root %>
+<% content_for(:demo_button, "dashboard") %>
+<% content_for :title, "Dashboard" %>
+
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container full-width-container" >
+    <div class="ui horizontal segments no-border m-y-0">
+      <div class="ui very basic segment p-a-0" >
+        <h1 class="ui header">
+          <%= link_to("Dashboard", dashboard_path) %>
+        </h1><!-- /.ui header -->
+      </div><!-- /.ui segment -->
+      <% if current_user.personal_links.present? %>
+        <div class="ui very basic segment hide-mobile-and-down" >
+          <h5 class="ui header">
+            <%= link_to "Useful Links", edit_personal_links_path %>
+          </h5><!-- /.ui header -->
+          <% current_user.personal_links.each do |personal_link| %>
+            <%= link_to personal_link.title, personal_link.url, class: "ui button noloading", target: "_blank", rel: "noopener noreferrer" %>
+          <% end %>
+        </div>
+      <% else %>
+        <% if @dashboard_presenter.useful_message_broadcast.present? %>
+          <div class="ui very basic segment hide-mobile-and-down" data-info="message-broadcast" data-message-broadcast-id="<%= @dashboard_presenter.useful_message_broadcast.id %>">
+            <div class="ui message">
+              <i class="close icon" data-behavior="message-dissmiss"></i>
+              <div class="content">
+                <div class="header">
+                  Add external links to quickly access relevant information (e.g facebook page, gmail, etc)
+                </div>
+                <p>Click <%= link_to "Useful Links", edit_personal_links_path %></p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div><!-- /.ui horizontal segments -->
+      <div class="ui very basic segment no-border p-a-0 hide-mobile-and-down" data-ui-context="clients-pipeline" data-introjs-step="step401">
+        <%= render(partial: "leads/stats/clients_pipeline") %>
+      </div><!-- /.ui segment -->
+  </div><!-- /.ui container full-width-container -->
+</div><!-- /.ui masthead vertical segment -->
+
+<div class="ui main container full-width-container">
+  <div class="ui stackable grid">
+      <div class="row">
+        <div class="column">
+          <%= render(
+            partial: "coaching/messages/cards_section",
+            locals: { coaching_messages: @dashboard_presenter.coaching_messages }
+          ) %>
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    <% if @dashboard_presenter.next_cards.present? %>
+      <div data-info="user-next-cards" data-introjs-step="step90" >
+        <%= render(
+          partial: "home/dashboard/action_cards_section",
+          locals: { next_cards: @dashboard_presenter.next_cards }
+        ) %>
+      </div>
+    <% end %>
+    <div class="row">
+      <div class="ten wide column flex_item">
+        <%= render(partial: "reports/dashboard/quick_reports") %>
+        <%= render(partial: "leads/recent_leads") %>
+        <%= render(partial: "leads/status_board/board") %>
+      </div><!-- /.ten wide column -->
+      <div class="six wide column flex_item" data-introjs-step="step103">
+        <% if current_user.nylas_calendar_setting_id.present? %>
+          <div id="dashboard-calendar">
+            <h4>Loading calendar...</h4>
+          </div>
+        <% end %>
+
+        <%= render(partial: "tasks/dashboard/task_list") %>
+
+        <% if current_user.user_has_teammates? %>
+          <%= render(partial: "tasks/dashboard/task_team_list") %>
+        <% end %>
+
+        <div class="p-t-lg" id="recent-activity" data-introjs-step="step104">
+          <h2 class="ui header">Recent Activity</h3>
+          <%= render(
+            partial: "activities/activity_stream",
+            locals: { activities: @activities, activities_url: @activities_url }
+          ) %>
+        </div>
+      </div><!-- /.six wide column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui stackable grid -->
+</div><!-- /.ui main container full-width-container -->
+
+<% if current_user.nylas_calendar_setting_id.present? %>
+  <%= content_for :javascript do %>
+    <script>
+      $.ajax({
+        url: "/nylas_accounts/calendar?period=recent&",
+        cache: false,
+        success: function(html) {
+          $("#dashboard-calendar").html(html);
+        }
+      });
+    </script>
+  <% end %>
+<% end %>
+
+<%= content_for :javascript do %>
+  <script>
+    // Initialize tabs
+    $('[data-ui-behavior=dashboard-reports-menu] .item')
+      .tab(
+        {
+          context: $('#quick-reports'),
+        }
+      );
+    $('[data-ui-behavior=dashboard-lead-board-menu] .item')
+      .tab(
+        {
+          context: $('#lead-board'),
+        }
+      );
+    $('[data-ui-behavior=dashboard-status-board-menu] .item')
+      .tab(
+        {
+          context: $('#status-board'),
+        }
+      );
+  </script>
+<% end %>

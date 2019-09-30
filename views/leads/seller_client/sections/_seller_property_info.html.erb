@@ -1,0 +1,27 @@
+<div id="seller-property-info-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header('Seller Property', edit_fixed_list_lead_path(lead, lead_type: "seller_client", section: "seller_property_info"), 'edit-seller-client-seller-property-info') %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("Property Type", lead.listing_property.property_type_to_s) %>
+      <tr>
+        <td>Property Address</td>
+        <td>
+          <%= lead.listing_property.address.street  %><br/ >
+          <%= lead.listing_property.address.city_state_zip %>
+        </td>
+      </tr>
+      <% if lead.notes.present? %>
+        <%= fixed_list_item("Notes", lead.notes) %>
+      <% end %>
+      <%= fixed_list_item("MLS Number", lead.listing_property.mls_number) %>
+      <%= fixed_list_item("Bedrooms", lead.listing_property.bedrooms) %>
+      <%= fixed_list_item("Bathrooms", lead.listing_property.bathrooms ) %>
+      <%= fixed_list_item("Square Feet", lead.listing_property.sq_feet) %>
+      <%= fixed_list_item("Lot Size", lead.listing_property.lot_size) %>
+      <%= fixed_list_item("Initial Client Valuation", num_to_currency(lead.listing_property.initial_client_valuation)) %>
+      <%= fixed_list_item("Initial Agent Valuation", num_to_currency(lead.listing_property.initial_agent_valuation)) %>
+    </tbody>
+  </table>
+</div>

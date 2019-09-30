@@ -1,0 +1,54 @@
+<div class="ui four column celled grid m-a-0">
+  <div class="center aligned column">
+    <div class="ui mini statistic column_flex_container">
+      <div class="value">
+        <%= number_to_currency(@stats_service.team_prospect_leads_price, precision: 0) %>
+      </div>
+      <div class="value fwb">
+        <%= number_to_currency(@stats_service.team_prospect_leads_commission, precision: 0) %>
+      </div>
+      <div class="label">
+        <%= pluralize(@stats_service.team_prospect_leads_count, "Prospect") %>
+      </div>
+    </div><!-- /.ui mini statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui mini statistic column_flex_container">
+      <div class="value">
+        <%= number_to_currency(@stats_service.team_active_leads_price, precision: 0) %>
+      </div>
+      <div class="value fwb">
+        <%= number_to_currency(@stats_service.team_active_leads_commission, precision: 0) %>
+      </div>
+      <div class="label">
+        <%= pluralize(@stats_service.team_active_leads_count, "Active") %>
+      </div>
+    </div><!-- /.ui mini statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui mini statistic column_flex_container">
+      <div class="value">
+        <%= number_to_currency(@stats_service.team_pending_leads_price, precision: 0) %>
+      </div>
+      <div class="value fwb">
+        <%= number_to_currency(@stats_service.team_pending_leads_commission, precision: 0) %>
+      </div>
+      <div class="label">
+        <%= pluralize(@stats_service.team_pending_leads_count, "Pending") %>
+      </div>
+    </div><!-- /.ui mini statistic -->
+  </div><!-- /.center aligned column -->
+  <div class="center aligned column">
+    <div class="ui mini statistic column_flex_container">
+      <div class="value">
+        <%= number_to_currency(@stats_service.team_closed_ytd_leads_price, precision: 0) %>
+      </div>
+      <div class="value fwb">
+        <%= number_to_currency(@stats_service.team_closed_ytd_leads_commission, precision: 0) %>
+      </div>
+      <div class="label">
+        <%= @stats_service.team_closed_ytd_leads_count %> Closed YTD
+      </div>
+    </div><!-- /.ui mini statistic -->
+  </div><!-- /.center aligned column -->
+</div><!-- /.ui four column celled grid -->

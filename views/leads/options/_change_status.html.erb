@@ -1,0 +1,86 @@
+<% if lead.contracts.blank? %>
+  <%= link_to(
+    "Lead",
+    lead_lead_status_path(lead),
+    method: :post,
+    data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+    rel: "tooltip",
+    title: "Not spoken to the person yet",
+    class: "item"
+  ) %>
+<% end %>
+
+<%= link_to(
+  "Prospect",
+  prospect_lead_status_path(lead),
+  method: :post,
+  data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+  rel: "tooltip",
+  title: "Spoken with person but nothing formal",
+  class: "item"
+) %>
+<%= link_to(
+  "Active",
+  active_lead_status_path(lead),
+  method: :post,
+  data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+  rel: "tooltip",
+  title: "Agreement, looking for houses/listing on market",
+  class: "item"
+) %>
+<%= link_to(
+  "Pending",
+  pending_lead_status_path(lead),
+  method: :post,
+  data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+  rel: "tooltip",
+  title: "Offer signed",
+  class: "item"
+) %>
+<%= link_to(
+  "Closed",
+  closed_lead_status_path(lead),
+  method: :post,
+  data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+  rel: "tooltip",
+  title: "Transaction closed",
+  class: "item",
+) %>
+<%= link_to(
+  "Paused",
+  open_pause_modal_lead_path(id: lead.id),
+  remote: true,
+  data: { toggle: "modal", target: "#mainModal", id: lead.id },
+  rel: "tooltip",
+  title: "Agreement, taking a break",
+  class: "item"
+) %>
+<%= link_to(
+  "Not Converted",
+  open_not_converted_modal_lead_path(id: lead.id),
+  remote: true,
+  data: { toggle: "modal", target: "#mainModal", id: lead.id },
+  rel: "tooltip",
+  title: "Made contact, did not get to close",
+  class: "item"
+) %>
+<%= link_to(
+  "Long Term Prospect",
+  open_long_term_prospect_modal_lead_path(id: lead.id),
+  remote: true,
+  data: { toggle: "modal", target: "#tinyModal", id: lead.id },
+  rel: "tooltip",
+  title: "Spoken with, interested in longer term",
+  class: "item"
+) %>
+<% if lead.status == 0 %>
+  <%= link_to(
+    "Junk",
+    open_junk_modal_lead_path(id: lead.id),
+    remote: true,
+    data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+    rel: "tooltip",
+    title: "Did not make contact, giving up",
+    class: "item"
+  ) %>
+<% end %>

@@ -1,0 +1,5 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <h1 class="text-center">Stripe Charge Dispute Created !</h1>
+  <spacer size="16"></spacer>
+  <p class="text-center">A stripe charge dispute has been created for user with id: <%= @user_id %></p>
+<% end %>

@@ -1,0 +1,223 @@
+<!--
+*******************************************
+Note: The purpose of views/designs/ is for
+building frontend markup only. Do not add
+ERB or javascript to this page. Copy and
+paste this markup, and then integrate that
+code in its rightful location with the app
+backend.
+
+With very few exceptions, this file should
+remain pure front-end HTML/CSS/JS.
+*******************************************
+-->
+
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">Email Campaigns</h1>
+      <h1 class="ui header">Campaign Name</h1>
+    </div>
+  </div>
+</div>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <h2>12 Recipients</h2>
+    <div class="ui two column stackable centered grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui middle aligned relaxed list">
+            <div class="item">
+              <span class="fwb">List: </span>A+
+            </div><!-- /.item -->
+            <div class="item">
+              <span class="fwb">Subject: </span>Test email
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided relaxed list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui middle aligned relaxed list">
+            <div class="item">
+              <span class="fwb">Delivered: </span>Mon, Mar 1, 2019 9:30am
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided relaxed list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="column">
+          <div class="ui progress" data-ui-behavior="progress" data-percent="12">
+            <div class="bar">
+              <div class="progress"></div>
+            </div><!-- /.bar -->
+            <div class="label">Open Rate</div>
+          </div><!-- /.ui progress -->
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Your average: 26.5%
+            </div><!-- /.item -->
+            <div class="item">
+              Industry average: 19.8%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui progress" data-ui-behavior="progress" data-percent="4">
+            <div class="bar">
+              <div class="progress"></div>
+            </div><!-- /.bar -->
+            <div class="label">Click Rate</div>
+          </div><!-- /.ui progress -->
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Your average: 7.1%
+            </div><!-- /.item -->
+            <div class="item">
+              Industry average: 2.0%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui two column stackable centered grid -->
+    <div class="ui four column stackable celled grid">
+      <div class="row">
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value">4</div>
+            <div class="label">Opened</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value">2</div>
+            <div class="label">Clicked</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value">1</div>
+            <div class="label">Bounced</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+        <div class="column center aligned">
+          <div class="ui mini statistic">
+            <div class="value">0</div>
+            <div class="label">Unsubscribed</div>
+          </div><!-- /.ui mini statistic -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui four column celled grid -->
+    <div class="ui two column stackable centered grid">
+      <div class="row">
+        <div class="column">
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Opens per unique contact: 1
+            </div><!-- /.item -->
+            <div class="item">
+              Total opens: 1
+            </div><!-- /.item -->
+            <div class="item">
+              Last opened: March 5, 2018 at 8:54am
+            </div><!-- /.item -->
+            <div class="item">
+              Successful deliveries: 1 100%
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+        <div class="column">
+          <div class="ui middle aligned divided relaxed list">
+            <div class="item">
+              Clicks per unique contact: 0
+            </div><!-- /.item -->
+            <div class="item">
+              Total clicks: 0
+            </div><!-- /.item -->
+            <div class="item">
+              Last clicked: Not yet opened
+            </div><!-- /.item -->
+          </div><!-- /.ui middle aligned divided list -->
+        </div><!-- /.column -->
+      </div><!-- /.row -->
+    </div><!-- /.ui two column stackable centered grid -->
+    <h3>12 Recipients</h3>
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email Address</th>
+          <th>Activity Report</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="#">Patrick O'Grady</a></td>
+          <td>ogradypatrickj@gmail.com</td>
+          <td>
+            <div class="ui button" data-ui-behavior="open-modal">View</div>
+          </td>
+        </tr>
+      </tbody>
+    </table><!-- /.ui table -->
+  </div>
+</div>
+
+<div class="ui modal" data-ui-behavior="modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Subscriber activity for: ogradypatrickj@gmail.com
+  </div>
+  <div class="content">
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th colspan=2>01/13/2018</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12:31PM</td>
+          <td>Open</td>
+        </tr>
+        <tr>
+          <td>12:31PM</td>
+          <td>Open</td>
+        </tr>
+        <tr>
+          <td>12:32PM</td>
+          <td>Click: <a href="https://agentbright.com">https://agentbright.com</a></td>
+        </tr>
+        <tr>
+          <td>3:59PM</td>
+          <td>Open</td>
+        </tr>
+      </tbody>
+      <thead>
+        <tr>
+          <th colspan=2>01/25/2018</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>9:04AM</td>
+          <td>Open</td>
+        </tr>
+      </tbody>
+    </table><!-- /.ui table -->
+  </div><!-- /.content -->
+  <div class="actions">
+    <div class="ui button">
+      Close
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // Initialize progress bars
+  $('[data-ui-behavior=progress]').progress();
+
+  // Initialize modal
+  $('[data-ui-behavior=modal]')
+    .modal('attach events', '[data-ui-behavior=open-modal]', 'show');
+</script>

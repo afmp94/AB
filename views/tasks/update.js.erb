@@ -1,0 +1,3 @@
+<% if @task.completed? %>
+  $('#task_<%= @task.id %>').remove();
+<% end %>

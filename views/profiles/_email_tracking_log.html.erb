@@ -1,0 +1,33 @@
+<div class="ui attached segment">
+  <h2 class="ui header">Tracking Info (agent-sent emails)</h2>
+  <table class="ui table">
+    <thead>
+    <tr>
+      <th width="30%">Sent To</th>
+      <th width="12%">Opened</th>
+      <th width="50%">Click/Open Date & Time</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% current_user.all_nylas_messages.limit(100).each do |nylas_message| %>
+        <tr>
+          <td class="bk-word">
+            <%= nylas_message.sent_to_email_address %>
+          </td>
+          <td class="bk-word">
+            <% if nylas_message.opened == true %>
+              Yes
+            <% else %>
+              No
+            <% end %>
+          </td>
+          <td>
+            <% nylas_message.nylas_message_activities.each do |activity| %>
+              <%= activity.activity_event %> at <%= activity.ts.strftime("%B %d, %Y at %I:%M %p") %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div><!-- /.ui attached segment -->

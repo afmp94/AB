@@ -1,0 +1,11 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <p>The lead <%= @lead.name %> has not yet been contacted => <%= link_to "Click here to see", @lead %>.</p>
+
+        <p>It is highly recommended that you contact this lead as soon as possible.</p>
+      </columns>
+    </row>
+  </container>
+<% end %>

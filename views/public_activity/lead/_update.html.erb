@@ -1,0 +1,17 @@
+<% cache(["lead_update", activity, current_user.id]) do %>
+  <div class="activity_container">
+    <article class="activity">
+    <%= activity_icon("info", "folder open icon") %>
+      <div class="activity-flat-container">
+        <div class="activity-flat">
+          <%= render 'public_activity/shared/activity_timestamp', activity: activity %>
+          <div class="action">
+            <%= activity_creator(activity) %>
+            <%= activity_subject(activity, action: "updated the lead", link: activity_link(activity.recipient)) %>
+            <%= activity_excerpt(activity) %>
+          </div><!-- /.action -->
+        </div><!-- /.activity-flat -->
+      </div><!-- /.activity-flat-container -->
+    </article><!-- /.activity -->
+  </div><!-- /.activity_container -->
+<% end %>

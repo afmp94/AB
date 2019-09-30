@@ -1,0 +1,130 @@
+<!--
+*******************************************
+Note: The purpose of views/designs/ is for
+building frontend markup only. Do not add
+ERB or javascript to this page.
+
+Copy and paste this markup, excluding the
+<style> and <script> tags, and then
+integrate that code in its rightful
+location with the app backend.
+
+With very few exceptions, this file should
+remain pure front-end HTML/CSS/JS.
+*******************************************
+-->
+
+<style>
+
+</style>
+
+<%= page_header(
+  primary_name: "ActionPlans",
+  primary_path: templates_index_path,
+  #secondary_name: "Drip Campaign Templates",
+  add_button_text: "Create action plan",
+  add_button_path: templates_new_path
+  #add_button_path: drip_campaigns_new_path
+) %>
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid">
+      <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+        <div class="ui segments">
+          <div class="ui segment p-a-0">
+            <table class="ui sortable very basic table">
+              <thead>
+                <tr>
+                  <th class="">Name</th>
+                  <th class="right aligned">Steps</th>
+                  <th class="right aligned">Scheduled</th>
+                  <th class="right aligned">Completed</th>
+                  <th class="right aligned sorted descending">Opened</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          Appointment Missed
+                          <div class="sub header">Follow up with contact who missed appointment</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td class="right aligned">
+                    5
+                  </td>
+                  <td class="right aligned">
+                    8
+                  </td>
+                  <td class="right aligned">
+                    45
+                  </td>
+                  <td class="right aligned">
+                    24%
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                          After Closing
+                          <div class="sub header">Maintain your relationship and drive referral business</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                   <td class="right aligned">
+                    4
+                  </td>
+                   <td class="right aligned">
+                    8
+                  </td>
+                   <td class="right aligned">
+                    14
+                  </td>
+                   <td class="right aligned">
+                    12%
+                  </td>
+                </tr>
+                <tr>
+                   <td>
+                    <div class="item">
+                      <div class="ui small header">
+                        <div class="content">
+                         New Buyer Lead
+                          <div class="sub header">Nurture new buyer leads</div><!-- /.sub header -->
+                        </div><!-- /.content -->
+                      </div><!-- /.ui small header -->
+                    </div><!-- /.item -->
+                  </td>
+                  <td class="right aligned">
+                    6
+                  </td>
+                  <td class="right aligned">
+                    16
+                  </td>
+                  <td class="right aligned">
+                    109
+                  </td>
+                  <td class="right aligned">
+                    31%
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div><!-- /.ui segment -->
+        </div><!-- /.ui segments -->
+      </div><!-- /.column -->
+    </div><!-- /.ui centered grid -->
+  </div><!-- /.ui vertical basic segment -->
+</div><!-- /.main ui container -->
+
+<script>
+
+</script>

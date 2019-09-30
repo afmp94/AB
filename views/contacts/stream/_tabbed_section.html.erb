@@ -1,0 +1,93 @@
+<div class="ab-scrolling-tabs__container">
+  <div class="fade-left">
+    <i class="left arrow icon"></i>
+  </div>
+  <div class="fade-right">
+    <i class="right arrow icon"></i>
+  </div>
+  <div class="ui secondary pointing menu js-contacts-tabbed-section ab-scrolling-tabs__tabbed-section">
+    <a class="item active" data-tab="activities">
+      Activity Stream
+    </a>
+    <a class="item" data-tab="comments">
+      Comments
+    </a>
+    <a class="item" data-tab="emails">
+      Emails
+    </a>
+    <a class="item" data-tab="text_messages">
+      Texts
+    </a>
+    <a class="item" data-tab="tasks">
+      Tasks
+    </a>
+  </div>
+</div><!-- /.ab-scrolling-tabs-container -->
+
+<div class="ui tab basic segment active" data-tab="activities">
+  <%= render(
+    partial: "contacts/stream/tabbed_activities",
+    locals: { activities: activities, activities_url: activities_url }
+  ) %>
+</div>
+
+<div class="ui tab basic segment" data-tab="comments">
+  <%= render(partial: "comments/form") %>
+  <%= render(partial: "comments/comment_list") %>
+</div>
+
+<div class="ui tab basic segment" data-tab="emails">
+  <% if current_user.nylas_account_valid? %>
+    <div data-behavior="contact-quick-email">
+      <%= render(
+        partial: "emails/contact_quick_email_form",
+        locals: { contact: contact }
+      ) %>
+    </div>
+    <!-- List of messages, using NylasApp-provided styling -->
+    <%#= render("emails/messages_list", messages: messages, contact: contact) %>
+    <div id="email-messages-list" data-behavior="email-messages-list" data-info-contact="<%= @contact.id %>"></div>
+  <% else %>
+    <div class="ui info icon message">
+      <i class="gear icon"></i>
+      <div class="content">
+        <p>
+          <%= link_to(
+            "To send an email, you must have a connected email account. Click here to connect.",
+            edit_integrations_path
+          ) %>
+        </p>
+      </div><!-- /.content -->
+    </div><!-- /.ui info message -->
+  <% end %>
+</div>
+
+<% if show_beta_features? %>
+  <div class="ui tab basic segment" data-tab="text_messages">
+    <%= render(
+      partial: "sms_messages/contact_quick_sms_message_form",
+      locals: { sms_message: sms_message, contact_numbers: contact_numbers, contact_id: contact.id }
+    ) %>
+
+    <%= render(
+      partial: "sms_messages/contact_sms_messages_list",
+      locals: { sms_messages: sms_messages }
+    ) %>
+  </div>
+<% end %>
+
+<div class="ui tab basic segment" data-tab="tasks">
+  <%= link_to(
+    new_task_path(contact_id: contact.id),
+    id: "add-new-task",
+    class: "ui basic button m-b",
+    "data-loading-text" => "Loading...",
+    remote: true
+  ) do %>
+    <i class="plus icon"></i>Add new task
+  <% end %>
+  <%= render(
+    partial: "tasks/tasks",
+    locals: { tasks: @not_completed_tasks }
+  ) %>
+</div>

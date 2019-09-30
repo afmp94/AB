@@ -1,0 +1,67 @@
+<%= simple_form_for(
+  @contact,
+  remote: true,
+  html: { data: { fv_live: "submitted", form: "contact_form" } }
+) do |f| %>
+  <%= hidden_field_tag(:inline_form, "details") %>
+  <%= render(partial: "contacts/server_side_form_errors") %>
+  <%= f.input_field(:require_basic_validations, value: true, as: :hidden) %>
+  <div class="two fields">
+    <%= f.input(:first_name, label: "First Name") %>
+    <%= f.input(:last_name, label: "Last Name") %>
+  </div><!-- /.two fields -->
+  <div class="two fields">
+    <%= f.input(:spouse_first_name, label: "Spouse/Partner First Name") %>
+    <%= f.input(:spouse_last_name, label: "Spouse/Partner Last Name") %>
+  </div><!-- /.two fields -->
+  <%= f.input(
+    :grade,
+    as: :sui_radio_buttons,
+    wrapper: :horizontal_radio_buttons,
+    collection: Contact::GRADES
+  ) %>
+  <%= render(partial: "contact_groups_tag_field", locals: { contact: @contact }) %>
+  <h4 class="ui dividing header">Email Addresses</h4>
+  <%= f.fields_for(
+    :email_addresses,
+    f.object.email_addresses.presence || f.object.email_addresses.build
+  ) do |builder| %>
+    <%= render(
+      partial: "email_address_fields",
+      locals: { contact: @contact, f: builder }
+    ) %>
+  <% end %>
+  <%= link_to_add_fields("Add Email Address", f, :email_addresses, "contacts/") %>
+  <h4 class="ui dividing header">Phone Numbers</h4>
+  <%= f.fields_for :phone_numbers, f.object.phone_numbers do |builder| %>
+    <%= render(
+      partial: "phone_number_fields",
+      locals: { contact: @contact, f: builder }
+    )%>
+  <% end %>
+  <%= link_to_add_fields("Add Phone Number", f, :phone_numbers) %>
+  <h4 class="ui dividing header">Address</h4>
+  <%= f.fields_for :addresses do |builder| %>
+    <%= render(partial: "address_fields", locals: { contact: @contact, f: builder })%>
+  <% end %>
+  <%= link_to_add_fields "Add Address", f, :addresses %>
+  <h4 class="ui dividing header">Imporant Dates</h4>
+  <%= f.fields_for(
+    :important_dates,
+    f.object.important_dates.presence || f.object.important_dates.build
+  ) do |builder| %>
+    <%= render(
+      partial: "important_date_fields",
+      locals: { contact: @contact, f: builder }
+    )%>
+  <% end %>
+  <%= link_to_add_fields("Add Important Date", f, :important_dates, "contacts/") %>
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-cancel-section="#contact-details-section" class="ui basic button">Cancel</a>
+<% end %>

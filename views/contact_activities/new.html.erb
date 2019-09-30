@@ -1,0 +1,12 @@
+<!--HEADER-->
+<% breadcrumb(:new_contact_activity) %>
+
+<%= page_header(
+  primary_name: "Referral Generation",
+  primary_path: contact_activities_path,
+  secondary_name: "Add Referral Activity"
+) %>
+
+<div class="ui main container">
+  <%= render(partial: "form", locals: { show_all_fields: true }) %>
+</div>

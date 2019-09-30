@@ -1,0 +1,3 @@
+class EmailMessagesController < ApplicationController
+
+end

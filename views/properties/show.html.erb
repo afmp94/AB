@@ -1,0 +1,114 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Lead:</strong>
+  <%= @property.lead %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @property.user %>
+</p>
+
+<p>
+  <strong>List price:</strong>
+  <%= @property.list_price %>
+</p>
+
+<p>
+  <strong>Mls number:</strong>
+  <%= @property.mls_number %>
+</p>
+
+<p>
+  <strong>Property url:</strong>
+  <%= @property.property_url %>
+</p>
+
+<p>
+  <strong>Property type:</strong>
+  <%= @property.property_type %>
+</p>
+
+<p>
+  <strong>Rental:</strong>
+  <%= @property.rental %>
+</p>
+
+<p>
+  <strong>Original list date at:</strong>
+  <%= @property.original_list_date_at %>
+</p>
+
+<p>
+  <strong>Original list price:</strong>
+  <%= @property.original_list_price %>
+</p>
+
+<p>
+  <strong>Listing expires at:</strong>
+  <%= @property.listing_expires_at %>
+</p>
+
+<p>
+  <strong>Commission type:</strong>
+  <%= @property.commission_type %>
+</p>
+
+<p>
+  <strong>Commission percentage:</strong>
+  <%= @property.commission_percentage %>
+</p>
+
+<p>
+  <strong>Commission fee:</strong>
+  <%= @property.commission_fee %>
+</p>
+
+<p>
+  <strong>Referral fees:</strong>
+  <%= @property.referral_fees %>
+</p>
+
+<p>
+  <strong>Additional fees:</strong>
+  <%= @property.additional_fees %>
+</p>
+
+<p>
+  <strong>Initial client valuation:</strong>
+  <%= @property.initial_client_valuation %>
+</p>
+
+<p>
+  <strong>Initial agent valuation:</strong>
+  <%= @property.initial_agent_valuation %>
+</p>
+
+<p>
+  <strong>Bedrooms:</strong>
+  <%= @property.bedrooms %>
+</p>
+
+<p>
+  <strong>Bathrooms:</strong>
+  <%= @property.bathrooms %>
+</p>
+
+<p>
+  <strong>Sq feet:</strong>
+  <%= @property.sq_feet %>
+</p>
+
+<p>
+  <strong>Lot size:</strong>
+  <%= @property.lot_size %>
+</p>
+
+<p>
+  <strong>Notes:</strong>
+  <%= @property.notes %>
+</p>
+
+<%= link_to 'Edit', edit_property_path(@property) %> |
+<%= link_to 'Back', properties_path %>

@@ -1,0 +1,55 @@
+<!--TABLE SLATS (Rows)-->
+<div id="showings">
+
+<!--BASIC TABLE-->
+
+<div class="row">
+  <div class="col-xs-12 basic-table">
+    <div class="line section nomargin">
+     <table class="ab-table stay-table">
+        <thead>
+          <tr>
+            <th width="30%">Listing Agent</th>
+            <th width="20%">Date and Time</th>
+            <th width="70%">Status</th>
+            <th class="nowrap alignr"> Rating</th>
+            <th class="nowrap alignr"></th>
+            <th class="nowrap alignr"></th>
+            <th class="nowrap alignr"></th>
+            <th class="nowrap alignr"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @showings.each_with_index do |showing, index| %>
+         <tr>
+              <!--SLAT/ROW-->
+              <td class="breakword">
+                <h4 class="h4-title"><%= link_to showing.listing_agent, edit_showing_path(showing) %></h4>
+              </td>
+              <td class="breakword">
+                <%= showing.date_time_format %>
+              </td>
+              <td class="breakword">
+                 <%= showing.status_to_s %>
+              </td>
+              <!--DATA CHUNK-->
+                 <td class="nowrap alignr"></td>
+            <td class="nowrap alignr"></td>
+              <td class="alignr">
+                <%= link_to 'Edit', edit_showing_path(showing), class: "btn btn-sm btn-primary btn-embossed" %>
+              </td>
+              <td class="alignr nopadding">
+                <%= link_to 'Delete', showing, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-sm btn-embossed btn-primary" %>
+              </td>
+
+            </tr>
+           <% end %>
+
+         </tbody>
+      </table>
+    </div>
+  </div>
+ </div>
+</div>
+

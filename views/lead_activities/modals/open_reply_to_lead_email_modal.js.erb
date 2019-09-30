@@ -1,0 +1,3 @@
+$('[data-ui-behavior=modal]').empty();
+$('[data-ui-behavior=modal]')
+  .append('<%= j render('lead_activities/modals/reply_to_lead_email', lead: @lead) %>');

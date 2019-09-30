@@ -1,0 +1,19 @@
+<% if cards.count.nonzero? %>
+  <div class="column">
+    <div class="ui positive message">
+      <div class="ui basic vertical segment">
+        <h1 class="ui dividing header">
+          Service Management
+          <div class="sub header m-y-sm">
+            Present clear expectations and deliver responsive service to your clients, and they'll be more likely to recommend and refer you to others.
+          </div><!-- /.sub header -->
+        </h1><!-- /.ui dividing header -->
+      </div><!-- /.ui basic vertical segment -->
+      <div class="ui three doubling stackable cards">
+        <% cards.each do |card| %>
+          <%= render partial: "coaching/card", locals: { card: card } %>
+        <% end %>
+      </div><!-- /.ui cards -->
+    </div><!-- /.ui message -->
+  </div><!-- /.column -->
+<% end %>

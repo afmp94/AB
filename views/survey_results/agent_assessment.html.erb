@@ -1,0 +1,1163 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=227434967405740";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui positive message">
+    <div class="header">
+      <%= @survey_result.first_name %>, here are your survey results!
+    </div>
+    <% if current_user&.user_on_active_subscription_or_on_trial? %>
+      <p>
+        For future access, please go to
+        <%= link_to "My Profile", edit_profile_path %> and select Survey Results.
+      </p>
+      <p><%= link_to("Log out", destroy_user_session_path, method: :delete) %> | <%= link_to("Back to Dashboard", dashboard_path) %></p>
+    <% else %>
+      <p>
+        For future access,
+        <% if @survey_result.user_id %>
+          please login into
+          <a href="https://app.agentbright.com">app.agentbright.com</a>.
+          <% if !@survey_result.free? %>
+            We have also sent you an email with the link to your results.
+          <% end %>
+        <% else %>
+          we have sent you an email with the link to your results.
+        <% end %>
+      </p>
+      <% if current_user.present? %>
+        <p><%= link_to("Log out", destroy_user_session_path, method: :delete) %></p>
+      <% end %>
+    <% end %>
+
+    <p>
+      <%= link_to(
+        "Print this report",
+        "javascript:void(0)",
+        class: "ui primary button",
+        data: { behavior: "print-report" }
+      ) %>
+    </p>
+    <% if current_user&.super_admin? %>
+      <p>
+        <%= link_to(
+          "Survey Result Admin Show",
+          admin_survey_result_path(@survey_result),
+          class: "ui primary button",
+          target: '_blank'
+        ) %>
+      </p>
+    <% end %>
+  </div>
+  <%= render(partial: "assessments/header_with_gauge") %>
+  <div class="ui stackable grid">
+    <div class="two column row p-b-0 assessment-summary-section">
+      <div class="column">
+        <h1 class="ui inverted header assessment-summary-section__header"><i class="big red bullseye icon"></i>The Goal</h1><!-- /.ui header -->
+        <div class="progress-report">
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= number_to_currency(@survey_result.desired_annual_income, precision: 0)%>
+              </div>
+              <div class="label">
+                <h2>Income</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= @survey_result.annual_transaction_goal&.round %>
+              </div>
+              <div class="label">
+                <h2>Number of Transactions</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui small green inverted statistic m-b-lg">
+              <div class="value">
+                <%= number_to_currency(@survey_result.gross_sales_volume, precision: 0) %>
+              </div>
+              <div class="label">
+                <h2>Gross Sales Volume</h2>
+              </div>
+            </div>
+          </div><!-- /.row -->
+        </div><!-- /.progress-report -->
+      </div><!-- /.column -->
+      <div class="column">
+        <h1 class="ui inverted header assessment-summary-section__header"><i class="huge green settings icon"></i>The Process</h1><!-- /.ui header -->
+        <%= render partial: "assessments/process_progress_bars" %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="two column center aligned row p-t-0">
+      <div class="column">
+        <div class="ui segment inverted text container">
+          <h2 class="assessment-header-description">Goal-setting is scientifically proven to improve performance and achievement. Let's take your big annual goal, and break it all the way down into daily and weekly tasks.</h2>
+          <h2 class="assessment-header-description">We help you figure out what you need to do, to make your desired Income Goal.</h2>
+        </div><!-- /.ui segment text container -->
+      </div><!-- /.column -->
+      <div class="column">
+        <div class="ui segment inverted text container">
+          <h2 class="assessment-header-description">As a Real Estate Agent, to be successful, you to keep on your game with balance, consistency and focus.</h2>
+          <h2 class="assessment-header-description">Based on your survey results, we help you identify the areas that you are up-to-date with best-practice and highglight areas that need improvement.</h2>
+        </div><!-- /.ui segment text container -->
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+    <div class="center aligned row m-b-lg masthead__last-text-section">
+      <div class="column">
+        <div class="ui text container main-score">
+          <h2 class="assessment-header-description">We help you figure out "how" to make your goal happen and "how" to manage your business consistently with latest tools 'best practice' and technologies.</h2>
+        </div>
+      </div>
+    </div><!-- /.row -->
+  </div><!-- /.ui grid -->
+</div>
+
+<div class="assessment-process-section">
+  <div class="ui vertical stripe segment">
+    <div class="ui middle aligned centered stackable grid container">
+      <div class="row">
+        <div class="sixteen wide center aligned column">
+          <h1 class="ui header"><i class="circular inverted huge circular green settings icon"></i>The Process</h1><!-- /.ui header -->
+          <p>To be successful, you need to be managing your business with all the wheels turning!  Based on your survey results, we help you identify the areas that you are up-to-date with best-practice and highlight areas that need improvement.</p>
+          <p>We help you figure out what you need to improve in order to manage your business consistently following 'best practice' industry standards.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui vertical stripe segment assessment-section first-assessment-section">
+    <div class="ui middle aligned centered stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @branding_service.score %></span>/<%= @branding_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@branding_service.total_score_in_percentage) %> progress" data-percent="<%= @branding_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            BRANDING
+            <div class="sub header">
+              Having a consistent, professional presence is crucial to expanding your business.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <h3 class="ui header">TESTIMONIALS</h3>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @branding_service.testimonials_score_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Testimonials let your reputation speak for itself.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>HEADSHOT</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@branding_service.headshot) %> icon huge"></i>
+            </div>
+            <p>
+              A crisp headshot that reflects how you look builds trust and communicates your professionalism.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>BIO</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@branding_service.bio) %> icon huge"></i>
+            </div>
+            <p>
+              Having an up-to-date BIO builds confidence that you're an active agent, committed to the business and up-to-date on market trends.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>WEBSITE</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@branding_service.website) %> icon huge"></i>
+            </div>
+            <p>
+              A website presence helps prove your credibility in the market.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>ONLINE PROFILES</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@branding_service.online_profiles) %> icon huge"></i>
+            </div>
+            <p>
+              Having an Online Profile that is consistent across social media, broker and 3rd party sites such as Zillow & Trulia builds confidence in your Brand.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section off-white-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @database_service.score %></span>/<%= @database_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@database_service.total_score_in_percentage) %> progress" data-percent="<%= @database_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            DATABASE
+            <div class="sub header">
+              Your database of contacts and relationships is the foundation of every successful agent's business.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>CONTACT MANAGEMENT</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @database_service.contact_management_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Building and maintaining a Contacts Dbase is core to success. Did you know that successful Agents get more than 80% of their business from Referrals?
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>COMMUNITY INVOLVEMENT</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @database_service.community_involvement_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Local networking contributes to good causes, great for building career skills and has the benefit to get your name known in the community.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>GROUPING CONTACTS</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @database_service.grouping_contacts_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Using groups to segment your Contacts allows you to send targeted messages quickly to reach the <strong>right people</strong> at the <strong>right time</strong>.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>RANKING CONTACTS</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@database_service.ranking_contacts) %> icon huge"></i>
+            </div>
+            <p>
+              Some Contacts are more relevant to building your Business. Having your Contacts ranked enables you to prioritize and spend time with your most important Contacts.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>SERVICES PROVIDERS</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@database_service.service_providers) %> icon huge"></i>
+            </div>
+            <p>
+              Having a list of Handyman and local Service Providers allows you to provide value to your Contacts and Clients when it is needed most.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @relationship_service.score %></span>/<%= @relationship_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@relationship_service.total_score_in_percentage) %> progress" data-percent="<%= @relationship_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            RELATIONSHIP MARKETING
+            <div class="sub header">
+              The consistent communication with your database has the highest return on investment of any activity an agent can do
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <div class="section-metric-breakdown__label">
+                <h3>TRACK REFERRALS</h3>
+              </div>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@relationship_service.track_referrals) %> icon huge"></i>
+            </div>
+            <p>
+              Tracking Referrals enables you to review what sources are best to invest your time in going forward.  Be sure to send 'thank you' notes.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <div class="section-metric-breakdown__label">
+                <h3>CONTACT SIZE</h3>
+              </div>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @relationship_service.contact_size_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Having a healthy sized dbase is the foundation to building a Referral based Real Estate business.  Referral based Leads are 2x more likely to become a 'closed' sale!
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>PAST CLIENTS</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @relationship_service.past_clients_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Keeping in touch with Past Clients can be a great Lead generator.  Remember you helped them sell or buy successfully - be sure to stay in touch.  Remember, the average home owner moves every 7 years within 10 miles of their existing home.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>PERSONAL MARKETING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @relationship_service.personal_marketing_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Building your brand through personal marketing requires scheduling time daily and/weekly to reach out to your Contacts dbase.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section off-white-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @marketing_service.score %></span>/<%= @marketing_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@marketing_service.total_score_in_percentage) %> progress" data-percent="<%= @marketing_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            MASS MARKETING
+            <div class="sub header">
+              Modern agents are leveraging technology to expand their audience, as well as track what is working best.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3 class="ui header">EMAIL MARKETING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @marketing_service.email_marketing_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Consistently keeping in touch with your Contacts, Clients and Business Partners with useful and relevant Email Drip Campaigns builds your Brand and reputation as a professional Real Estate Agent.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>PRINT MARKETING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @marketing_service.mail_marketing_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Print Marketing, while not as popular as it used to be, can still be effective to build your Brand.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>AREA FARMING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @marketing_service.area_framing_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Sending "Just Sold" and "Just Listed" postcards is a great way to market your skills.  Potential Clients are interested in local Market activity.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>SOCIAL MEDIA</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @marketing_service.social_media_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Social Media is all about building awareness.  Most important, be consistent at the right pace - too much or not enough is ineffective and could be damaging.
+            </p>
+          </div>
+        </div>
+      </div><!-- /.ui text container -->
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section no-page-break">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @lead_response_service.score %></span>/<%= @lead_response_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@lead_response_service.total_score_in_percentage) %> progress" data-percent="<%= @lead_response_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            LEAD RESPONSE
+            <div class="sub header">
+              Responding to leads quickly and professionally will dramatically improve your conversion rates.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>IMMEDIATE RESPONSE</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @lead_response_service.immediate_response_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Quick and consistently responding to Leads immediately (and within 5 minutes or less) increases your chances of converting the Client by 72%.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>AUTOMATIC LEAD IMPORTING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @lead_response_service.automatic_lead_importing_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Start managing your Leads immediately to build confidence, repoire and professionalism.
+            </p>
+          </div>
+        </div>
+      </div><!-- /.ui text container -->
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>LEAD SOURCE MEASUREMENT</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@lead_response_service.lead_source_measurement) %> icon huge"></i>
+            </div>
+            <p>
+              Tracking and analyzing your Leads enables you to prioritize your Advertising spend and your time to your best Marketing Channels.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>LEAD RETARGETING</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @lead_response_service.lead_retargeting_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Buying a house is one of life's biggest investments. An initial lead may turn cold - be sure to keep them on a drip campaign. Keeping in touch enables you to stay top-of-mind when they are ready to make a move forward.
+            </p>
+          </div>
+        </div>
+      </div><!-- /.ui text container -->
+    </div>
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section off-white-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @prospect_conversion_service.score %></span>/<%= @prospect_conversion_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@prospect_conversion_service.total_score_in_percentage) %> progress" data-percent="<%= @prospect_conversion_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            PROSPECT CONVERSION
+            <div class="sub header">
+              Automate the process of followup, reminders, retargeting and email campaigns.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>FOLLOW-UP SYSTEM</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@prospect_conversion_service.follow_up_system) %> icon huge"></i>
+            </div>
+            <p>
+              Long Term Prospects are Leads or Clients that expressed an interest but due to circumstances, they need to wait.  Be sure to have a system in place to keep in touch.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>PROSPECT MATERIALS</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@prospect_conversion_service.prospect_materials) %> icon huge"></i>
+            </div>
+            <p>
+              Having a system to capture and action Client details through the life of the transaction enables you to move quickly and offer a consistent and professional service.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @agent_service.score %></span>/<%= @agent_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@agent_service.total_score_in_percentage) %> progress" data-percent="<%= @agent_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            SERVICE
+            <div class="sub header">
+              Present clear expectations and deliver responsive service to your clients, and they'll be more likely to recommend and refer you to others.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div><!-- row -->
+    </div><!-- segment -->
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled relaxed grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>LISTING PREPARATION PLAN</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @agent_service.listing_preparation_plan_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Managing expectations requires establishing and agreeing to a listing plan - both what you will and will not do with deadlines, reporting and marketing.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>SERVICE REPORTS</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@agent_service.service_reports) %> icon huge"></i>
+            </div>
+            <p>
+              Service Reports are a true sign of professionalism.  It allows you to show your Client the effort that you are doing and that their plan to sell their house is actively being managed.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>SELLER COMMUNICATION</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@agent_service.seller_communication) %> icon huge"></i>
+            </div>
+            <p>
+              Clients expect that you are working for them. While a house may take some time to sell, it is important to keep your Clients up-to-date on your efforts.  Regular reporting allows you to be in constant communication - a big factor in Client satisfaction.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>BUYER COMMUNICATION</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @agent_service.buyer_communication_in_percentage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Buyers have a goal - to find the house of their dreams!  Be sure to show as much enthusiasm to help them find their home - send them home options and local information frequently.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+
+  <div class="ui vertical stripe segment assessment-section no-page-break off-white-section">
+    <div class="ui middle aligned stackable grid container">
+      <div class="row">
+        <div class="center aligned column section-progress-bar">
+          <h2><span class=section-score><%= @pipeline_service.score %></span>/<%= @pipeline_service.total_score %></h2>
+          <div class="ui <%= progress_bar_class(@pipeline_service.total_score_in_percentage) %> progress" data-percent="<%= @pipeline_service.total_score_in_percentage %>" data-ui-progress-bar="total-score">
+            <div class="bar"></div>
+          </div>
+        </div><!-- /.center aligned column -->
+      </div><!-- /.row -->
+      <div class="row">
+        <div class="center aligned column">
+          <h1 class="ui header">
+            PIPELINE
+            <div class="sub header">
+              Managing every stage of your pipeline will keep it flowing steadily, overcoming the ups and downs of the seasonal real estate market.
+            </div><!-- /.sub header -->
+          </h1>
+        </div><!-- /.center aligned column -->
+      </div>
+    </div>
+    <div class="ui container section-metric-breakdown">
+      <div class="ui equal width stackable internally celled grid section-metric-breakdown__row">
+        <div class="center aligned row">
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>CLIENT MANAGEMENT</h3>
+            </div>
+            <div class="section-metric-breakdown__icon">
+              <i class="<%= set_icon_class(@pipeline_service.client_management) %> icon huge"></i>
+            </div>
+            <p>
+              Having a system to capture and action Client details through the life of the transaction enables you to move quickly and offer a consistent and professional service.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>DAILY PIPELINE REVIEW</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @pipeline_service.daily_pipeline_review_in_percenage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Actively reviewing your Sales Pipeline ensures you keep focused on the results.  What do you need to do to get the transaction to a successful <strong>close</strong>?  Be sure to set an action.  Remember... 'baby steps'.
+            </p>
+          </div>
+          <div class="column">
+            <div class="section-metric-breakdown__label">
+              <h3>DAILY TASK LIST</h3>
+            </div>
+            <div data-behavior="gauge-meter" class="GaugeMeter" data-percent="<%= @pipeline_service.daily_task_list_in_percenage %>" data-size="150" data-back="RGBa(0,0,0,.1)" data-text="" data-animate_gauge_colors="1" data-animate_text_colors="1" data-width="8" data-style="Arch" data-label_color="#FFF"></div>
+            <p>
+              Being an Agent requires great multi-taksing skills.  Be sure to have a system in place that enables you to have a 'next action' on all your Leads and Clients .
+            </p>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ui text container -->
+  </div>
+</div><!-- /.assessment-process-section -->
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="twelve wide center aligned column">
+        <h1 class="ui header"><i class="circular huge red bullseye icon"></i>The Goal</h1><!-- /.ui header -->
+        <p>Goal-setting is scientifically proven to improve performance and achievement. Take aim with your big annual goal, then break it all the way down into daily and weekly tasks to hit the bullseye!</p>
+        <p>We help you figure out what you need to do to make your desired income goal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section off-white-section">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <div class="ui huge statistic">
+          <div class="label">
+            <h3> My annual goal</h3>
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.desired_annual_income, precision: 0)%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="eight wide center aligned column">
+        <p>After expenses and broker fees, you want to make <span class="fwb"><%= number_to_currency(@survey_result.desired_annual_income, precision: 0)%></span>. Now let's work backwards from this number...</p>
+      </div>
+    </div><!-- /.row -->
+  </div>
+</div>
+
+<div class="ui vertical stripe quote segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="ten wide center aligned column">
+        <h1 class="ui header">Here's what you told us...</h1><!-- /.ui header -->
+      </div>
+    </div>
+  </div>
+  <div class="ui equal width middle aligned stackable internally celled grid">
+    <div class="center aligned row">
+      <div class="column">
+        <div class="ui small statistic">
+          <div class="label">
+            Estimated Expenses
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.est_business_expenses, precision: 0)%>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui small statistic">
+          <div class="label">
+            Average commission
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.average_gross_commission, precision: 0) %>
+          </div>
+        </div>
+      </div>
+      <% if @survey_result.commission_split_type == "Percentage" %>
+        <div class="column">
+          <div class="row m-b-md">
+            <div class="ui tiny statistic">
+              <div class="label">
+                Split with Broker
+              </div><!-- /.label -->
+              <div class="value">
+                <%= @survey_result.commission_split_type %>
+              </div><!-- /.value -->
+            </div><!-- /.statistic -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui two tiny statistics">
+              <div class="tiny statistic">
+                <div class="label">
+                  You get
+                </div><!-- /.label -->
+                <div class="value">
+                  <%= (@survey_result.agent_percentage_split).try(:round) %>%
+                </div><!-- /.value -->
+              </div><!-- /.statistic -->
+              <div class="tiny statistic">
+                <div class="label">
+                  Broker gets
+                </div><!-- /.label -->
+                <div class="value">
+                  <%= (100 - @survey_result.agent_percentage_split).try(:round) %>%
+                </div><!-- /.value -->
+              </div><!-- /.statistic -->
+            </div><!-- /.ui two statistics -->
+          </div><!-- /.row -->
+        </div>
+      <% elsif @survey_result.commission_split_type == "Fee" %>
+        <div class="column">
+          <div class="row m-b-md">
+            <div class="ui tiny statistic">
+              <div class="label">
+                Split with Broker
+              </div><!-- /.label -->
+              <div class="value">
+                <%= @survey_result.commission_split_type %>
+              </div><!-- /.value -->
+            </div><!-- /.statistic -->
+          </div><!-- /.row -->
+          <div class="row">
+            <div class="ui tiny statistic">
+              <div class="label">
+                Transaction Fee
+              </div><!-- /.label -->
+              <div class="value">
+                $<%= (@survey_result.broker_fee_per_transaction) %>
+              </div><!-- /.value -->
+            </div><!-- /.statistic -->
+          </div><!-- /.row -->
+        </div>
+      <% end %>
+      <div class="column">
+        <div class="ui small statistic">
+          <div class="label">
+            Average sale price
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.average_home_price, precision: 0) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section off-white-section">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <div class="ui big statistic">
+          <div class="label">
+            <h3>Gross commission goal</h3>
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.gross_commission, precision: 0) %>
+          </div>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <p>In order to make <span class="fwb"><%= number_to_currency(@survey_result.desired_annual_income, precision: 0)%></span>, you'll need to gross <span class="fwb"><%= number_to_currency(@survey_result.gross_commission, precision: 0) %></span>.</p>
+        <p>Let's estimate how many closed transactions will get you to this number.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe quote segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <div class="ui statistic">
+          <div class="label">
+            <h3>Gross transaction volume</h3>
+          </div>
+          <div class="value">
+            <%= number_to_currency(@survey_result.gross_sales_volume, precision: 0) %>
+          </div>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <p>With an average commission side per transaction of <span class="fwb"><%= number_to_currency(@survey_result.average_gross_commission, precision: 0)  %></span>, you need a total transaction volume of <span class="fwb"><%= number_to_currency(@survey_result.gross_sales_volume, precision: 0) %></span>. This is the combined sale prices of all your closed transactions.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section off-white-section">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <div class="ui huge statistic">
+          <div class="label">
+            Closed Transactions
+          </div>
+          <div class="value">
+            <%= @survey_result.annual_transaction_goal&.round %>
+          </div>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <p>If your average sales price is <span class="fwb"><%= number_to_currency(@survey_result.average_home_price, precision: 0) %></span>, then to reach your goal you'll need to close <span class="fwb"><%= @survey_result.annual_transaction_goal&.round %></span> transaction sides.</p>
+        <p>Note: this is actually just <span class="fsi">sides</span>, not total transactions. If you represent both the buyer and the seller in a transaction, it counts as two!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <div class="row m-b-lg">
+          <div class="ui horizontal statistic">
+            <div class="value">
+              <%= @survey_result.quarterly_transaction_goal&.round %>
+            </div><!-- /.value -->
+            <div class="label">
+              per quarter
+            </div><!-- /.label -->
+          </div><!-- /.ui horizontal statistic -->
+        </div><!-- /.row -->
+        <div class="row">
+          <div class="ui horizontal statistic">
+            <div class="value">
+              <%= @survey_result.monthly_transaction_goal&.round %>
+            </div><!-- /.value -->
+            <div class="label">
+              per month
+            </div><!-- /.label -->
+          </div><!-- /.ui horizontal statistic -->
+        </div><!-- /.row -->
+      </div>
+      <div class="seven wide column">
+        <p><strong><%= @survey_result.annual_transaction_goal&.round %></strong> transactions closed in a year breaks down to about <strong><%= @survey_result.quarterly_transaction_goal&.round %></strong> closed per quarter, or about <strong><%= @survey_result.monthly_transaction_goal&.round %></strong> closed per month.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section off-white-section">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <p>Now let's kick it up a notch! What are the actions you need to take in order to have about <strong><%= @survey_result.monthly_transaction_goal&.round %></strong> closed transactions per month? What do you need to do to keep your pipeline full?</p>
+        <p>Our data shows that successful agents overwhelmingly use relationship marketing to generate almost all of their business.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui centered stackable grid container">
+    <div class="row m-b-lg">
+      <div class="seven wide center aligned column">
+        <div class="row">
+          <div class="ui statistic">
+            <div class="label">
+              Touches to referral ratio
+            </div>
+            <div class="value">
+              20:1
+            </div>
+          </div>
+        </div><!-- /.row -->
+      </div>
+      <div class="seven wide column">
+        <p>Based on your assessment and industry averages, we estimate that it takes about <strong>20 touches</strong> to generate 1 referral.</p>
+      </div>
+    </div>
+    <div class="row m-b-lg">
+      <div class="seven wide center aligned column">
+        <div class="row">
+          <div class="ui statistic">
+            <div class="label">
+              Referrals to closing ratio
+            </div>
+            <div class="value">
+              5:1
+            </div>
+          </div>
+        </div><!-- /.row -->
+      </div>
+      <div class="seven wide column">
+        <p>We also estimate that it takes about <strong>5 referrals</strong> received for every closed transaction.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="seven wide center aligned column">
+        <p>A <i>touch</i> is a personal interaction with someone in your database. There are three primary types of personal interaction we focus on: <strong>calling them</strong>, <strong>writing them</strong>, or <strong>seeing them face-to-face</strong>.</p>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+  </div>
+</div>
+
+<div class="ui vertical stripe segment assessment-section off-white-section">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="twelve wide center aligned column">
+        <h2 class="ui header">Weekly Marketing Activities</h2><!-- /.ui header -->
+        <p>To reach your goal, we estimate the total number number of customer touches you'll need is <b><%= @survey_result.suggested_calls_needed_per_week&.round + @survey_result.suggested_note_required_per_week&.round + @survey_result.suggested_visits_required_per_week&.round %></b>. Here is a recommended allocation:</p>
+        <div class="ui three huge statistics">
+          <div class="statistic">
+            <div class="label">
+              Calls
+            </div><!-- /.label -->
+            <div class="value">
+              <%= @survey_result.suggested_calls_needed_per_week&.round %>
+            </div><!-- /.value -->
+          </div><!-- /.statistic -->
+          <div class="statistic">
+            <div class="label">
+              Notes
+            </div><!-- /.label -->
+            <div class="value">
+              <%= @survey_result.suggested_note_required_per_week&.round %>
+            </div><!-- /.value -->
+          </div><!-- /.statistic -->
+          <div class="statistic">
+            <div class="label">
+              Visits
+            </div><!-- /.label -->
+            <div class="value">
+              <%= @survey_result.suggested_visits_required_per_week&.round %>
+            </div><!-- /.value -->
+          </div><!-- /.statistic -->
+        </div><!-- /.ui three statistics -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="ten wide center aligned column">
+        <p>If each week you make <strong><%= @survey_result.suggested_calls_needed_per_week&.round %> calls</strong>, write <strong><%= @survey_result.suggested_note_required_per_week&.round %> notes</strong> and go on <strong><%= @survey_result.suggested_visits_required_per_week&.round %> face-to-face visits</strong>, you'll fill your pipeline with referrals and generate enough closings to reach your goal of <strong><%= number_to_currency(@survey_result.desired_annual_income, precision: 0) %></strong>!</p>
+        <p>We can break this down even further into <strong><%= @survey_result.suggested_calls_needed_per_day&.round %> calls</strong>, <strong><%= @survey_result.suggested_note_required_per_day&.round %> notes</strong>, and <strong><%= @survey_result.suggested_visits_required_per_day&.round %> visits</strong> daily for four days a week.</p>
+      </div><!-- /.column -->
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="twelve wide center aligned column">
+        <h2 class="ui header">Enhance Your Marketing</h2><!-- /.ui header -->
+        <p>Relationship marketing and touches are the core foundation for generating referrals. But there are other ways to improve and grow your business.</p>
+        <p>Sending out <strong>email newsletters</strong> to your database, and adding new referrals to <strong>drip campaigns</strong>, <strong>growing</strong> your database, <strong>strengthening</strong> your relationships, and <strong>measuring and focusing on your most valuable relationships</strong> will all help improve your conversion ratios. As they improve, you can then choose if you want to work less and make the same amount, or keep it up and increase your goal!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui vertical stripe segment">
+  <div class="ui middle aligned centered stackable grid container">
+    <div class="row">
+      <div class="twelve wide center aligned column">
+        <h2 class="ui header">Try <%= white_labeled_app_name(current_subdomain) %> Today</h2><!-- /.ui header -->
+        <%= link_to path_for_agentbright_image(@survey_result) do  %>
+          <%= image_tag(
+            white_label_image_name("long-title-transparent.png", current_subdomain),
+            title: white_labeled_app_name(current_subdomain),
+            class: "ui fluid image agentbright-logo"
+          ) %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="six wide center aligned column">
+        <h2 class="ui header">Visit us at: www.agentbright.com</h2><!-- /.ui header -->
+        <a href="www.agentbright.com"></a>
+      </div>
+      <div class="six wide center aligned column">
+        <h2 class="ui header">Contact us at: info@agentbright.com </h2><!-- /.ui header -->
+        <a href="info@agentbright.com"></a>
+      </div>
+      <span class="dim-el"> ©2010-2019 All Rights Reserved. <a rel="noopener noreferrer" href="https://www.agentbright.com/terms-of-service" target="_blank" tabindex="-1">Terms of Service</a> and <a rel="noopener noreferrer" href="https://www.iubenda.com/privacy-policy/7900045" target="_blank" tabindex="-1">Privacy Policy</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="ui inverted vertical footer segment">
+  <div class="ui container">
+    <div class="ui stackable inverted divided equal height stackable grid">
+      <div class="three wide column">
+        <div class="ui inverted link list">
+          <%= link_to("Homepage", "https://www.agentbright.com/", class: "item") %>
+        </div>
+      </div>
+      <div class="three wide column">
+        <div class="ui inverted link list">
+          <%= link_to(
+            "Sign in",
+            "https://app.agentbright.com/",
+            class: "item"
+          ) %>
+          <%= link_to(
+            "Terms of Service",
+            "https://www.agentbright.com/terms-of-service",
+            target: :_blank,
+            class: "item"
+          ) %>
+          <%= link_to(
+            "Privacy Policy",
+            "https://www.iubenda.com/privacy-policy/7900045",
+            target: :_blank,
+            class: "item"
+          ) %>
+        </div>
+      </div>
+      <div class="seven wide column">
+        <% if @survey_result.user&.special_type? %>
+          <%= link_to(
+            "Start Free Trial",
+            profile_steps_path(survey_token: @survey_result.survey_token)
+          ) %>
+        <% end %>
+        <% if @survey_result.user.nil? %>
+          <%= link_to(
+            "Start Free Trial",
+            new_user_registration_path(survey_token: @survey_result.survey_token)
+          ) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal" data-behavior="assessment-survey-modal">
+  <i class="close icon"></i>
+  <div class="header">
+    We love feedback!  Tell us ...
+  </div>
+  <div class="content">
+    <%= simple_form_for(
+      @survey_result,
+      url: public_survey_result_path(
+        @survey_result,
+        survey_token: @survey_result.survey_token
+      ),
+      remote: true
+    ) do |f| %>
+      <div class="field">
+        <label for="">What did you think of the assessemnt?</label>
+        <div class="ui massive star rating" data-ui-behavior="rating" data-max-rating=5></div>
+      </div><!-- /.field -->
+      <%= f.hidden_field(:feedback_score, data: { behavior: "feedback-score-rating" } ) %>
+      <%= f.input(:feedback, label: "What else could we do to help you?") %>
+      <%= f.button(:submit, value: "Submit") %>
+    <% end %>
+  </div>
+</div>
+
+<div class="ui small modal" data-behavior="survey-thank-you-modal">
+  <div class="header">
+    Thank you!
+  </div>
+  <div class="content">
+    <p>Thanks for the feedback!</p>
+    <p>Don't forget to like us on Facebook for more updates and freebies!</p>
+    <div class="fb-like" data-href="https://www.facebook.com/agentbright/" data-layout="standard" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+  </div>
+</div>
+
+<script>
+  $('.ui.inverted.vertical.footer.segment')
+    .visibility({
+      onTopVisible: function(calculations) {
+        $('[data-behavior=assessment-survey-modal]')
+          .modal('show');
+      }
+    });
+
+  $('[data-ui-behavior=rating]')
+    .rating({
+      onRate: function() {
+        rating = $(this).rating('get rating');
+        $('[data-behavior=feedback-score-rating]').val(rating);
+      }
+    });
+</script>

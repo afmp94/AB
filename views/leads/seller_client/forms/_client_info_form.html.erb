@@ -1,0 +1,60 @@
+<%= simple_form_for @lead, html: { data: { behavior: "client-info-form" } }, remote: true do |f| %>
+  <%= hidden_field_tag :inline_form, "sc_client_info" %>
+  <%= f.fields_for :contact do |cf| %>
+    <% if cf.object.errors[:base].present? %>
+      <div class="has-error">
+        <label class="control-label error-message">ERRORS:</label>
+        <div class="error-message"><%= cf.object.errors[:base].to_sentence %></div>
+      </div>
+      <br />
+    <% end %>
+    <%= cf.input_field :require_basic_validations, value: true, hidden: true %>
+    <%= cf.input(:first_name, label: "First Name") %>
+    <%= cf.input(:last_name, label: "Last Name") %>
+    <%= cf.input(:spouse_first_name, label: "Spouse First Name") %>
+    <%= cf.input(:spouse_last_name, label: "Spouse Last Name") %>
+
+    <% if cf.object.errors.blank?  %>
+      <!-- This 'if/else' condition is hack to handle validation for primary
+           email address and phone number  -->
+      <%= cf.fields_for(:email_addresses, cf.object.primary_email_address) do |email_address| %>
+        <%= email_address.input(:email, label: "Email Address") %>
+      <% end %>
+      <%= cf.fields_for(:phone_numbers, cf.object.primary_phone_number) do |phone_number| %>
+        <%= phone_number.input(
+          :number,
+          label: "Phone Number",
+          input_html: { data: { input_mask: 'phone'}, pattern: "[0-9]*" }
+        ) %>
+      <% end %>
+    <% else %>
+      <%= cf.fields_for(:email_addresses) do |email_address| %>
+        <%= email_address.input(:email, label: "Email Address") %>
+      <% end %>
+      <%= cf.fields_for(:phone_numbers) do |phone_number| %>
+        <%= phone_number.input(
+          :number,
+          label: "Phone Number",
+          input_html: { data: { input_mask: 'phone'}, pattern: "[0-9]*" }
+        ) %>
+      <% end %>
+    <% end %>
+
+    <%= cf.simple_fields_for(:addresses, cf.object.addresses) do |address_form| %>
+      <%= address_form.hidden_field(:require_basic_address_validations, value: true) %>
+      <%= render(
+        partial: "addresses/form",
+        locals: { contact: @lead.contact, f: address_form }
+      ) %>
+    <% end %>
+  <% end %>
+  <%= f.input(:notes, input_html: { class: "below12", rows: 2 }) %>
+  <%= f.button(
+    :submit,
+    class: "ui primary button",
+    "data-disable-with": "Saving...",
+    value: 'Save',
+    remote: true
+  ) %>
+  <a data-cancel-section="#client-info-section" class="clickable">Cancel</a>
+<% end %>

@@ -1,0 +1,36 @@
+<div class="ui segment">
+  <h2 class="ui center aligned icon dividing header">
+    <i class="mail outline icon"></i>
+    <div class="content">
+      Sync your emails
+    </div><!-- /.content -->
+  </h2><!-- /.ui header -->
+  <%= form_tag(
+    add_nylas_email_path,
+    method: :post,
+    class: "ui form",
+    data: {
+      info: "import-contacts-form",
+      "mobile-app-forced-form": request_from_mobile_app?
+    }
+  ) do |f| %>
+    <div class="ui inverted disabled dimmer" data-ui-behavior="sync-email-loader">
+      <div class="ui indeterminate text loader">Uploading...</div>
+    </div>
+    <%= hidden_field_tag :id, params[:id] %>
+    <%= hidden_field_tag("from_page", "sync_email") %>
+    <div class="field">
+      <%= text_field_tag(
+        "email",
+        nil,
+        placeholder: "Enter your email address..."
+      ) %>
+    </div>
+    <%= submit_tag(
+      "Connect Email Account",
+      class: "ui primary button",
+      "data-behavior": "connect-email-account",
+      "data-disable-with": "Loading..."
+    ) %>
+  <% end %>
+</div><!--/.ui segment -->

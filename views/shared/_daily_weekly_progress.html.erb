@@ -1,0 +1,42 @@
+<div class="two column row" data-introjs="step151">
+  <div class="column">
+    <h3 class="ui header">Daily Progress</h3>
+    <div class="ui list">
+      <%= progress_bar(
+        "Calls",
+        current_user.contact_activities.completed_today("Call").size,
+        current_goal.daily_calls_goal
+      ).html_safe %>
+      <%= progress_bar(
+        "Notes",
+        current_user.contact_activities.completed_today("Note").size,
+        current_goal.daily_notes_goal
+      ).html_safe %>
+      <%= progress_bar(
+        "Visits",
+        current_user.contact_activities.completed_today("Visit").size,
+        current_goal.daily_visits_goal
+      ).html_safe %>
+    </div><!-- /.ui list -->
+  </div><!-- /.column -->
+  <div class="column hide-mobile-and-down">
+    <h3 class="ui header">Weekly Progress</h3>
+    <div class="ui list">
+      <%= progress_bar(
+        "Calls",
+        current_user.contact_activities.completed_this_week("Call").size,
+        current_goal.calls_required_wkly
+      ).html_safe %>
+      <%= progress_bar(
+        "Notes",
+        current_user.contact_activities.completed_this_week("Note").size,
+        current_goal.note_required_wkly
+      ).html_safe %>
+      <%= progress_bar(
+        "Visits",
+        current_user.contact_activities.completed_this_week("Visit").size,
+        current_goal.visits_required_wkly
+      ).html_safe %>
+    </div><!-- /.ui list -->
+  </div><!-- /.column -->
+</div><!-- /.two column row -->

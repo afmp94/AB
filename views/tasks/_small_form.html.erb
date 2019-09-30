@@ -1,0 +1,62 @@
+<%= simple_form_for(task, html: { class: "p-b", data: { form: "task_form"} }, remote: true) do |f| %>
+  <div class='task-errors' data-for='task-errors'></div>
+  <%= f.input(:subject, label: false, placeholder: "Task Name") %>
+  <div class="two fields">
+    <%= f.input(
+      :due_date_at,
+      placeholder: "Due Date",
+      include_blank: false,
+      as: :select,
+      collection: {
+        "Today" => Time.zone.now,
+        "Tomorrow" => (Time.zone.now + 1.day),
+        "This Week" => (Time.zone.now + 3.days),
+        "Next Week" => (Time.zone.now + 7.days),
+        "Select a date..." => " "
+      }
+    ) %>
+    <%= f.input(
+      :due_date_at,
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.due_date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+
+    <% if current_user.belongs_to_team? %>
+      <%= f.association(
+        :assigned_to,
+        include_blank: false,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    <% else %>
+      <%= f.hidden_field(:assigned_to_id, :value => current_user.id) %>
+    <% end %>
+  </div><!-- /.two fields -->
+
+  <% if @add_from_show_page == false %>
+    <%= hidden_field_tag(:dashboard, "dashboard") %>
+  <% end %>
+
+  <% if @add_from_show_page %>
+    <%= f.hidden_field(:taskable_type, value: @taskabletype) %>
+    <%= f.hidden_field(:taskable_id, value: @taskableid) %>
+  <% else %>
+    <%= f.input(
+      :taskable_id,
+      as: :select,
+      collection: current_user.leads.open_leads_and_clients,
+      label: "Associated with",
+      placeholder: "Select a lead/client"
+    ) %>
+    <%= f.hidden_field(:taskable_type, value: "Lead") %>
+  <% end %>
+
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <a data-behavior="cancel-new-task" class="ui basic button">Cancel</a>
+<% end %>

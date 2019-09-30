@@ -1,0 +1,16 @@
+<% if local_assigns[:body].present? %>
+
+  <div class="ui center aligned segment" id="<%= block_id %>" data-info="no-data-block">
+    <i class="circular grey huge <%= icon_class %> icon" <%= icon_attributes %>></i>
+    <%= body %>
+  </div>
+
+<% else %>
+
+  <div class="ui center aligned segment" id="<%= block_id %>" data-info="no-data-block">
+    <i class="circular grey huge <%= icon_class %> icon" <%= icon_attributes %>></i>
+    <h3><%= title %></h3>
+    <p><%= message %></p>
+  </div>
+
+<% end %>

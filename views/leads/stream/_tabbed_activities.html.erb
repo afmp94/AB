@@ -1,0 +1,18 @@
+<% if show_beta_features? %>
+  <%#= render(
+    partial: "contact_activities/add_activity",
+    locals: { lead: lead, contact: lead.contact }
+  ) %>
+<% end %>
+<% cache(
+  [
+    "lead_activity_stream",
+    activities.map(&:id),
+    activities.maximum(:updated_at)
+  ]
+) do %>
+  <%= render(
+    partial: "activities/activity_stream",
+    locals: { activities: activities, activities_url: activities_url }
+  ) %>
+<% end %>

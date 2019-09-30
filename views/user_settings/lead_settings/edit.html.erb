@@ -1,0 +1,52 @@
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Notifications",
+    secondary_name: "Lead Notifications"
+  }
+) do %>
+  <h3 class="ui dividing header">Forward your leads</h3>
+  <p>Direct leads to this address from any lead provider that we support</p>
+  <p><%= white_labeled_app_name(current_subdomain) %> email address: <strong><%= @user.ab_email_address %></strong></p>
+  <p><%= link_to("Change email address here", "#", id: "link-edit-ab-email") %></p>
+  <%= simple_form_for(
+    @user,
+    url: update_ab_email_user_settings_lead_settings_path,
+    method: :put
+  ) do |f| %>
+    <%= f.input(:ab_email_address, label: "Edit #{white_labeled_app_name(current_subdomain)} email address") %>
+    <div class="field-help">
+      This is the email address where you can forward leads to us from places like Trulia and Zillow, and we'll automatcially process them.
+    </div>
+    <%= f.button(
+      :submit,
+      value: "Save",
+      "data-disable-with": "Saving..."
+    ) %>
+    <a class="ui basic button" id="link-cancel-ab-email">Cancel</a>
+  <% end %>
+
+  <h3 class="ui dividing header">Public New Lead Form</h3>
+  <p>Bookmark this link, or give it to your administrator, for you or anyone to quickly add new leads without being signed in to <%= white_labeled_app_name(current_subdomain) %>.</p>
+  <p>
+    Your lead form:
+    <strong>
+      <%= link_to(
+        shared_lead_form_url(@user.lead_form_key),
+        shared_lead_form_url(@user.lead_form_key),
+        id: "fe_text"
+      ) %>
+    </strong>
+    <button class="my_clip_button" data-clipboard-target="fe_text" data-clipboard-text="<%=shared_lead_form_url(@user.lead_form_key)%>" id="d_clip_button">
+      <%= image_tag(
+        "icons/clipboard.svg",
+        size: "16x16",
+        alt: "Copy Lead URL to clipboard."
+      ) %>
+    </button>
+  </p>
+
+  <%= render(partial: "lead_notifications_form") %>
+  <%= render(partial: "auto_responder_form") %>
+  <%= render(partial: "lead_source_statuses_form") %>
+<% end %>

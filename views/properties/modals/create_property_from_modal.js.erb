@@ -1,0 +1,10 @@
+// Hide modal
+$("#mainModal").modal("hide");
+// Add property to select
+var $propertySelect = $("[data-behavior=property-select]")
+
+setTimeout(function(){
+  // Change select to use property
+  $propertySelect.prepend('<option value="<%= @property.id %>"><%=@property.one_line_address %></option>');
+  $propertySelect.val('<%= @property.id %>').change();
+}, 100);

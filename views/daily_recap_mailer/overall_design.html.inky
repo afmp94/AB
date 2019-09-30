@@ -1,0 +1,34 @@
+<%= render(layout: "/shared/inky/standard") do %>
+<container>
+  <%= render("daily_recap_mailer/sections/daily_email_design_only") %>
+<!--  <row>
+    <columns small="8" large="1" >
+      <img style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;" src="https://a.radikal.ru/a02/1801/c0/6fbb9e835fb0.png" />
+    </columns>
+    <columns small="20" valign="bottom">
+      <center>
+        <h2>AgentBright Daily Recap</h2>
+        <h3> <small><%= Time.current.strftime("%b %d, %Y") %></small></h3>
+      </center>
+    </columns>
+  </row>
+  <row>
+    <columns small="12" large="12">
+        <%#= render("daily_recap_mailer/sections/clients") %>
+        <%#= render("daily_recap_mailer/sections/goals") %>
+        <%#= render("daily_recap_mailer/sections/key_happenings") %>
+        <%# if @tasks_due_today_and_overdue.count.nonzero? && @todays_and_overdue_team_tasks.count.nonzero? %>
+          <%#= render("daily_recap_mailer/sections/todo") %>
+        <%# end %>
+        <%#= render("daily_recap_mailer/sections/priorities") %>
+        <%#= render("daily_recap_mailer/sections/yesterday") %>
+        <%#= render("daily_recap_mailer/sections/progress") %>
+        <%#= render("daily_recap_mailer/sections/clients") %>
+       <%#= render("daily_recap_mailer/sections/marketing") %>
+
+       <%#= render("daily_recap_mailer/sections/clients") %>
+       <%#= render("daily_recap_mailer/sections/coach") %>
+    </columns>
+  </row>-->
+</container>
+<% end %>

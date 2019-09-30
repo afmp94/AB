@@ -1,0 +1,141 @@
+<% content_for(:demo_button, "client-show") %>
+<% breadcrumb(:client, lead) %>
+<%# content_for(:demo_button, "clients-show") %>
+<%= render(partial: "leads/header/main", locals: { lead: lead }) %>
+
+<div class="ui main container full-width-container">
+  <div class="ui internally divided stackable grid">
+    <div class="row" data-introjs-step="step421">
+      <div class="column">
+        <%= render(partial: "leads/actions/client_actions") %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+
+    <div class="row" data-introjs-step="step422">
+      <div class="column">
+        <% cache(["lead_infobar", lead, lead.contact]) do %>
+          <%= render(partial: "leads/infobars/infobar", locals: { lead: lead }) %>
+        <% end %>
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+
+    <div class="row">
+      <div class="column">
+        <div class="ui stackable grid" data-behavior="activity-section-container">
+          <%= render(
+            partial: "leads/activities/recent_activity_section",
+            locals: { lead: lead }
+          ) %>
+        </div><!-- /[data-behavior=activity-section-container] -->
+      </div><!-- /.column -->
+    </div><!-- /.row -->
+
+    <% if properties.present? || lead.contracts.present? %>
+      <%= render(
+        partial: "contracts/card_column",
+        locals: { lead: lead, contracts: lead.contracts }
+      ) %>
+      <% if lead.client_type == "Buyer" %>
+        <%= render(
+          partial: "leads/properties/card_column",
+          locals: { lead: lead, properties: properties }
+        ) %>
+      <% end %>
+      <%= render(
+        partial: "leads/actions/list",
+        locals: { columns: "col-xs-12", lead: lead }
+      ) %>
+    <% else %>
+      <%= render(
+        partial: "leads/actions/list",
+        locals: { columns: "col-sm-6", lead: lead }
+      ) %>
+    <% end %>
+
+    <div class="row">
+      <div class="eight wide column flex_item" data-introjs-step="step424">
+        <% if lead.contact.social_info_present? %>
+          <h3 class="ui header">Researched Info</h3>
+          <div class="ui cards m-b-md">
+            <%= render(
+              partial: "contacts/social_card",
+              locals: { contact: lead.contact }
+            ) %>
+          </div>
+        <% end %>
+        <% if show_beta_features? %>
+          <%= render(
+            partial: "leads/sections/action_plans",
+            locals: { lead: lead }
+          ) %>
+        <% end %>
+        <%= render(partial: "leads/info/list", locals: { lead: @lead }) %>
+      </div><!-- /.eight wide column -->
+      <div class="eight wide column flex_item" data-introjs-step="step425">
+        <%= render(
+          partial: "leads/stream/tabbed_section",
+          locals: {
+            lead: lead,
+            activities: activities,
+            activities_url: activities_url
+          }
+        ) %>
+      </div><!-- /.eight wide column -->
+    </div><!-- /.row -->
+  </div><!-- /.ui internally divided stackable grid -->
+</div><!-- /.ui main container -->
+
+<% if show_beta_features? %>
+  <script type="text/javascript">
+    function startIntro() {
+      var intro = introJs();
+        intro.setOptions({
+          steps: [
+            {
+              intro: "Whether it is a buyer or seller, the Client Show Page displays relevant details about your Client and their transaction."
+              ,
+              position: 'top'
+            },
+            {
+              element: '[data-introjs=step11]',
+              intro: "The headers displays Client contact details - name, phone and email."
+              ,
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step12]',
+              intro: "Headlines feature the transaction status and key details such as price, commission and close date.",
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step13]',
+              intro: "Update transactions quickly.  See and add Property, Contract and/or Actions for the transaction.",
+              position: 'bottom'
+            },
+            {
+              element: '[data-introjs=step14]',
+              intro: "Quickly record a call, note or lunch, send the Client an email or add a task to the transaction.",
+              position: 'left'
+            },
+            {
+              element: '[data-introjs=step15]',
+              intro: "Continue to capture key details on the Client including lead information, preferences, property details and commissions.",
+              position: 'right'
+            },
+            {
+              element: '[data-introjs=step16]',
+              intro: "Rest easy - <%= white_labeled_app_name(current_subdomain) %> automatically keeps a history of your task, comments, emails and logs activity updates which you can scroll."
+              ,
+              position: 'top'
+            },
+            {
+              element: '[data-introjs=step17]',
+              intro: "Our single page view is designed to make it simple and easy to use.",
+              position: 'bottom'
+            }
+          ]
+        });
+        intro.start();
+    }
+  </script>
+<% end %>

@@ -1,0 +1,59 @@
+<%= simple_form_for(@lead, remote: true) do |f| %>
+  <%= hidden_field_tag(:inline_form, "sl_seller_lead_details") %>
+  <%= f.association(
+    :lead_type,
+    label: "Where did this lead come from?",
+    collection: LeadType.all.order("name asc"),
+    label_method: :name,
+    input_html: { "data-behavior": "display-referral-field" }
+  ) %>
+  <%= f.input(
+    :lead_source_id,
+    label: "Lead Source",
+    collection: LeadType.order(:name),
+    as: :grouped_select,
+    group_method: :lead_sources,
+    label_method: :name,
+    include_blank: true,
+    input_html: { class: "ui dropdown", "data-ui-behavior": "dropdown" },
+    wrapper_html: { "data-ui-behavior": "lead-source-id" }
+  ) %>
+  <div id="referring-field" class="hidejs m-t m-b">
+    <%= f.association(
+      :referring_contact,
+      label: "Referrer",
+      collection: current_user.contacts.active.order("first_name asc"),
+      label_method: lambda { |contact| format_display_name(contact) }
+    ) %>
+    <%= f.input(
+      :referral_fee_type,
+      label: "Referral Percentage or Fee?",
+      collection: ["Percentage","Fee"],
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      input_html: { data: { behavior: "display-commission-referral-fields" } }
+    ) %>
+  </div><!-- /#referring-field -->
+  <%= f.input(
+    :referral_fee_rate,
+    label: "What the referral percentage?",
+    as: :percentage_two_decimal,
+    placeholder: "ex. 65",
+    wrapper_html: { id: "percentage2-field" }
+  ) %>
+  <%= f.input(
+    :referral_fee_flat_fee,
+    label: "What is the referral fee?",
+    as: :currency,
+    placeholder: "ex. 100",
+    wrapper_html: { id: "fee2-field" }
+  ) %>
+  <%= f.input(:notes) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-cancel-section="#seller-lead-details-section" class="ui basic button">Cancel</a>
+<% end %>

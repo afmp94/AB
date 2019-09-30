@@ -1,0 +1,23 @@
+<div id="property-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+      <%= fixed_list_header('Property',  edit_fixed_list_lead_path(lead, lead_type: "seller_lead", section: "property"), 'edit-property') %>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Property Address</td>
+        <td>
+          <%= lead.listing_address_street %><br/ >
+          <%= lead.listing_address_city %>,
+          <%= lead.listing_address_state %><%= "  " %><%= lead.listing_address_zip%>
+        </td>
+      </tr>
+      <%= fixed_list_item("Property type", lead.property_type_to_s) %>
+      <%= fixed_list_item("Initial Valuation",num_to_currency(lead.listing_property.initial_agent_valuation)) %>
+      <%= fixed_list_item("Bedrooms", lead.listing_property.bedrooms) %>
+      <%= fixed_list_item("Bathrooms", lead.listing_property.bathrooms) %>
+      <%= fixed_list_item("Square Foot", lead.listing_property.sq_feet) %>
+      <%= fixed_list_item("Lot Size", lead.listing_property.lot_size) %>
+    </tbody><!-- /.col-xs-12 fixed-list -->
+  </table>
+</div>

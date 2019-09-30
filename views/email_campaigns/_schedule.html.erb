@@ -1,0 +1,44 @@
+<div data-behavior="scheduling_section" style="display:none;">
+  <%= form_tag(schedule_email_campaign_path(email_campaign), method: :post,
+               id: "schedule_email_form", class: "ui form",
+               data: { behavior: "schedule-email-campaign-form" }) do %>
+    <div class="field">
+      <label for="deliver_date">Delivery date</label>
+      <div class="ui calendar" data-ui-behavior="calendar_date">
+        <div class="ui input left icon">
+          <i class="calendar icon"></i>
+          <%= text_field_tag :deliver_date, "", placeholder: "Date..." %>
+        </div>
+        <span data-behavior="deliver_date" style="color:red"></span>
+      </div>
+    </div>
+    <div class="grouped fields">
+      <label for="delivery_time">Delivery time</label>
+      <div class="field">
+        <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="delivery_time">
+          <%= radio_button_tag :delivery_time, EmailCampaign::DELIVERY_TIMES[:optimize_time], true, class: "hidden" %>
+          <label>Let <%= white_labeled_app_name(current_subdomain) %> optimize send time for maximum engagement</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox" data-ui-behavior="checkbox" data-radio-reveal-group="delivery_time" data-radio-reveal="specific_time">
+          <%= radio_button_tag :delivery_time, EmailCampaign::DELIVERY_TIMES[:specific_time], false, class: "hidden" %>
+          <label>Send at a specific time</label>
+        </div>
+      </div>
+      <div class="reveal-section" data-radio-reveal-section="specific_time">
+        <div class="field">
+          <div class="ui calendar" data-ui-behavior="calendar_time">
+            <div class="ui input left icon">
+              <i class="clock icon"></i>
+              <%= text_field_tag :deliver_time, "", placeholder: "Time" %>
+            </div>
+            <span data-behavior="deliver_time" style="color:red"></span>
+          </div>
+        </div><!-- /.field -->
+      </div>
+    </div>
+    <%= submit_tag "Schedule", class: "ui primary button", data: { behavior: "schedule-campaign" } %>
+    <div class="ui button" data-behavior="hide_scheduling_section">Cancel</div>
+  <% end %>
+</div>

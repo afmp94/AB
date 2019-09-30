@@ -1,0 +1,34 @@
+<div class="marketing_center_form">
+  <%= simple_form_for @email_template, defaults: { input_html: { class: 'ui form max-width-600 email_template_form' } } do |f| %>
+    <%= f.error_notification %>
+
+    <%= f.input(:name) %>
+    <%= f.input(:purpose) %>
+    <%= f.input(:subject) %>
+    <%= f.input :message_body, as: :trix_editor %>
+
+    <div class="ui dropdown dynamic_contact_fields">
+      <div class="text">Add contact fields</div>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <% EmailTemplate::CONTACT_DYNAMIC_FIELDS.each do |field| %>
+          <div class="item" data-value="{{ <%= field.parameterize.underscore %> }}" > <%= field %> </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="field p-a-0 m-t">
+      <div class="ui checkbox" data-ui-behavior="checkbox">
+        <%= f.input :use_default_signature, as: :boolean, checked_value: true, unchecked_value: false, label: 'Include your default signature' %>
+      </div>
+    </div>
+
+    <%= f.button(
+      :submit,
+      class: "ui primary button",
+      value: "Save",
+      "data-disable-with": "Saving..."
+    ) %>
+    <%= link_to("Cancel", email_templates_path, class: "ui basic button") %>
+  <% end %>
+</div>

@@ -1,0 +1,20 @@
+json.extract!(
+  @showing,
+  :id,
+  :lead_id,
+  :status,
+  :address1,
+  :city,
+  :state,
+  :zip,
+  :date_time,
+  :comments,
+  :mls_number,
+  :listing_agent,
+  :email_request_to_agent,
+  :requested,
+  :confirmed,
+  :list_price,
+  :created_at,
+  :updated_at
+)

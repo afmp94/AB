@@ -1,0 +1,14 @@
+<% if address.street.blank? || address.city_state_zip.blank? %>
+  <% if address.street.blank? && address.city_state_zip.blank? %>
+  <% elsif address.street.blank? %>
+    <%= "#{address.city_state_zip}" %>
+  <% else %>
+    <%= "#{address.street}" %>
+  <% end %>
+<% else %>
+  <%= "#{address.street}" %><br />
+  <%= "#{address.city_state_zip}" %>
+  <% if address.address_type.present? %>
+    <b>(<%= "#{address.address_type}" %>)</b>
+  <% end %>
+<% end %>

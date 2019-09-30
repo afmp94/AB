@@ -1,0 +1,55 @@
+<% cache(["status_board_row", lead]) do %>
+  <% if lead.long_term_prospect_remind_me_at < Time.zone.now   %>
+   <div class="list-group action-list">
+      <tr class="<%= status_board_row_highlight_class(lead) %>">
+        <td width="55%">
+          <%= link_to(lead_path(lead), class: "not-blue-link link-underline") do %>
+            <div class="row-avatar">
+              <%= display_avatar(lead, size: :mini) %>
+            </div><!-- /.table-avatar -->
+            <div class="row-title">
+              <span class="fwb"><%= lead.contact.full_name %></span><br>
+              <% if lead.client_type == "Buyer" %>
+                <p class="small-meta nomargin">Buyer</p>
+                <p class="small-meta nomargin">Price Range: <%= display_lead_price_range(lead) %></p>
+              <% elsif lead.client_type == "Seller" %>
+                <p class="small-meta nomargin"><%= lead.listing_address_street %></p>
+                <p class="small-meta nomargin"><%= lead.listing_address_city %></p>
+                <p class="small-meta nomargin"><%= num_to_currency(lead.listing_list_price) %></p>
+              <% end %>
+              <p class="small-meta fsi dim-el nomargin team-only">Owned by <%= lead_owner_name(lead) %></p>
+            </div><!-- /.row-title -->
+          <% end %>
+        </td>
+        <td>
+         <!-- <span class="h4 fwb">No Next Action</span>-->
+          <div class="list-group action-list">
+            <%= action_list_item(
+              link: prospect_lead_status_path(lead),
+              title: "Promote this lead to a prospect",
+              description: "Click Here",
+              icon_class: "thumbs up icon",
+              link_data_method: "post",
+              data: { lead_id: lead.id },
+              link_attributes: "data-toggle=modal data-target=#mainModal data-remote=true"
+            ) %>
+            <%= action_list_item(
+              link: open_long_term_prospect_modal_lead_path(id: lead.id),
+              title: "Update Long Term Prospect",
+              description: "Click Here",
+              icon_class: "folder open icon",
+              link_attributes: "data-toggle=modal data-target=#mainModal data-remote=true"
+            ) %>
+            <%= action_list_item(
+              link: open_junk_modal_lead_path(id: lead.id),
+              title: "Junk",
+              description: "Click Here",
+              icon_class: "trash",
+              link_attributes: "data-toggle=tiny-modal data-target=#tinyModal data-remote=true"
+            ) %>
+          </div><!-- /.list-group -->
+        </td>
+      </tr>
+    </div>
+  <% end %>
+<% end %>

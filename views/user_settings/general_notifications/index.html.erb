@@ -1,0 +1,80 @@
+<% breadcrumb(:general_notifications) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "General Notifications",
+    secondary_name: "Notifications"
+  }
+) do %>
+  <%= simple_form_for(
+    @lead_setting,
+    url: user_settings_lead_settings_path(@lead_setting, format: :js),
+    html: {
+      id: "update_lead_notifications",
+      "data-submit-form": "lead-notifications-form"
+    },
+    remote: true
+  ) do |f| %>
+    <h2 class="ui dividing header m-t-0">Daily Reminder Settings</h2>
+    <table class="ui unstackable table">
+      <thead>
+        <tr>
+          <th>Reminder</th>
+          <th>Off/On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="breakword">
+            Send me the
+            <span class="fwb">Overall Daily Recap</span>
+            email:
+            <% if super_admin_signed_in? %>
+              <%= link_to(
+                "Send",
+                send_daily_overall_recap_user_settings_lead_settings_path,
+                class: "ui mini basic negative button m-l"
+              ) %>
+            <% end %>
+          </td>
+          <td >
+            <%= f.input(
+              :daily_overall_recap,
+              label: false,
+              wrapper: :toggle_switch,
+              wrapper_html: {
+                "data-behavior": "submit-on-checkbox-change",
+                "data-submit-form-target": "lead-notifications-form"
+              }
+            ) %>
+          </td>
+        </tr>
+        <tr>
+          <td class="breakword">
+            Send me a
+            <span class="fwb">morning next actions</span>
+            text message:
+            <% if super_admin_signed_in? %>
+              <%= link_to(
+                "Send",
+                send_next_action_reminder_sms_user_settings_lead_settings_path,
+                class: "ui mini basic negative button m-l"
+              ) %>
+            <% end %>
+          </td>
+          <td>
+            <%= f.input(
+              :next_action_reminder_sms,
+              wrapper: :toggle_switch,
+              label: false,
+              wrapper_html: {
+                "data-behavior": "submit-on-checkbox-change",
+                "data-submit-form-target": "lead-notifications-form"
+              }
+            ) %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

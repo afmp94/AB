@@ -1,0 +1,10 @@
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Add Lead Groups",
+    secondary_name: "Lead Groups"
+  }
+) do %>
+  <h3>Create a Lead Group Name that is meaningful</h3>
+  <%= render("form") %>
+<% end %>

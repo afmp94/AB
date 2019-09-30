@@ -1,0 +1,2 @@
+<h4  class="ui header">Your trial has expired. Please add a credit card to reactivate your subscription.</h4>
+<%= link_to("Add credit card", new_checkout_path(plan: Plan.popular, trial: "false"), class: "ui button primary", data: { no_turbolink: true, loading_text: "Loading..." }) %>

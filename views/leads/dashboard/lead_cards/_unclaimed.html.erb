@@ -1,0 +1,90 @@
+<% if lead.lead_property %>
+
+  <div class="card card-wide-left-pic">
+    <div class="card-super-title">
+      You have a new lead
+    </div><!-- /.card-super-title -->
+    <div class="card-meat">
+      <div class="card-header">
+        <div class="card-avatar"><%= display_avatar(lead) %></div><!-- /.card-avatar -->
+        <div class="card-header-title">
+          <%= link_to(lead_path(lead), class: "not-blue-link link-underline") do %>
+            <h3 class="card-title"><%= lead.display_full_name %></h3>
+          <% end %>
+          <h4 class="card-subhead">
+            Interested in <%= lead.lead_property.one_line_address %> - <span class="fwb"><%= num_to_currency(lead.lead_property.list_price) %></span>
+          </h4>
+        </div><!-- /.card-header-title -->
+      </div><!-- /.card-header -->
+      <%= property_card_image(lead.lead_property, gradient: false) %>
+      <div class="card-content">
+        <% if lead.lead_source.try(:name).present? && !lead.incoming_lead_at.nil? %>
+          <p class="card-text">
+            via <%= lead.lead_source.try(:name) %> <%= time_ago_in_words(lead.incoming_lead_at) %> ago
+          </p><!-- /.card-text -->
+        <% end %>
+      </div><!-- /.card-content -->
+      <div class="card-actions">
+        <%= button_to(
+          "Claim",
+          claim_lead_path(lead, { user_id: current_user }),
+          class: "ui positive submit button",
+          method: :patch,
+          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+          "data-disable-with": "Claiming..."
+        ) %>
+        <%= link_to(
+          "Snooze",
+          open_snooze_modal_lead_path(lead),
+          class: "ui primary button",
+          data: { toggle: "tiny-modal", target: "#tinyModal"},
+          remote: true
+        ) %>
+      </div><!-- /.card-actions -->
+    </div><!-- /.card-meat -->
+  </div><!-- /.card -->
+
+<% else %>
+
+  <div class="card">
+    <div class="card-super-title">
+      You have a new lead
+    </div><!-- /.card-super-title -->
+    <div class="card-meat">
+      <div class="card-header">
+        <div class="card-avatar"><%= display_avatar(lead) %></div><!-- /.card-avatar -->
+        <div class="card-header-title">
+          <%= link_to(lead_path(lead), class: "not-blue-link link-underline") do %>
+            <h3 class="card-title"><%= lead.display_full_name %></h3>
+          <% end %>
+          <% if lead.lead_source.try(:name).present? && !lead.incoming_lead_at.nil? %>
+            <h4 class="card-subhead">
+              via <%= lead.lead_source.try(:name) %> <%= time_ago_in_words(lead.incoming_lead_at) %> ago
+            </h4>
+          <% end %>
+        </div><!-- /.card-header-title -->
+      </div><!-- /.card-header -->
+      <div class="card-actions">
+        <%= button_to(
+          "Claim",
+          claim_lead_path(lead, { user_id: current_user }),
+          class: "btn btn-paper btn-success btn-loading",
+          method: :patch,
+          data: {
+            loading_text: "Claiming...",
+            "mobile-app-forced-patch-link": request_from_mobile_app?
+          },
+          form_class: "inline-block"
+        ) %>
+        <%= link_to(
+          "Snooze",
+          open_snooze_modal_lead_path(lead),
+          class: "btn btn-paper btn-primary",
+          data: { toggle: "tiny-modal", target: "#tinyModal"},
+          remote: true
+        ) %>
+      </div><!-- /.card-actions -->
+    </div><!-- /.card-meat -->
+  </div><!-- /.card -->
+
+<% end %>

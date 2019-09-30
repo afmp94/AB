@@ -1,0 +1,16 @@
+
+  <% if @lead_setting.auto_respond_body.present? %>
+    <p><%= simple_format @lead_setting.auto_respond_body %></p>
+  <% else %>
+    <p>Thanks for your property inquiry.</p>
+
+    <p>I'm tied up right now, but I (or one of my colleagues) will
+    give you a call shortly, to answer any questions you may have.
+    <br/><br/>
+    When's a good time to reach out?</p>
+    <p>Looking forward to speaking with you soon!</p>
+    <p>Best,<br/>
+    <i><%= @user.full_name %></i></p>
+  <% end %>
+
+

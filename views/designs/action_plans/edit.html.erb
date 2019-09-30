@@ -1,0 +1,119 @@
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">Add new action plan</h1>
+      <div class="sub header">Action Plans</div>
+    </div>
+  </div>
+</div>
+
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <div class="ui centered grid">
+      <div class="column">
+        <form class="ui form max-width-600">
+          <div class="field">
+            <label>Name</label>
+            <input type="text" />
+          </div><!-- /.field -->
+          <div class="field">
+            <label>Purpose</label>
+            <input type="text" />
+          </div><!-- /.field -->
+          <h4 class="ui header">Steps</h4>
+
+          <div class="ui segment">
+            <div class="three fields">
+              <div class="field">
+                <label>Delay (days)</label>
+                <input type="text" />
+              </div><!-- /.field -->
+            </div><!-- /.two fields -->
+            <div class="field">
+              <label>Email Template</label>
+              <select class="ui dropdown">
+                <option value="">Email Template</option>
+                <option value="1">Spring Open House</option>
+                <option value="0">Holiday</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Send Time (leave blank to send immediately)</label>
+              <input type="text" />
+            </div>
+            <h4 class="ui dividing header">Tracking</h4>
+            <div class="field p-a-0 m-t">
+              <div class="ui checkbox" data-ui-behavior="checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>Track open, clicks and replies</label>
+              </div>
+            </div>
+            <div class="field p-a-0 m-t">
+              <div class="ui checkbox" data-ui-behavior="checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>Require approval before sending</label>
+              </div>
+            </div>
+            <div class="field p-a-0 m-t">
+              <div class="ui checkbox" data-ui-behavior="checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>Notify me if message is opened</label>
+              </div>
+            </div>
+            <div class="field p-a-0 m-t">
+              <div class="ui checkbox" data-ui-behavior="checkbox">
+                <input type="checkbox" tabindex="0" class="hidden">
+                <label>Reset delay if we interact</label>
+              </div>
+            </div>
+            <button class="ui negative basic button">Delete this step</button>
+          </div><!-- segment -->
+
+        <div class="field">
+          <button class="ui positive basic button"><i class="plus circle icon"></i>Add step</button>
+        </div>
+        <h4 class="ui dividing header">Action Plan Settings</h4>
+        <div class="field p-a-0 m-t">
+          <div class="ui checkbox" data-ui-behavior="checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>Allow senders to add recipeits who have already receive this action plan</label>
+          </div>
+        </div>
+        <div class="field p-a-0 m-t">
+          <div class="ui checkbox" data-ui-behavior="checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>End this action plan as soon as I receive any email from the recipient</label>
+          </div>
+        </div>
+        <div class="field p-a-0 m-t">
+          <div class="ui checkbox" data-ui-behavior="checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>Block recipients from being in more than one action plan at a time</label>
+          </div>
+        </div>
+        <div class="field p-a-0 m-t">
+          <div class="ui checkbox" data-ui-behavior="checkbox">
+            <input type="checkbox" tabindex="0" class="hidden">
+            <label>Include unsubscribe link</label>
+          </div>
+        </div>
+        <div class="ui primary button">Save</div>
+        <div class="ui basic button">Cancel</div>
+      </form><!-- /.ui form -->
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Initialize Semantic UI dropdowns
+  $('[data-ui-behavior=checkbox]').checkbox();
+
+  // Initialize Semantic UI checkboxes
+  $('[data-ui-behavior=dropdown]').dropdown();
+
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+
+</script>

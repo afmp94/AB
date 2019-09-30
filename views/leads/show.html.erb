@@ -1,0 +1,23 @@
+<% content_for :title, @lead.name %>
+
+<% if @lead.status == 0 %>
+  <%= render(
+    partial: "show_lead",
+    locals: {
+      lead: @lead,
+      properties: @properties,
+      activities: @activities,
+      activities_url: @activities_url
+    }
+  ) %>
+<% else %>
+  <%= render(
+    partial: "show_client",
+    locals: {
+      lead: @lead,
+      properties: @properties,
+      activities: @activities,
+      activities_url: @activities_url
+    }
+  ) %>
+<% end %>

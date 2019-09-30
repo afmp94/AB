@@ -1,0 +1,32 @@
+<div class="ui header">
+  <h1>Tasks</h1>
+  <h2>Edit Task</h2>
+</div>
+
+<%= simple_form_for(@task) do |f| %>
+  <% if current_user.belongs_to_team? %>
+    <%= f.association(
+      :assigned_to,
+      include_blank: false,
+      collection: user_and_teammate_array(current_user)
+    ) %>
+  <% else %>
+    <%= f.hidden_field(:assigned_to_id, :value => current_user.id) %>
+  <% end %>
+
+  <%= f.input(
+    :due_date_at,
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.due_date_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(:postpone, collection: Task::TIME_FROM_NOW) %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", :back, class: "ui basic button") %>
+<% end %>

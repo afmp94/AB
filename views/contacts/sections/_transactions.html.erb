@@ -1,0 +1,26 @@
+<div id="contact-transactions-section" class="info-list-section">
+  <h3 class="ui dividing header">Transactions</h3>
+  <table class="ui very basic unstackable table info-list-table">
+    <tbody>
+      <% @contact.transactions.each do |transaction| %>
+        <tr>
+          <td>
+            <%= link_to transaction[:name], lead_path(id: transaction[:id]) %>
+          </td>
+          <td class="collapsing">
+            <%= transaction[:status] %>
+          </td>
+          <td class="collapsing">
+            <%= num_to_currency(transaction[:displayed_price]) %>
+          </td>
+          <td class="collapsing">
+            <%= num_to_currency(transaction[:displayed_net_commission]) %>
+          </td>
+          <td class="collapsing">
+            <%= cal_date(transaction[:displayed_closing_date_at]) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div><!-- /#contact-work-info-section -->

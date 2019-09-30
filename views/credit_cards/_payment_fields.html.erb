@@ -1,0 +1,55 @@
+<h2 class="ui top-header">Secure Credit Card Payment</h2>
+<div id="credit-card-icons" class="below24">
+  <%= image_tag("icons/visa.png") %>
+  <%= image_tag("icons/master.png") %>
+  <%= image_tag("icons/american_express.png") %>
+  <%= image_tag("icons/discover.png") %>
+</div><!-- /#credit-card-icons -->
+<div data-behavior="card-errors">
+  <!-- We this div section for showing the errors through JS code -->
+</div>
+<div id="checkout_cc_input" class="field stripe">
+  <label for="card-number">Card Number</label>
+  <input type="text" pattern="[0-9]*" size="20" autocomplete="cc-number" id="card-number" data-info="card-number" data-stripe-validate="card-number" />
+</div>
+<div class="fields">
+  <div class="twelve wide field">
+    <label>Expiration</label>
+    <div class="two fields">
+      <div class="field">
+        <select id="expiration_month" name="date[month]" class="ui dropdown" data-info="card-expiry-month" data-ui-behavior="dropdown" autocomplete="cc-exp-month">
+          <option value="">Month</option>
+          <option value="1">1 - January</option>
+          <option value="2">2 - February</option>
+          <option value="3">3 - March</option>
+          <option value="4">4 - April</option>
+          <option value="5">5 - May</option>
+          <option value="6">6 - June</option>
+          <option value="7">7 - July</option>
+          <option value="8">8 - August</option>
+          <option value="9">9 - September</option>
+          <option value="10">10 - October</option>
+          <option value="11">11 - November</option>
+          <option value="12">12 - December</option>
+        </select>
+      </div><!-- /.field -->
+      <div class="field">
+        <select id="expiration_year" name="date[year]" class="ui dropdown" data-info="card-expiry-year" data-ui-behavior="dropdown" autocomplete="cc-exp-year">
+          <option value="">Year</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div><!-- /.field -->
+    </div><!-- /.two fields -->
+  </div><!-- /.twelve wide field -->
+  <div id="checkout_cvc_input" class="four wide field stripe">
+    <label for="card-cvc">CVC</label>
+    <input type="text" pattern="[0-9]*" size="4" autocomplete="cc-csc" id="card-cvc" data-info="card-cvc"/>
+  </div><!-- /.four wide field -->
+</div><!-- /.fields -->

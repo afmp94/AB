@@ -1,0 +1,3 @@
+$("[data-ui-behavior=modal]").empty();
+$("[data-ui-behavior=modal]")
+  .append('<%= j render("leads/modals/pause_lead", lead: @lead) %>');

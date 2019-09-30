@@ -1,0 +1,13 @@
+<% if showable_enough_graded_contacts_message? %>
+  <div class="ui positive message">
+    <div class="content">
+      <div class="header">
+        Nice work!
+      </div>
+      <p>You've graded enough contacts to get started! Keep grading, or click <span class="fwb">Next</span> to continue.</p>
+    </div><!-- /.content -->
+  </div><!-- /.ui message -->
+  <script charset="utf-8">
+    $('[data-behavior~=show-onboarding-next-link]').addClass('is-visible');
+  </script>
+<% end %>

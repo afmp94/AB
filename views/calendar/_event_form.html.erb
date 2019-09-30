@@ -1,0 +1,90 @@
+<%= form_with(scope: :event, url: presenter.url_path,
+            method: presenter.event_form_method,
+            class: 'ui form max-width-1200',
+            data: { info: "new-cal-event" } ) do |event| %>
+
+  <%= hidden_field_tag :from_page, params[:from_page] if params[:from_page].present? %>
+
+  <div class="field">
+    <label>Title</label>
+    <%= event.text_field :title, value: presenter.title %>
+  </div>
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <h4 class="ui dividing header">Date and Time</h4>
+  <div class="field">
+    <div class="ui checkbox">
+      <%= event.check_box "full_day", checked: presenter.full_day?, id: "fullday", data: { info: "fullday-checkbox" } %>
+      <label for="fullday">All Day?</label>
+    </div>
+  </div>
+  <div class="field" style="display:none" data-info="datespan">
+    <div class="two fields">
+      <div class="field">
+        <label>Start Date</label>
+        <div class="ui calendar" data-ui-behavior="calendar_date">
+          <div class="ui input left icon">
+            <i class="calendar icon"></i>
+            <%= event.text_field :start_date, value: presenter.start_date, disabled: true %>
+          </div>
+        </div>
+      </div><!-- /.field -->
+      <div class="field">
+        <label>End Date</label>
+        <div class="ui calendar" data-ui-behavior="calendar_date">
+          <div class="ui input left icon">
+            <i class="calendar icon"></i>
+            <%= event.text_field :end_date, value: presenter.end_date, disabled: true %>
+          </div>
+        </div>
+      </div><!-- /.field -->
+    </div>
+  </div>
+  <div class="field" data-info="timespan">
+    <div class="two fields">
+      <div class="field">
+        <label>Start Time</label>
+        <div class="ui calendar" data-ui-behavior="calendar_datetime">
+          <div class="ui input left icon">
+            <i class="clock icon"></i>
+            <%= event.text_field :start_time, value: presenter.start_time %>
+          </div>
+        </div>
+      </div><!-- /.field -->
+      <div class="field">
+        <label>End Time</label>
+        <div class="ui calendar" data-ui-behavior="calendar_datetime">
+          <div class="ui input left icon">
+            <i class="clock icon"></i>
+            <%= event.text_field :end_time, value: presenter.end_time %>
+          </div>
+        </div>
+      </div><!-- /.field -->
+    </div><!-- /.four fields -->
+  </div>
+
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <h4 class="ui dividing header">Invite Others</h4>
+  <div class="field">
+    <label>Email Address (Add comma separated emails)</label>
+    <%= event.text_field :participants, value: presenter.participant_emails, placeholder: "E.g. john@example.com, chris@xyz.com" %>
+  </div><!-- /.field -->
+
+  <div class="ui hidden divider"></div><!-- /.ui hidden divider -->
+  <h4 class="ui dividing header">Further Details</h4>
+  <div class="field">
+    <label>Location</label>
+    <%= event.text_field :location, value: presenter.location %>
+  </div><!-- /.field -->
+  <div class="field">
+    <label>Description</label>
+    <%= event.text_area :description, value: presenter.description %>
+  </div><!-- /.field -->
+  <%= event.submit "Save", class: "ui primary button", "data-disable-with": "Saving..." %>
+
+  <% if presenter.nylas_event.nil? %>
+    <%= link_to "Cancel", calendar_path, class: "ui basic button" %>
+  <% else %>
+    <a class="ui basic button" data-dismiss="modal">Cancel</a>
+  <% end %>
+
+<% end %>

@@ -1,0 +1,6 @@
+<% if @result %>
+  toastr.success('Successfully updated URLs');
+  document.querySelector('[data-behavior=current-urls]').innerHTML = "voice_url: <%= @result.voice_url %>\nsms_url: <%= @result.sms_url %>";
+<% else %>
+  toastr.error('Failed to update URLs');
+<% end %>

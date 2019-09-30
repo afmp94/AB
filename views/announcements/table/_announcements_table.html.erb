@@ -1,0 +1,19 @@
+<div class="ui segments">
+  <div class="ui segment">
+    <% cache "table_head" do %>
+      <%= render(partial: "announcements/table/options/search_bar") %>
+    <% end %>
+  </div><!-- /.ui segment -->
+
+  <div class="ui segment p-a-0">
+    <%= render(partial: "announcements/table/options/sticky_select_menu") %>
+
+    <div class="ui disabled inverted dimmer" data-behavior="loader">
+      <div class="ui text loader">Loading</div>
+    </div>
+
+    <div id="items-container" data-container="announcement-items">
+      <%= render(partial: "announcements/table/data", locals: { announcements: @announcements }) %>
+    </div><!-- /.#items-container -->
+  </div><!-- /.ui segment -->
+</div><!-- /.ui segments -->

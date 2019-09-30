@@ -1,0 +1,83 @@
+<div class="main ui container">
+  <div class="ui vertical basic segment">
+    <div class="ui centered grid">
+      <div class="column action_plan_new_edit_form marketing_center_form">
+        <%= simple_form_for @action_plan, defaults: { input_html: { class: 'ui form max-width-600 email_template_form' } } do |f| %>
+          <%= f.input(:name) %>
+          <%= f.input(:purpose) %>
+
+          <h4 class="ui header">Steps</h4>
+
+          <%= f.fields_for :action_plan_steps do |builder| %>
+            <%= render(partial: "action_plan_step_fields", locals: { f: builder })%>
+          <% end %>
+          <%= link_to_add_fields "Add step", f, :action_plan_steps %>
+
+        <h4 class="ui dividing header">Action Plan Settings</h4>
+        <%= f.input(
+          :allow_repeat_subscribers,
+          label: 'Allow senders to add recipients who have already receive this action plan',
+          as: :boolean
+        ) %>
+
+        <%= f.input(
+          :end_on_reply,
+          label: 'End this action plan as soon as I receive any email from the recipient',
+          as: :boolean
+        ) %>
+
+        <%= f.input(
+          :only_active_action_plan_allowed,
+          label: 'Block recipients from being in more than one action plan at a time',
+          as: :boolean
+        ) %>
+
+        <%= f.input(
+          :include_unsubscribe,
+          label: 'Include unsubscribe link',
+          as: :boolean
+        ) %>
+
+        <%= f.button(:submit, class: "ui primary button", value: "Save", "data-disable-with": "Saving...") %>
+        <%= link_to("Cancel", (@action_plan.new_record? ? action_plans_path : action_plan_path(@action_plan)), class: "ui basic button") %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $(".add_fields.clickable").addClass("ui positive basic button noloading");
+    if ($(".add_fields.clickable").find(".icon").length == 0) {
+      $(".add_fields.clickable").prepend("<i class='plus circle icon'></i>");
+    }
+
+    $("body").on("click", ".order_btn", function(event){
+      event.preventDefault();
+      event.stopPropagation();
+      selected_element = $(this).closest('fieldset');
+      selected_element_input = $(selected_element).next();
+      is_edit_form = $(this).closest('form').hasClass('edit_action_plan')
+
+      if(is_edit_form){
+        previous_element = $(selected_element).prev().prev();
+        next_element = $(selected_element).next().next();
+      }else{
+        previous_element = $(selected_element).prev();
+        next_element = $(selected_element).next();
+      }
+
+      if($(this).hasClass("move_up_btn") && previous_element.hasClass("ui raised segment")){
+        previous_element.before(selected_element);
+        if(is_edit_form){
+          previous_element.before(selected_element_input);
+        }
+      }else if($(this).hasClass("move_down_btn") && next_element.hasClass("ui raised segment")){
+        next_element.next().after(selected_element);
+        if(is_edit_form){
+          next_element.next().next().after(selected_element_input);
+        }
+      }
+    });
+  });
+</script>

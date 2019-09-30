@@ -1,0 +1,7 @@
+$("[data-info='contact-row-<%= @contact.id %>']").replaceWith("<%= j(render partial: "contacts/table/row", locals: { contact: @contact }) %>");
+
+TableExpand.expand('<%= @contact.id %>');
+
+<% if @grade_was_nil %>
+  CS.get();
+<% end %>

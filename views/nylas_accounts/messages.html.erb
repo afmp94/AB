@@ -1,0 +1,11 @@
+<% if @messages.present? %>
+  <h3 class="ui dividing header m-t">Messages</h3>
+  <div class="ui divided relaxed list ab-email-list">
+    <% @messages.each do |message| %>
+      <%= render(
+        partial: "emails/message",
+        locals: { message: message, contact: @contact }
+      ) %>
+    <% end %>
+  </div><!-- /.ui list -->
+<% end %>

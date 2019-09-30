@@ -1,0 +1,11 @@
+<% if @action_plan_membership.state == "active" %>
+  $( $("#action_plan_membership_contact_id option").get(1) ).prop("selected", "selected").change();
+  $("#action_plan_membership_contact_id option[value= <%= @action_plan_membership.contact_id %>]").remove();
+  $(".menu.transition").find("div[data-value= <%= @action_plan_membership.contact_id %>]").remove();
+<% end %>
+$('.action_plan_contacts_table').html('<%= j render("action_plan_memberships/action_plan_contacts") %>');
+$(".add_new_action_plan_membership").html('<%= j render("action_plan_memberships/new_form") %>');
+$(".add_new_contact").show();
+$(".new_action_plan_membership_form").hide();
+$(".contacts_count").text("Contacts: <%= @action_plan_memberships.count %>");
+$(".action_plan_membership_save_btn").removeClass('disabled');

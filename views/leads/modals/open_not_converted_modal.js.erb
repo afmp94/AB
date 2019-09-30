@@ -1,0 +1,3 @@
+$("[data-ui-behavior=modal]").empty();
+$('[data-ui-behavior=modal]')
+  .append('<%= j render("leads/modals/not_converted", lead: @lead) %>');

@@ -1,0 +1,13 @@
+<% cache(["completed_task", task]) do %>
+  <li data-task-id="<%= task.id %>">
+    <%= link_to(task) do %>
+      <span class="content">
+        <%= task.subject %>
+        <span class="project" style="color: #46647c">
+          <br /><%= task.taskable.try(:name) %>
+        </span>
+      </span>
+    <% end %>
+    <%= render(partial: "tasks/small_task/todo_meta", locals: { task: task }) %>
+  </li>
+<% end %>

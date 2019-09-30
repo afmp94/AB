@@ -1,0 +1,25 @@
+<div id="listing-info-section" class="info-list-section">
+  <table class="ui very basic unstackable table info-list-table">
+    <thead>
+    <%= fixed_list_header('Listing Info', edit_fixed_list_lead_path(lead, lead_type: "seller_client", section: "listing_info"), 'edit-seller-client-listing-info'
+    ) %>
+    </thead>
+    <tbody>
+      <%= fixed_list_item("List Price", num_to_currency(lead.listing_property.list_price)) %>
+      <%= fixed_list_item("Listing Expiration Date", standard_date(lead.listing_property.listing_expires_at)) %>
+      <%= fixed_list_item("Original List Price", num_to_currency(lead.listing_property.original_list_price)) %>
+      <%= fixed_list_item("Original List Date", standard_date(lead.listing_property.original_list_date_at)) %>
+      <% if lead.listing_property.commission_type.blank? %>
+        <%= fixed_list_item("Commission Type", "None") %>
+      <% else %>
+        <%= fixed_list_item("Commission Type", lead.listing_property.commission_type ) %>
+      <% end %>
+      <% if lead.listing_property.commission_type == "Percentage" %>
+        <%= fixed_list_item("Commission Rate", lead.listing_property.commission_percentage) %>
+      <% elsif lead.listing_property.commission_type == "Fee" %>
+        <%= fixed_list_item("Commission Fee", num_to_currency(lead.listing_property.commission_fee)) %>
+      <% else %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

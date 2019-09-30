@@ -1,0 +1,13 @@
+<h2 class="ui dividing header m-t-0">Public New Lead Form</h2>
+
+<p>Bookmark this link, or give it to your administrator, for you or anyone to quickly add new leads without being signed in to <%= white_labeled_app_name(current_subdomain) %>.</p>
+
+<div class="ui form max-width-600">
+  <div class="field">
+    <label for="">Your public lead form link:</label>
+    <input value="<%= shared_lead_form_url(@user.lead_form_key) %>" readonly />
+  </div><!-- /.field -->
+  <div class="ui message">
+    <p>Copy and paste this link.</p>
+  </div><!-- /.ui message -->
+</div><!-- /.ui form -->

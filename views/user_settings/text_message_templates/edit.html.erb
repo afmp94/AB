@@ -1,0 +1,12 @@
+<% provide(:title, "Edit text message template") %>
+<% breadcrumb(:edit_text_message_template, @text_message_template) %>
+
+<%= page_header(
+  primary_name: "Text Message Templates",
+  primary_path: user_settings_text_message_templates_path,
+  secondary_name: "Edit Text Message Template"
+) %>
+
+<div class="main ui container">
+  <%= render(partial: "form") %>
+</div><!-- /.main ui container -->

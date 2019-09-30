@@ -1,0 +1,9 @@
+<span class="hide-tablet-and-up fwb">Groups:</span>
+<span class="clickable" data-behavior="edit-contact-groups" data-contact-id="<%= contact.id %>" data-contact-groups="<%= contact.contact_groups_by_user(current_user).join(",") %>">
+  <%= contact.contact_groups_by_user(current_user).first || "None" %>
+  <i class="dropdown icon"></i><br />
+</span>
+<%= render(partial: "contacts/popups/edit_contact_groups", locals: { contact: contact }) %>
+<% if contact.contact_groups_by_user(current_user).count > 1 %>
+  <small>+ <%= contact.contact_groups_by_user(current_user).count - 1 %> more</small>
+<% end %>

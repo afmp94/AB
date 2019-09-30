@@ -1,0 +1,457 @@
+<% if lead.status == 0 %>
+  <tr class="index-page-table__row" data-behavior="show-lead" data-link="<%= lead_path(lead) %>" data-info="lead-row-<%= lead.id %>">
+    <td class="index-page-table__checkbox-cell">
+      <div class="ui fitted checkbox">
+        <input class="lead-search-item item-checkbox" value="<%= lead.id %>" id="checkbox-table-<%= lead.id %>" type="checkbox"/>
+        <label for="checkbox-table-<%= lead.id %>"></label>
+      </div>
+    </td>
+    <td class="index-page-table__main-cell">
+      <div class="item">
+        <div class="ui small header">
+          <div class="content">
+            <%= link_to(lead_name(lead), lead) %>
+            <div class="sub-header"><%= lead.lead_source_to_s.blank? ? "" : "via " + lead.lead_source_to_s %></div>
+            <% if lead.snoozed? %>
+              <div class="sub-header">
+                <div class="ui blue label">zzz</div><!-- /.ui label -->
+              </div>
+            <% end %>
+            <div class="sub-header"><%= basic_contact_info(lead.contact) %></div>
+            <div class="sub-header team-only">Owned by <%= lead_owner_name(lead) %></div>
+          </div><!-- /.content -->
+        </div><!-- /.ui small header -->
+      </div><!-- /.item -->
+    </td>
+    <td class="index-page-table__hidden-section-cell hide-tablet-and-up">
+      <div class="ui accordion" data-ui-behavior="table-row-accordion">
+        <div class="title" data-accordion>
+          <div class="ui two basic tiny buttons">
+            <div class="ui icon button" data-ui-behavior="table-row-view-more">
+              View More Info
+              <i class="dropdown icon"></i>
+            </div><!-- /.ui icon button -->
+            <div class="ui center aligned dropdown button">
+              More Options...
+              <div class="menu">
+                <% if lead.state != "claimed" %>
+                  <%= link_to(
+                    "Claim",
+                    claim_lead_path(lead, { user_id: current_user }),
+                    method: :patch,
+                    data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                    class: "item"
+                  ) %>
+                  <div class="item">
+                    <span class="text">Refer...</span>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <% current_user.lead_groups_owned_or_part_of.each do |lead_group| %>
+                        <%= link_to(
+                          "Refer to #{lead_group.name}",
+                          refer_lead_lead_path(
+                            lead, { user_id: current_user, lead_group_id: lead_group.id }
+                          ),
+                          method: :patch,
+                          data: {
+                            "mobile-app-forced-patch-link": request_from_mobile_app?,
+                            confirm: "You are about to refer #{lead.contact.full_name} to Lead Group: #{lead_group.name} . This will stop all automated lead forwarding related actions for this lead. Are you sure?"
+                          },
+                          class: "item"
+                        ) %>
+                      <% end %>
+                    </div><!-- /.menu -->
+                  </div><!-- /.ui floating dropdown item -->
+                <% else %>
+                  <% if lead.contacted_status == 0 %>
+                    <div class="item">
+                      <span class="text">Update Status</span>
+                      <i class="dropdown icon"></i>
+                      <div class="menu">
+                        <%= link_to(
+                          "Not Contacted",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 0 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Attempted Contact",
+                          set_attempted_contact_status_lead_path(
+                            lead, { contacted_status_id: 1 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Awaiting Client Response",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 2 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Contacted",
+                          set_attempted_contact_status_lead_path(
+                            lead, { contacted_status_id: 3 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Junk",
+                          open_junk_modal_lead_path(id: lead.id),
+                          remote: true,
+                          data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                          class: "item"
+                        ) %>
+                      </div><!-- /.menu -->
+                    </div><!-- /.ui floating dropdown item -->
+                  <% else %>
+                    <div class="item">
+                      <span class="text">Update Status</span>
+                      <i class="dropdown icon"></i>
+                      <div class="menu">
+                        <%= link_to(
+                          "Not Contacted",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 0 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item",
+                        ) %>
+                        <%= link_to(
+                          "Attempted Contact",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 1 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Contacted",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 3 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Awaiting Client Response ",
+                          set_contacted_status_lead_path(
+                            lead, { contacted_status_id: 2 }
+                          ),
+                          method: :patch,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <div class="divider"></div>
+                        <%= link_to(
+                          "Promote to Client",
+                          prospect_lead_status_path(id: lead.id),
+                          method: :post,
+                          data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Not Converted",
+                          open_not_converted_modal_lead_path(id: lead.id),
+                          remote: true,
+                          data: { toggle: "modal", target: "#mainModal", id: lead.id },
+                          class: "item"
+                        ) %>
+                        <%= link_to(
+                          "Junk",
+                          open_junk_modal_lead_path(id: lead.id),
+                          remote: true,
+                          data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                          class: "item"
+                        ) %>
+                      </div><!-- /.menu -->
+                    </div><!-- /.ui floating dropdown item -->
+                  <% end %>
+                <% end %>
+              </div><!-- /.menu -->
+            </div><!-- /.ui center aligned dropdown button -->
+          </div><!-- /.ui two basic tiny buttons -->
+        </div><!-- /.title -->
+        <div class="content" data-accordion>
+          <div class="index-page-table__view-more-container">
+            <div class="index-page-table__view-more-cell">
+              <%= display_lead_slats(lead).html_safe %>
+            </div><!-- /.index-page-table__view-more-cell -->
+          </div><!-- /.index-page-table__view-more-container -->
+        </div><!-- /.content -->
+      </div><!-- /.ui accordion -->
+    </td>
+    <td class="index-page-table__data-cell"><%= display_lead_slats(lead).html_safe %></td>
+    <td class="index-page-table__data-cell">
+      <% if lead.state != "claimed" %>
+        <div class="ui buttons">
+          <%= link_to(
+            "Claim",
+            claim_lead_path(lead, { user_id: current_user }),
+            method: :patch,
+            data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+            class: "ui button"
+          ) %>
+          <div class="ui floating dropdown icon button" data-ui-behavior="dropdown">
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <% current_user.lead_groups_owned_or_part_of.each do |lead_group| %>
+                <%= link_to(
+                  "Refer to #{lead_group.name}",
+                  refer_lead_lead_path(
+                    lead, { user_id: current_user, lead_group_id: lead_group.id }
+                  ),
+                  method: :patch,
+                  data: {
+                    "mobile-app-forced-patch-link": request_from_mobile_app?,
+                    confirm: "You are about to refer #{lead.contact.full_name} to Lead Group: #{lead_group.name} . This will stop all automated lead forwarding related actions for this lead. Are you sure?"
+                  },
+                  class: "item"
+                ) %>
+              <% end %>
+            </div><!-- /.menu -->
+          </div><!-- /.ui floating dropdown icon button -->
+        </div><!-- /.ui buttons -->
+      <% else %>
+        <% if lead.contacted_status == 0 %>
+          <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+            Update Status
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <%= link_to(
+                "Not Contacted",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 0 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Attempted Contact",
+                set_attempted_contact_status_lead_path(
+                  lead, { contacted_status_id: 1 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Awaiting Client Response ",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 2 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Contacted",
+                set_attempted_contact_status_lead_path(
+                  lead, { contacted_status_id: 3 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Junk",
+                open_junk_modal_lead_path(id: lead.id),
+                remote: true,
+                data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                class: "item"
+              ) %>
+            </div><!-- /.menu -->
+          </div><!-- /.ui floating dropdown button -->
+        <% else %>
+          <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+            Update Status
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <%= link_to(
+                "Not Contacted",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 0 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item",
+              ) %>
+              <%= link_to(
+                "Attempted Contact",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 1 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Contacted",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 3 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Awaiting Client Response ",
+                set_contacted_status_lead_path(
+                  lead, { contacted_status_id: 2 }
+                ),
+                method: :patch,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <div class="divider"></div>
+              <%= link_to(
+                "Promote to Client",
+                prospect_lead_status_path(id: lead.id),
+                method: :post,
+                data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Not Converted",
+                open_not_converted_modal_lead_path(id: lead.id),
+                remote: true,
+                data: { toggle: "modal", target: "#mainModal", id: lead.id },
+                class: "item"
+              ) %>
+              <%= link_to(
+                "Junk",
+                open_junk_modal_lead_path(id: lead.id),
+                remote: true,
+                data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                class: "item"
+              ) %>
+            </div><!-- /.menu -->
+          </div><!-- /.ui floating dropdown button -->
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% else %>
+  <tr class="index-page-table__row" data-behavior="show-lead" data-link="<%= lead_path(lead) %>" data-info="lead-row-<%= lead.id %>">
+    <td class="index-page-table__checkbox-cell">
+      <div class="ui fitted checkbox">
+        <input class="lead-search-item item-checkbox" value="<%= lead.id %>" id="checkbox-table-<%= lead.id %>" type="checkbox"/>
+        <label for="checkbox-table-<%= lead.id %>"></label>
+      </div>
+    </td>
+    <td class="index-page-table__main-cell">
+      <div class="item">
+        <div class="ui small header">
+          <div class="content">
+            <%= link_to lead.name.presence || "Unknown", lead %>
+            <div class="sub-header"><%= lead.contact.full_name %></div>
+            <div class="sub-header"><%= lead.status_to_s %></div>
+            <div class="sub-header team-only">Owned by <%= lead_owner_name(lead) %></div>
+          </div><!-- /.content -->
+        </div><!-- /.ui small header -->
+      </div><!-- /.item -->
+    </td>
+    <td class="index-page-table__hidden-section-cell hide-tablet-and-up">
+      <div class="ui accordion" data-ui-behavior="table-row-accordion">
+        <div class="title" data-accordion>
+          <div class="ui two basic tiny buttons">
+            <div class="ui icon button" data-ui-behavior="table-row-view-more">
+              View More Info
+              <i class="dropdown icon"></i>
+            </div><!-- /.ui icon button -->
+            <div class="ui center aligned floating dropdown button">
+              <span class="text">More Options...</span>
+              <div class="menu">
+                <div class="item">
+                  <i class="left dropdown icon"></i>
+                  <span class="text">Change Stage</span>
+                  <div class="left menu ab-left-forced-menu">
+                    <%= render(
+                      partial: "leads/options/change_status",
+                      locals: { lead: lead }
+                    ) %>
+                  </div><!-- /.menu -->
+                </div><!-- /.item -->
+                <div class="item">
+                  <i class="left dropdown icon"></i>
+                  <span class="text">Quick Add</span>
+                  <div class="menu ab-left-forced-menu">
+                    <%= link_to(
+                      "Add comment",
+                      open_comment_modal_path(
+                        commentable_id: lead.id,
+                        commentable_type: "Lead"
+                      ),
+                      remote: true,
+                      data: {
+                        toggle: "modal",
+                        target: "#mainModal",
+                        commentable_id: lead.id
+                      },
+                      class: "item"
+                    ) %>
+                  </div><!-- /.menu -->
+                </div><!-- /.item -->
+              </div><!-- /.menu -->
+            </div><!-- /.ui center aligned dropdown button -->
+          </div><!-- /.ui two basic tiny buttons -->
+        </div><!-- /.title -->
+        <div class="content" data-accordion>
+          <div class="index-page-table__view-more-container">
+            <div class="index-page-table__view-more-cell">
+              <%= display_infobar_data(lead).html_safe %>
+            </div><!-- /.index-page-table__view-more-cell -->
+          </div><!-- /.index-page-table__view-more-container -->
+        </div><!-- /.content -->
+      </div><!-- /.ui accordion -->
+    </td>
+    <td class="index-page-table__data-cell">
+      <%= display_infobar_data(lead).html_safe %>
+    </td>
+    <td class="index-page-table__data-cell">
+      <div class="ui floating dropdown button ab-spaced-button" data-ui-behavior="dropdown">
+        Change Stage
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <%= render(
+            partial: "leads/options/change_status",
+            locals: { lead: lead }
+          ) %>
+        </div><!-- /.menu -->
+      </div><!-- /.ui floating dropdown button -->
+      <div class="ui floating dropdown button ab-spaced-button" data-ui-behavior="dropdown">
+        Quick Add
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <%= link_to(
+            "Add comment",
+            open_comment_modal_path(
+              commentable_id: lead.id,
+              commentable_type: "Lead"
+            ),
+            remote: true,
+            data: {
+              toggle: "modal",
+              target: "#mainModal",
+              commentable_id: lead.id
+            },
+            class: "item"
+          ) %>
+        </div><!-- /.menu -->
+      </div><!-- /.ui floating dropdown button -->
+    </td>
+  </tr>
+<% end %>

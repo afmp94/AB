@@ -1,0 +1,34 @@
+<%= simple_form_for(@announcement, remote: true) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input(:message) %>
+  <%= f.input(
+    :starts_at,
+    as: :datepicker,
+    input_html: {
+      value: format_for_datepicker(f.object.starts_at),
+      type: type_for_datepicker
+    }
+  ) %>
+  <%= f.input(
+    :ends_at,
+    as: :datepicker,
+    input_html: { value: format_for_datepicker(f.object.ends_at) },
+    type: type_for_datepicker
+  ) %>
+  <%= f.button(
+    :submit,
+    class: "ui primary button",
+    value: "Save",
+    "data-disable-with": "Saving..."
+  ) %>
+  <%= link_to("Cancel", announcements_path, class: "ui basic button") %>
+<% end %>
+
+<script>
+  $('[data-ui-behavior=calendar_date]')
+    .calendar({
+      type: 'date',
+      today: true,
+    })
+  ;
+</script>

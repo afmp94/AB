@@ -1,0 +1,41 @@
+<% contact = @lead.contact %>
+<div id="researched-info" class="collapse in">
+  <ul class="dotted-list">
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Research Status</div>
+      <div class="col-sm-8"><%= contact.search_status || "N/A"%></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">First Name</div>
+      <div class="col-sm-8"><%= contact.suggested_first_name || "N/A" %></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Last Name</div>
+      <div class="col-sm-8"><%= contact.suggested_last_name || "N/A" %></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Picture</div>
+      <% if contact.api_suggested_image %>
+        <div class="col-sm-8"><%= image_tag contact.api_suggested_image.file %></div>
+      <% else %>
+        <div class="col-sm-8">N/A</div>
+      <% end %>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Location</div>
+      <div class="col-sm-8"><%= contact.suggested_location || "N/A" %></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Organization</div>
+      <div class="col-sm-8"><%= contact.suggested_organization_name || "N/A" %></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Job Title</div>
+      <div class="col-sm-8"><%= contact.suggested_job_title || "N/A" %></div>
+    </li><!-- /.clearfix -->
+    <li class="clearfix">
+      <div class="float-left col-sm-4 fwb dim-el">Bio</div>
+      <div class="col-sm-8"><%= contact.suggested_linkedin_bio  || "N/A" %></div>
+    </li><!-- /.clearfix -->
+  </ul><!-- /.dotted-list -->
+</div><!-- /#lead-details -->

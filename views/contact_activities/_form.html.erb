@@ -1,0 +1,169 @@
+<% if show_all_fields %>
+  <%= simple_form_for(@contact_activity, html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }) do |f| %>
+    <% if @contact_activity.new_record? %>
+      <% content_for :extra_js do %>
+        <!-- NOTE: Remove this inline JS -->
+        display_datepicker_on_select();
+      <% end %>
+    <% end %>
+    <%= f.error_notification %>
+    <%= f.input(
+      :activity_type,
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      collection: ["Call", "Note", "Visit"]
+    ) %>
+
+    <div class="field">
+      <label>Contact</label>
+      <div class="ui search">
+        <div class="ui icon input">
+          <input class="prompt"
+            type="text"
+            placeholder="Search contact"
+            value="<%= @contact_activity.contact&.full_name %>"
+            autocomplete="off"
+            data-behavior="search-contacts-autocomplete"
+            data-autocomplete-source="<%= search_contacts_for_autocomplete_path %>"
+            />
+          <i class="search icon"></i>
+        </div>
+      </div>
+      <%= f.input :contact_id, as: :hidden, input_html: { class: "", data: { "js-info": "contact-id" } } %>
+    </div>
+
+    <%= f.input(
+      :activity_for,
+      as: :hidden,
+      input_html: { value: ContactActivity::ACTIVITY_FOR[0] }
+    ) %>
+    <%= f.input(:subject) %>
+
+    <% if @contact_activity.new_record? %>
+      <div class="two fields m-b-0">
+        <%= f.input(
+          :custom_time,
+          label: "When was this activity completed?",
+          as: :sui_radio_buttons,
+          collection: ContactActivity::CUSTOM_TIME_TYPES.values,
+          checked: (f.object.custom_time.presence || ContactActivity::CUSTOM_TIME_TYPES[:just_now]),
+          wrapper_html: {
+            class: "field",
+            data: {
+              behavior: "custom-time-group"
+            }
+          }
+        ) %>
+        <%= f.input(
+          :completed_at,
+          as: :datepicker,
+          label: "Date",
+          input_html: {
+            value: format_for_datepicker(f.object.completed_at),
+            type: type_for_datepicker,
+          },
+          wrapper_html: { data: { show_hide: "specific-completed-date" } }
+        ) %>
+      </div>
+    <% else %>
+      <%= f.input(
+        :completed_at,
+        as: :datepicker,
+        label: "Date",
+        input_html: {
+          value: format_for_datepicker(f.object.completed_at),
+          type: type_for_datepicker
+        },
+        wrapper_html: { data: { show_hide: "specific-completed-date" } }
+      ) %>
+    <% end %>
+
+    <%= f.input(:comments, input_html: { rows: 6 }) %>
+    <% if current_user.has_no_team_members? %>
+      <%= f.association(
+        :user,
+        label: "Referral Activity Owner",
+        collection: User.all,
+        label_method: :full_name,
+        default: current_user.full_name
+      ) %>
+    <% end %>
+    <%= f.input(:asked_for_referral, as: :boolean, label: "Asked for referral?") %>
+    <%= f.button(
+      :submit,
+      value: "Submit",
+      "data-disable-with": "Saving..."
+    ) %>
+    <%= link_to(
+      "Cancel",
+      contact_activities_path,
+      class: "ui basic button"
+    ) %>
+  <% end %>
+<% else %>
+  <%= simple_form_for(@contact_activity, html: { data: { "mobile-app-forced-form": request_from_mobile_app? } }) do |f| %>
+    <%= f.error_notification %>
+    <%= f.input(
+      :activity_for,
+      as: :hidden,
+      input_html: { value: ContactActivity::ACTIVITY_FOR[0] }
+    ) %>
+    <%= f.input(
+      :activity_type,
+      as: :hidden,
+      input_html: { value: activitytype }
+    ) %>
+    <%= f.input(
+      :contact_id,
+      as: :hidden,
+      input_html: { value: thiscontact }
+    ) %>
+    <%= f.input(
+      :subject,
+      as: :hidden,
+      input_html: { value: "Proactive Marketing " + activitytype }
+    ) %>
+    <%= f.input(
+      :completed_at,
+      as: :hidden,
+      input_html: { value: Time.zone.now}
+    ) %>
+    <%= f.input(
+      :comments,
+      input_html: { rows: 4, class: "nomargin" }
+    ) %>
+    <%= f.input(
+      :asked_for_referral,
+      as: :boolean,
+      label: "Asked for referral?"
+    ) %>
+    <%= hidden_field_tag(:redirect_location, "marketingcenter") %>
+    <%= f.button(
+      :submit,
+      class: "ui button primary set-active-tab",
+      value: "Complete",
+      "data-loading-text" => "Loading..."
+    ) %>
+
+    <% if activitytype == "Call" %>
+      <%= link_to(
+        "Postpone",
+        contact_postponecall_path(thiscontact),
+        class: "ui basic button set-active-tab"
+      ) %>
+    <% elsif activitytype == "Note" %>
+      <%= link_to(
+        "Postpone",
+        contact_postponenote_path(thiscontact),
+        class: "ui basic button set-active-tab"
+      ) %>
+    <% elsif activitytype == "Visit" %>
+      <%= link_to(
+        "Postpone",
+        contact_postponevisit_path(thiscontact),
+        class: "ui basic button set-active-tab"
+      ) %>
+    <% end %>
+
+  <% end %>
+<% end %>

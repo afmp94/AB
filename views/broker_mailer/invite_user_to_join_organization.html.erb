@@ -1,0 +1,11 @@
+Hi friend,
+
+<br/>
+<br/>
+
+<%= @subject  %>
+
+<br/>
+<br/>
+
+Please <%= link_to "click this link", new_user_registration_url(token: @organization_member.token) %> to sign up into AgentBright app and join as agent for <%= @inviter.full_name %>'s organization.

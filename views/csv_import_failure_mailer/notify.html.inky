@@ -1,0 +1,14 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <center>
+        Hi <%= @user.full_name %>,
+
+        Your recent CSV file import got failed.
+
+        File name: <%= @csv_file.csv.identifier %>
+      </columns>
+    </row>
+  </container>
+<% end %>

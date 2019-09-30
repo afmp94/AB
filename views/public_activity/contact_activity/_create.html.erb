@@ -1,0 +1,11 @@
+<% if activity.associable_type == "Lead" %>
+  <%= render(
+    "public_activity/contact_activity/lead/create",
+    { activity: activity }
+  ) %>
+<% else %>
+  <%= render(
+    "public_activity/contact_activity/referral/create",
+    { activity: activity }
+  ) %>
+<% end %>

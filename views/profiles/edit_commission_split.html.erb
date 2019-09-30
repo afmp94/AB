@@ -1,0 +1,147 @@
+<% breadcrumb(:edit_commission_split) %>
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Edit Broker Fees",
+    secondary_name: "My Business"
+  }
+) do %>
+  <h2 class="ui dividing header">Broker Fees and Splits</h2>
+  <%= simple_form_for(
+    @user,
+    url: profile_path,
+    html: {data: { "mobile-app-forced-form": request_from_mobile_app? }, class: "commission-data" }
+  ) do |u| %>
+    <%= hidden_field_tag(:from_page, "edit_broker_fees") %>
+    <%= u.error_notification %>
+    <%= u.input(
+      :monthly_broker_fees_paid,
+      label: "How much in monthly fees do you pay to your broker?",
+      as: :currency,
+      input_html: { class: "field-width-100" }
+    ) %>
+    <%= u.input(
+      :franchise_fee,
+      label: "Do you pay a franchise fee to your broker on each transaction?",
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      wrapper_html: { "data-section-reveal-toggle": "franchise_fee" }
+    ) %>
+    <%= u.input(
+      :franchise_fee_per_transaction,
+      label: "What is the franchise fee?",
+      placeholder: "e.g. 5-6%",
+      as: :percentage_two_decimal,
+      wrapper_html: {
+        "data-reveal-set-name": "franchise_fee",
+        "data-reveal-show-value": "true",
+        class: "reveal-section #{@commission_carrier.handle_reveal_section_class(:franchise_fee, true, u.object)}"
+      },
+      input_html: {
+        data: { "v-min": "0.00", "v-max": "100.00" },
+        class: "field-width-75"
+      }
+    ) %>
+
+    <%= u.input(
+      :commission_split_type,
+      label: "What type of split do you have with your broker?",
+      collection: ["Percentage", "Fee"],
+      as: :sui_radio_buttons,
+      wrapper: :horizontal_radio_buttons,
+      wrapper_html: {
+        "data-section-reveal-toggle": "commission_split_type"
+      },
+      input_html: {
+        data: {
+          action: {
+            show: "fee-split-section",
+            hide: "percentage-split-section"
+          }
+        }
+      }
+    ) %>
+    <% hash = { "input-mask": "twodecimal_percentage", "v-min": "0.00", "v-max": "100.00" } %>
+    <%= u.input(
+      :agent_percentage_split,
+      label: "What is your side of the split with your broker?",
+      as: :percentage_one_decimal,
+      placeholder: "e.g. 60%",
+      input_html: {
+        data: @commission_carrier.data_attribute_for_agent_split(hash, controller_name),
+        class: "field-width-75"
+      },
+      wrapper_html: {
+        "data-reveal-set-name": "commission_split_type",
+        "data-reveal-show-value": "Percentage",
+        class: "reveal-section #{@commission_carrier.handle_reveal_section_class(:commission_split_type, "Percentage", u.object)}"
+      }
+    ) %>
+    <%= u.input(
+      :broker_fee_per_transaction,
+      label: "What is the per-transaction fee paid to the broker?",
+      as: :currency,
+      input_html: { class: "field-width-150" },
+      wrapper_html: {
+        "data-reveal-set-name": "commission_split_type",
+        "data-reveal-show-value": "Fee",
+        class: "reveal-section #{@commission_carrier.handle_reveal_section_class(:commission_split_type, "Fee", u.object)}"
+      }
+    ) %>
+    <div data-reveal-set-name="commission_split_type" data-reveal-show-value="Fee" class="reveal-section <%= @commission_carrier.handle_reveal_section_class(:commission_split_type, "Fee", u.object) %>">
+      <%= u.input(
+        :broker_fee_alternative,
+        label: "Is there an alternative fee percentage?",
+        as: :sui_radio_buttons,
+        wrapper: :horizontal_radio_buttons,
+        wrapper_html: {
+          "data-section-reveal-toggle": "broker_fee_alternative"
+        },
+        input_html: {
+          data: { behavior: "show-alternative-percentage-section" }
+        }
+      ) %>
+
+      <%= u.input(
+        :broker_fee_alternative_split,
+        label: "What is the alternative percentage?",
+        as: :percentage_two_decimal,
+        wrapper_html: {
+          "data-reveal-set-name": "broker_fee_alternative",
+          "data-reveal-show-value": "true",
+          class: "reveal-section #{@commission_carrier.handle_reveal_section_class(:broker_fee_alternative, true, u.object)}"
+        },
+        input_html: {
+          data: {
+            "v-min": "0.00",
+            "v-max": "100.00"
+          },
+          class: "field-width-75"
+        }
+      ) %>
+
+      <%= u.input(
+        :per_transaction_fee_capped,
+        label: "Are your fees capped after a certain number of transactions?",
+        as: :sui_radio_buttons,
+        wrapper: :horizontal_radio_buttons,
+        wrapper_html: {
+          "data-section-reveal-toggle": "per_transaction_fee_capped"
+        }
+      ) %>
+
+      <%= u.input(
+        :transaction_fee_cap,
+        label: "Number of transactions",
+        input_html: { type: "number", class: "field-width-150" },
+        wrapper_html: {
+          "data-reveal-set-name": "per_transaction_fee_capped",
+          "data-reveal-show-value": "true",
+          class: "reveal-section #{@commission_carrier.handle_reveal_section_class(:per_transaction_fee_capped, true, u.object)} m-b"
+        }
+      ) %>
+    </div><!-- /.reveal-section -->
+
+    <%= u.button(:submit, value: "Update", "data-disable-with": "Saving...") %>
+  <% end %>
+<% end %>

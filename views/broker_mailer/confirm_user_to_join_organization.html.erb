@@ -1,0 +1,11 @@
+Hi friend,
+
+<br/>
+<br/>
+
+<%= @subject  %>
+
+<br/>
+<br/>
+
+Please <%= link_to "confirm this link", broker_agents_confirm_url(token: @organization_member.token) %> to join as agent in <%= @inviter.full_name %>'s organization.

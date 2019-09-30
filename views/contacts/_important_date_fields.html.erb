@@ -1,0 +1,29 @@
+<fieldset class="ui raised segment">
+  <div class="two fields">
+    <%= f.input(
+      :date_at,
+      label: false,
+      as: :datepicker,
+      input_html: {
+        value: format_for_datepicker(f.object.date_at),
+        type: type_for_datepicker
+      }
+    ) %>
+    <%= f.input(
+      :date_type,
+      label: false,
+      collection: ImportantDate::TYPES,
+      include_blank: false,
+      input_html: { class: "compact" }
+    ) %>
+  </div><!-- /.fields -->
+  <div class="field">
+    <div class="ui action input">
+      <%= f.input(:name, label: false, placeholder: "Description", wrapper: false) %>
+      <%= f.hidden_field :_destroy %>
+      <%= link_to('#', class: "ui basic red icon tiny button remove_fields") do %>
+        <i class="large trash icon"></i>
+      <% end %>
+    </div><!-- /.ui action input -->
+  </div><!-- /.field -->
+</fieldset>

@@ -1,0 +1,218 @@
+<%= render(partial: "assessment_steps/header") %>
+
+<div class="ui assessment container">
+  <ui class="ui vertical basic segment">
+    <div class="ui stackable centered grid">
+
+      <div class="twelve wide column p-b-0">
+        <%= render(
+          partial: "assessment_steps/progress_bar",
+          locals: { data_value: 6, data_total: 10 }
+        ) %>
+        <%= render_quick_results(
+          previous_step: "Lead Generation",
+          data_percent: @total_score_in_percentage.round
+        ) do %>
+          <%= sanitize service_clients(@total_score_in_percentage) %>
+        <% end %>
+      </div><!-- /.column -->
+      <div class="ui row p-b-0">
+        <div class="twelve wide column">
+          <h4 class="ui horizontal divider header">
+            Next section:
+          </h4>
+        </div><!-- /.twelve wide column -->
+      </div><!-- /.ui row -->
+      <div class="row two columns p-t-0">
+        <div class="four wide column hide-mobile-and-down">
+        <%= render(partial: "assessment_steps/sidebar", locals: { active_step: 6 }) %>
+        </div><!-- /.four wide column hide-mobile-and-down -->
+        <div class="column">
+          <div class="ui vertical basic segment">
+            <%= render_title_message(icon_class: "orange big filter icon") do %>
+              <div class="header"><i class="yellow circle lightbulb"></i>Sales Pipeline</div>
+              <p>Managing every stage of your pipeline will keep it flowing steadily, overcoming the ups and downs of the seasonal real estate market.</p>
+              <div class="header"></div>
+              <p class=“fwb”><i>According to NAR, 67% of sellers would definitely use same agent again. Do you know your stats?</i></p>
+            <% end %>
+            <%= simple_form_for(
+              @survey_result,
+              url: wizard_path,
+              method: :put,
+              html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+            ) do |f| %>
+
+              <div class="ui segment tab transition fade in active" id="service-clients-info" data-tab="service-clients-info">
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :pre_made_marketing_plan,
+                  label: "Do you have prepared, well-designed, customized marketing materials that communicate your value proposition (information about you, your brokerage, your services, and why a potential client should choose you as their agent)?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::PRE_MADE_MARKETING_PLAN_SCORING.keys ) %>
+                <!-- VERICAL RADIOS - STRING -->
+                <%= f.input(
+                  :listing_plan,
+                  label: "Do you sit down with each new client and present a gameplan, have a conversation about how you do business and what your expectations are, and provide them a rough outline of the next 6-12 months (or the likely duration of the transaction)?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::LISTING_PLAN_SCORING.keys) %>
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :regular_service_reports,
+                  label: "Do you currently send regular service reports to your clients?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+
+                <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+                <%= f.input(
+                  :seller_weekly_update,
+                  label: "Do you have a regular time scheduled each week to proactively reach out to and update your seller clients?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+                <!-- VERICAL RADIOS - STRING -->
+                <%= f.input(
+                  :buyer_touches,
+                  label: "How often are you in touch with your typical buyer clients? ",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::BUYER_TOUCHES_SCORING.keys) %>
+                <%= f.input(
+                  :system_for_transactions,
+                  label: "Do you have a system for managing and tracking your prospects, active clients and pending clients?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: [
+                    ["Yes", true],
+                    ["No", false]
+                  ]
+                ) %>
+
+                <!-- VERICAL RADIOS - STRING -->
+                <%= f.input(
+                  :daily_pipeline_review,
+                  label: "How often do you review your entire sales pipeline top to bottom to make sure you're on top of everything?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::DAILY_PIPELINE_REVIEW_SCORING.keys) %>
+
+                <!-- VERICAL RADIOS - STRING -->
+                <%= f.input(
+                  :daily_tasks_set,
+                  label: "Do you have a daily task list to keep track of your tasks to follow up with leads and prospects and service your clients?",
+                  wrapper: :vertical_radio_buttons,
+                  as: :sui_radio_buttons,
+                  collection: SurveyResult::DAILY_TASKS_SET_SCORING.keys) %>
+
+                <input type="hidden" value="goal_setting" name="next_step_id">
+                <input type="hidden" value="lead_generation" name="last_step_id">
+                <%= f.submit(
+                  "Next",
+                  id: "service_clients_next_button",
+                  class: "ui primary button"
+                ) %>
+              </div><!-- /#service-clients -->
+            <% end %>
+         </div><!-- /.ui vertical basic segment -->
+        </div><!-- /.column -->
+      </div><!-- /.row two columns -->
+    </div><!-- /.ui stackable centered grid -->
+  </ui><!-- /.ui vertical basic segment -->
+</div><!-- /.ui assessment container -->
+
+<script charset="utf-8">
+  var $formToValidate = $('[data-behavior=agent-assessment-form]');
+
+  $formToValidate.formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':not(:visible)'],
+    live: 'disabled',
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'survey_result[pre_made_marketing_plan]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[listing_plan]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[regular_service_reports]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[seller_weekly_update]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[buyer_touches]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[system_for_transactions]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_pipeline_review]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      },
+      'survey_result[daily_tasks_set]': {
+        row: '.fields',
+        trigger: 'change',
+        validators: {
+          notEmpty: {
+            enabled: true
+          }
+        }
+      }
+    }
+  });
+</script>

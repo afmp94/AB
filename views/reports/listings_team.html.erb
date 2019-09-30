@@ -1,0 +1,120 @@
+<% content_for(:title, "Listing Clients Report") %>
+<% breadcrumb(:listing_team_reports) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        Listings Report (Team)
+        <div class="sub header">Sellers with active listings</div>
+      </h1><!-- /.ui header -->
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical segment compressed -->
+
+<% if @leads.empty? %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon header m-y-lg">
+      <i class="warning sign icon"></i>
+      <div class="content">
+        Your team doesn't have any active listings.
+        <div class="sub header">If this seems wrong, <%= link_to("review and update your client information here", clients_path) %>.</div>
+      </div>
+    </h2>
+  </div>
+<% else %>
+  <div class="main ui container">
+    <div class="ui vertical basic segment">
+      <div class="ui centered grid">
+        <div class="computer tablet only row">
+          <div class="column">
+            <div class="ui three tiny statistics">
+              <div class="statistic">
+                <div class="label">
+                  Listings
+                </div>
+                <div class="value">
+                  <%= @leads.count %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Volume
+                </div>
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_price)) %>
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="label">
+                  Est Net commission
+                </div>
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_net_commission)) %>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.computer tablet only row -->
+        <div class="mobile only row">
+          <div class="column">
+            <div class="ui horizontal tiny statistics">
+              <div class="statistic">
+                <div class="value">
+                  <%= @leads.count %>
+                </div>
+                <div class="label">
+                  Listings
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_price)) %>
+                </div>
+                <div class="label">
+                  Volume
+                </div>
+              </div>
+              <div class="statistic">
+                <div class="value">
+                  <%= num_to_currency(@leads.sum(:displayed_net_commission)) %>
+                </div>
+                <div class="label">
+                  Est Net commission
+                </div>
+              </div>
+            </div>
+          </div><!-- /.column -->
+        </div><!-- /.mobile only row -->
+      </div><!-- /.ui centered grid -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <h2 class="ui dividing header">
+        Listings
+      </h2><!-- /.ui dividing header -->
+      <table class="ui striped table" id="pendings_table">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Lead Agent</th>
+            <th>List Expiration Date</th>
+            <th class="right aligned">List Price</th>
+            <th class="right aligned">Est Net Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @leads.each do |lead| %>
+            <tr class="<%= handle_listing_row_classes(lead) %>">
+              <td><%= missing_data?(lead.name) ? attention_icon.html_safe : "" %><%= link_to(lead.name, lead) %></td>
+              <td><%= missing_data?(lead.user.name) ? attention_icon.html_safe : "" %><%= lead.user.name %></td>
+              <td><%= (expired?(lead.listing_property&.listing_expires_at) || missing_data?(lead.listing_property&.listing_expires_at)) ? attention_icon.html_safe : "" %><%= cal_date(lead.listing_property&.listing_expires_at) %></td>
+              <td class="right aligned"><%= missing_data?(lead.displayed_price) ? attention_icon.html_safe : "" %><%= num_to_currency(lead.displayed_price)%></td>
+              <td class="right aligned"><%= missing_data?(lead.displayed_net_commission) ? attention_icon.html_safe : "" %><%= num_to_currency(lead.displayed_net_commission) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div><!-- /.ui vertical basic segment -->
+  </div><!-- /.ui container -->
+
+<% end %>

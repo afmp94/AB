@@ -1,0 +1,53 @@
+<h1>Listing showings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Lead</th>
+      <th>Status</th>
+      <th>Address1</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Date time</th>
+      <th>Comments</th>
+      <th>Mls number</th>
+      <th>Listing agent</th>
+      <th>Email request to agent</th>
+      <th>Requested</th>
+      <th>Confirmed</th>
+      <th>List price</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @showings.each do |showing| %>
+      <tr>
+        <td><%= showing.lead_id %></td>
+        <td><%= showing.status %></td>
+        <td><%= showing.address1 %></td>
+        <td><%= showing.city %></td>
+        <td><%= showing.state %></td>
+        <td><%= showing.zip %></td>
+        <td><%= showing.date_time %></td>
+        <td><%= showing.comments %></td>
+        <td><%= showing.mls_number %></td>
+        <td><%= showing.listing_agent %></td>
+        <td><%= showing.email_request_to_agent %></td>
+        <td><%= showing.requested %></td>
+        <td><%= showing.confirmed %></td>
+        <td><%= showing.list_price %></td>
+        <td><%= link_to 'Show', showing %></td>
+        <td><%= link_to 'Edit', edit_showing_path(showing) %></td>
+        <td><%= link_to 'Destroy', showing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Showing', new_showing_path %>

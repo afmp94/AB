@@ -1,0 +1,11 @@
+<tfoot>
+  <% if announcements.total_pages > 1 %>
+    <tr>
+      <th colspan="8">
+        <div class="ui right floated pagination menu" data-info="pagination" data-current-page="<%= announcements.current_page %>">
+          <%= paginate(announcements, params: { controller: "announcements", action: "index" }) %>
+        </div>
+      </th>
+    </tr>
+  <% end %>
+</tfoot>

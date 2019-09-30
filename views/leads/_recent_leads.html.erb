@@ -1,0 +1,352 @@
+<h2 class="ui header">Incoming Leads Board</h2>
+<div id="lead-board" data-introjs-step="step101">
+  <% if current_user.user_has_teammates? %>
+    <div class="ui secondary menu" data-ui-behavior="dashboard-lead-board-menu">
+      <a class="item active" data-tab="team-lead-board">Team Leads</a>
+      <a class="item" data-tab="my-lead-board">Individual Leads</a>
+    </div><!-- /.ui secondary menu -->
+  <% end %>
+
+  <!--  TEAM LEASD -->
+  <div class="ui tab segment basic m-a-0 p-x-0 <%= @dashboard_presenter.board_section_class_for(:team) %>" data-tab="team-lead-board">
+    <table class="ui table status-board" data-introjs-step="step101">
+      <thead>
+        <tr>
+          <th colspan="4">
+            <span class="fwb">Leads (<%= @dashboard_presenter.team_incoming_leads.count %>)</span>
+            <% if @dashboard_presenter.more_than_3_incoming_team_leads? %>
+              <span class="right floated">
+                <%= link_to("More leads", user_leads_path) %>
+              </span>
+            <% end %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @dashboard_presenter.team_incoming_leads.each do |lead| %>
+          <tr width="100%">
+            <td width="40%">
+              <h4>
+                <%= link_to(lead_name(lead), lead) %>
+                <span class="fwl">
+                  <%= lead.lead_source_to_s.blank? ? "" : "via " + lead.lead_source_to_s %>
+                </span>
+              </h4>
+              <span class="msg dim-el">
+                <%= display_primary_email_address(lead.contact) %>
+              </span>
+              </br>
+              <span class="msg dim-el">
+                <%= display_primary_phone_number(lead.contact) %>
+              </span>
+              </br>
+              <span class="msg dim-el">
+                <p class="small-meta fsi dim-el m-a-0 team-only">Owned by <%= lead_owner_name(lead) %></p>
+              </span>
+            </td>
+            <td width="30%">
+              <%= display_lead_slats(lead, page="dashboard").html_safe %>
+            </td>
+            <td width="30%">
+              <% if lead.state != "claimed" %>
+                <div class="ui buttons">
+                  <%= link_to(
+                    "Claim",
+                    claim_lead_path(lead, { user_id: current_user }),
+                    method: :patch,
+                    data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                    class: "ui button"
+                  ) %>
+                  <div class="ui floating dropdown icon button" data-ui-behavior="dropdown">
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <% current_user.lead_groups_owned_or_part_of.each do |lead_group| %>
+                        <%= link_to(
+                          "Refer to #{lead_group.name}",
+                          refer_lead_lead_path(
+                            lead, { user_id: current_user, lead_group_id: lead_group.id }
+                          ),
+                          method: :patch,
+                          data: {
+                            "mobile-app-forced-patch-link": request_from_mobile_app?,
+                            confirm: "You are about to refer #{lead.contact.full_name} to Lead Group: #{lead_group.name} . This will stop all automated lead forwarding related actions for this lead. Are you sure?"
+                          },
+                          class: "item"
+                        ) %>
+                      <% end %>
+                    </div><!-- /.menu -->
+                  </div><!-- /.ui floating dropdown icon button -->
+                </div><!-- /.ui buttons -->
+              <% else %>
+                <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+                  Update Status
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <% if lead.contacted_status == 0 %>
+                      <%= link_to(
+                        "Not Contacted",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 0 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Attempted Contact",
+                        set_attempted_contact_status_lead_path(
+                          lead, { contacted_status_id: 1 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Awaiting Client Response",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 2 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Contacted",
+                        set_attempted_contact_status_lead_path(
+                          lead, { contacted_status_id: 3 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Junk",
+                        open_junk_modal_lead_path(id: lead.id),
+                        remote: true,
+                        data: { toggle: "tiny=modal", target: "#tinyModal", id: lead.id },
+                        class: "item"
+                      )  %>
+                    <% else %>
+                      <%= link_to(
+                        "Not Contacted",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 0 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Attempted Contact",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 1 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Contacted",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 3 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Awaiting Client Response",
+                        set_contacted_status_lead_path(
+                          lead, { contacted_status_id: 2 }
+                        ),
+                        method: :patch,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <div class="divider"></div>
+                      <%= link_to(
+                        "Promote to Client",
+                        prospect_lead_status_path(id: lead.id),
+                        method: :post,
+                        data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Not Converted",
+                        open_not_converted_modal_lead_path(id: lead.id),
+                        remote: true,
+                        data: { toggle: "modal", target: "#mainModal", id: lead.id },
+                        class: "item"
+                      ) %>
+                      <%= link_to(
+                        "Junk",
+                        open_junk_modal_lead_path(id: lead.id),
+                        remote: true,
+                        data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                        class: "item"
+                      ) %>
+                    <% end %>
+                  </div><!-- /.menu -->
+                </div><!-- /.ui floating dropdown button -->
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table><!-- /.ui table status-board -->
+  </div>
+
+  <!--  Individual Leads-->
+  <div class="ui tab segment basic m-a-0 p-x-0 <%= @dashboard_presenter.board_section_class_for(:individual) %>" data-tab="my-lead-board">
+    <table class="ui table status-board" data-introjs-step="step101">
+      <thead>
+        <tr>
+          <th colspan="4">
+            <span class="fwb">Leads (<%= @dashboard_presenter.incoming_leads.count %>)</span>
+            <% if @dashboard_presenter.more_than_3_incoming_leads? %>
+              <span class="right floated">
+                <%= link_to("More leads", user_leads_path) %>
+              </span>
+            <% end %>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @dashboard_presenter.incoming_leads.each do |lead| %>
+          <tr width="100%">
+            <td width="40%">
+              <h4>
+                <%= link_to(lead_name(lead), lead) %>
+                <span class="fwl">
+                  <%= lead.lead_source_to_s.blank? ? "" : "via " + lead.lead_source_to_s %>
+                </span>
+              </h4>
+              <span class="msg dim-el">
+                <%= display_primary_email_address(lead.contact) %>
+              </span>
+              </br>
+              <span class="msg dim-el">
+                <%= display_primary_phone_number(lead.contact) %>
+              </span>
+            </td>
+            <td width="30%">
+              <%= display_lead_slats(lead, page="dashboard").html_safe %>
+            </td>
+            <td width="30%">
+              <div class="ui floating dropdown button" data-ui-behavior="dropdown">
+                Update Status
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <% if lead.contacted_status == 0 %>
+                    <%= link_to(
+                      "Not Contacted",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 0 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Attempted Contact",
+                      set_attempted_contact_status_lead_path(
+                        lead, { contacted_status_id: 1 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Awaiting Client Response",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 2 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Contacted",
+                      set_attempted_contact_status_lead_path(
+                        lead, { contacted_status_id: 3 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Junk",
+                      open_junk_modal_lead_path(id: lead.id),
+                      remote: true,
+                      data: { toggle: "tiny=modal", target: "#tinyModal", id: lead.id },
+                      class: "item"
+                    )  %>
+                  <% else %>
+                    <%= link_to(
+                      "Not Contacted",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 0 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Attempted Contact",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 1 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Contacted",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 3 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Awaiting Client Response",
+                      set_contacted_status_lead_path(
+                        lead, { contacted_status_id: 2 }
+                      ),
+                      method: :patch,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <div class="divider"></div>
+                    <%= link_to(
+                      "Promote to Client",
+                      prospect_lead_status_path(id: lead.id),
+                      method: :post,
+                      data: { "mobile-app-forced-patch-link": request_from_mobile_app? },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Not Converted",
+                      open_not_converted_modal_lead_path(id: lead.id),
+                      remote: true,
+                      data: { toggle: "modal", target: "#mainModal", id: lead.id },
+                      class: "item"
+                    ) %>
+                    <%= link_to(
+                      "Junk",
+                      open_junk_modal_lead_path(id: lead.id),
+                      remote: true,
+                      data: { toggle: "tiny-modal", target: "#tinyModal", id: lead.id },
+                      class: "item"
+                    ) %>
+                  <% end %>
+                </div><!-- /.menu -->
+              </div><!-- /.ui floating dropdown button -->
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table><!-- /.ui table status-board -->
+  </div>
+</div>

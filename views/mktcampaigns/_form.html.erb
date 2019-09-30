@@ -1,0 +1,47 @@
+<!--FORM SECTION-->
+<%= simple_form_for(@mktcampaign, :html=> {class: "new-record below48"}) do |f| %>
+    <%#= render "shared/errors" %>
+    <!--FORM TITLE-->
+    <h2>Enter your campaign information below</h2>
+
+    <%= f.input :name,
+                label: "Campaign Name",
+                hint: "Enter the Campaign Name.  Make it specific to your objectives" %>
+
+    <%= f.association :media,
+                      label: "Media Type",
+                      label_method: :media_type %>
+
+    <%= f.association :frequency,
+                      label: "Frequency",
+                      label_method: :freq_type %>
+
+    <%= f.input :cost,
+                label: "Cost",
+                input_html: { type: "text", value: number_with_precision(f.object.cost, precision: 2) },
+                hint: "The Total Cost" %>
+
+    <%= f.input :start_date_at,
+                as: :datepicker,
+                label: "Start Date",
+                input_html: { data: { behavior: 'datepicker'}, value: format_for_datepicker(f.object.start_date_at) } %>
+
+      <%= f.input :end_date_at,
+                as: :datepicker,
+                label: "End Date",
+                input_html: { data: { behavior: 'datepicker'}, value: format_for_datepicker(f.object.end_date_at) } %>
+
+
+      <%= f.button :submit,
+        class: "ui primary button",
+        value: "Save",
+        "data-disable-with": "Saving..."
+       %>
+
+      <%= link_to "Cancel", mktcampaigns_path %>
+
+    </div><!-- /.col-xs-12 -->
+  <% end %><!-- /simple_form_for -->
+</div><!-- /.row main-section -->
+
+<!--END PAGE CONTENT-->

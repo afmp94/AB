@@ -1,0 +1,64 @@
+<% content_for(:title, reports_path) %>
+<% breadcrumb(:reports) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        Reports
+        <div class="sub header"></div>
+      </h1><!-- /.ui header -->
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical segment compressed -->
+<div class="main ui container">
+  <h2 class="ui header">Pipeline Reports</h2><!-- /.ui header -->
+  <div class="ui vertical basic segment">
+    <% if current_user.user_has_teammates? %>
+      <h3 class="ui dividing header">Team Reports</h3><!-- /.ui dividing header -->
+      <table class="ui striped table" id="team_reports_table">
+        <li>
+          <%= link_to("Buyers", buyer_team_reports_path) %>
+        </li>
+        <li>
+          <%= link_to("Listings", listing_team_reports_path) %>
+        </li>
+        <li>
+          <%= link_to("Pendings", pending_team_reports_path) %>
+        </li>
+        <li>
+          <%= link_to("Closed Reports", closed_team_reports_path) %>
+        </li>
+        <li>
+          <%= link_to("Cash Flow", cash_flow_team_path) %>
+        </li>
+        <li>
+          <%= link_to("Marketing - Lead Source Analysis", lead_source_team_reports_path) %>
+        </li>
+      </table>
+    <% end %>
+  </div><!-- /.ui vertical basic segment -->
+  <div class="ui vertical basic segment">
+    <h3 class="ui dividing header">Individual</h3><!-- /.ui dividing header -->
+    <table class="ui striped table" id="individual_reports_table">
+      <li>
+        <%= link_to("Buyers", buyer_reports_path) %>
+      </li>
+      <li>
+        <%= link_to("Listings", listing_reports_path) %>
+      </li>
+      <li>
+        <%= link_to("Pendings", pending_reports_path) %>
+      </li>
+      <li>
+        <%= link_to("Closed Reports", closed_reports_path) %>
+      </li>
+      <li>
+        <%= link_to("Cash Flow", cash_flow_path) %>
+      </li>
+      <li>
+        <%= link_to("Marketing - Lead Source Analysis", lead_source_reports_path) %>
+      </li>
+    </table>
+  </div><!-- /.ui vertical basic segment -->
+</div>
+

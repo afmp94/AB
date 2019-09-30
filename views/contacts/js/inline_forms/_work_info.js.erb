@@ -1,0 +1,3 @@
+$('#contact-work-info-section')
+  .after('<%= j render(partial: "contacts/sections/work_info", locals: { contact: contact }) %>')
+  .remove();

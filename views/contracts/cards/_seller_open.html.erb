@@ -1,0 +1,111 @@
+<%# cache(["contract_seller_open", contract, contract.property]) do %>
+  <% if contract.status != "Fell Through" %>
+    <div class="ui raised segment">
+      <h3 class="ui header">
+          Contract<br />
+          <%= contract.status_to_s %>:
+          <%= num_to_currency(contract.offer_price) %>
+      </h3><!-- /.header -->
+
+      <!-- <div class="below12">
+        <button class="btn btn-success btn-embossed">Accept</button>
+        <button class="btn btn-danger btn-embossed">Reject</button>
+        <button class="btn btn-primary btn-embossed">Counter</button>
+        <a href="#">Cancel</a>
+      </div> -->
+      <div class="row">
+        <div class="ui dropdown button" data-ui-behavior="dropdown">
+          <%= contract.status_to_s %>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <%= link_to(
+              "Pending contingencies",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "pending_contingencies" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Ready to close",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "ready_to_close" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Closed",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "closed" }
+              ),
+              class: "item"
+            ) %>
+            <%= link_to(
+              "Fell through",
+              set_status_lead_property_contract_path(
+                @lead,
+                contract.property,
+                contract,
+                { status: "fell_through" }
+              ),
+              class: "item"
+            ) %>
+          </div><!-- /.menu -->
+        </div><!-- /.ui dropdown -->
+      </div><!-- /.row -->
+      <div class="row">
+        <%= link_to(
+          "Edit",
+          edit_lead_property_contract_path(
+            @lead,
+            contract.property,
+            contract,
+            redirect_page: "#{controller_name}_#{action_name}"
+          )
+        ) %> |
+        <%= link_to(
+          "Delete",
+          [@lead, contract.property, contract],
+          method: :delete,
+          data: {
+            "mobile-app-forced-delete": request_from_mobile_app?,
+            confirm: "Are you sure you want to delete this contract?"
+          }
+        ) %>
+      </div><!-- /.row -->
+      <div class="ui accordion" data-ui-behavior="accordion">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          Buyer Details..
+        </div>
+        <div class="content">
+          <table class="ui very basic table">
+            <tbody>
+              <tr>
+                <td>Buyer</td>
+                <td><%= contract.buyer %></td>
+              </tr><!-- /.tr -->
+              <tr>
+                <td>Buyer Agent</td>
+                <td><%= contract.buyer_agent %></td>
+              </tr><!-- /.tr -->
+
+              <tr>
+                <td>Proposed Closing</td>
+                <td><%= cal_date(contract.closing_date_at) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /.segment -->
+  <% end %>
+<%# end %>

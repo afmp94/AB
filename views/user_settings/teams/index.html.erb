@@ -1,0 +1,83 @@
+<% breadcrumb(:team_teammates) %>
+<!-- SIDEBAR MENU -->
+<%= render(
+  layout: "shared/settings/layout",
+  locals: {
+    primary_name: "Team",
+    secondary_name: "Teammates"
+  }
+) do %>
+
+  <h2 class="ui dividing header m-t-0">My teammates:</h2>
+  <table class="ui unstackable table">
+    <thead>
+      <tr>
+        <th>Teammate Info</th>
+        <th>Type</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @teammates.each do |teammate| %>
+        <% user = teammate.user %>
+        <tr>
+          <td class="breakword">
+            <span class="fwb"><%= user.full_name %></span><br />
+            <%= user.email %><br />
+            <%= user.mobile_number %>
+          </td>
+          <td class="collapsing">
+            <%= @team_view_service.teammate_status teammate %>
+          </td>
+          <td class="collapsing">
+            <%= link_to(
+              @team_view_service.remove_teammate_label(teammate),
+              remove_user_from_team_user_settings_team_path(
+                @team,
+                { member_id: user.id }
+              ),
+              method: :delete,
+              class: "ui tiny red basic button",
+              data: { confirm: "You are about to remove '#{user.name}' from your Team. Are you sure?" }
+            ) %>
+          </td>
+        </tr>
+      <% end %>
+
+      <% @pending_team_requests.each do |teammate| %>
+        <% user = teammate.team.owner %>
+        <tr>
+          <td class="breakword">
+            <span class="fwb"><%= user.full_name %></span><br />
+            <%= user.email %><br />
+            <%= user.mobile_number %>
+          </td>
+          <td>
+            <%= "#{user.name} would like to be your teammate." %>
+          </td>
+          <td>
+            <%= link_to(
+              "Accept",
+              accept_request_to_join_team_user_settings_team_path(
+                @team,
+                { teammate_id: teammate.id }
+              ),
+              class: "ui positive button"
+            ) %>
+            <%= link_to(
+              "No Thanks.",
+              decline_request_join_team_user_settings_team_path(
+                @team,
+                { teammate_id: teammate.id }
+              ),
+              class: "ui negative button",
+              method: :delete,
+              data: { confirm: "You are about to decline request from #{user.name} to join their team. Are you sure?" }
+            ) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= render(partial: "add_teammate_form") %>
+<% end %>

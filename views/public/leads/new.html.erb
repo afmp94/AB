@@ -1,0 +1,7 @@
+<%= page_header(
+  primary_name: "Lead",
+  primary_path: user_leads_path,
+  secondary_name: "Public lead"
+) %>
+
+<%= render partial: "leads/forms/new_lead", locals: { url_data: create_from_shared_form_path(key: @user.lead_form_key) } %>

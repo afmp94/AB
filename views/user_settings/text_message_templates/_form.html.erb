@@ -1,0 +1,103 @@
+<% if @text_message_template.user == current_user %>
+  <%= simple_form_for(
+    ["user_settings", @text_message_template],
+    html: {
+      data: {
+        fv_live: "submitted",
+        form: "text_message_template_form",
+        "mobile-app-forced-form": request_from_mobile_app?
+      }
+    }
+  ) do |f| %>
+    <%= f.input(:name) %>
+    <%= f.input(:body) %>
+    <div class="field">
+      <div class="ui dropdown dynamic_contact_fields" data-ui-behavior="non-select-dropdown">
+        Add contact fields
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <% EmailTemplate::CONTACT_DYNAMIC_FIELDS.each do |field| %>
+            <div class="item" data-value="{{ <%= field.parameterize.underscore %> }}">
+              <%= field %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div><!-- /.field -->
+    <%= f.input(:shared, label: "Shared with teammates?") %>
+
+    <%= f.button(
+      :submit,
+      value: "#{f.object.new_record? ? 'Save New Template' : 'Save'}",
+      class: "ui primary button"
+    ) %>
+    <%= link_to(
+      "Cancel",
+      edit_user_settings_phone_number_settings_path,
+      class: "ui basic button"
+    ) %>
+  <% end %>
+<% else %>
+  <div class="ui warning icon message">
+    <i class="exclamation triangle icon"></i>
+    <div class="content">
+      <div class="header">
+        Only <%= @text_message_template.user.name %> can edit this template
+      </div>
+      <p>
+        This template was created and shared by your teammate <%= @text_message_template.user.name %>. You can use it, but only they can make changes.
+      </p>
+    </div><!-- /.content -->
+  </div>
+
+  <div class="ui vertical basic segment" style="max-width:600px;">
+    <h3 class="ui dividing header">Name</h3><!-- /.ui dividing header -->
+    <p><%= @text_message_template.name   %></p>
+    <h3 class="ui dividing header">Template</h3><!-- /.ui dividing header -->
+    <div class="ui segment" style="max-width:400px">
+      <p><%= @text_message_template.body %></p>
+    </div><!-- /.ui raised yellow segment -->
+  </div><!-- /.ui vertical segment -->
+
+  <div class="m-t-lg">
+    <%= link_to(
+      edit_user_settings_phone_number_settings_path,
+      class: "ui primary labeled icon button"
+    ) do %>
+      <i class="left arrow icon"></i>
+      Go Back
+    <% end %>
+  </div><!-- /.m-t-lg -->
+<% end %>
+
+<script>
+  $('[data-form=text_message_template_form]').formValidation({
+    framework: 'semantic',
+    excluded: [':disabled', ':hidden', ':not(:visible)'],
+    // live: 'disabled',
+    err: {
+      clazz: "error-message"
+    },
+    row: {
+      selector: '.field'
+    },
+    fields: {
+      'text_message_template[name]': {
+        excluded: false,
+        validators: {
+          notEmpty: {
+            message: "Please give this template a name"
+          }
+        }
+      },
+      'text_message_template[body]': {
+        excluded: false,
+        validators: {
+          notEmpty: {
+            message: "Your template cannot be empty"
+          }
+        }
+      },
+    }
+  });
+</script>

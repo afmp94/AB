@@ -1,0 +1,136 @@
+<%= simple_form_for(
+  @task,
+  html: {
+    data: {
+      fv_live: "submitted",
+      form: "task_form",
+      "mobile-app-forced-form": request_from_mobile_app?
+    }
+  }
+) do |f| %>
+  <div class="field">
+    <%= f.input(:subject) %>
+  </div>
+
+  <% if current_user.belongs_to_team? %>
+    <div class="field">
+      <%= f.association(
+        :assigned_to,
+        include_blank: false,
+        collection: user_and_teammate_array(current_user)
+      ) %>
+    </div>
+  <% else %>
+    <div class="field">
+    <%= f.hidden_field(:assigned_to_id, value: current_user.id) %>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.input(
+      :due_date_at,
+      as: :datepicker,
+      label: "Due Date At",
+      input_html: {
+        value: format_for_datepicker(f.object.due_date_at),
+        type: type_for_datepicker,
+      }
+    ) %>
+  </div>
+
+  <% if @add_from_show_page %>
+    <%= f.hidden_field(:taskable_type, value: @taskabletype) %>
+    <%= f.hidden_field(:taskable_id, value: @taskableid) %>
+  <% else %>
+    <div class="field">
+      <%= f.input(
+        :taskable_type,
+        label: "Should this be associated with a contact or lead?",
+        as: :sui_radio_buttons,
+        wrapper: :horizontal_radio_buttons,
+        wrapper_html: {
+          data: { behavior: "task-associated" }
+        },
+        collection: ["Contact", "Lead/Client", "None"],
+        checked: @task_carrier.set_checked_radio_button_for_associated
+      ) %>
+    </div>
+    <div class="field task_taskable" style="<%= @task_carrier.handle_display_style('Contact') %>">
+      <%= hidden_field_tag(
+        "taskable_contact",
+        "",
+        id: "task_taskable_id_contact",
+        data: { "js-info": "contact-id" }
+      ) %>
+
+      <div class="field">
+        <label>Contact</label>
+        <div class="ui search">
+          <div class="ui icon input">
+            <input class="prompt"
+            type="text"
+            value="<%= @task_carrier.task.contact_name  %>"
+            placeholder="Search contact"
+            autocomplete="off"
+            data-behavior="search-contacts-autocomplete"
+            data-autocomplete-source="<%= search_contacts_for_autocomplete_path %>"
+            />
+            <i class="search icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field task_taskable" style="<%= @task_carrier.handle_display_style('Lead') %>">
+      <%= hidden_field_tag(
+        "taskable_lead",
+        "",
+        id: "task_taskable_id_lead",
+        data: { "js-info": "lead-id" }
+      ) %>
+
+      <div class="field">
+        <label>Lead/Client:</label>
+        <div class="ui search">
+          <div class="ui icon input">
+            <input class="prompt"
+            type="text"
+            value="<%= @task_carrier.task.lead_name  %>"
+            placeholder="Search contact"
+            autocomplete="off"
+            data-behavior="search-leads-autocomplete"
+            data-autocomplete-source="<%= search_for_autocomplete_leads_path(include_team_leads: current_user.belongs_to_team?) %>"
+            />
+            <i class="search icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="<%= @task_carrier.handle_display_style('Lead') %>">
+      <%= f.input(
+        :is_next_action,
+        label: "Set this task as the next action?",
+        as: :boolean
+      ) %>
+      <%= f.input(
+        :completed,
+        label: "Complete",
+        as: :boolean
+      ) %>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field(
+    :taskable_id,
+    value: f.object.taskable_id,
+    data: { info: "taskable_id" }
+  ) %>
+
+  <div class="m-t-lg">
+    <%= f.button(
+      :submit,
+      "data-disable-with": "Saving...",
+      value: "Save Task"
+    ) %>
+    <%= link_to "Cancel", :back, class: "ui basic button" %>
+  </div><!-- /.m-t-lg -->
+<% end %>

@@ -1,0 +1,60 @@
+<fieldset class="ui raised <%= "orange" if f.object.primary? %> segment">
+  <div class="field">
+    <div class="ui action input">
+      <%= f.input(
+        :street,
+        label: false,
+        wrapper: false,
+        placeholder: "Street Address",
+        input_html: { data: { info: "street" }, autocomplete: "email-address-street" }
+      )%>
+      <%= f.input(
+        :address_type,
+        collection: Address::TYPES.values,
+        wrapper: false,
+        input_html: { class: "ui selection dropdown" },
+        include_blank: false,
+        label: false
+      ) %>
+      <%= f.hidden_field(:_destroy) %>
+      <%= link_to("#", class: "ui basic red icon tiny button remove_fields") do %>
+        <i class="large trash icon"></i>
+      <% end %>
+    </div><!-- /.ui action input -->
+  </div>
+  <div class="field">
+    <div class="ui action input">
+      <%= f.input(
+        :city,
+        input_html: { data: { info: "city" }, autocomplete: "email-address-city" },
+        label: false,
+        placeholder: "City",
+        wrapper: false,
+      ) %>
+      <%= f.input(
+        :state,
+        label: false,
+        wrapper: false,
+        prompt: "State",
+        collection: Carmen::Country.coded("US").subregions.map { |c| c.code },
+        input_html: { data: { info: "state" }, class: "ui selection dropdown", autocomplete: "email-address-state" }
+      ) %>
+    </div>
+  </div>
+  <div class="field">
+    <div class="ui input">
+    <%= f.input(
+      :zip,
+      input_html: {
+        data: { input_mask: "zipcode", autocomplete: "email-address-zip" },
+        type: "text",
+        pattern: "[0-9]*"
+      },
+      label: false,
+      placeholder: "Zip Code",
+      wrapper: false
+
+      ) %>
+    </div>
+  </div>
+</fieldset>

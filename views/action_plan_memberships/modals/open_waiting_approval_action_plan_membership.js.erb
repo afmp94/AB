@@ -1,0 +1,3 @@
+$('[data-ui-behavior=tiny-modal]').empty();
+$('[data-ui-behavior=tiny-modal]')
+  .append('<%= j render("action_plan_memberships/modals/waiting_approval_action_plan_membership", action_plan_membership: @action_plan_membership, message: @message) %>');

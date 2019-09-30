@@ -1,0 +1,100 @@
+<div class="column">
+  <div class="row two columns">
+    <div class="ui inverted segment">
+      <div class="ui small orange progress inverted">
+        <div class="bar">
+          <div class="progress "></div>
+        </div>
+        <div class="label">Good start!</div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="ui two cards">
+        <div class="ui card">
+          <div class="content">
+            <div class="header"> &nbsp</div>
+            <div class="header"> &nbsp</div>
+            <div class="center aligned header"><i class="green circle question big icon"></i>Did you know?</div>
+            <div class="center aligned description">
+              <p>Most REALTORS® worked 40 hours per week in 2018.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ui card">
+          <div class="content">
+            <div class="center aligned header">Your results</div>
+            <div class="description">
+              <p><i class="green check circle icon"></i>You're in range!  (survey_results::WORKLOAD 35 - 60 hours)</p>
+              <p><i class="yellow exclamation circle icon"></i>You may be working too hard!  (60 or more hours)</p>
+              <p><i class="yellow check circle big icon"></i>Looks like you are working part-time!  (less than 35 hours)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+    <div class="ui segment tab transition fade in active" id="branding-info" data-tab="branding-info">
+      <h4 class="ui dividing header">Branding Basics</h4>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :headshot_current,
+        label: "Do you have a current personal headshot saved (updated in last 12 months)?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :bio_current,
+        label: "Do you have a current personal bio saved (updated in last 12 months)?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :profile_broker_pages_current,
+        label: "Does your personal website or broker-provided web page have an updated headshot, bio and at least 3 recent testimonials?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+      <!-- VERICAL RADIOS - YES/NO BOOLEAN -->
+      <%= f.input(
+        :online_profiles_current,
+        label: "Are your online profiles (Trulia, Zillow, Realtor.com, etc) updated with your current headshot, bio and at least 3 recent testimonials?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: [
+          ["Yes", true],
+          ["No", false]
+        ]
+      ) %>
+
+      <%= f.input(
+        :testimonials_current,
+        label: "How often do you solicit testimonials from your satisfied clients after their closing?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::TESTIMONIALS_CURRENT_SCORING.keys) %>
+      <div class="ui primary icon button" data-tab-open="agent-info">Back</div>
+      <div class="ui primary icon button" data-tab-open="contacts-info" data-validate-container>Next</div>
+
+  <% end %>
+</div><!-- /.column -->

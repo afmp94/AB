@@ -1,0 +1,115 @@
+<% content_for(:meta_tags) do %>
+  <meta property="og:title" content="Take the <%= white_labeled_company_name(current_subdomain) %> Assessment" />
+  <meta property="og:image" content="<%= asset_url(white_label_image_name("box-200.png", current_subdomain)) %>" />
+  <meta property="og:description" content="See how your habits and systems stack up against the best agents" />
+<% end %>
+
+<div class="ui inverted vertical center aligned segment p-b">
+  <div class="ui text container top-header">
+    <i class="dashboard icon huge"></i>
+    <h2 class="ui inverted header m-t-0 m-b-0">
+      AGENT ASSESSMENT
+    </h2><!-- /.ui inverted header -->
+    <h5 class="m-t-0">Powered by <%= white_labeled_company_name(current_subdomain) %></h5>
+  </div><!-- /.ui text container top-header -->
+</div><!-- /.ui inverted vertical masthead center aligned segment -->
+
+<div class="ui tab transition fade in active" id="first-page" data-tab="first-page">
+  <div class="ui main container full-width-container">
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="row">
+          <div class="twelve wide column">
+            <h1 class="ui header">
+              <div class="content">
+                Welcome to the <%= white_labeled_company_name(current_subdomain) %> Agent Assessment.
+                <div class="sub header">
+                  You're here because you're ready to elevate your business. We help guide agents toward which areas they can and should improve, in order to increase their production and reach their potential.
+                </div><!-- /.sub header -->
+              </div><!-- /.content -->
+            </h1>
+          </div><!-- /.column -->
+        </div><!-- /.row -->
+      </div><!-- /.ui center aligned grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="nine wide column">
+          <h4>Here's how it works:</h4>
+          <div class="ui left aligned padded segment">
+            <h3 class="ui header">
+              <i class="blue hourglass half icon"></i>
+              <div class="content">
+                It should take about 10 minutes
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="black settings icon"></i>
+              <div class="content">
+                You'll answer some questions about your marketing and service systems and habits
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="green money icon"></i>
+              <div class="content">
+                We'll break down and calculate your production goals
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+            <h3 class="ui header">
+              <i class="yellow file text outline icon"></i>
+              <div class="content">
+                When you're finished, you'll receive a comprehensive report on your business
+              </div><!-- /.content -->
+            </h3><!-- /.ui header -->
+          </div><!-- /.ui segment -->
+        </div><!-- /.column -->
+      </div><!-- /.ui center aligned grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <div class="ui center aligned stackable grid container">
+        <div class="ten wide column">
+          <h4>Here's a quick snapshot of what you'll receive:</h4>
+          <%= image_tag("assessment-preview.gif", class: "ui centered rounded big image") %>
+        </div><!-- /.ten wide column -->
+      </div><!-- /.ui center aligned stackable grid container -->
+    </div><!-- /.ui vertical basic segment -->
+
+
+    <div class="ui basic center aligned segment">
+      <div class="horizontal divider"></div><!-- /.horizontal divider -->
+      <h1>Ready? Let's get started.</h1>
+      <div class="horizontal divider"></div><!-- /.horizontal divider -->
+      <h3>I consider myself a:</h3>
+
+      <%= simple_form_for(
+        @survey_result,
+        url: wizard_path,
+        method: :put,
+        html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+      ) do |f| %>
+        <input type="hidden" value="branding" name="next_step_id">
+        <input type="hidden" value="Next" name="commit">
+        <input type="hidden" value="landing" name="source">
+        <input type="hidden" value="<%= @broker_code %>" name="broker_code">
+        <input type="hidden" value="<%= @office_code %>" name="office_code">
+        <input type="hidden" value="<%= @access_code %>" name="access_code">
+        <input type="hidden" value="<%= @email %>" name="email">
+      <% end %>
+
+      <div class="ui huge buttons">
+        <div class="ui button" data-tab-open="second-page">New Agent</div>
+        <div class="or"></div>
+        <div class="ui positive button" data-tab-open="second-page">Experienced Agent</div>
+      </div><!-- /.ui buttons -->
+    </div><!-- /.ui segment -->
+  </div><!-- /.ui main container -->
+</div><!-- /.ui segment tab -->
+
+<script type="text/javascript">
+  $(".ui.huge.buttons .button").click(function(){
+    $("form").submit();
+  });
+</script>
+

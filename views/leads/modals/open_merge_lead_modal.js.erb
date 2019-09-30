@@ -1,0 +1,3 @@
+$("[data-ui-behavior=tiny-modal]").empty();
+$("[data-ui-behavior=tiny-modal]")
+  .append('<%= j render("leads/modals/merge_leads", lead: @lead, total_leads: @all_leads) %>');

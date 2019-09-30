@@ -1,0 +1,23 @@
+<div class="ui raised card ab-action-card">
+  <div class="content">
+    <div class="header">
+      <%= card.header %>
+    </div>
+  </div>
+  <div class="content">
+    <div class="meta center aligned">
+      <i class="huge <%= card.icon %> icon"></i>
+    </div>
+    <div class="description">
+      <%= card.description %>
+    </div>
+  </div>
+  <div class="extra content">
+    <div class="ui two buttons">
+      <%= link_to card.action, (eval(card.link) rescue card.link), class: "ui green button",
+        data: { behavior: "card-link-click", info: card.id } %>
+      <%= link_to "No Thanks", dismiss_card_path(card_id: card.id),
+        class: "ui basic button", method: :post, remote: true %>
+    </div>
+  </div>
+</div><!-- /.card -->

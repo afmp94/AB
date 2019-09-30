@@ -1,0 +1,11 @@
+<tfoot>
+  <% if @contacts.total_pages > 1 %>
+    <tr>
+      <th colspan="8" class="index-page-table__pagination-footer">
+        <div data-info="pagination" data-current-page="<%= @contacts.current_page %>">
+          <%= paginate(@contacts, params: { controller: "contacts", action: "index" }) %>
+        </div>
+      </th>
+    </tr>
+  <% end %>
+</tfoot>

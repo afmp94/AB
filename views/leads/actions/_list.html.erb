@@ -1,0 +1,26 @@
+<% if display_as_lead?(lead) %>
+  <h3 class="ui header">Take action on this lead:</h3>
+  <% if lead.status == 7 %>
+    <%= render(
+      partial: "leads/actions/junk_lead",
+      locals: {  lead: lead }
+    ) %>
+  <% else %>
+    <% if lead.contacted_status == 0 %>
+      <%= render(
+        partial: "leads/actions/not_contacted_lead",
+        locals: { lead: lead }
+      ) %>
+    <% elsif (lead.contacted_status == 2 || lead.contacted_status == 1) %>
+      <%= render(
+        partial: "leads/actions/awaiting_client_response",
+        locals: { lead: lead }
+      ) %>
+    <% elsif lead.contacted_status == 3 %>
+      <%= render(
+        partial: "leads/actions/lead_judgment",
+        locals: { lead: lead }
+      ) %>
+    <% end %>
+  <% end %>
+<% end %>

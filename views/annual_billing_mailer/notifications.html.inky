@@ -1,0 +1,14 @@
+<%= render(layout: "/shared/inky/standard") do %>
+  <container>
+    <row>
+      <columns large="8">
+        <h3>Congratulations!</h3>
+
+        <h4>You are now an annual subscriber to AgentBright.  With payment just once a year, you receive all the benefits of AgentBright at a great price.</h4>
+      </column>
+    </row>
+  </container>
+<% end %>
+
+
+

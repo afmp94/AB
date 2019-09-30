@@ -1,0 +1,16 @@
+<% content_for(:title, "Add new event") %>
+<% breadcrumb(:new_calendar_event) %>
+<div class="ui masthead vertical segment">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        Calendar: Add Event
+      </h1>
+      <div class="ui hidden divider"></div>
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical tab segment -->
+
+<div class="ui main container">
+  <%= render partial: "/calendar/event_form", locals: { presenter: @presenter } %>
+</div>

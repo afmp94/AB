@@ -1,0 +1,59 @@
+<row>
+<columns small="12" large="12" valign="middle" style="background-color:  #3F729B">
+    <h3 class="text-left" style="height: 10px;margin-left: 15px;color:#FFFFFF; margin-top: 5px; margin-bottom: 10px; font-size: 22px;" >Personal Marketing Ideas</h3>
+  </columns>
+</row>
+
+<% if @top_contacts.present? %>
+  <spacer size="6"></spacer>
+  <row>
+    <columns small="12" large="12" style="background-color:#eaece5;"" >
+      <h3 style="height: 5px;margin-left: 15px; margin-top: 10px; margin-bottom: 10px; padding: 0; display: block; font-family: Helvetica; font-size: 16px; font-style: normal; font-weight: bold; line-height: 150%; letter-spacing: .5px; text-align: left; color: #3F729B !important;">
+        Some people to call, write or visit:
+      </h3>
+    </columns>
+  </row>
+  <spacer size="6"></spacer>
+  <% @top_contacts.each do |contact| %>
+    <row>
+      <columns small="6" large="6">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;margin-left: 10px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            <strong><%= contact.full_name.presence || display_primary_email_address(contact) %></strong> (<%= contact.grade_to_s %>)
+          </row>
+          <row>
+            <span style="border-radius: 100px;-webkit-border-radius: 100px; -moz-border-radius: 100px;"><%= cal_date_mailer(contact.last_contacted_at)  %>
+            </span>
+          </row>
+        </span>
+      </columns>
+      <columns small="4" large="4">
+        <span style="font-weight:normal;font-size:12px;line-height:16px;padding:0 7px;display:inline-block;border-radius:12px">
+          <row>
+            <%= display_primary_email_address(contact) %>
+          </row>
+          <row>
+            <%= display_primary_phone_number(contact) %>
+          </row>
+        </span>
+      </columns>
+      <columns small="2" large="2">
+        <span>
+          <button href="<%= new_contact_activity_url(contact_id: contact.id) %>"
+          target="_blank" class="rounded small-expanded primary button-size:
+          tiny">Log Activity</button>
+        </span>
+      </columns>
+    </row>
+  <% end %>
+  <row>
+    <columns small="12" large="12">
+        <%= link_to "Get In Touch", marketing_center_index_url %>
+    </columns>
+  </row>
+<% else %>
+  <spacer size="6"></spacer>
+  See hints and tips of creating a successful Referral based business
+  <spacer size="6"></spacer>
+<% end %>
+

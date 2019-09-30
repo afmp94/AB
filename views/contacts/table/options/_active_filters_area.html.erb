@@ -1,0 +1,27 @@
+<% Contact::DEFAULT_GROUPS_LIST.each do |group| %>
+  <a class="ui label" style="margin-bottom: 5px;display:none" data-info-label="<%= group %>">
+    <i class="filter icon"></i>
+    Group: <%= group %>
+    <i class="delete icon" data-behavior="remove-group"></i>
+  </a>
+<% end %>
+<% Contact::GRADES.each do |grade_name, grade_value| %>
+  <a class="ui label" style="margin-bottom: 5px;display:none" data-info-label="<%= grade_name %>">
+    <i class="filter icon"></i>
+    Grade: <%= grade_name %>
+    <i class="delete icon" data-behavior="remove-group"></i>
+  </a>
+<% end %>
+<span style="display:none" data-info="clear-filter">  | <a href="javascript:void(0)" data-behavior="clear-filters">Clear Filters</a></span>
+
+<div class="ui flowing popup transition hidden" data-ui-behavior="mass-update-grade-popup">
+  <h5>Change grade:</h5>
+  <div class="ui large labels">
+    <a class="ui green circular label" data-behavior="mass-grade-update" data-grade-value="0" href="javascript:void(0)">A+</a>
+    <a class="ui teal circular basic label" data-behavior="mass-grade-update" data-grade-value="1" href="javascript:void(0)">A</a>
+    <a class="ui yellow circular basic label" data-behavior="mass-grade-update" data-grade-value="2" href="javascript:void(0)">B</a>
+    <a class="ui orange circular basic label" data-behavior="mass-grade-update" data-grade-value="3" href="javascript:void(0)">C</a>
+    <a class="ui red circular basic label" data-behavior="mass-grade-update" data-grade-value="4" href="javascript:void(0)">D</a>
+    <a class="ui grey circular basic label" data-behavior="mass-grade-update" data-grade-value="5" href="javascript:void(0)">-</a>
+  </div><!-- /.ui labels -->
+</div><!-- /.ui flowing popup -->

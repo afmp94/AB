@@ -1,0 +1,93 @@
+<div class="column">
+  <div class="ui centered card">
+    <div class="content">
+      <div class="header"><i class="green street view icon"></i>Full 360 view of your Real Estate business.</div>
+    </div>
+  </div>
+  <%= simple_form_for(
+    @survey_result,
+    url: public_survey_results_path,
+    method: :post,
+    html: { data: { behavior: "agent-assessment-form", fv_live: "enabled" } }
+  ) do |f| %>
+
+    <div class="ui segment tab transition fade in active" id="agent-info" data-tab="agent-info">
+      <h4 class="ui dividing header">Agent Info</h4>
+      <%= f.hidden_field(:payment_status) %>
+      <%= f.hidden_field(:broker_code, value: @broker_code) %>
+      <%= f.hidden_field(:office_code, value: @office_code) %>
+      <%= f.hidden_field(:access_code, value: @access_code) %>
+      <% if !current_user.present? || current_user&.special_type? %>
+        <%= f.input(
+          :email,
+          label: "What is your email address?",
+          as: :string,
+          input_html: {
+            data: { info: (@survey_result.free? ? "" : "email") },
+            value: @email || current_user&.email,
+            disabled: current_user.present? && !@survey_result.free?,
+            autocomplete: "on"
+          }
+        ) %>
+        <div data-info="email-message" style="margin-bottom:1em;color:red;display:none">
+          <div data-info="app-login" style="display:none">
+            This email address is already associated with an account, click here to
+            <%= link_to "sign in", new_user_session_path(redirect_to: assessment_path) %> and continue, or use a
+            different email address
+          </div>
+          <div data-info="assessment-login" style="display:none">
+            You already have taken the survey, click here to
+            <%= link_to "sign in", assessment_login_path %> and proceed...
+          </div>
+        </div>
+        <%= f.input(
+          :first_name,
+          label: "What is your first name?",
+          input_html: {
+            value: current_user&.first_name,
+            disabled: current_user.present? && !@survey_result.free?,
+            autocomplete: "on"
+          }
+        ) %>
+        <%= f.input(
+          :last_name,
+          label: "What is your last name?",
+          input_html: {
+            value: current_user&.last_name,
+            disabled: current_user.present? && !@survey_result.free?,
+            autocomplete: "on"
+          }
+        ) %>
+        <%= f.input(
+          :zip_code,
+          label: "What is your home zip code?",
+          input_html: { value: current_user&.zip, autocomplete: "on" }
+        ) %>
+      <% end %>
+      <%= f.input(
+        :years_experience,
+        label: "How many years have you been selling real estate?"
+      ) %>
+      <%= f.input(
+        :workload,
+        label: "How many hours do you spend on average per week on your real estate business?",
+        wrapper: :vertical_radio_buttons,
+        as: :sui_radio_buttons,
+        collection: SurveyResult::WORKLOADS
+      ) %>
+      <%= f.input(
+        :other_work,
+        label: "Do you have another job besides selling real estate? (check any that apply)",
+        as: :sui_check_boxes,
+        wrapper: :vertical_check_boxes,
+        collection: [
+          "Broker",
+          "Insurance Agent",
+          "Other"
+        ]
+      ) %>
+      <div class="ui primary icon button" data-tab-open="branding-info" data-validate-container>Next</div>
+    </div><!-- /#section-name -->
+  <% end %>
+</div><!-- /.column -->
+

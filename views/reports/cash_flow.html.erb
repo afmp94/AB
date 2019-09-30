@@ -1,0 +1,98 @@
+<% content_for(:title, "Cash Flow Reports") %>
+<% breadcrumb(:cash_flow) %>
+<div class="ui masthead vertical segment compressed">
+  <div class="ui container">
+    <div class="introduction">
+      <h1 class="ui header">
+        Cash Flow Report
+        <span>
+          <% if current_user.user_has_teammates? == false %>
+            (<%= current_user.name %>)
+          <% end %>
+        </span>
+        <div class="sub header">Cash Flow (next 12 months)</div>
+      </h1><!-- /.ui header -->
+    </div><!-- /.introduction -->
+  </div><!-- /.ui container -->
+</div><!-- /.ui masthead vertical segment compressed -->
+
+<% if @leads_closing_in_next_12_months.empty? %>
+  <div class="ui segment">
+    <h2 class="ui center aligned icon header m-y-lg">
+      <i class="warning sign icon"></i>
+      <div class="content">
+        You don't have any projected cashflow in next 12 months.
+        <div class="sub header">If this seems wrong, <%= link_to("review and update your client information here", clients_path) %>.</div>
+      </div>
+    </h2>
+  </div>
+<% else %>
+  <div class="main ui container">
+    <div class="ui vertical basic segment">
+      <div id="cash-flow-chart">
+        <%= column_chart(
+          [                {
+              name: "Closed",
+              data: @leads_closing_in_next_12_months.leads_by_status(4).group_by_month(:displayed_closing_date_at, format: "%b %Y", range: Time.zone.now.beginning_of_month..Time.zone.now.beginning_of_month + 1.year).sum(:displayed_net_commission)
+            },
+            {
+              name: "Pendings",
+              data: @leads_closing_in_next_12_months.leads_by_status(3).group_by_month(:displayed_closing_date_at, format: "%b %Y", range: Time.zone.now.beginning_of_month..Time.zone.now.beginning_of_month + 1.year).sum(:displayed_net_commission)
+            },
+            {
+              name: "Active",
+              data: @leads_closing_in_next_12_months.leads_by_status(2).group_by_month(:displayed_closing_date_at, format: "%b %Y", range: Time.zone.now.beginning_of_month..Time.zone.now.beginning_of_month + 1.year).sum(:displayed_net_commission)
+            },
+          ],
+          stacked: true
+        ) %>
+      </div>
+    </div><!-- /.ui vertical basic segment -->
+
+    <div class="ui vertical basic segment">
+      <h2 class="ui dividing header">
+        Month-by-month
+      </h2><!-- /.ui dividing header -->
+      <table class="ui table" id="pendings_table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Status</th>
+            <th>Projected Closing Date</th>
+            <th class="right aligned">Price</th>
+            <th class="right aligned">Net Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @range.each do |month| %>
+            <tr class="active">
+             <td colspan="5" class="fwb"><%= (month).strftime("%B %Y") %></td>
+            </tr>
+            <% if @leads_closing_in_next_12_months.where(displayed_closing_date_at: month..month.end_of_month).empty? %>
+              <tr>
+                <td colspan="5"></td>
+              </tr>
+            <% else %>
+              <% @leads_closing_in_next_12_months.where(displayed_closing_date_at: month..month.end_of_month).order("displayed_closing_date_at asc").each do |lead|  %>
+                <tr>
+                  <td><%= link_to(lead.name, lead) %></td>
+                  <td><%= lead.status_to_s %></td>
+                  <td><%= cal_date(lead.displayed_closing_date_at) %></td>
+                  <td class="right aligned"><%= num_to_currency(lead.displayed_price) %></td>
+                  <td class="right aligned"><%= num_to_currency(lead.displayed_net_commission) %></td>
+                </tr>
+              <% end %>
+              <% if @leads_closing_in_next_12_months.where(displayed_closing_date_at: month..month.end_of_month).count > 1 %>
+                <tr class="fsi">
+                  <td colspan="3">Total</td>
+                  <td class="right aligned"><%= num_to_currency(@leads_closing_in_next_12_months.where(displayed_closing_date_at: month..month.end_of_month).sum(:displayed_price)) %></td>
+                  <td class="right aligned"><%= num_to_currency(@leads_closing_in_next_12_months.where(displayed_closing_date_at: month..month.end_of_month).sum(:displayed_net_commission)) %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div><!-- /.ui vertical basic segment -->
+  </div><!-- /.ui container -->
+<% end %>

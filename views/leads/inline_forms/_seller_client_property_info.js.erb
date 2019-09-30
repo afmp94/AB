@@ -1,0 +1,2 @@
+$('#seller-client-property-info-form-section').remove();
+$('#edit-seller-client-property-info').show().after('<%= j render("leads/seller_client/property_info_section", { lead: lead }) %>');

@@ -1,0 +1,32 @@
+<%= simple_form_for(
+  resource,
+  as: resource_name,
+  url: session_path(resource_name),
+  html: { class: "large", autocomplete: "on" },
+  remote: true
+) do |f| %>
+  <div class="ui left aligned segment">
+    <%= f.input(
+      :email,
+      placeholder: "Email address",
+      label: false,
+      autofocus: true
+    ) %>
+    <%= f.input(:password, placeholder: "Password", label: false) %>
+
+    <% if request_from_mobile_app? %>
+      <%= f.hidden_field(:remember_me, value: true) %>
+    <% elsif devise_mapping.rememberable? %>
+      <%= f.input(:remember_me, as: :boolean) %>
+    <% end %>
+    <%= f.button(
+      :submit,
+      "Sign in",
+      class: "ui fluid large teal submit button",
+      "data-disable-with": "Signing in..."
+    ) %>
+  </div>
+
+  <div class="ui error message"></div>
+
+<% end %>

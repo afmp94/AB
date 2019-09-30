@@ -1,0 +1,75 @@
+<% breadcrumb(:email_thread, @thread) %>
+<%= page_header(
+  primary_name: "Email Thread"
+) %>
+
+<div class="ui main container">
+  <h2 class="ui header">
+    <%= @thread.subject %>
+  </h2><!-- /.ui header -->
+  <div class="row">
+    <div class="column">
+      <div class="ab-thread">
+        <% message_index = most_recent_message_index %>
+        <% reverse_message_order(@thread.api.messages.where(thread_id: @thread.id)).each do |message| %>
+          <% message_files = message.files %>
+          <div class="ab-message" id="<%= message.id %>">
+            <div class="ui accordion" data-ui-behavior="accordion">
+              <div class="title <%= message_collapse_header(message_index, message) %>">
+                <div class="heading inset">
+                  <span class="float-right">
+                    <% if message_files.present? %>
+                      <b>
+                        <%= link_to(
+                          "Forward",
+                          forwarding_email_open_modal_path(
+                            message_id: message.id,
+                            thread_id: @thread.id,
+                            contact_id: @contact.id),
+                            data: {
+                              behavior: "forward-email",
+                              toggle: "modal",
+                              target: "#mainModal"
+                            },
+                            remote: true
+                          ) %>
+                        </b>
+                      |
+                      <% end %>
+                    <%= Time.at(message.date).strftime("%B %e, %Y") %>
+                  </span>
+                  <span class="fwb"><%= list_participants(message, "from") %></span>
+                  <span>to <%= list_participants(message, "to") %></span>
+                </div><!-- /.heading -->
+              </div><!-- /.title -->
+              <div class="content <%= message_collapse_body(message_index, message) %>" id="body-<%= message.id %>">
+                <div class="email-body inset">
+                  <%= sanitize auto_link(message.body) if message.body %>
+                </div><!-- /.email-body -->
+                <% if message_files.present? %>
+                  <div class="attachments inset">
+                    Attachments:
+                    <br/>
+                    <% message_files.each do |file| %>
+                      <span> <%= link_to file.filename, download_file_path(file_id: file.id) %> </span>
+                      <br/>
+                    <% end %>
+                  </div><!-- /.attachments -->
+                <% end %>
+              </div><!-- /.content -->
+            </div><!-- /.ui accordion -->
+          </div><!-- /.message -->
+          <% message_index += 1 %>
+        <% end %>
+      </div><!-- /.thread -->
+    </div><!-- /.column -->
+  </div><!-- /.row -->
+  <div class="row">
+    <div class="column">
+      <%= render(
+        partial: "emails/quick_email_form",
+        locals: { contact: @contact, thread_id: @thread.id, trail: @trail }
+      ) %>
+    </div><!-- /.column -->
+  </div><!-- /.row -->
+</div><!-- /.ui main container -->

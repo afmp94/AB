@@ -1,0 +1,16 @@
+<% cache(["key_person_create", activity, current_user.id]) do %>
+  <div class="activity_container">
+    <article class="activity">
+    <%= activity_icon("info", "user icon") %>
+      <div class="activity-flat-container">
+        <div class="activity-flat">
+          <%= render 'public_activity/shared/activity_timestamp', activity: activity %>
+          <div class="action">
+            <%= activity_creator(activity) %>
+            <%= activity_subject(activity, action: "added the key person", link: activity_link(activity.associable)) %>
+          </div><!-- /.action -->
+        </div><!-- /.activity-flat -->
+      </div><!-- /.activity-flat-container -->
+    </article><!-- /.activity -->
+  </div><!-- /.activity_container -->
+<% end %>

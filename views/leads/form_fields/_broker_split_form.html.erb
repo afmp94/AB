@@ -1,0 +1,51 @@
+<h4 class="ui dividing header">Broker Commission Split </h4>
+
+<% cache(["default_commission", user]) do %>
+  <div id="default-split-section" class="ui raised segment">
+    <%= render(partial: "users/default_commission", locals: { user: user }) %>
+  </div><!-- /#default-split-section -->
+<% end %>
+
+<div id="custom-split-section" class="ui raised segment">
+  <%= form.input(
+    :displayed_broker_commission_type,
+    label: "Type of split:",
+    as: :sui_radio_buttons,
+    wrapper_html: {
+      data: { radio_toggle: "section" }
+    },
+    input_html: { data: { behavior: "select-broker-split-type" } },
+    collection: ["Percentage", "Fee"]
+  ) %>
+  <%= form.input(
+    :displayed_broker_commission_percentage,
+    label: "What percentage do you keep after paying the broker?",
+    as: :percentage_one_decimal,
+    placeholder: "ex. 50.0"
+  ) %>
+  <%= form.input(
+    :displayed_broker_commission_fee,
+    as: :currency,
+    label: "What fee do you have to pay the broker?",
+    placeholder: "ex 500"
+  ) %>
+</div><!-- /#custom-split-section -->
+
+<%= form.input(
+  :displayed_broker_commission_custom,
+  label: "Use a custom broker split for this client",
+  as: :boolean,
+  wrapper_html: { class: "m-t" },
+  input_html: {
+    data: {
+      behavior: "select-custom-broker-split",
+      check_toggle: "section",
+      checked_target: "#custom-split-section",
+      unchecked_target: "#default-split-section"
+    }
+  }
+) %>
+<script>
+  console.log("[LEAD] Displayed _broker_split_form.");
+  customBrokerSplit();
+</script>

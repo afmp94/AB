@@ -1,0 +1,66 @@
+<% content_for(:title, "Action Plans") %>
+<% breadcrumb(:action_plans) %>
+<%= page_header(
+  primary_name: "Action Plans",
+  primary_path: action_plans_path,
+  add_button_text: "Create Action Plan",
+  add_button_path: new_action_plan_path
+) %>
+
+<div class="main ui container full-width-container">
+  <div class="ui vertical basic segment">
+    <div class="ui stackable grid">
+      <div class="sixteen wide column sticky-black-menu-container" id="select-menu-container">
+        <div class="ui segments">
+          <div class="ui segment p-a-0">
+            <table class="ui sortable very basic table">
+              <thead>
+                <tr>
+                  <th class="">Name</th>
+                  <th class="right aligned">Steps</th>
+                  <th class="right aligned">Scheduled</th>
+                  <th class="right aligned">Completed</th>
+                  <th class="right aligned sorted descending">Opened</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @action_plans.each do |action_plan| %>
+                  <tr data-link="<%= action_plan_path(action_plan) %>" style="cursor: pointer;">
+                    <td>
+                      <div class="item">
+                        <div class="ui small header">
+                          <div class="content">
+                            <%= action_plan.name %>
+                            <div class="sub header"><%= action_plan.purpose %></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="right aligned">
+                      <%= action_plan.step_count %>
+                    </td>
+                    <td class="right aligned">
+                      <%= action_plan.scheduled %>
+                    </td>
+                    <td class="right aligned">
+                      <%= action_plan.completed %>
+                    </td>
+                    <td class="right aligned">
+                      <%= action_plan.open_rate %>%
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("tr[data-link]").click(function() {
+    window.location = $(this).data("link")
+  });
+</script>

@@ -1,0 +1,26 @@
+<%= render(layout: "/shared/inky/standard") do %>
+<container>
+  <row>
+    <columns large="8">
+      <center>
+        <h1 class="header">Welcome to AgentBright!</h1>
+            <p>To get started, go to: <%= link_to 'https://app.agentbright.com','https://app.agentbright.com' %></p>
+      </center>
+    </column>
+  </row>
+  <row>
+    <columns large="8">
+      <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 16px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -.5px;text-align: left;color: #606060 !important;">The <%= @checkout.plan_name %> includes these features:</h3>
+      <spacer size="8"></spacer>
+      <p>* Goal Setting & Tracking</p>
+      <p>* Personal Marketing</p>
+      <p>* Lead and Client management</p>
+    </columns>
+  </row>
+  <row>
+    <columns large="4">
+      <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 16px;font-style: normal;font-weight: bold;line-height: 150%;letter-spacing: -.5px;text-align: left;color: #606060 !important;">Thank you for subscribing to the <%= @checkout.plan_name %>!</h3>
+    </columns>
+  </row>
+</container>
+<% end %>

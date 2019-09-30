@@ -1,0 +1,13 @@
+<% breadcrumb(:add_new_client) %>
+<% content_for(:title, "Add Client") %>
+<%= page_header(
+  primary_name: "Clients",
+  primary_path: clients_path,
+  secondary_name: "Add New Client"
+) %>
+
+<div class="ui main container">
+  <%= render(partial: "form") %>
+  <%= render(partial: "leads/scripts/new_client_page_script") %>
+</div>
+

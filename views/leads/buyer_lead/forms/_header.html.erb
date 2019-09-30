@@ -1,0 +1,50 @@
+<%= simple_form_for(
+  lead,
+  html: { class: "header-form", data: { behavior: "header-lead-form" } },
+  remote: true
+) do |f| %>
+  <%= hidden_field_tag(:inline_form, "buyer_lead_header") %>
+  <%= f.fields_for(:contact) do |cf| %>
+    <% if cf.object.errors[:base].present? %>
+      <div class="has-error m-b">
+        <label class="error-message">Errors:</label>
+        <div class="error-message"><%= cf.object.errors[:base].to_sentence %></div>
+      </div>
+    <% end %>
+    <%= cf.input_field(:require_basic_validations, value: true, hidden: true) %>
+    <%= cf.input(:first_name, label: "First Name") %>
+    <%= cf.input(:last_name, label: "Last Name") %>
+    <% if cf.object.errors.blank?  %>
+      <!-- This 'if/else' condition is hack to handle validation for primary
+           email address and phone number  -->
+      <%= cf.fields_for(:email_addresses, cf.object.primary_email_address) do |email_address| %>
+        <%= email_address.input(:email, label: "Email Address") %>
+      <% end %>
+      <%= cf.fields_for( :phone_numbers, cf.object.primary_phone_number) do |phone_number| %>
+        <%= phone_number.input(
+          :number,
+          label: "Phone Number",
+          input_html: { data: { input_mask: "phone" }, pattern: "[0-9]*" }
+        ) %>
+      <% end %>
+    <% else %>
+      <%= cf.fields_for(:email_addresses) do |email_address| %>
+        <%= email_address.input(:email, label: "Email Address") %>
+      <% end %>
+      <%= cf.fields_for(:phone_numbers) do |phone_number| %>
+        <%= phone_number.input(
+          :number,
+          label: "Phone Number",
+          input_html: { data: { input_mask: "phone" }, pattern: "[0-9]*" }
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.button(
+    :submit,
+    value: "Save",
+    "data-disable-with": "Saving...",
+    remote: true
+  ) %>
+  <a data-behavior="cancel-form" class="ui basic button" data-edit-button="#edit-lead-header" data-section="#header-info">Cancel</a>
+<% end %>

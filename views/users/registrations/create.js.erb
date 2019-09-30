@@ -1,0 +1,13 @@
+<% if resource.errors.empty? %>
+  var path = "<%= response.location %>";
+
+  $.fn.redirectTo(path);
+<% else %>
+  if ($('[data-behavior=sign_up_for_agentbright]').length > 0) {
+    $('[data-behavior="sign_up_for_agentbright"]').replaceWith('<%= j render partial: 'users/registrations/sign_up_for_agentbright_form' %>');
+  } else {
+    $('[data-behavior="sign_up"]').replaceWith('<%= j render partial: 'users/registrations/form' %>');
+  }
+
+  toastr.error('<%= I18n.t('devise.failure.invalid_signup') %>');
+<% end %>

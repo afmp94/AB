@@ -1,0 +1,12 @@
+<% provide(:title, "New text message template") %>
+<% breadcrumb(:add_text_message_template) %>
+
+<%= page_header(
+  primary_name: "Text Message Templates",
+  primary_path: user_settings_text_message_templates_path,
+  secondary_name: "Add New Text Message Template"
+) %>
+
+<div class="main ui container">
+  <%= render(partial: "form") %>
+</div><!-- /.main ui container -->

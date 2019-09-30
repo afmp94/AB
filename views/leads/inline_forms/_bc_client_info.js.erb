@@ -1,0 +1,14 @@
+$("#client-info-section")
+  .after('<%= j render(partial: "leads/buyer_client/sections/client_info", locals: { lead: lead }) %>')
+  .remove();
+
+<% if lead.errors.blank? %>
+  $("header")
+    .after('<%= j render(partial: "leads/header/info", locals: { lead: lead })  %>')
+    .remove();
+  $("#header-breadcrumbs-area")
+    .after('<%= j render(partial: "leads/header/header_breadcrumbs_area", locals: { lead: lead }) %>')
+    .remove();
+<% else %>
+    $('#client-info-section').displayFixedListEditForm('<%= j render("leads/buyer_client/forms/client_info_form") %>');
+<% end %>

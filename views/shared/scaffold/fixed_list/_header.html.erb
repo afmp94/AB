@@ -1,0 +1,18 @@
+<tr>
+  <th colspan=2>
+    <h3 class="ui left floated header m-b-0">
+      <%= header %>
+    </h3>
+    <% if local_assigns[:edit_link].present? %>
+      <h3 class="ui right floated header">
+        <%= link_to(
+          "Edit",
+          edit_link,
+          id: link_id,
+          data: { list_edit: true, disable_with: "Loading..." },
+          remote: true
+        ) %>
+      </h3>
+    <% end %>
+  </th>
+</tr>

@@ -1,0 +1,10 @@
+<tfoot>
+  <tr>
+    <th colspan="8" class="index-page-table__pagination-footer">
+      <%= paginate(
+        @email_campaigns,
+        params: { controller: "email_campaigns", action: "index" }
+      ) %>
+    </th>
+  </tr>
+</tfoot>
